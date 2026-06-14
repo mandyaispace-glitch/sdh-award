@@ -139,3 +139,35 @@ flowchart TD
     
     style DataMining fill:#f2f5fa,stroke:#4a90e2,stroke-width:1px
 ```
+
+<!-- tab-split -->
+
+# ⏳ 專案開發與進程時間軸 (Project Timeline)
+
+這裡記錄了 SDH Award Podcast AI 評選系統的開發動態與更新日誌，按日期排序，越新的動態顯示在最上方。
+
+---
+
+### 📅 2026-06-14
+*   **♊ 軌道 B 決選打分邏輯升級**
+    *   **異動內容**：為提高評審的客觀性，將各獎項 Top 3 入圍節目的評估方式，由「僅評估 1 個單集（產出 3 段黃金片段）」調整為**「每檔節目評估 3 個單集，每集建議 3 段黃金片段（共 9 段精華片段）」**。
+    *   **連動更新**：重新估算複審 API 的預算（NT$ 430 ~ 580 元）及總體執行時間（小於 60 分鐘），更新規劃書數據。
+*   **⚙️ 每日排行日誌 logger 啟動**
+    *   成功部署 `daily_ranking_logger.js` 排程腳本，並在 Windows 系統註冊 `SDH_Podcast_Daily_Ranking_Logger` 每日工作排程，每天早上 10:00 自動下載封存 Apple Podcasts 台灣區完整 Top 100 榜單。
+*   **📊 軌道 C 聽眾留言量排行榜上線**
+    *   完成 `track_c_run.js` 開發，透過 Apple Podcasts Reviews API 成功抓取 16 檔合格節目的聽眾留言數並進行排行。
+*   **♊ 軌道 B 聲音物理特徵測試成功**
+    *   完成 `track_b_run.js` 開發，順利對接 Gemini Files API 進行 MP3 音檔上傳、分析語調語速，並成功定位黃金 3 分鐘。
+*   **🔍 資格審查與合格集數池建立**
+    *   完成 `build_episode_pool.js` 開發，以 6 個月發片滿 12 集為門檻，從 24 檔節目中篩選出 16 檔合格節目，並建立 733 集的合格集數池資料庫（`eligible_episodes_pool.csv`）。
+*   **🌐 建議書靜態網頁與 Git 儲存庫建立**
+    *   建立 `generate_html.js` 自動化 HTML 轉換工具。
+    *   設定專案 GitHub 遠端儲存庫，成功推送首版規劃書並準備啟用 GitHub Pages 固定網址。
+
+---
+
+### 📅 2026-06-13
+*   **🏗️ 專案初始化與三軌架構設計**
+    *   確定 SDH Award 的評選軌道對照表（軌道 A 文本分析、軌道 B 聲音物理、軌道 C 外部社群數據）。
+    *   設計無程式背景、限用筆電 2 小時、0 發熱的「雲端 API 直聽」核心架構。
+

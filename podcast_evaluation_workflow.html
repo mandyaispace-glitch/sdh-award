@@ -150,16 +150,29 @@
             </div>
         </header>
 
+        <!-- Tab Navigation -->
+        <div class="flex space-x-2 p-1.5 bg-slate-200/50 backdrop-blur-md rounded-xl mb-6 max-w-md shadow-inner border border-slate-200/30">
+            <button id="tab-btn-plan" class="flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10" onclick="switchTab('plan')">
+                📄 評選工作流規劃
+            </button>
+            <button id="tab-btn-timeline" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('timeline')">
+                ⏳ 專案進程時間軸
+            </button>
+        </div>
+
         <!-- Main Content Card -->
         <div class="glass-card rounded-2xl p-6 sm:p-10 mb-8">
-            <div id="content" class="prose max-w-none">
-                <!-- Markdown renders here -->
+            <div id="content-plan" class="prose max-w-none">
+                <!-- Plan Markdown renders here -->
                 <div class="flex justify-center items-center py-20">
                     <svg class="animate-spin h-10 w-10 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                 </div>
+            </div>
+            <div id="content-timeline" class="prose max-w-none hidden">
+                <!-- Timeline Markdown renders here -->
             </div>
         </div>
 
@@ -310,6 +323,38 @@ flowchart TD
     
     style DataMining fill:#f2f5fa,stroke:#4a90e2,stroke-width:1px
 ```
+
+<!-- tab-split -->
+
+# ⏳ 專案開發與進程時間軸 (Project Timeline)
+
+這裡記錄了 SDH Award Podcast AI 評選系統的開發動態與更新日誌，按日期排序，越新的動態顯示在最上方。
+
+---
+
+### 📅 2026-06-14
+*   **♊ 軌道 B 決選打分邏輯升級**
+    *   **異動內容**：為提高評審的客觀性，將各獎項 Top 3 入圍節目的評估方式，由「僅評估 1 個單集（產出 3 段黃金片段）」調整為**「每檔節目評估 3 個單集，每集建議 3 段黃金片段（共 9 段精華片段）」**。
+    *   **連動更新**：重新估算複審 API 的預算（NT$ 430 ~ 580 元）及總體執行時間（小於 60 分鐘），更新規劃書數據。
+*   **⚙️ 每日排行日誌 logger 啟動**
+    *   成功部署 `daily_ranking_logger.js` 排程腳本，並在 Windows 系統註冊 `SDH_Podcast_Daily_Ranking_Logger` 每日工作排程，每天早上 10:00 自動下載封存 Apple Podcasts 台灣區完整 Top 100 榜單。
+*   **📊 軌道 C 聽眾留言量排行榜上線**
+    *   完成 `track_c_run.js` 開發，透過 Apple Podcasts Reviews API 成功抓取 16 檔合格節目的聽眾留言數並進行排行。
+*   **♊ 軌道 B 聲音物理特徵測試成功**
+    *   完成 `track_b_run.js` 開發，順利對接 Gemini Files API 進行 MP3 音檔上傳、分析語調語速，並成功定位黃金 3 分鐘。
+*   **🔍 資格審查與合格集數池建立**
+    *   完成 `build_episode_pool.js` 開發，以 6 個月發片滿 12 集為門檻，從 24 檔節目中篩選出 16 檔合格節目，並建立 733 集的合格集數池資料庫（`eligible_episodes_pool.csv`）。
+*   **🌐 建議書靜態網頁與 Git 儲存庫建立**
+    *   建立 `generate_html.js` 自動化 HTML 轉換工具。
+    *   設定專案 GitHub 遠端儲存庫，成功推送首版規劃書並準備啟用 GitHub Pages 固定網址。
+
+---
+
+### 📅 2026-06-13
+*   **🏗️ 專案初始化與三軌架構設計**
+    *   確定 SDH Award 的評選軌道對照表（軌道 A 文本分析、軌道 B 聲音物理、軌道 C 外部社群數據）。
+    *   設計無程式背景、限用筆電 2 小時、0 發熱的「雲端 API 直聽」核心架構。
+
 </textarea>
 
     <script>
@@ -330,24 +375,54 @@ flowchart TD
             }
         });
 
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            const planBtn = document.getElementById('tab-btn-plan');
+            const timelineBtn = document.getElementById('tab-btn-timeline');
+            const planContent = document.getElementById('content-plan');
+            const timelineContent = document.getElementById('content-timeline');
+
+            if (tabId === 'plan') {
+                planBtn.className = "flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
+                timelineBtn.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
+                planContent.classList.remove('hidden');
+                timelineContent.classList.add('hidden');
+            } else {
+                timelineBtn.className = "flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
+                planBtn.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
+                planContent.classList.add('hidden');
+                timelineContent.classList.remove('hidden');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', async () => {
             const rawMarkdown = document.getElementById('markdown-source').value;
+            const parts = rawMarkdown.split('<!-- tab-split -->');
+            const planMd = parts[0] || '';
+            const timelineMd = parts[1] || '';
             
-            // Render Markdown
-            const htmlContent = marked.parse(rawMarkdown);
-            const contentContainer = document.getElementById('content');
-            contentContainer.innerHTML = htmlContent;
+            // Render Plan Markdown
+            const planHtml = marked.parse(planMd);
+            const planContainer = document.getElementById('content-plan');
+            planContainer.innerHTML = planHtml;
 
-            // Find and convert Mermaid blocks
-            const codeBlocks = contentContainer.querySelectorAll('pre code');
-            codeBlocks.forEach(codeBlock => {
-                if (codeBlock.classList.contains('language-mermaid')) {
-                    const preElement = codeBlock.parentElement;
-                    const mermaidDiv = document.createElement('div');
-                    mermaidDiv.className = 'mermaid my-8 p-4 bg-slate-50 rounded-xl border border-slate-200 overflow-x-auto';
-                    mermaidDiv.textContent = codeBlock.textContent;
-                    preElement.replaceWith(mermaidDiv);
-                }
+            // Render Timeline Markdown
+            const timelineHtml = marked.parse(timelineMd);
+            const timelineContainer = document.getElementById('content-timeline');
+            timelineContainer.innerHTML = timelineHtml;
+
+            // Find and convert Mermaid blocks in both containers
+            [planContainer, timelineContainer].forEach(container => {
+                const codeBlocks = container.querySelectorAll('pre code');
+                codeBlocks.forEach(codeBlock => {
+                    if (codeBlock.classList.contains('language-mermaid')) {
+                        const preElement = codeBlock.parentElement;
+                        const mermaidDiv = document.createElement('div');
+                        mermaidDiv.className = 'mermaid my-8 p-4 bg-slate-50 rounded-xl border border-slate-200 overflow-x-auto';
+                        mermaidDiv.textContent = codeBlock.textContent;
+                        preElement.replaceWith(mermaidDiv);
+                    }
+                });
             });
 
             // Run Mermaid rendering

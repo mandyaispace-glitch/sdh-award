@@ -163,16 +163,29 @@ function generateSelfContainedHtml() {
             </div>
         </header>
 
+        <!-- Tab Navigation -->
+        <div class="flex space-x-2 p-1.5 bg-slate-200/50 backdrop-blur-md rounded-xl mb-6 max-w-md shadow-inner border border-slate-200/30">
+            <button id="tab-btn-plan" class="flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10" onclick="switchTab('plan')">
+                📄 評選工作流規劃
+            </button>
+            <button id="tab-btn-timeline" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('timeline')">
+                ⏳ 專案進程時間軸
+            </button>
+        </div>
+
         <!-- Main Content Card -->
         <div class="glass-card rounded-2xl p-6 sm:p-10 mb-8">
-            <div id="content" class="prose max-w-none">
-                <!-- Markdown renders here -->
+            <div id="content-plan" class="prose max-w-none">
+                <!-- Plan Markdown renders here -->
                 <div class="flex justify-center items-center py-20">
                     <svg class="animate-spin h-10 w-10 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                 </div>
+            </div>
+            <div id="content-timeline" class="prose max-w-none hidden">
+                <!-- Timeline Markdown renders here -->
             </div>
         </div>
 
@@ -202,24 +215,54 @@ function generateSelfContainedHtml() {
             }
         });
 
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            const planBtn = document.getElementById('tab-btn-plan');
+            const timelineBtn = document.getElementById('tab-btn-timeline');
+            const planContent = document.getElementById('content-plan');
+            const timelineContent = document.getElementById('content-timeline');
+
+            if (tabId === 'plan') {
+                planBtn.className = "flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
+                timelineBtn.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
+                planContent.classList.remove('hidden');
+                timelineContent.classList.add('hidden');
+            } else {
+                timelineBtn.className = "flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
+                planBtn.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
+                planContent.classList.add('hidden');
+                timelineContent.classList.remove('hidden');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', async () => {
             const rawMarkdown = document.getElementById('markdown-source').value;
+            const parts = rawMarkdown.split('<!-- tab-split -->');
+            const planMd = parts[0] || '';
+            const timelineMd = parts[1] || '';
             
-            // Render Markdown
-            const htmlContent = marked.parse(rawMarkdown);
-            const contentContainer = document.getElementById('content');
-            contentContainer.innerHTML = htmlContent;
+            // Render Plan Markdown
+            const planHtml = marked.parse(planMd);
+            const planContainer = document.getElementById('content-plan');
+            planContainer.innerHTML = planHtml;
 
-            // Find and convert Mermaid blocks
-            const codeBlocks = contentContainer.querySelectorAll('pre code');
-            codeBlocks.forEach(codeBlock => {
-                if (codeBlock.classList.contains('language-mermaid')) {
-                    const preElement = codeBlock.parentElement;
-                    const mermaidDiv = document.createElement('div');
-                    mermaidDiv.className = 'mermaid my-8 p-4 bg-slate-50 rounded-xl border border-slate-200 overflow-x-auto';
-                    mermaidDiv.textContent = codeBlock.textContent;
-                    preElement.replaceWith(mermaidDiv);
-                }
+            // Render Timeline Markdown
+            const timelineHtml = marked.parse(timelineMd);
+            const timelineContainer = document.getElementById('content-timeline');
+            timelineContainer.innerHTML = timelineHtml;
+
+            // Find and convert Mermaid blocks in both containers
+            [planContainer, timelineContainer].forEach(container => {
+                const codeBlocks = container.querySelectorAll('pre code');
+                codeBlocks.forEach(codeBlock => {
+                    if (codeBlock.classList.contains('language-mermaid')) {
+                        const preElement = codeBlock.parentElement;
+                        const mermaidDiv = document.createElement('div');
+                        mermaidDiv.className = 'mermaid my-8 p-4 bg-slate-50 rounded-xl border border-slate-200 overflow-x-auto';
+                        mermaidDiv.textContent = codeBlock.textContent;
+                        preElement.replaceWith(mermaidDiv);
+                    }
+                });
             });
 
             // Run Mermaid rendering
