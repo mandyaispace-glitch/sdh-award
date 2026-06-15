@@ -164,11 +164,14 @@ function generateSelfContainedHtml() {
         </header>
 
         <!-- Tab Navigation -->
-        <div class="flex space-x-2 p-1.5 bg-slate-200/50 backdrop-blur-md rounded-xl mb-6 max-w-md shadow-inner border border-slate-200/30">
-            <button id="tab-btn-plan" class="flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10" onclick="switchTab('plan')">
+        <div class="flex space-x-2 p-1.5 bg-slate-200/50 backdrop-blur-md rounded-xl mb-6 max-w-lg shadow-inner border border-slate-200/30">
+            <button id="tab-btn-plan" class="flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10" onclick="switchTab('plan')">
                 📄 評選工作流規劃
             </button>
-            <button id="tab-btn-timeline" class="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('timeline')">
+            <button id="tab-btn-status" class="flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('status')">
+                📌 專案執行現況
+            </button>
+            <button id="tab-btn-timeline" class="flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('timeline')">
                 ⏳ 專案進程時間軸
             </button>
         </div>
@@ -183,6 +186,9 @@ function generateSelfContainedHtml() {
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                 </div>
+            </div>
+            <div id="content-status" class="prose max-w-none hidden">
+                <!-- Status Markdown renders here -->
             </div>
             <div id="content-timeline" class="prose max-w-none hidden">
                 <!-- Timeline Markdown renders here -->
@@ -218,19 +224,32 @@ function generateSelfContainedHtml() {
         // Tab Switching Logic
         function switchTab(tabId) {
             const planBtn = document.getElementById('tab-btn-plan');
+            const statusBtn = document.getElementById('tab-btn-status');
             const timelineBtn = document.getElementById('tab-btn-timeline');
+            
             const planContent = document.getElementById('content-plan');
+            const statusContent = document.getElementById('content-status');
             const timelineContent = document.getElementById('content-timeline');
 
+            const activeBtnClass = "flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
+            const inactiveBtnClass = "flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
+
+            planBtn.className = inactiveBtnClass;
+            statusBtn.className = inactiveBtnClass;
+            timelineBtn.className = inactiveBtnClass;
+
+            planContent.classList.add('hidden');
+            statusContent.classList.add('hidden');
+            timelineContent.classList.add('hidden');
+
             if (tabId === 'plan') {
-                planBtn.className = "flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
-                timelineBtn.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
+                planBtn.className = activeBtnClass;
                 planContent.classList.remove('hidden');
-                timelineContent.classList.add('hidden');
+            } else if (tabId === 'status') {
+                statusBtn.className = activeBtnClass;
+                statusContent.classList.remove('hidden');
             } else {
-                timelineBtn.className = "flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
-                planBtn.className = "flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
-                planContent.classList.add('hidden');
+                timelineBtn.className = activeBtnClass;
                 timelineContent.classList.remove('hidden');
             }
         }
@@ -239,20 +258,26 @@ function generateSelfContainedHtml() {
             const rawMarkdown = document.getElementById('markdown-source').value;
             const parts = rawMarkdown.split('<!-- tab-split -->');
             const planMd = parts[0] || '';
-            const timelineMd = parts[1] || '';
+            const statusMd = parts[1] || '';
+            const timelineMd = parts[2] || '';
             
             // Render Plan Markdown
             const planHtml = marked.parse(planMd);
             const planContainer = document.getElementById('content-plan');
             planContainer.innerHTML = planHtml;
 
+            // Render Status Markdown
+            const statusHtml = marked.parse(statusMd);
+            const statusContainer = document.getElementById('content-status');
+            statusContainer.innerHTML = statusHtml;
+
             // Render Timeline Markdown
             const timelineHtml = marked.parse(timelineMd);
             const timelineContainer = document.getElementById('content-timeline');
             timelineContainer.innerHTML = timelineHtml;
 
-            // Find and convert Mermaid blocks in both containers
-            [planContainer, timelineContainer].forEach(container => {
+            // Find and convert Mermaid blocks in all containers
+            [planContainer, statusContainer, timelineContainer].forEach(container => {
                 const codeBlocks = container.querySelectorAll('pre code');
                 codeBlocks.forEach(codeBlock => {
                     if (codeBlock.classList.contains('language-mermaid')) {
