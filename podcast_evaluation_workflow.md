@@ -50,60 +50,49 @@
 
 ---
 
-## 軌道 B：音檔物理特徵分析軌 (Mermaid 流程圖)
+## 🪶 軌道 A：逐字稿文本分析與企劃軌 (Mermaid 流程圖)
 
-此軌道專評估聲音特徵，當入圍 Top 3 產生後，發送至 Gemini 1.5 Pro 直聽音檔。
+此軌道專注於「節目內容架構與企劃」，包含自動化資格審查、音檔下載、雲端 ASR 文本轉寫與評分。
 
 ```mermaid
 flowchart TD
-    A[各獎項評選出 Top 3 入圍節目] --> B[去重後取得入圍節目 (約 15-20 檔)]
-    B --> B2[每檔節目各挑選 3 集音檔 (共 45-60 集)]
-    B2 --> C[腳本發送 API 請求]
-    C --> D[Gemini 1.5 Pro 雲端音訊分析]
-    
-    subgraph Gemini [Gemini 1.5 Pro 語音核心分析]
-        D --> D1[分析語速、音調與聲音發音建議]
-        D --> D2[每集精確定位 3 段建議試聽時間軸]
-        D --> D3[說明各推薦片段之特色評語]
-    end
-    
-    D1 & D2 & D3 --> E["輸出 JSON (每集 3 片段，每檔節目共 9 片段)"]
-    E --> F[自動彙整至人類終審 Google Sheet 試算表]
-    F --> G[真人評審針對 9 個推薦片段進行重點試聽]
-    
-    style Gemini fill:#fcf8e3,stroke:#f0ad4e,stroke-width:1px
+    A["1. 100檔節目清單"] --> B["2. 自動資格審查 (發片滿12集)"]
+    B --> C["3. 隨機抽選 3 個單集"]
+    C --> D["4. Gemini 1.5 Flash 內容分析打分"]
+    D --> E["5. 輸出評分與優缺點建議"]
+    E --> F["6. 自動寫入 Google Sheet"]
 ```
 
 ---
 
-## 軌道 C：外部數據與社群軌 (Mermaid 流程圖)
+## ♊ 軌道 B：音檔物理特徵分析與診斷軌 (Mermaid 流程圖)
 
-針對 **【欸我跟你獎】** (社群分享力)，我們直接結合 **Facebook 宣傳文案與評論數據**，並分流給 **Meta.ai (Llama 3)** 進行傳播熱度分析。
+此軌道評估聲音的物理特性、主持人默契與雜訊。在複審決選階段，針對各獎項 Top 3 節目，評估其隨機抽取的 3 個單集（每集定位 3 個推薦片段，共 9 片段）。
 
 ```mermaid
 flowchart TD
-    A[100 檔節目清單] --> B[Antigravity 數據採集器]
-    
-    subgraph DataMining [數據採集分流]
-        B --> C[調用 Apple Reviews JSON 接口]
-        B --> D[爬取 Spotify 節目首頁 HTML]
-        B --> E[蒐集 Facebook 推廣貼文之按讚/分享/留言文字]
-    end
-    
-    C --> C1[統計過去 6 個月留言筆數與總字數]
-    D --> D1[提取 Spotify 評分人數與星等]
-    E --> E1[計算 Facebook 貼文分享數與互動率]
-    
-    C1 --> F1[Apple 聽眾留言量排行榜 --> 決選 留言王獎]
-    D1 --> F2[Spotify 評分排行榜 --> 決選 排行榜霸主]
-    E1 & E --> G["將 Facebook 貼文與留言丟給 Meta.ai (Llama 3)"]
-    
-    G --> G1["Meta.ai 評估『話題擴散潛力』與『分享動機』(1-10分, 0.5級距)"]
-    G1 --> H["產出【欸我跟你獎】分數榜單"]
-    
-    F1 & F2 & H --> I[自動寫入 Google Sheet 儀表板]
-    
-    style DataMining fill:#f2f5fa,stroke:#4a90e2,stroke-width:1px
+    A["1. 各獎項 Top 3 入圍節目 (15-20檔)"] --> B["2. 每檔抽選 3 集音檔 (共45-60集)"]
+    B --> C["3. 批次傳送給 Gemini 1.5 Pro"]
+    C --> D["4. 語音物理分析 (語速/噴麥) 並提取 3 段黃金時間軸"]
+    D --> E["5. 產出黃金片段 JSON 報告"]
+    E --> F["6. 真人評審針對 9 個推薦片段進行重點試聽決選"]
+```
+
+---
+
+## 📊 軌道 C：外部數據與社群軌 (Mermaid 流程圖)
+
+此軌道聚焦於社群擴散與聽眾反饋。為避免 Spotify 等平台的網頁爬蟲被 IP 阻擋，**目前 MVP 階段僅全自動抓取 Apple Podcasts 的公開評論**，並結合 Facebook 推廣貼文的自然留言進行 Meta.ai 講評。
+
+```mermaid
+flowchart TD
+    A["1. 100檔節目清單"] --> B["2. 數據採集 (track_c_run.js)"]
+    B --> C["3. 抓取 Apple Podcasts 評論"]
+    B --> D["4. 抓取 Facebook 社群留言數據"]
+    C --> E["5. 統計 6 個月留言量並排行"]
+    D --> F["6. 丟給 Meta.ai (Llama 3) 進行社群影響力評分"]
+    E --> G["7. 整合寫入 Google Sheet 總表"]
+    F --> G
 ```
 
 <!-- tab-split -->
@@ -116,24 +105,13 @@ flowchart TD
 *   **Demo 資料源**：以您的 Google 試算表 24 檔節目清單為範本。
 *   **執行腳本**：[build_episode_pool.js](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/build_episode_pool.js)
 *   **成果**：
-    *   成功過濾出 **16 檔合格節目** (符合 6 個月發片滿 12 集門檻)。
-    *   順利排除 8 檔已停更或更新頻率不足的節目（如《聽進理投》、《媽媽好神經病》）。
-    *   自動建立包含 **733 個單集的完整資料庫** [eligible_episodes_pool.csv](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/eligible_episodes_pool.csv)，為後續隨機抽樣奠定基礎。
-
-### 2. 軌道 B 聲音物理測試環境 (完成 ✅)
-*   **執行腳本**：[track_b_run.js](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/track_b_run.js)
-*   **成果**：已寫好完整 API 對接流程（音檔下載 $\rightarrow$ 上傳 Gemini Files API $\rightarrow$ Pro 模型語音打分與 3 段黃金片段定位）。金鑰申請與設定方式已在 [README.md](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/README.md) 中完整指引。
-
-### 3. 軌道 C 聽眾留言量排行榜 (完成 ✅)
-*   **執行腳本**：[track_c_run.js](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/track_c_run.js)
-*   **成果**：完全免付費，成功爬取 16 檔合格節目的 Apple Podcasts 真實聽眾評論，並自動導出 [track_c_leaderboard.md](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/track_c_leaderboard.md) 排行榜。
-    *   *例如：【美股航海王】13 筆留言奪冠；【哇賽心理學】7 筆留言居次，且自動節錄了真實的語意評論。*
-
-### 4. 軌道 C 百大榜單「每日底層封存」系統 (啟動 ✅)
-*   **執行腳本**：[daily_ranking_logger.js](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/daily_ranking_logger.js)
-*   **排程設定**：已在 Windows 系統成功註冊每日定時工作 `SDH_Podcast_Daily_Ranking_Logger`（每天早上 10:00 自動執行，若關機則開機後補跑）。
-*   **成果**：每日自動抓取 Apple Podcasts 台灣區完整 Top 100 榜單，寫入 [daily_top100_archive.csv](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/daily_top100_archive.csv)。
-    *   *此做法可防範未來參賽清單有新節目加入時，能夠溯及既往地查詢其在榜歷史天數與名次。*
+    *   成功過濾### 📅 2026-06-13
+*   **🏗️ 專案初始化與三軌架構設計**
+    *   確定 SDH Award 的評選軌道對照表（軌道 A 文本分析、軌道 B 聲音物理、軌道 C 外部社群數據）。
+    *   設計無程式背景、限用筆電 2 小時、0 發熱的「雲端 API 直聽」核心架構。
+�端運算，本機 0 負載，僅需等待上傳頻寬）。
+    *   *預估 API 成本*：`80 檔 × 3 集 × 40 分鐘/集 = 9,600 分鐘`，`9,600 分鐘 × $0.0075 美元 = $72.00 美元`（約 **新台幣 2,300 元**）。
+*   **[ ] 終審 Google Sheets 儀表板自動化整合 (待辦 ⏳)**：尚未撰寫將三軌數據合併自動填入 Google Sheets 的 Google Apps Script 或 Node 腳本。
 
 <!-- tab-split -->
 
@@ -173,101 +151,3 @@ flowchart TD
 *   **🏗️ 專案初始化與三軌架構設計**
     *   確定 SDH Award 的評選軌道對照表（軌道 A 文本分析、軌道 B 聲音物理、軌道 C 外部社群數據）。
     *   設計無程式背景、限用筆電 2 小時、0 發熱的「雲端 API 直聽」核心架構。
-��算)
-
-| 評估軌道 | 推薦實作做法 (對無背景筆電用戶最佳) | 預估執行時間 | 預估資金成本 (新台幣) | 筆電硬體負載 |
-| :--- | :--- | :--- | :--- | :---: |
-| **軌道 A**<br>(逐字稿文本分析) | **Gemini 1.5 Flash API 雲端直聽打分**<br>直接將 240 集 MP3 音檔網址傳給 Gemini，免去轉寫步驟，AI 在雲端邊聽邊評分。 | **30 ~ 45 分鐘**<br>(並行處理) | **約 NT$ 400 元**<br>(按音訊分鐘計費) | **0%**<br>(雲端運算) |
-| **複審決選**<br>(各獎項 Top 3 診斷) | **Gemini 1.5 Pro API 聲音特徵與片段提取**<br>針對各獎項 **Top 3 入圍節目**（約 15-20 檔），**每檔評估 3 集**（共 45-60 集音檔）進行音質、默契診斷與每集各 3 段黃金時間軸提取。 | **8 ~ 12 分鐘**<br>(並行處理) | **約 NT$ 430 ~ 580 元**<br>(按音訊分鐘計費) | **0%**<br>(雲端運算) |
-| **軌道 C**<br>(外部數據與社群) | **Node.js 輕量爬蟲工具**<br>一鍵調用 Apple Podcasts Reviews API 與 Spotify 網頁抓取評分。 | **2 分鐘內** | **NT$ 0 元**<br>(完全免費) | **1%**<br>(微量頻寬) |
-| **總計** | **一鍵啟動自動化流程** | **60 分鐘內跑完** | **約 NT$ 830 ~ 980 元** | **安全不發熱** |
-
----
-
-## 軌道 B：音檔物理特徵分析軌 (Mermaid 流程圖)
-
-此軌道專評估聲音特徵，當入圍 Top 3 產生後，發送至 Gemini 1.5 Pro 直聽音檔。
-
-```mermaid
-flowchart TD
-    A[各獎項評選出 Top 3 入圍節目] --> B[去重後取得入圍節目 (約 15-20 檔)]
-    B --> B2[每檔節目各挑選 3 集音檔 (共 45-60 集)]
-    B2 --> C[腳本發送 API 請求]
-    C --> D[Gemini 1.5 Pro 雲端音訊分析]
-    
-    subgraph Gemini [Gemini 1.5 Pro 語音核心分析]
-        D --> D1[分析語速、音調與聲音發音建議]
-        D --> D2[每集精確定位 3 段建議試聽時間軸]
-        D --> D3[說明各推薦片段之特色評語]
-    end
-    
-    D1 & D2 & D3 --> E["輸出 JSON (每集 3 片段，每檔節目共 9 片段)"]
-    E --> F[自動彙整至人類終審 Google Sheet 試算表]
-    F --> G[真人評審針對 9 個推薦片段進行重點試聽]
-    
-    style Gemini fill:#fcf8e3,stroke:#f0ad4e,stroke-width:1px
-```
-
----
-
-## 軌道 C：外部數據與社群軌 (Mermaid 流程圖)
-
-針對 **【欸我跟你獎】** (社群分享力)，我們直接結合 **Facebook 宣傳文案與評論數據**，並分流給 **Meta.ai (Llama 3)** 進行傳播熱度分析。
-
-```mermaid
-flowchart TD
-    A[100 檔節目清單] --> B[Antigravity 數據採集器]
-    
-    subgraph DataMining [數據採集分流]
-        B --> C[調用 Apple Reviews JSON 接口]
-        B --> D[爬取 Spotify 節目首頁 HTML]
-        B --> E[蒐集 Facebook 推廣貼文之按讚/分享/留言文字]
-    end
-    
-    C --> C1[統計過去 6 個月留言筆數與總字數]
-    D --> D1[提取 Spotify 評分人數與星等]
-    E --> E1[計算 Facebook 貼文分享數與互動率]
-    
-    C1 --> F1[Apple 聽眾留言量排行榜 --> 決選 留言王獎]
-    D1 --> F2[Spotify 評分排行榜 --> 決選 排行榜霸主]
-    E1 & E --> G["將 Facebook 貼文與留言丟給 Meta.ai (Llama 3)"]
-    
-    G --> G1["Meta.ai 評估『話題擴散潛力』與『分享動機』(1-10分, 0.5級距)"]
-    G1 --> H["產出【欸我跟你獎】分數榜單"]
-    
-    F1 & F2 & H --> I[自動寫入 Google Sheet 儀表板]
-    
-    style DataMining fill:#f2f5fa,stroke:#4a90e2,stroke-width:1px
-```
-
-<!-- tab-split -->
-
-# ⏳ 專案開發與進程時間軸 (Project Timeline)
-
-這裡記錄了 SDH Award Podcast AI 評選系統的開發動態與更新日誌，按日期排序，越新的動態顯示在最上方。
-
----
-
-### 📅 2026-06-14
-*   **♊ 軌道 B 決選打分邏輯升級**
-    *   **異動內容**：為提高評審的客觀性，將各獎項 Top 3 入圍節目的評估方式，由「僅評估 1 個單集（產出 3 段黃金片段）」調整為**「每檔節目評估 3 個單集，每集建議 3 段黃金片段（共 9 段精華片段）」**。
-    *   **連動更新**：重新估算複審 API 的預算（NT$ 430 ~ 580 元）及總體執行時間（小於 60 分鐘），更新規劃書數據。
-*   **⚙️ 每日排行日誌 logger 啟動**
-    *   成功部署 `daily_ranking_logger.js` 排程腳本，並在 Windows 系統註冊 `SDH_Podcast_Daily_Ranking_Logger` 每日工作排程，每天早上 10:00 自動下載封存 Apple Podcasts 台灣區完整 Top 100 榜單。
-*   **📊 軌道 C 聽眾留言量排行榜上線**
-    *   完成 `track_c_run.js` 開發，透過 Apple Podcasts Reviews API 成功抓取 16 檔合格節目的聽眾留言數並進行排行。
-*   **♊ 軌道 B 聲音物理特徵測試成功**
-    *   完成 `track_b_run.js` 開發，順利對接 Gemini Files API 進行 MP3 音檔上傳、分析語調語速，並成功定位黃金 3 分鐘。
-*   **🔍 資格審查與合格集數池建立**
-    *   完成 `build_episode_pool.js` 開發，以 6 個月發片滿 12 集為門檻，從 24 檔節目中篩選出 16 檔合格節目，並建立 733 集的合格集數池資料庫（`eligible_episodes_pool.csv`）。
-*   **🌐 建議書靜態網頁與 Git 儲存庫建立**
-    *   建立 `generate_html.js` 自動化 HTML 轉換工具。
-    *   設定專案 GitHub 遠端儲存庫，成功推送首版規劃書並準備啟用 GitHub Pages 固定網址。
-
----
-
-### 📅 2026-06-13
-*   **🏗️ 專案初始化與三軌架構設計**
-    *   確定 SDH Award 的評選軌道對照表（軌道 A 文本分析、軌道 B 聲音物理、軌道 C 外部社群數據）。
-    *   設計無程式背景、限用筆電 2 小時、0 發熱的「雲端 API 直聽」核心架構。
-
