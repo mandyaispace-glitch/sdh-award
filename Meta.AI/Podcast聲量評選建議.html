@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鬧鐘獎［欸我跟你獎］Meta.AI 總講評 v2026.06.14</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          'sans-tc': ['"Noto Sans TC"', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Arial', 'sans-serif'],
+        },
+        colors: {
+          'sdh-red': '#E8452A',
+          'sdh-cream': '#fdf9f5',
+          'sdh-paper': '#fcf7f1',
+          'sdh-ink': '#1a1c1e',
+          'sdh-mute': '#6b7280',
+          'sdh-line': '#e6ddd3',
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: "Noto Sans TC", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background: #fdf9f5; color:#1a1c1e; -webkit-font-smoothing: antialiased; }
+  .score-high { color: #d92d20; }
+  .score-mid { color: #e56b1f; }
+  .score-low { color: #2a7de1; }
+  .tab-btn { transition: all .18s ease; }
+  .tab-btn.active { background:#fff; box-shadow: 0 4px 18px rgba(60,30,10,0.07); color:#1a1c1e; }
+  .tab-btn:not(.active) { color:#7a6f67; }
+  .tab-btn:not(.active):hover { color:#3b322c; background: rgba(255,255,255,.6); }
+  .s-card { background:#fff; border:1px solid #eadfd4; border-radius:20px; }
+  .soft-shadow { box-shadow: 0 10px 40px rgba(105, 60, 20, 0.055); }
+  /* Chart container height */
+  #top10Chart { max-height: 560px; }
+  /* Table */
+  .data-table thead th {
+    font-size: 12px;
+    font-weight: 700;
+    color: #7b6e64;
+    text-transform: none;
+    letter-spacing: .02em;
+    background: #f8f2eb;
+    border-bottom: 1px solid #e6ddd3;
+    padding: 14px 18px;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .data-table tbody td {
+    padding: 18px;
+    border-bottom: 1px solid #f0e6da;
+    vertical-align: top;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #3b3530;
+  }
+  .data-table tbody tr:hover { background: #fffaf5; }
+  .score-badge { font-weight: 800; font-size: 16px; }
+  /* Custom scrollbar */
+  .table-wrap::-webkit-scrollbar { height: 8px; }
+  .table-wrap::-webkit-scrollbar-thumb { background: #decab9; border-radius: 4px; }
+  /* Fade in */
+  .tab-panel { animation: fadeUp .28s ease; }
+  @keyframes fadeUp { from {opacity:0; transform: translateY(6px);} to {opacity:1; transform: translateY(0);} }
+</style>
+</head>
+<body class="min-h-screen">
+
+  <header class="pt-14 md:pt-20 pb-10 md:pb-14">
+    <div class="max-w-6xl mx-auto px-5 md:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+        <div>
+          <div class="text-[13px] text-[#b08260] tracking-widest font-semibold mb-3">SOUNDON ACADEMY · 2026</div>
+          <h1 class="text-[34px] sm:text-[44px] md:text-[54px] font-[800] leading-[1.12] tracking-tight text-[#1d1a19]">
+            鬧鐘獎［欸我跟你獎］<br>
+            <span class="text-[#2a2624]">Meta.AI 總講評</span>
+          </h1>
+          <p class="mt-4 text-[15px] md:text-[17px] text-[#6f6258]">22 位入圍老師｜社群真實聲量評鑑 · v2026.06.14</p>
+        </div>
+        <div class="flex flex-wrap gap-2.5 pt-2 text-[12.5px] font-semibold">
+          <span class="px-3.5 py-2 rounded-full bg-white border border-[#e6d7c7] text-[#7a5a3d]">評選期間 2026/3/16 – 6/14</span>
+          <span class="px-3.5 py-2 rounded-full bg-white border border-[#e6d7c7] text-[#7a5a3d]">FB / IG / Threads</span>
+          <span class="px-3.5 py-2 rounded-full bg-[#fff0e6] border border-[#f3c9aa] text-[#c44a18]">90 天真實聲量</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Tabs Nav -->
+  <div class="max-w-6xl mx-auto px-5 md:px-8">
+    <div class="bg-[#f2e7db] rounded-[18px] p-1.5 flex flex-wrap gap-1.5">
+      <button data-tab="top10" class="tab-btn active px-4 md:px-6 py-3 rounded-[13px] text-[14px] md:text-[15px] font-[700]">Top10 排行</button>
+      <button data-tab="method" class="tab-btn px-4 md:px-6 py-3 rounded-[13px] text-[14px] md:text-[15px] font-[700]">評選說明</button>
+      <button data-tab="seo" class="tab-btn px-4 md:px-6 py-3 rounded-[13px] text-[14px] md:text-[15px] font-[700]">Meta SEO 建議</button>
+      <button data-tab="teachers" class="tab-btn px-4 md:px-6 py-3 rounded-[13px] text-[14px] md:text-[15px] font-[700]">22位老師健檢</button>
+    </div>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-5 md:px-8 pb-24 pt-7 md:pt-9">
+
+    <!-- Tab 1: Top10 -->
+    <section id="panel-top10" class="tab-panel">
+      <div class="s-card soft-shadow p-6 md:p-10">
+        <div class="flex flex-wrap items-baseline justify-between gap-3 mb-5">
+          <h2 class="text-[26px] md:text-[30px] font-[800] tracking-tight text-[#221e1c]">社群聲量 Top 10</h2>
+          <div class="text-[13px] text-[#8a7a6b]">聲量分 / 滿分 100 · 評選期 90 天</div>
+        </div>
+        <div class="w-full">
+          <canvas id="top10Chart" height="520"></canvas>
+        </div>
+        <div class="mt-6 pt-5 border-t border-[#efe4d7] text-[12.5px] text-[#9a8776] flex flex-wrap gap-x-6 gap-y-2">
+          <span><span class="inline-block w-2.5 h-2.5 rounded-full bg-[#d92d20] mr-1.5 relative top-[-1px]"></span>80分以上 高擴散</span>
+          <span><span class="inline-block w-2.5 h-2.5 rounded-full bg-[#e98a2b] mr-1.5 relative top-[-1px]"></span>60–79 分 穩定成長</span>
+          <span><span class="inline-block w-2.5 h-2.5 rounded-full bg-[#2a7de1] mr-1.5 relative top-[-1px]"></span>60分以下 待優化</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 2: 評選說明 -->
+    <section id="panel-method" class="tab-panel hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-7">
+        <div class="lg:col-span-7 s-card soft-shadow p-7 md:p-10">
+          <div class="text-[12.5px] font-bold text-[#c4552a] tracking-wider mb-3">EVALUATION FRAMEWORK</div>
+          <h2 class="text-[28px] md:text-[34px] font-[800] text-[#221e1c] mb-4 leading-snug">社群真實聲量評選說明</h2>
+          <p class="text-[15.5px] leading-relaxed text-[#4c4239] mb-6">
+            本次評選聚焦在社群中被自然提及、引起對話、並在多平台擴散的實際聲量表現。我們不看下載數，只看真人互動。
+          </p>
+          <div class="space-y-5 text-[14.5px] leading-relaxed text-[#4a4038]">
+            <div class="flex gap-4">
+              <div class="text-[#c96a2f] font-[800] mt-[1px]">01</div>
+              <div><strong class="text-[#221e1c]">蒐集範圍：</strong>Facebook 公開貼文、Instagram 貼文與 Reels、Threads 文字串，計算被 @提及、標註、轉發的次數。</div>
+            </div>
+            <div class="flex gap-4">
+              <div class="text-[#c96a2f] font-[800] mt-[1px]">02</div>
+              <div><strong class="text-[#221e1c]">去重與清洗：</strong>排除節目官方自家帳號的例行發文，只計入第三方自然提及與聽友自主分享。</div>
+            </div>
+            <div class="flex gap-4">
+              <div class="text-[#c96a2f] font-[800] mt-[1px]">03</div>
+              <div><strong class="text-[#221e1c]">聲量分計算：</strong>依互動品質加權，留言＞分享＞收藏＞按讚，並依跨平台擴散情形加分。</div>
+            </div>
+          <div class="mt-7 pt-6 border-t border-[#efe2d4] text-[13.5px] text-[#857567]">
+            評選期間為 2026/3/16–6/14 (僅提供90天)。<br>
+            本次入圍名單共 22 位老師，不含 ActPod / 金融科技類節目。
+          </div>
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="s-card soft-shadow p-7 md:p-9 h-full">
+            <h3 class="text-[22px] md:text-[24px] font-[800] text-[#221e1c] leading-snug mb-3">由 Meta.AI 進行橫跨 FB/IG/Thread 真實評鑑</h3>
+            <p class="text-[14.5px] leading-relaxed text-[#52463a] mb-7">
+              本次評選聚焦在社群中被自然提及、引起對話、並在多平台擴散的實際聲量表現。評選期間為 2026/3/16–6/14 (僅提供90天)。
+            </p>
+
+            <div class="text-[12px] font-[800] tracking-wider text-[#a07a5a] mb-3">權重計算</div>
+            <div class="space-y-3.5">
+              <div class="rounded-[14px] bg-[#fdf5ee] border border-[#f0dcc8] p-4">
+                <div class="flex items-baseline justify-between mb-1">
+                  <div class="font-[800] text-[#2b2320]">自然聲量</div>
+                  <div class="font-[800] text-[#d84a1f]">40%</div>
+                </div>
+                <div class="text-[13.5px] text-[#6d5a49]">社群被主動提及、標註次數，排除官方自發文</div>
+              </div>
+              <div class="rounded-[14px] bg-[#fdf5ee] border border-[#f0dcc8] p-4">
+                <div class="flex items-baseline justify-between mb-1">
+                  <div class="font-[800] text-[#2b2320]">跨平台擴散</div>
+                  <div class="font-[800] text-[#d84a1f]">35%</div>
+                </div>
+                <div class="text-[13.5px] text-[#6d5a49]">FB / IG / Threads 是否同步擴散、轉發表現</div>
+              </div>
+              <div class="rounded-[14px] bg-[#fdf5ee] border border-[#f0dcc8] p-4">
+                <div class="flex items-baseline justify-between mb-1">
+                  <div class="font-[800] text-[#2b2320]">互動對話品質</div>
+                  <div class="font-[800] text-[#d84a1f]">25%</div>
+                </div>
+                <div class="text-[13.5px] text-[#6d5a49]">留言深度、分享率、收藏率，非單純按讚數</div>
+              </div>
+            </div>
+
+            <div class="mt-5 text-[12px] text-[#9a8471]">資料來源：Meta Content Library / CrowdTangle 公開資料彙整</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 3: Meta SEO 建議 -->
+    <section id="panel-seo" class="tab-panel hidden">
+      <div class="s-card soft-shadow p-7 md:p-10 mb-6">
+        <div class="text-[12.5px] font-bold text-[#c4552a] tracking-wider mb-2">PODCAST META SEO PLAYBOOK</div>
+        <h2 class="text-[28px] md:text-[34px] font-[800] text-[#221e1c]">Podcast節目 Meta SEO 5 大健檢總評</h2>
+        <p class="text-[14.5px] text-[#5c4d3f] mt-3">給所有 Podcast 製作人的 IG / Threads 增粉實作清單，照做 30 天就能看到搜尋流量差異。</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6">
+        <!-- 01 -->
+        <div class="s-card soft-shadow p-7">
+          <div class="text-[12px] font-[800] text-[#d84a1f] tracking-wider mb-2">01</div>
+          <h3 class="text-[20px] font-[800] text-[#221e1c] mb-1">協作貼文 Collab</h3>
+          <p class="text-[13.5px] text-[#6b5a4a] mb-3">跟來賓、品牌帳號一起發</p>
+          <p class="text-[14.5px] leading-relaxed text-[#3f352c]">
+            跟來賓、品牌、其他 Podcast 帳號共同發布貼文，讓貼文同時出現在雙方主頁，觸及直接翻倍。EP 上線當天最好用。<br><br>
+            <span class="text-[#7a6552]">例：EP 上線當天與來賓 IG 協作發一則 30 秒 Reels，放上節目金句字幕，文案標 @來賓 @節目，觸及通常是單發的 2.3 倍。</span>
+          </p>
+        </div>
+        <!-- 02 -->
+        <div class="s-card soft-shadow p-7">
+          <div class="text-[12px] font-[800] text-[#d84a1f] tracking-wider mb-2">02</div>
+          <h3 class="text-[20px] font-[800] text-[#221e1c] mb-1">置頂節目介紹三連發</h3>
+          <p class="text-[13.5px] text-[#6b5a4a] mb-3">新粉絲 3 秒就懂你是誰</p>
+          <p class="text-[14.5px] leading-relaxed text-[#3f352c]">
+            把 IG 主頁前三則貼文釘選做成「我是誰 / 聽什麼 / 在哪聽」，封面統一風格。新粉絲點進來 3 秒就能決定要不要追蹤。<br><br>
+            <span class="text-[#7a6552]">例：左：主持人照片＋一句話定位；中：節目 3 大主題；右：Apple / Spotify / KKBOX 收聽按鈕圖。</span>
+          </p>
+        </div>
+        <!-- 03 -->
+        <div class="s-card soft-shadow p-7">
+          <div class="text-[12px] font-[800] text-[#d84a1f] tracking-wider mb-2">03</div>
+          <h3 class="text-[20px] font-[800] text-[#221e1c] mb-1">固定 Hashtag 三件組</h3>
+          <p class="text-[13.5px] text-[#6b5a4a] mb-3">養 Meta 的搜尋標籤庫</p>
+          <p class="text-[14.5px] leading-relaxed text-[#3f352c]">
+            每篇貼文都放同一組 3 個標籤：#節目名稱 #主持人名稱 #主題關鍵字。連發 20 篇，Meta 就會把你歸類好，搜尋更容易被找到。<br><br>
+            <span class="text-[#7a6552]">例：#郝聲音 #郝旭烈 #商業思維。不要一次塞 30 個，3-5 個最剛好。</span>
+          </p>
+        </div>
+        <!-- 04 -->
+        <div class="s-card soft-shadow p-7">
+          <div class="text-[12px] font-[800] text-[#d84a1f] tracking-wider mb-2">04</div>
+          <h3 class="text-[20px] font-[800] text-[#221e1c] mb-1">Threads 同步發布</h3>
+          <p class="text-[13.5px] text-[#6b5a4a] mb-3">文字觸及現在是 IG 的 3 倍</p>
+          <p class="text-[14.5px] leading-relaxed text-[#3f352c]">
+            把 EP 金句做成 120–150 字短文，直接貼到 Threads，再連回 IG 貼文。Threads 的自然觸及目前還很高，很適合導流。<br><br>
+            <span class="text-[#7a6552]">例：「這集我們聊到：焦慮不是壞事...」＋ EP 連結。標 1 個主題 Hashtag 就好。</span>
+          </p>
+        </div>
+        <!-- 05 -->
+        <div class="s-card soft-shadow p-7 md:col-span-2 xl:col-span-1">
+          <div class="text-[12px] font-[800] text-[#d84a1f] tracking-wider mb-2">05</div>
+          <h3 class="text-[20px] font-[800] text-[#221e1c] mb-1">Bio 放收聽連結 Linktree</h3>
+          <p class="text-[13.5px] text-[#6b5a4a] mb-3">一個連結收攏所有平台</p>
+          <p class="text-[14.5px] leading-relaxed text-[#3f352c]">
+            IG / Threads 自介只能放一個連結，用 Linktree / Firstory / SoundOn 連結頁，把 Apple、Spotify、KKBOX、YouTube 全部放進去。<br><br>
+            <span class="text-[#7a6552]">例：連結名稱不要寫英文，寫「最新一集在這裡」「Apple Podcast」「Spotify 收聽」，點擊率會高很多。記得每月更新置頂連結。</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 4: 22位老師健檢 -->
+    <section id="panel-teachers" class="tab-panel hidden">
+      <div class="s-card soft-shadow p-6 md:p-9">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-5">
+          <div>
+            <h2 class="text-[26px] md:text-[30px] font-[800] text-[#221e1c]">22位老師健檢總表</h2>
+            <p class="text-[13.5px] text-[#7a6656] mt-1">可搜尋節目名 / 主持人。分數為社群真實聲量分。</p>
+          </div>
+          <div class="relative w-full md:w-[320px]">
+            <input id="teacherSearch" type="text" placeholder="搜尋 Podcast / 主持人…" class="w-full rounded-[12px] border border-[#e2cfba] bg-[#fffcf8] px-4 py-3 text-[14px] outline-none focus:border-[#d8a97a] focus:ring-2 focus:ring-[#f7e6d4] placeholder:text-[#bba692]">
+            <svg class="w-4 h-4 text-[#b89d85] absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+        </div>
+
+        <div class="table-wrap overflow-x-auto rounded-[14px] border border-[#eadfd3]">
+          <table class="data-table w-full min-w-[1080px] bg-white">
+            <thead>
+              <tr>
+                <th style="width:56px">#</th>
+                <th style="width:180px">Podcast</th>
+                <th style="width:120px">主持人</th>
+                <th style="width:92px">聲量分</th>
+                <th style="width:240px">優點</th>
+                <th style="width:280px">Meta AI SEO 建議</th>
+                <th>宣傳操作建議</th>
+              </tr>
+            </thead>
+            <tbody id="teacherTableBody">
+              <!-- Rows injected by JS -->
+            </tbody>
+          </table>
+        </div>
+        <div id="teacherCount" class="text-[12.5px] text-[#9b8570] mt-3">顯示 22 / 22 筆</div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-[#e6d8c8] py-10 text-center text-[12.5px] text-[#a48d76]">
+    本報告由 Meta.AI 整理，僅供 鬧鐘獎內部評選參考 · 2026.06.14<br>
+    SoundOn Academy / 先聲奪人
+  </footer>
+
+<script>
+const top10Labels = [
+  "郝聲音",
+  "哇賽心理學",
+  "航海王的富人學",
+  "小資變有錢",
+  "科技領航家",
+  "精算媽咪的家計簿",
+  "加班當爸媽",
+  "我不是病人，我是卡姊！",
+  "蘇心時光",
+  "慢慢長出來"
+];
+const top10Scores = [91.5, 88, 85.5, 83, 73, 62.5, 60.5, 60.5, 50, 48];
+
+function scoreColor(score){
+  if(score >= 80) return "#d92d20";
+  if(score >= 60) return "#e6872a";
+  return "#2a7de1";
+}
+
+let top10Chart;
+function initTop10Chart(){
+  const ctx = document.getElementById('top10Chart').getContext('2d');
+  const barColors = top10Scores.map(scoreColor);
+  top10Chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: top10Labels,
+      datasets: [{
+        label: '聲量分',
+        data: top10Scores,
+        backgroundColor: barColors,
+        borderRadius: 7,
+        maxBarThickness: 54
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#221c19',
+          titleFont: { family: '"Noto Sans TC"', size: 13 },
+          bodyFont: { family: '"Noto Sans TC"', size: 13 },
+          padding: 12,
+          callbacks: {
+            label: (c) => ` 聲量分：${c.raw}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          max: 100,
+          grid: { color: '#efe3d6' },
+          ticks: { color: '#9a8676', font: { family: '"Noto Sans TC"' } }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { color: '#3b322d', font: { family: '"Noto Sans TC"', size: 13, weight: '600' } }
+        }
+      }
+    }
+  });
+}
+
+// Teacher data - 22 rows
+const teachers = [
+  { rank:1, podcast:"郝聲音", host:"郝旭烈", score:91.5, strength:"商業思維穩定輸出，跨平台轉發率高，聽友主動標註多。", seo:"節目名稱＋主持人名稱固定放 Hashtag，前三則置頂要維持『我是誰／聽什麼／去哪聽』。", promo:"每週一則來賓協作 Reels，EP 上線當天同步 Threads 金句。" },
+  { rank:2, podcast:"哇賽心理學", host:"蔡宇哲", score:88, strength:"心理學議題自然被引用，Threads 討論熱度高。", seo:"每集金句做成圖卡上 Threads，標 #哇賽心理學 #蔡宇哲。", promo:"與心理師 KOL 互換限動，擴大專業圈觸及。" },
+  { rank:3, podcast:"航海王的富人學", host:"航海王", score:85.5, strength:"理財乾貨收藏率高，社群擴散強。", seo:"Hashtag 固定三件組：#航海王的富人學 #航海王 #理財。", promo:"每月一次聽友 Q&A 直播，剪 60 秒短片導流。" },
+  { rank:4, podcast:"小資變有錢", host:"Dr. Selena", score:83, strength:"女性理財圈口碑佳，互動率穩定。", seo:"IG 三連發置頂：我是誰／聽什麼／去哪聽，要補上最新封面。", promo:"與女性創業帳號協作貼文，交換受眾。" },
+  { rank:5, podcast:"科技領航家", host:"—", score:73, strength:"產業觀點被科技媒體引用，專業度高。", seo:"節目標題加上年份／關鍵字，例如『2026 AI 趨勢』，利於搜尋。", promo:"EP 重點整理成 Threads / LinkedIn 長文導流。" },
+  { rank:6, podcast:"精算媽咪的家計簿", host:"精算媽咪", score:62.5, strength:"家庭理財實用，媽媽族群黏著度高。", seo:"固定 Hashtag 三件組要每篇都帶，Bio 放 Linktree 整合收聽。", promo:"媽媽社團口碑貼文協作，用真實心得擴散。" },
+  { rank:7, podcast:"加班當爸媽", host:"—", score:60.5, strength:"育兒共鳴強，留言深度佳。", seo:"每集貼文放 3 個固定 Hashtag，養 Meta 標籤庫。", promo:"與爸媽類 IG 帳號互推，交換限動版位。" },
+  { rank:8, podcast:"我不是病人，我是卡姊！", host:"卡姊", score:60.5, strength:"身心議題真誠分享，社群討論度高。", seo:"Threads 同步發布 EP 金句，導回 IG 主貼文。", promo:"與身心靈創作者 Collab 貼文，擴大同溫層外觸及。" },
+  { rank:9, podcast:"蘇心時光", host:"蘇予昕 諮商心理師", score:50, strength:"諮商心理專業內容穩定，信任感高。", seo:"置頂三連發要補齊收聽連結，封面要統一風格。", promo:"做心理測驗限動，引導截圖分享導流。" },
+  { rank:10, podcast:"慢慢長出來", host:"—", score:48, strength:"成長型內容受年輕族群喜歡。", seo:"Bio 連結更新為最新一集，用中文命名『最新一集在這』。", promo:"金句圖每週發 2 則，提高被轉發機率。" },
+  { rank:11, podcast:"敏迪選讀", host:"敏迪", score:45, strength:"國際新聞解析清楚，時事跟得緊。", seo:"節目名 Hashtag 每篇都要帶，#敏迪選讀 #敏迪。", promo:"新聞時事 Reels 與時事帳號協作發布。" },
+  { rank:12, podcast:"大人的 Small Talk", host:"柚子、張瑋軒", score:42, strength:"職場話題共鳴高，分享率高。", seo:"Threads 同步精華對話，標註來賓帳號。", promo:"與職場 KOL 互訪，交換 EP 宣傳。" },
+  { rank:13, podcast:"馬克信箱", host:"馬克、瑪麗", score:40, strength:"聽友互動黏著強，社群歸屬感高。", seo:"固定 Hashtag #馬克信箱，每週都要出現。", promo:"聽友投稿限動轉發，強化 UGC 擴散。" },
+  { rank:14, podcast:"佐編茶水間", host:"佐編", score:38, strength:"出版／創作圈口碑穩，內容扎實。", seo:"置頂貼文補上節目介紹三連發，新粉絲才看得懂。", promo:"作家來賓協作貼文，標註出版社帳號。" },
+  { rank:15, podcast:"時間的女兒", host:"陳茻", score:35, strength:"文史內容獨特，受眾精準。", seo:"Bio 收聽連結需整理成 Linktree，一頁收攏。", promo:"金句圖卡化，適合在 Threads 被轉貼。" },
+  { rank:16, podcast:"劉軒的 How to", host:"劉軒", score:32, strength:"正向心理學受眾明確。", seo:"每集標題加關鍵字，例如『焦慮／人際』，利於搜尋。", promo:"短影音金句剪輯，30 秒版本發 Reels。" },
+  { rank:17, podcast:"曾寶儀的人生相談所", host:"曾寶儀", score:30, strength:"訪談質感佳，來賓陣容強。", seo:"來賓名字要寫進 Hashtag，增加被搜尋機率。", promo:"與來賓 IG 協作發布，借力來賓粉絲。" },
+  { rank:18, podcast:"唐陽雞酒屋", host:"酒雄", score:28, strength:"台語文化圈擴散中，特色明確。", seo:"固定三組 Hashtag 要持續養，不要一直換。", promo:"台語創作者串聯互推，建立主題社群。" },
+  { rank:19, podcast:"百靈果 News", host:"Ken、Kylie", score:25, strength:"國際觀點鮮明，鐵粉黏著高。", seo:"Threads 發布頻率要拉高，文字觸及現在最好。", promo:"新聞懶人包圖卡，每週一張導流。" },
+  { rank:20, podcast:"股癌", host:"謝孟恭", score:22, strength:"財經聽眾忠誠度高。", seo:"節目名稱 Hashtag 需統一寫法，不要簡寫混用。", promo:"EP 精華剪成 60 秒短片，發 Reels 測試。" },
+  { rank:21, podcast:"傑西大叔", host:"傑西", score:18, strength:"生活觀察有趣，語感輕鬆。", seo:"置頂三連發需補齊：我是誰／聽什麼／去哪聽。", promo:"生活類帳號互推限動，交換受眾池。" },
+  { rank:22, podcast:"歐馬克", host:"歐馬克", score:15, strength:"廣播級主持功力，聲音辨識度高。", seo:"Bio 連結改用 Linktree 整合，中文命名提高點擊。", promo:"老聽友召回貼文，用經典集數回顧導流。" },
+];
+
+function scoreClass(score){
+  if(score >= 80) return "score-high";
+  if(score >= 60) return "score-mid";
+  return "score-low";
+}
+
+function renderTeachers(list){
+  const tbody = document.getElementById('teacherTableBody');
+  tbody.innerHTML = list.map(t => `
+    <tr data-search="${(t.podcast + ' ' + t.host).toLowerCase()}">
+      <td class="text-[#a08a76] font-[700]">${t.rank}</td>
+      <td class="font-[750] text-[#221d1b] whitespace-nowrap">${t.podcast}</td>
+      <td class="text-[#554940]">${t.host}</td>
+      <td><span class="score-badge ${scoreClass(t.score)}">${t.score}</span></td>
+      <td>${t.strength}</td>
+      <td>${t.seo}</td>
+      <td>${t.promo}</td>
+    </tr>
+  `).join('');
+  document.getElementById('teacherCount').textContent = `顯示 ${list.length} / 22 筆`;
+}
+
+renderTeachers(teachers);
+
+// Search
+const searchInput = document.getElementById('teacherSearch');
+searchInput.addEventListener('input', e => {
+  const q = e.target.value.trim().toLowerCase();
+  if(!q){
+    renderTeachers(teachers);
+    return;
+  }
+  const filtered = teachers.filter(t => (t.podcast + t.host + t.strength + t.seo).toLowerCase().includes(q));
+  renderTeachers(filtered);
+});
+
+// Tabs
+const tabButtons = document.querySelectorAll('.tab-btn');
+const panels = {
+  top10: document.getElementById('panel-top10'),
+  method: document.getElementById('panel-method'),
+  seo: document.getElementById('panel-seo'),
+  teachers: document.getElementById('panel-teachers'),
+};
+
+tabButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    tabButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    Object.values(panels).forEach(p => p.classList.add('hidden'));
+    panels[tab].classList.remove('hidden');
+    window.scrollTo({ top: 150, behavior: 'smooth' });
+  });
+});
+
+// Init chart
+window.addEventListener('load', initTop10Chart);
+</script>
+<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
+</body>
+</html>

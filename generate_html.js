@@ -11,7 +11,7 @@ function generateSelfContainedHtml() {
     const mdContent = fs.readFileSync(mdPath, 'utf-8');
     
     // Read and parse Meta.AI social analysis if exists
-    const socialHtmlPath = path.join(__dirname, 'Meta.AI', 'metaai_social.html');
+    const socialHtmlPath = path.join(__dirname, 'Meta.AI', 'Podcast聲量評選建議.html');
     let socialStyles = '';
     let socialBody = '';
     let socialScript = '';
@@ -19,7 +19,17 @@ function generateSelfContainedHtml() {
     
     if (fs.existsSync(socialHtmlPath)) {
         hasTrackC = true;
-        const socialContent = fs.readFileSync(socialHtmlPath, 'utf-8');
+        let socialContent = fs.readFileSync(socialHtmlPath, 'utf-8');
+        
+        // Self-healing: Ensure noindex tag is present in the source file
+        if (!socialContent.includes('noindex')) {
+            socialContent = socialContent.replace(
+                /<head>/i,
+                '<head>\n<meta name="robots" content="noindex, nofollow">'
+            );
+            fs.writeFileSync(socialHtmlPath, socialContent, 'utf-8');
+            console.log("已自動為 Podcast聲量評選建議.html 補上 noindex 標記。");
+        }
         
         // Extract Styles
         const styleMatch = socialContent.match(/<style[^>]*>([\s\S]*?)<\/style>/);
@@ -40,7 +50,7 @@ function generateSelfContainedHtml() {
             socialBody = bodyText;
         }
     } else {
-        console.warn("⚠️ 未找到 Meta.AI/metaai_social.html 檔案，將略過軌道三整合。");
+        console.warn("⚠️ 未找到 Meta.AI/Podcast聲量評選建議.html 檔案，將略過軌道三整合。");
     }
     
     const htmlTemplate = `<!DOCTYPE html>
@@ -57,30 +67,36 @@ function generateSelfContainedHtml() {
             theme: {
                 extend: {
                     fontFamily: {
-                        'sans-tc': ['system-ui', '-apple-system', '"Noto Sans TC"', '"PingFang TC"', '"Microsoft JhengHei"', 'sans-serif'],
+                        'sans-tc': ['"Noto Sans TC"', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Arial', 'sans-serif'],
                         'sans': ['Outfit', 'system-ui', '-apple-system', '"Noto Sans TC"', 'sans-serif'],
                     },
                     colors: {
-                        'ink': '#1a1a1a',
-                        'brand-red': '#d9464a',
-                        'brand-orange': '#e88a3a',
-                        'brand-blue': '#5b8def',
-                        'line': '#e5e5e5',
-                        'muted': '#6b6b6b',
-                        'wash': '#f7f7f5',
+                        'ink': '#1a1c1e',
+                        'brand-red': '#E8452A',
+                        'brand-orange': '#e56b1f',
+                        'brand-blue': '#2a7de1',
+                        'line': '#e6ddd3',
+                        'muted': '#6b7280',
+                        'wash': '#fdf9f5',
+                        'sdh-red': '#E8452A',
+                        'sdh-cream': '#fdf9f5',
+                        'sdh-paper': '#fcf7f1',
+                        'sdh-ink': '#1a1c1e',
+                        'sdh-mute': '#6b7280',
+                        'sdh-line': '#e6ddd3',
                     }
                 }
             }
         }
     </script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <!-- Marked.js (Markdown Parser) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- Mermaid.js (Diagram Parser) -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     
     <style>
         body {
@@ -392,7 +408,7 @@ function generateSelfContainedHtml() {
 
     const outputPath = path.join(__dirname, 'podcast_evaluation_workflow.html');
     fs.writeFileSync(outputPath, htmlTemplate, 'utf-8');
-    console.log(`已成功將規劃書與軌道 C (Meta.AI) 整合轉換為白底網頁版：${outputPath}`);
+    console.log(`已成功將規劃書與軌道 C (Meta.AI 聲量評選建議) 整合轉換為白底網頁版：${outputPath}`);
 }
 
 generateSelfContainedHtml();
