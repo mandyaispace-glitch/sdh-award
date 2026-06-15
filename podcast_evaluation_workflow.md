@@ -87,18 +87,21 @@ flowchart TD
 
 ## 📊 軌道 C：外部數據與社群軌 (Mermaid 流程圖)
 
-此軌道聚焦於社群擴散與聽眾反饋。為避免 Spotify 等平台的網頁爬蟲被 IP 阻擋，**目前 MVP 階段僅全自動抓取 Apple Podcasts 的公開評論**，並結合 Facebook 推廣貼文的自然留言進行 Meta.ai 講評。
+此軌道聚焦於社群擴散與聽眾反饋。為避免 Spotify 等平台的網頁爬蟲被 IP 阻擋，**目前 MVP 階段僅全自動抓取 Apple Podcasts 的公開評論與每日百大榜單**，並結合 Facebook 推廣貼文的自然留言進行 Meta.ai 講評。
 
 ```mermaid
 flowchart TD
-    A["1. 100檔節目清單"] --> B["2. 數據採集 (track_c_run.js)"]
-    B --> C["3. 抓取 Apple Podcasts 評論"]
-    B --> D["4. 抓取 Facebook 社群留言數據"]
-    C --> E["5. 統計 6 個月留言量並排行"]
-    D --> F["6. 丟給 Meta.ai (Llama 3) 進行社群影響力評分"]
-    E --> G["7. 整合寫入 Google Sheet 總表"]
-    F --> G
+    A["1. 100檔節目清單"] --> B["2. 數據採集分流"]
+    
+    B -->|"抓取 Apple 評論"| C["3. 統計留言量與評分 --> 決選【留言王獎】"]
+    B -->|"每日封存 Apple 百大榜"| D["4. 統計在榜天數 --> 決選【排行榜霸主】"]
+    B -->|"收集 FB 互動數據"| E["5. Meta.ai 評分社群擴散 --> 決選【欸我跟你獎】"]
+    
+    C --> F["6. 數據整合寫入 Google Sheet 總表"]
+    D --> F
+    E --> F
 ```
+
 
 <!-- tab-split -->
 
