@@ -1,167 +1,42 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SDH Award Podcast AI 評選規劃書</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'sans-tc': ['system-ui', '-apple-system', '"Noto Sans TC"', '"PingFang TC"', '"Microsoft JhengHei"', 'sans-serif'],
-                        'sans': ['Outfit', 'system-ui', '-apple-system', '"Noto Sans TC"', 'sans-serif'],
-                    },
-                    colors: {
-                        'ink': '#1a1a1a',
-                        'brand-red': '#d9464a',
-                        'brand-orange': '#e88a3a',
-                        'brand-blue': '#5b8def',
-                        'line': '#e5e5e5',
-                        'muted': '#6b6b6b',
-                        'wash': '#f7f7f5',
-                    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鬧鐘獎［欸我跟你獎］Meta.AI 總講評</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    'sans-tc': ['system-ui', '-apple-system', '"Noto Sans TC"', '"PingFang TC"', '"Microsoft JhengHei"', 'sans-serif'],
+                },
+                colors: {
+                    'ink': '#1a1a1a',
+                    'brand-red': '#d9464a',
+                    'brand-orange': '#e88a3a',
+                    'brand-blue': '#5b8def',
+                    'line': '#e5e5e5',
+                    'muted': '#6b6b6b',
+                    'wash': '#f7f7f5',
                 }
             }
         }
-    </script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-    <!-- Marked.js (Markdown Parser) -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- Mermaid.js (Diagram Parser) -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    
-    <style>
-        body {
-            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
-            background: radial-gradient(circle at 50% 0%, #f8fafc 0%, #e2e8f0 100%);
-            color: #334155;
-        }
-        /* Custom styles for light-theme markdown content rendering */
-        .prose h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #0f172a;
-            border-bottom: 3px solid #3b82f6;
-            padding-bottom: 0.5rem;
-            margin-top: 2.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, #1d4ed8, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .prose h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1e3a8a;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            border-left: 4px solid #3b82f6;
-            padding-left: 0.75rem;
-        }
-        .prose h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #0f172a;
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-        }
-        .prose p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
-            color: #475569;
-        }
-        .prose table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-            background: #ffffff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            border: 1px solid #e2e8f0;
-        }
-        .prose th {
-            background: #f1f5f9;
-            color: #1e3a8a;
-            font-weight: 700;
-            padding: 0.75rem 1rem;
-            text-align: left;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        .prose td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #f1f5f9;
-            color: #334155;
-            font-size: 0.95rem;
-        }
-        .prose tr:hover {
-            background: #f8fafc;
-        }
-        .prose blockquote {
-            border-left: 4px solid #3b82f6;
-            background: #eff6ff;
-            color: #1e40af;
-            padding: 1.25rem;
-            margin: 1.5rem 0;
-            border-radius: 0 10px 10px 0;
-            font-weight: 500;
-        }
-        .prose strong {
-            color: #2563eb;
-            font-weight: 700;
-        }
-        .prose a {
-            color: #2563eb;
-            text-decoration: underline;
-            transition: color 0.2s;
-            font-weight: 500;
-        }
-        .prose a:hover {
-            color: #1d4ed8;
-        }
-        .prose ul {
-            list-style-type: disc;
-            padding-left: 1.5rem;
-            margin-bottom: 1rem;
-            color: #475569;
-        }
-        .prose li {
-            margin-bottom: 0.5rem;
-            line-height: 1.7;
-        }
-        /* Glassmorphic White Cards */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
-        }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        
-        /* Track C (Meta.AI) Embedded CSS */
-        
-    
+    }
+</script>
+<style type="text/tailwindcss">
+    body {
+        font-family: system-ui, -apple-system, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+        background-color: #f2f2f0;
+        color: #1a1a1a;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
     .report-paper {
         background-color: #ffffff;
         background-image: 
@@ -186,62 +61,9 @@
     }
     canvas { font-family: system-ui, "Noto Sans TC", "PingFang TC", sans-serif !important; }
     .num-tabular { font-variant-numeric: tabular-nums; }
-
-    </style>
+</style>
 </head>
-<body class="min-h-screen py-10 px-4 sm:px-6 lg:px-8 bg-[#f0efed]">
-    <div class="max-w-5xl mx-auto">
-        <!-- Floating Header -->
-        <header class="flex justify-between items-center mb-10 pb-5 border-b border-slate-200">
-            <div class="flex items-center space-x-3">
-                <span class="text-2xl font-extrabold tracking-wider text-blue-600">SDH Award</span>
-                <span class="text-xs bg-blue-100 text-blue-600 py-1 px-2 rounded-full font-semibold">AI評選系統 Demo</span>
-            </div>
-            <div class="text-xs text-slate-500">
-                更新時間: 2026-06-15 | 設計者: Antigravity
-            </div>
-        </header>
-
-        <!-- Tab Navigation -->
-        <div class="flex space-x-2 p-1.5 bg-slate-200/50 backdrop-blur-md rounded-xl mb-6 max-w-2xl shadow-inner border border-slate-200/30">
-            <button id="tab-btn-plan" class="flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10" onclick="switchTab('plan')">
-                📄 評選工作流規劃
-            </button>
-            <button id="tab-btn-status" class="flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('status')">
-                📌 專案執行現況
-            </button>
-            
-            <button id="tab-btn-track-c" class="flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-c')">
-                📊 軌道 C 社群聲量
-            </button>
-            
-            <button id="tab-btn-timeline" class="flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('timeline')">
-                ⏳ 專案進程時間軸
-            </button>
-        </div>
-
-        <!-- Main Content Card (Standard Markdown layout) -->
-        <div id="main-glass-card" class="glass-card rounded-2xl p-6 sm:p-10 mb-8">
-            <div id="content-plan" class="prose max-w-none">
-                <!-- Plan Markdown renders here -->
-                <div class="flex justify-center items-center py-20">
-                    <svg class="animate-spin h-10 w-10 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                </div>
-            </div>
-            <div id="content-status" class="prose max-w-none hidden">
-                <!-- Status Markdown renders here -->
-            </div>
-            <div id="content-timeline" class="prose max-w-none hidden">
-                <!-- Timeline Markdown renders here -->
-            </div>
-        </div>
-
-        <!-- Track C Content (Rendered outside glass-card because it has its own paper style) -->
-        <div id="content-track-c" class="hidden">
-            
+<body class="bg-[#f0efed] min-h-screen">
     <div class="w-full bg-white border-b border-line">
         <div class="capture-width mx-auto px-5 sm:px-10 lg:px-16 pt-10 sm:pt-14 pb-0">
             <!-- Eyebrow / Meta -->
@@ -755,396 +577,7 @@
         </div>
     </main>
 
-
-
-        </div>
-
-        <footer class="text-center text-xs text-slate-500 mt-10">
-            此網頁為免伺服器、全自包含靜態檔案。可直接將此 HTML 檔案寄送或分享給團隊成員，雙擊即可在瀏覽器完美閱讀。
-        </footer>
-    </div>
-
-    <!-- Hidden Raw Markdown Data Source -->
-    <textarea id="markdown-source" class="hidden"># SDH Award Podcast AI 評選工作流與時程成本規劃書 (Updated)
-
-本規劃書專為**「無程式背景、每天限用筆電執行 2 小時」**的硬體與時間限制所設計。為確保筆電不發熱、不卡頓，且能在 1 小時內全自動完成，本方案推薦採用 **「雲端 API 直聽免轉寫」** 的架構。
-
----
-
-## 🏆 獎項與評選軌道對照表 (Award-to-Track Mapping Matrix)
-
-大賽的所有獎項已根據其屬性（文字、聲音、外部數據）進行了精準的分軌，避免混淆：
-
-| 評選軌道 | 負責任務屬性 | 對應評估之大賽獎項 | 評估依據與數據源 |
-| :--- | :--- | :--- | :--- |
-| 🪶 **軌道 A**<br>(逐字稿文本分析軌) | **分析「節目內容與架構」**<br>著重在文字邏輯、企劃創意與主持人的內容引導。 | 1. **【最佳內容架構獎】**<br>2. **【最神企劃獎】**<br>3. **【動滋動滋獎/推坑王獎 (CTA)】**<br>4. **【稀有保護動物獎/小眾市場獎】**<br>5. **【自我探索獎】**<br>6. **【時間很短獎/泡麵沒熟獎】** | **單集逐字稿 (ASR Text)**<br>透過 AI 閱
-## 🎯 複審決選：各獎項 Top 3 聲音診斷與黃金 3 片段規劃
-
-當軌道 A 與 C 評選出各獎項 of **Top 3 入圍名單**後（去重後約為 **15 至 20 檔節目**），我們針對這批「入圍決選節目」進行深度的聲音物理診斷與黃金時間軸提取。
-
-為了更全面且客觀地評估主持人的聲音特質與節目表現，**每個入圍節目需要評估 3 個不同單集，且每一集均由 AI 建議 3 段黃金試聽片段**（即每個入圍節目將提供共 9 段黃金片段，供真人評審針對重點進行試聽）。
-
-### 1. 執行工具：Gemini 1.5 Pro API (直聽音檔)
-*   **為什麼適合您**：雖然每檔節目評估集數增加至 3 集（總計約 45 至 60 集），但由於我們將音檔網址直接送給 Gemini 1.5 Pro 進行雲端並行處理，因此**依然能在 10 分鐘左右全自動分析完畢**，完全不佔用您本機的運算資源。
-*   **預估成本**：Gemini 1.5 Pro 音訊 API 費率為 $0.0075 美元/分鐘。
-    *   `60 集 × 40 分鐘 = 2400 分鐘`
-    *   `總花費 = 2400 × 0.0075 = $18.00 美元` (約 **新台幣 580 元**)，仍在非常經濟實惠的範圍。
-
-### 2. AI 診斷內容 (寫入 JSON/試算表)
-我們要求 Gemini 針對入圍節目所選出的**每一集**輸出以下結構化欄位：
-*   **【聲音特徵與音調建議】**：分析主持人的語速（字/分鐘）、音調波動、噴麥/雜音情況，並提供聲音製播建議。
-*   **【每集最建議聽的 3 段時間軸】**：針對該單集，精確定位出 **3 段最值得聽的 3 分鐘精華區間**，並說明原因：
-    1.  **片段 A (如 12:15 - 15:15)**：【內容火花段】（此段訪談問題切入極深，來賓分享了未曾公開的故事）。
-    2.  **片段 B (如 22:30 - 25:30)**：【默契流暢段】（雙人互動極為自然，包含一次溫馨的共鳴笑聲）。
-    3.  **片段 C (如 38:00 - 41:00)**：【陪伴療癒段】（語速降至 180 字/分，語氣平穩誠懇，具備強大治癒感）。
-
-### 3. 人類終審 Google Sheet 呈現方式 (真人評審聽重點)
-評審不需盲聽 15-20 檔節目共 30-40 小時的原始音檔，只需打開試算表：
-*   點選各獎項頁面，查看 Top 3 節目（每個節目 3 集，每集 3 片段，共 9 片段）。
-*   點擊試算表內提供的 **[播放片段 A]**、**[播放片段 B]**、**[播放片段 C]** 連結，只聽 3 分鐘精華。
-*   真人評審在 **每檔節目 10-15 分鐘** 的聽評過程中即可做出極具信服力的最終評審決定。
-
----
-
-## 三軌評估時間、成本與負載矩陣 (以 240 集 / 80 檔節目計算)
-
-| 評估軌道 | 推薦實作做法 (對無背景筆電用戶最佳) | 預估執行時間 | 預估資金成本 (新台幣) | 筆電硬體負載 |
-| :--- | :--- | :--- | :--- | :---: |
-| **軌道 A**<br>(逐字稿文本分析) | **Gemini 1.5 Flash API 雲端直聽打分**<br>直接將 240 集 MP3 音檔網址傳給 Gemini，免去轉寫步驟，AI 在雲端邊聽邊評分。 | **30 ~ 45 分鐘**<br>(並行處理) | **約 NT$ 400 元**<br>(按音訊分鐘計費) | **0%**<br>(雲端運算) |
-| **複審決選**<br>(各獎項 Top 3 診斷) | **Gemini 1.5 Pro API 聲音特徵與片段提取**<br>針對各獎項 **Top 3 入圍節目**（約 15-20 檔），**每檔評估 3 集**（共 45-60 集音檔）進行音質、默契診斷與每集各 3 段黃金時間軸提取。 | **8 ~ 12 分鐘**<br>(並行處理) | **約 NT$ 430 ~ 580 元**<br>(按音訊分鐘計費) | **0%**<br>(雲端運算) |
-| **軌道 C**<br>(外部數據與社群) | **Node.js 輕量爬蟲工具**<br>一鍵調用 Apple Podcasts Reviews API 與 Spotify 網頁抓取評分。 | **2 分鐘內** | **NT$ 0 元**<br>(完全免費) | **1%**<br>(微量頻寬) |
-| **總計** | **一鍵啟動自動化流程** | **60 分鐘內跑完** | **約 NT$ 830 ~ 980 元** | **安全不發熱** |
-
----
-
-## 軌道 B：音檔物理特徵分析軌 (Mermaid 流程圖)
-
-此軌道專評估聲音特徵，當入圍 Top 3 產生後，發送至 Gemini 1.5 Pro 直聽音檔。
-
-```mermaid
-flowchart TD
-    A[各獎項評選出 Top 3 入圍節目] --> B[去重後取得入圍節目 (約 15-20 檔)]
-    B --> B2[每檔節目各挑選 3 集音檔 (共 45-60 集)]
-    B2 --> C[腳本發送 API 請求]
-    C --> D[Gemini 1.5 Pro 雲端音訊分析]
-    
-    subgraph Gemini [Gemini 1.5 Pro 語音核心分析]
-        D --> D1[分析語速、音調與聲音發音建議]
-        D --> D2[每集精確定位 3 段建議試聽時間軸]
-        D --> D3[說明各推薦片段之特色評語]
-    end
-    
-    D1 & D2 & D3 --> E["輸出 JSON (每集 3 片段，每檔節目共 9 片段)"]
-    E --> F[自動彙整至人類終審 Google Sheet 試算表]
-    F --> G[真人評審針對 9 個推薦片段進行重點試聽]
-    
-    style Gemini fill:#fcf8e3,stroke:#f0ad4e,stroke-width:1px
-```
-
----
-
-## 軌道 C：外部數據與社群軌 (Mermaid 流程圖)
-
-針對 **【欸我跟你獎】** (社群分享力)，我們直接結合 **Facebook 宣傳文案與評論數據**，並分流給 **Meta.ai (Llama 3)** 進行傳播熱度分析。
-
-```mermaid
-flowchart TD
-    A[100 檔節目清單] --> B[Antigravity 數據採集器]
-    
-    subgraph DataMining [數據採集分流]
-        B --> C[調用 Apple Reviews JSON 接口]
-        B --> D[爬取 Spotify 節目首頁 HTML]
-        B --> E[蒐集 Facebook 推廣貼文之按讚/分享/留言文字]
-    end
-    
-    C --> C1[統計過去 6 個月留言筆數與總字數]
-    D --> D1[提取 Spotify 評分人數與星等]
-    E --> E1[計算 Facebook 貼文分享數與互動率]
-    
-    C1 --> F1[Apple 聽眾留言量排行榜 --> 決選 留言王獎]
-    D1 --> F2[Spotify 評分排行榜 --> 決選 排行榜霸主]
-    E1 & E --> G["將 Facebook 貼文與留言丟給 Meta.ai (Llama 3)"]
-    
-    G --> G1["Meta.ai 評估『話題擴散潛力』與『分享動機』(1-10分, 0.5級距)"]
-    G1 --> H["產出【欸我跟你獎】分數榜單"]
-    
-    F1 & F2 & H --> I[自動寫入 Google Sheet 儀表板]
-    
-    style DataMining fill:#f2f5fa,stroke:#4a90e2,stroke-width:1px
-```
-
-<!-- tab-split -->
-
-# 📌 專案執行現況與 Demo 成果彙整 (2026-06-14 節點)
-
-目前本系統的「Demo 概念驗證」與「自動化數據採集」已成功上線，各模組進度如下：
-
-### 1. 資格審查與合格集數池 (完成 ✅)
-*   **Demo 資料源**：以您的 Google 試算表 24 檔節目清單為範本。
-*   **執行腳本**：[build_episode_pool.js](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/build_episode_pool.js)
-*   **成果**：
-    *   成功過濾出 **16 檔合格節目** (符合 6 個月發片滿 12 集門檻)。
-    *   順利排除 8 檔已停更或更新頻率不足的節目（如《聽進理投》、《媽媽好神經病》）。
-    *   自動建立包含 **733 個單集的完整資料庫** [eligible_episodes_pool.csv](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/eligible_episodes_pool.csv)，為後續隨機抽樣奠定基礎。
-
-### 2. 軌道 B 聲音物理測試環境 (完成 ✅)
-*   **執行腳本**：[track_b_run.js](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/track_b_run.js)
-*   **成果**：已寫好完整 API 對接流程（音檔下載 $\rightarrow$ 上傳 Gemini Files API $\rightarrow$ Pro 模型語音打分與 3 段黃金片段定位）。金鑰申請與設定方式已在 [README.md](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/README.md) 中完整指引。
-
-### 3. 軌道 C 聽眾留言量排行榜 (完成 ✅)
-*   **執行腳本**：[track_c_run.js](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/track_c_run.js)
-*   **成果**：完全免付費，成功爬取 16 檔合格節目的 Apple Podcasts 真實聽眾評論，並自動導出 [track_c_leaderboard.md](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/track_c_leaderboard.md) 排行榜。
-    *   *例如：【美股航海王】13 筆留言奪冠；【哇賽心理學】7 筆留言居次，且自動節錄了真實的語意評論。*
-
-### 4. 軌道 C 百大榜單「每日底層封存」系統 (啟動 ✅)
-*   **執行腳本**：[daily_ranking_logger.js](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/daily_ranking_logger.js)
-*   **排程設定**：已在 Windows 系統成功註冊每日定時工作 `SDH_Podcast_Daily_Ranking_Logger`（每天早上 10:00 自動執行，若關機則開機後補跑）。
-*   **成果**：每日自動抓取 Apple Podcasts 台灣區完整 Top 100 榜單，寫入 [daily_top100_archive.csv](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/daily_top100_archive.csv)。
-    *   *此做法可防範未來參賽清單有新節目加入時，能夠溯及既往地查詢其在榜歷史天數與名次。*
-
-<!-- tab-split -->
-
-# ⏳ 專案開發與進程時間軸 (Project Timeline)
-
-這裡記錄了 SDH Award Podcast AI 評選系統的開發動態與更新日誌，按日期排序，越新的動態顯示在最上方。
-
----
-
-### 📅 2026-06-14 (主題：軌道建立與 MVP Demo 測試)
-*   **♊ 軌道 B 決選打分邏輯升級**
-    *   **異動內容**：為提高評審的客觀性，將各獎項 Top 3 入圍節目的評估方式，由「僅評估 1 個單集（產出 3 段黃金片段）」調整為**「每檔節目評估 3 個單集，每集建議 3 段黃金片段（共 9 段精華片段）」**。
-    *   **連動更新**：重新估算複審 API 的預算（NT$ 430 ~ 580 元）及總體執行時間（小於 60 分鐘），更新規劃書數據。
-*   **⚙️ 每日排行日誌 logger 啟動**
-    *   成功部署 `daily_ranking_logger.js` 排程腳本，並在 Windows 系統註冊 `SDH_Podcast_Daily_Ranking_Logger` 每日工作排程，每天早上 10:00 自動下載封存 Apple Podcasts 台灣區完整 Top 100 榜單。
-*   **📊 軌道 C 聽眾留言量排行榜上線**
-    *   完成 `track_c_run.js` 開發，透過 Apple Podcasts Reviews API 成功抓取 16 檔合格節目的聽眾留言數並進行排行。
-*   **♊ 軌道 B 聲音物理特徵測試成功**
-    *   完成 `track_b_run.js` 開發，順利對接 Gemini Files API 進行 MP3 音檔上傳、分析語調語速，並成功定位黃金 3 分鐘。
-*   **🔍 資格審查與合格集數池建立**
-    *   完成 `build_episode_pool.js` 開發，以 6 個月發片滿 12 集為門檻，從 24 檔節目中篩選出 16 檔合格節目，並建立 733 集的合格集數池資料庫（`eligible_episodes_pool.csv`）。
-*   **🌐 建議書靜態網頁與 Git 儲存庫建立**
-    *   建立 `generate_html.js` 自動化 HTML 轉換工具。
-    *   設定專案 GitHub 遠端儲存庫，成功推送首版規劃書並準備啟用 GitHub Pages 固定網址。
-
----
-
-### 📅 2026-06-13
-*   **🏗️ 專案初始化與三軌架構設計**
-    *   確定 SDH Award 的評選軌道對照表（軌道 A 文本分析、軌道 B 聲音物理、軌道 C 外部社群數據）。
-    *   設計無程式背景、限用筆電 2 小時、0 發熱的「雲端 API 直聽」核心架構。
-��算)
-
-| 評估軌道 | 推薦實作做法 (對無背景筆電用戶最佳) | 預估執行時間 | 預估資金成本 (新台幣) | 筆電硬體負載 |
-| :--- | :--- | :--- | :--- | :---: |
-| **軌道 A**<br>(逐字稿文本分析) | **Gemini 1.5 Flash API 雲端直聽打分**<br>直接將 240 集 MP3 音檔網址傳給 Gemini，免去轉寫步驟，AI 在雲端邊聽邊評分。 | **30 ~ 45 分鐘**<br>(並行處理) | **約 NT$ 400 元**<br>(按音訊分鐘計費) | **0%**<br>(雲端運算) |
-| **複審決選**<br>(各獎項 Top 3 診斷) | **Gemini 1.5 Pro API 聲音特徵與片段提取**<br>針對各獎項 **Top 3 入圍節目**（約 15-20 檔），**每檔評估 3 集**（共 45-60 集音檔）進行音質、默契診斷與每集各 3 段黃金時間軸提取。 | **8 ~ 12 分鐘**<br>(並行處理) | **約 NT$ 430 ~ 580 元**<br>(按音訊分鐘計費) | **0%**<br>(雲端運算) |
-| **軌道 C**<br>(外部數據與社群) | **Node.js 輕量爬蟲工具**<br>一鍵調用 Apple Podcasts Reviews API 與 Spotify 網頁抓取評分。 | **2 分鐘內** | **NT$ 0 元**<br>(完全免費) | **1%**<br>(微量頻寬) |
-| **總計** | **一鍵啟動自動化流程** | **60 分鐘內跑完** | **約 NT$ 830 ~ 980 元** | **安全不發熱** |
-
----
-
-## 軌道 B：音檔物理特徵分析軌 (Mermaid 流程圖)
-
-此軌道專評估聲音特徵，當入圍 Top 3 產生後，發送至 Gemini 1.5 Pro 直聽音檔。
-
-```mermaid
-flowchart TD
-    A[各獎項評選出 Top 3 入圍節目] --> B[去重後取得入圍節目 (約 15-20 檔)]
-    B --> B2[每檔節目各挑選 3 集音檔 (共 45-60 集)]
-    B2 --> C[腳本發送 API 請求]
-    C --> D[Gemini 1.5 Pro 雲端音訊分析]
-    
-    subgraph Gemini [Gemini 1.5 Pro 語音核心分析]
-        D --> D1[分析語速、音調與聲音發音建議]
-        D --> D2[每集精確定位 3 段建議試聽時間軸]
-        D --> D3[說明各推薦片段之特色評語]
-    end
-    
-    D1 & D2 & D3 --> E["輸出 JSON (每集 3 片段，每檔節目共 9 片段)"]
-    E --> F[自動彙整至人類終審 Google Sheet 試算表]
-    F --> G[真人評審針對 9 個推薦片段進行重點試聽]
-    
-    style Gemini fill:#fcf8e3,stroke:#f0ad4e,stroke-width:1px
-```
-
----
-
-## 軌道 C：外部數據與社群軌 (Mermaid 流程圖)
-
-針對 **【欸我跟你獎】** (社群分享力)，我們直接結合 **Facebook 宣傳文案與評論數據**，並分流給 **Meta.ai (Llama 3)** 進行傳播熱度分析。
-
-```mermaid
-flowchart TD
-    A[100 檔節目清單] --> B[Antigravity 數據採集器]
-    
-    subgraph DataMining [數據採集分流]
-        B --> C[調用 Apple Reviews JSON 接口]
-        B --> D[爬取 Spotify 節目首頁 HTML]
-        B --> E[蒐集 Facebook 推廣貼文之按讚/分享/留言文字]
-    end
-    
-    C --> C1[統計過去 6 個月留言筆數與總字數]
-    D --> D1[提取 Spotify 評分人數與星等]
-    E --> E1[計算 Facebook 貼文分享數與互動率]
-    
-    C1 --> F1[Apple 聽眾留言量排行榜 --> 決選 留言王獎]
-    D1 --> F2[Spotify 評分排行榜 --> 決選 排行榜霸主]
-    E1 & E --> G["將 Facebook 貼文與留言丟給 Meta.ai (Llama 3)"]
-    
-    G --> G1["Meta.ai 評估『話題擴散潛力』與『分享動機』(1-10分, 0.5級距)"]
-    G1 --> H["產出【欸我跟你獎】分數榜單"]
-    
-    F1 & F2 & H --> I[自動寫入 Google Sheet 儀表板]
-    
-    style DataMining fill:#f2f5fa,stroke:#4a90e2,stroke-width:1px
-```
-
-<!-- tab-split -->
-
-# ⏳ 專案開發與進程時間軸 (Project Timeline)
-
-這裡記錄了 SDH Award Podcast AI 評選系統的開發動態與更新日誌，按日期排序，越新的動態顯示在最上方。
-
----
-
-### 📅 2026-06-14
-*   **♊ 軌道 B 決選打分邏輯升級**
-    *   **異動內容**：為提高評審的客觀性，將各獎項 Top 3 入圍節目的評估方式，由「僅評估 1 個單集（產出 3 段黃金片段）」調整為**「每檔節目評估 3 個單集，每集建議 3 段黃金片段（共 9 段精華片段）」**。
-    *   **連動更新**：重新估算複審 API 的預算（NT$ 430 ~ 580 元）及總體執行時間（小於 60 分鐘），更新規劃書數據。
-*   **⚙️ 每日排行日誌 logger 啟動**
-    *   成功部署 `daily_ranking_logger.js` 排程腳本，並在 Windows 系統註冊 `SDH_Podcast_Daily_Ranking_Logger` 每日工作排程，每天早上 10:00 自動下載封存 Apple Podcasts 台灣區完整 Top 100 榜單。
-*   **📊 軌道 C 聽眾留言量排行榜上線**
-    *   完成 `track_c_run.js` 開發，透過 Apple Podcasts Reviews API 成功抓取 16 檔合格節目的聽眾留言數並進行排行。
-*   **♊ 軌道 B 聲音物理特徵測試成功**
-    *   完成 `track_b_run.js` 開發，順利對接 Gemini Files API 進行 MP3 音檔上傳、分析語調語速，並成功定位黃金 3 分鐘。
-*   **🔍 資格審查與合格集數池建立**
-    *   完成 `build_episode_pool.js` 開發，以 6 個月發片滿 12 集為門檻，從 24 檔節目中篩選出 16 檔合格節目，並建立 733 集的合格集數池資料庫（`eligible_episodes_pool.csv`）。
-*   **🌐 建議書靜態網頁與 Git 儲存庫建立**
-    *   建立 `generate_html.js` 自動化 HTML 轉換工具。
-    *   設定專案 GitHub 遠端儲存庫，成功推送首版規劃書並準備啟用 GitHub Pages 固定網址。
-
----
-
-### 📅 2026-06-13
-*   **🏗️ 專案初始化與三軌架構設計**
-    *   確定 SDH Award 的評選軌道對照表（軌道 A 文本分析、軌道 B 聲音物理、軌道 C 外部社群數據）。
-    *   設計無程式背景、限用筆電 2 小時、0 發熱的「雲端 API 直聽」核心架構。
-
-</textarea>
-
-    <script>
-        // Configure marked.js
-        marked.setOptions({
-            breaks: true,
-            gfm: true
-        });
-
-        // Initialize Mermaid with Light theme
-        mermaid.initialize({
-            startOnLoad: false,
-            theme: 'default',
-            securityLevel: 'loose',
-            flowchart: {
-                useMaxWidth: true,
-                htmlLabels: true
-            }
-        });
-
-        // Tab Switching Logic
-        function switchTab(tabId) {
-            const planBtn = document.getElementById('tab-btn-plan');
-            const statusBtn = document.getElementById('tab-btn-status');
-            const trackCBtn = document.getElementById('tab-btn-track-c');
-            const timelineBtn = document.getElementById('tab-btn-timeline');
-            
-            const mainGlassCard = document.getElementById('main-glass-card');
-            const planContent = document.getElementById('content-plan');
-            const statusContent = document.getElementById('content-status');
-            const trackCContent = document.getElementById('content-track-c');
-            const timelineContent = document.getElementById('content-timeline');
-
-            const activeBtnClass = "flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
-            const inactiveBtnClass = "flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
-
-            planBtn.className = inactiveBtnClass;
-            statusBtn.className = inactiveBtnClass;
-            if (trackCBtn) trackCBtn.className = inactiveBtnClass;
-            timelineBtn.className = inactiveBtnClass;
-
-            planContent.classList.add('hidden');
-            statusContent.classList.add('hidden');
-            if (trackCContent) trackCContent.classList.add('hidden');
-            timelineContent.classList.add('hidden');
-            mainGlassCard.classList.add('hidden');
-
-            if (tabId === 'plan') {
-                planBtn.className = activeBtnClass;
-                mainGlassCard.classList.remove('hidden');
-                planContent.classList.remove('hidden');
-            } else if (tabId === 'status') {
-                statusBtn.className = activeBtnClass;
-                mainGlassCard.classList.remove('hidden');
-                statusContent.classList.remove('hidden');
-            } else if (tabId === 'track-c' && trackCContent) {
-                trackCBtn.className = activeBtnClass;
-                trackCContent.classList.remove('hidden');
-                // Trigger chart resize
-                setTimeout(() => {
-                    if (window.top10ChartInstance) { window.top10ChartInstance.resize(); }
-                    if (window.weightDonutInstance) { window.weightDonutInstance.resize(); }
-                }, 50);
-            } else {
-                timelineBtn.className = activeBtnClass;
-                mainGlassCard.classList.remove('hidden');
-                timelineContent.classList.remove('hidden');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            const rawMarkdown = document.getElementById('markdown-source').value;
-            const parts = rawMarkdown.split('<!-- tab-split -->');
-            const planMd = parts[0] || '';
-            const statusMd = parts[1] || '';
-            const timelineMd = parts[2] || '';
-            
-            // Render Plan Markdown
-            const planHtml = marked.parse(planMd);
-            const planContainer = document.getElementById('content-plan');
-            planContainer.innerHTML = planHtml;
-
-            // Render Status Markdown
-            const statusHtml = marked.parse(statusMd);
-            const statusContainer = document.getElementById('content-status');
-            statusContainer.innerHTML = statusHtml;
-
-            // Render Timeline Markdown
-            const timelineHtml = marked.parse(timelineMd);
-            const timelineContainer = document.getElementById('content-timeline');
-            timelineContainer.innerHTML = timelineHtml;
-
-            // Find and convert Mermaid blocks in all containers
-            [planContainer, statusContainer, timelineContainer].forEach(container => {
-                const codeBlocks = container.querySelectorAll('pre code');
-                codeBlocks.forEach(codeBlock => {
-                    if (codeBlock.classList.contains('language-mermaid')) {
-                        const preElement = codeBlock.parentElement;
-                        const mermaidDiv = document.createElement('div');
-                        mermaidDiv.className = 'mermaid my-8 p-4 bg-slate-50 rounded-xl border border-slate-200 overflow-x-auto';
-                        mermaidDiv.textContent = codeBlock.textContent;
-                        preElement.replaceWith(mermaidDiv);
-                    }
-                });
-            });
-
-            // Run Mermaid rendering
-            try {
-                await mermaid.run();
-            } catch (err) {
-                console.error("Mermaid 渲染出錯:", err);
-            }
-            
-            // Initialize Track C script actions if available
-            
+<script>
 /* ---------------- Tab switching ---------------- */
 const panels = [
     document.getElementById('panel-1'),
@@ -1339,8 +772,6 @@ window.addEventListener('resize', () => {
     window.top10ChartInstance?.resize();
     window.weightDonutInstance?.resize();
 });
-
-        });
-    </script>
+</script>
 </body>
 </html>

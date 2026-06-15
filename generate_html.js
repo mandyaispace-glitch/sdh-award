@@ -10,7 +10,39 @@ function generateSelfContainedHtml() {
     
     const mdContent = fs.readFileSync(mdPath, 'utf-8');
     
-    // We create a premium, self-contained HTML file with a clean light/white theme
+    // Read and parse Meta.AI social analysis if exists
+    const socialHtmlPath = path.join(__dirname, 'Meta.AI', 'metaai_social.html');
+    let socialStyles = '';
+    let socialBody = '';
+    let socialScript = '';
+    let hasTrackC = false;
+    
+    if (fs.existsSync(socialHtmlPath)) {
+        hasTrackC = true;
+        const socialContent = fs.readFileSync(socialHtmlPath, 'utf-8');
+        
+        // Extract Styles
+        const styleMatch = socialContent.match(/<style[^>]*>([\s\S]*?)<\/style>/);
+        if (styleMatch) {
+            socialStyles = styleMatch[1].replace(/body\s*\{[\s\S]*?\}/g, ''); // Strip body background
+        }
+        
+        // Extract Body Content
+        const bodyMatch = socialContent.match(/<body[^>]*>([\s\S]*?)<\/body>/);
+        if (bodyMatch) {
+            let bodyText = bodyMatch[1];
+            // Extract and strip JavaScript
+            const scriptMatch = bodyText.match(/<script[^>]*>([\s\S]*?)<\/script>/);
+            if (scriptMatch) {
+                socialScript = scriptMatch[1];
+                bodyText = bodyText.replace(/<script[^>]*>[\s\S]*?<\/script>/g, '');
+            }
+            socialBody = bodyText;
+        }
+    } else {
+        console.warn("⚠️ 未找到 Meta.AI/metaai_social.html 檔案，將略過軌道三整合。");
+    }
+    
     const htmlTemplate = `<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -19,12 +51,35 @@ function generateSelfContainedHtml() {
     <title>SDH Award Podcast AI 評選規劃書</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans-tc': ['system-ui', '-apple-system', '"Noto Sans TC"', '"PingFang TC"', '"Microsoft JhengHei"', 'sans-serif'],
+                        'sans': ['Outfit', 'system-ui', '-apple-system', '"Noto Sans TC"', 'sans-serif'],
+                    },
+                    colors: {
+                        'ink': '#1a1a1a',
+                        'brand-red': '#d9464a',
+                        'brand-orange': '#e88a3a',
+                        'brand-blue': '#5b8def',
+                        'line': '#e5e5e5',
+                        'muted': '#6b6b6b',
+                        'wash': '#f7f7f5',
+                    }
+                }
+            }
+        }
+    </script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <!-- Marked.js (Markdown Parser) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- Mermaid.js (Diagram Parser) -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     
     <style>
         body {
@@ -148,9 +203,12 @@ function generateSelfContainedHtml() {
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
+        
+        /* Track C (Meta.AI) Embedded CSS */
+        ${socialStyles}
     </style>
 </head>
-<body class="min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+<body class="min-h-screen py-10 px-4 sm:px-6 lg:px-8 bg-[#f0efed]">
     <div class="max-w-5xl mx-auto">
         <!-- Floating Header -->
         <header class="flex justify-between items-center mb-10 pb-5 border-b border-slate-200">
@@ -159,25 +217,30 @@ function generateSelfContainedHtml() {
                 <span class="text-xs bg-blue-100 text-blue-600 py-1 px-2 rounded-full font-semibold">AI評選系統 Demo</span>
             </div>
             <div class="text-xs text-slate-500">
-                更新時間: 2026-06-14 | 設計者: Antigravity
+                更新時間: 2026-06-15 | 設計者: Antigravity
             </div>
         </header>
 
         <!-- Tab Navigation -->
-        <div class="flex space-x-2 p-1.5 bg-slate-200/50 backdrop-blur-md rounded-xl mb-6 max-w-lg shadow-inner border border-slate-200/30">
+        <div class="flex space-x-2 p-1.5 bg-slate-200/50 backdrop-blur-md rounded-xl mb-6 max-w-2xl shadow-inner border border-slate-200/30">
             <button id="tab-btn-plan" class="flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10" onclick="switchTab('plan')">
                 📄 評選工作流規劃
             </button>
             <button id="tab-btn-status" class="flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('status')">
                 📌 專案執行現況
             </button>
+            ${hasTrackC ? `
+            <button id="tab-btn-track-c" class="flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-c')">
+                📊 軌道 C 社群聲量
+            </button>
+            ` : ''}
             <button id="tab-btn-timeline" class="flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('timeline')">
                 ⏳ 專案進程時間軸
             </button>
         </div>
 
-        <!-- Main Content Card -->
-        <div class="glass-card rounded-2xl p-6 sm:p-10 mb-8">
+        <!-- Main Content Card (Standard Markdown layout) -->
+        <div id="main-glass-card" class="glass-card rounded-2xl p-6 sm:p-10 mb-8">
             <div id="content-plan" class="prose max-w-none">
                 <!-- Plan Markdown renders here -->
                 <div class="flex justify-center items-center py-20">
@@ -193,6 +256,11 @@ function generateSelfContainedHtml() {
             <div id="content-timeline" class="prose max-w-none hidden">
                 <!-- Timeline Markdown renders here -->
             </div>
+        </div>
+
+        <!-- Track C Content (Rendered outside glass-card because it has its own paper style) -->
+        <div id="content-track-c" class="hidden">
+            ${socialBody}
         </div>
 
         <footer class="text-center text-xs text-slate-500 mt-10">
@@ -225,10 +293,13 @@ function generateSelfContainedHtml() {
         function switchTab(tabId) {
             const planBtn = document.getElementById('tab-btn-plan');
             const statusBtn = document.getElementById('tab-btn-status');
+            const trackCBtn = document.getElementById('tab-btn-track-c');
             const timelineBtn = document.getElementById('tab-btn-timeline');
             
+            const mainGlassCard = document.getElementById('main-glass-card');
             const planContent = document.getElementById('content-plan');
             const statusContent = document.getElementById('content-status');
+            const trackCContent = document.getElementById('content-track-c');
             const timelineContent = document.getElementById('content-timeline');
 
             const activeBtnClass = "flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
@@ -236,20 +307,34 @@ function generateSelfContainedHtml() {
 
             planBtn.className = inactiveBtnClass;
             statusBtn.className = inactiveBtnClass;
+            if (trackCBtn) trackCBtn.className = inactiveBtnClass;
             timelineBtn.className = inactiveBtnClass;
 
             planContent.classList.add('hidden');
             statusContent.classList.add('hidden');
+            if (trackCContent) trackCContent.classList.add('hidden');
             timelineContent.classList.add('hidden');
+            mainGlassCard.classList.add('hidden');
 
             if (tabId === 'plan') {
                 planBtn.className = activeBtnClass;
+                mainGlassCard.classList.remove('hidden');
                 planContent.classList.remove('hidden');
             } else if (tabId === 'status') {
                 statusBtn.className = activeBtnClass;
+                mainGlassCard.classList.remove('hidden');
                 statusContent.classList.remove('hidden');
+            } else if (tabId === 'track-c' && trackCContent) {
+                trackCBtn.className = activeBtnClass;
+                trackCContent.classList.remove('hidden');
+                // Trigger chart resize
+                setTimeout(() => {
+                    if (window.top10ChartInstance) { window.top10ChartInstance.resize(); }
+                    if (window.weightDonutInstance) { window.weightDonutInstance.resize(); }
+                }, 50);
             } else {
                 timelineBtn.className = activeBtnClass;
+                mainGlassCard.classList.remove('hidden');
                 timelineContent.classList.remove('hidden');
             }
         }
@@ -296,6 +381,9 @@ function generateSelfContainedHtml() {
             } catch (err) {
                 console.error("Mermaid 渲染出錯:", err);
             }
+            
+            // Initialize Track C script actions if available
+            ${socialScript}
         });
     </script>
 </body>
@@ -303,7 +391,7 @@ function generateSelfContainedHtml() {
 
     const outputPath = path.join(__dirname, 'podcast_evaluation_workflow.html');
     fs.writeFileSync(outputPath, htmlTemplate, 'utf-8');
-    console.log(`已成功將規劃書轉換為白底網頁版：${outputPath}`);
+    console.log(`已成功將規劃書與軌道 C (Meta.AI) 整合轉換為白底網頁版：${outputPath}`);
 }
 
 generateSelfContainedHtml();
