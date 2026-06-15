@@ -21,14 +21,13 @@ function generateSelfContainedHtml() {
         hasTrackC = true;
         let socialContent = fs.readFileSync(socialHtmlPath, 'utf-8');
         
-        // Self-healing: Ensure noindex tag is present in the source file
+        // Ensure noindex tag is present in memory for safety, but DO NOT overwrite the original file
         if (!socialContent.includes('noindex')) {
             socialContent = socialContent.replace(
                 /<head>/i,
                 '<head>\n<meta name="robots" content="noindex, nofollow">'
             );
-            fs.writeFileSync(socialHtmlPath, socialContent, 'utf-8');
-            console.log("已自動為 Podcast聲量評選建議.html 補上 noindex 標記。");
+            console.log("已在記憶體中為 Podcast聲量評選建議.html 補上 noindex 標記（未修改原始檔案）。");
         }
         
         // Extract Styles
