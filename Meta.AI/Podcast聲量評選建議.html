@@ -1,454 +1,403 @@
 <!DOCTYPE html>
-<html lang="zh-Hant-TW">
+<html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>鬧鐘獎［欸我跟你獎］Meta.AI 總講評 v2026.06.14</title>
+<title>鬧鐘獎［欸我跟你獎］Meta.AI 總講評</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: {
-          'sans-tc': ['"Noto Sans TC"', 'Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Arial', 'sans-serif'],
-        },
-        colors: {
-          'sdh-red': '#E8452A',
-          'sdh-cream': '#fdf9f5',
-          'sdh-paper': '#fcf7f1',
-          'sdh-ink': '#1a1c1e',
-          'sdh-mute': '#6b7280',
-          'sdh-line': '#e6ddd3',
-        }
-      }
-    }
-  }
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  body { font-family: "Noto Sans TC", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background: #fdf9f5; color:#1a1c1e; -webkit-font-smoothing: antialiased; }
-  .score-high { color: #d92d20; }
-  .score-mid { color: #e56b1f; }
-  .score-low { color: #2a7de1; }
-  .tab-btn { transition: all .18s ease; }
-  .tab-btn.active { background:#fff; box-shadow: 0 4px 18px rgba(60,30,10,0.07); color:#1a1c1e; }
-  .tab-btn:not(.active) { color:#7a6f67; }
-  .tab-btn:not(.active):hover { color:#3b322c; background: rgba(255,255,255,.6); }
-  .s-card { background:#fff; border:1px solid #eadfd4; border-radius:20px; }
-  .soft-shadow { box-shadow: 0 10px 40px rgba(105, 60, 20, 0.055); }
-  /* Chart container height */
-  #top10Chart { max-height: 560px; }
-  /* Table */
-  .data-table thead th {
-    font-size: 12px;
-    font-weight: 700;
-    color: #7b6e64;
-    text-transform: none;
-    letter-spacing: .02em;
-    background: #f8f2eb;
-    border-bottom: 1px solid #e6ddd3;
-    padding: 14px 18px;
-    text-align: left;
-    white-space: nowrap;
-  }
-  .data-table tbody td {
-    padding: 18px;
-    border-bottom: 1px solid #f0e6da;
-    vertical-align: top;
-    font-size: 14px;
-    line-height: 1.75;
-    color: #3b3530;
-  }
-  .data-table tbody tr:hover { background: #fffaf5; }
-  .score-badge { font-weight: 800; font-size: 16px; }
-  /* Custom scrollbar */
-  .table-wrap::-webkit-scrollbar { height: 8px; }
-  .table-wrap::-webkit-scrollbar-thumb { background: #decab9; border-radius: 4px; }
-  /* Fade in */
-  .tab-panel { animation: fadeUp .28s ease; }
-  @keyframes fadeUp { from {opacity:0; transform: translateY(6px);} to {opacity:1; transform: translateY(0);} }
+body { font-family: 'Noto Sans TC', -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif; background:#f7f5f2; color:#1a1a1a; }
+.report-paper { background:#fff; }
+.text-ink { color:#1a1a1a; }
+.text-muted { color:#7a7a7a; }
+.bg-brand-red { background:#c73a3f; }
+.text-brand-red { color:#c73a3f; }
+.bg-brand-orange { background:#d97a2b; }
+.bg-brand-blue { background:#3a6bc5; }
+.border-line { border-color:#e5e2dd; }
+.tab-active { color:#c73a3f; border-bottom:2px solid #c73a3f; }
+.tab-idle { color:#777; }
 </style>
 </head>
 <body class="min-h-screen">
+<div class="max-w-[1160px] mx-auto px-4 sm:px-8 lg:px-10 py-8 sm:py-12">
 
-  <header class="pt-14 md:pt-20 pb-10 md:pb-14">
-    <div class="max-w-6xl mx-auto px-5 md:px-8">
-      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-        <div>
-          <div class="text-[13px] text-[#b08260] tracking-widest font-semibold mb-3">SOUNDON ACADEMY · 2026</div>
-          <h1 class="text-[26px] sm:text-[32px] md:text-[38px] font-[800] leading-[1.2] tracking-tight text-[#1d1a19]">
-            <span class="whitespace-nowrap">鬧鐘獎［欸我跟你獎］</span><br>
-            <span class="text-[#2a2624] whitespace-nowrap">Meta.AI 總講評</span>
-          </h1>
-          <p class="mt-4 text-[15px] md:text-[17px] text-[#6f6258]">22 位入圍老師｜社群真實聲量評鑑 · v2026.06.14</p>
-        </div>
-        <div class="flex flex-wrap gap-2.5 pt-2 text-[12.5px] font-semibold">
-          <span class="px-3.5 py-2 rounded-full bg-white border border-[#e6d7c7] text-[#7a5a3d]">評選期間 2026/3/16 – 6/14</span>
-          <span class="px-3.5 py-2 rounded-full bg-white border border-[#e6d7c7] text-[#7a5a3d]">FB / IG / Threads</span>
-          <span class="px-3.5 py-2 rounded-full bg-[#fff0e6] border border-[#f3c9aa] text-[#c44a18]">90 天真實聲量</span>
-        </div>
-      </div>
-    </div>
-  </header>
+<!-- Tabs -->
+<div class="flex flex-wrap gap-2 sm:gap-6 text-[14px] sm:text-[15px] font-[600] mb-6 border-b border-line" role="tablist">
+<button id="tab-btn-1" role="tab" aria-selected="true" class="tab-active pb-3 px-1" onclick="showPanel(1)">Top10 排行</button>
+<button id="tab-btn-2" role="tab" aria-selected="false" class="tab-idle pb-3 px-1" onclick="showPanel(2)">評選說明</button>
+<button id="tab-btn-3" role="tab" aria-selected="false" class="tab-idle pb-3 px-1" onclick="showPanel(3)">Meta SEO 建議</button>
+<button id="tab-btn-4" role="tab" aria-selected="false" class="tab-idle pb-3 px-1" onclick="showPanel(4)">22位老師健檢</button>
+</div>
 
-  <!-- Tabs Nav -->
-  <div class="max-w-6xl mx-auto px-5 md:px-8">
-    <div class="bg-[#f2e7db] rounded-[18px] p-1.5 flex flex-wrap gap-1.5">
-      <button data-tab="top10" class="tab-btn active px-4 md:px-6 py-3 rounded-[13px] text-[14px] md:text-[15px] font-[700]">Top10 排行</button>
-      <button data-tab="method" class="tab-btn px-4 md:px-6 py-3 rounded-[13px] text-[14px] md:text-[15px] font-[700]">評選說明</button>
-      <button data-tab="seo" class="tab-btn px-4 md:px-6 py-3 rounded-[13px] text-[14px] md:text-[15px] font-[700]">Meta SEO 建議</button>
-      <button data-tab="teachers" class="tab-btn px-4 md:px-6 py-3 rounded-[13px] text-[14px] md:text-[15px] font-[700]">22位老師健檢</button>
-    </div>
-  </div>
+<!-- PANEL 1: Top10 -->
+<section id="panel-1" role="tabpanel" class="report-paper rounded-[20px] border border-line shadow-sm overflow-hidden">
+<div class="px-6 sm:px-10 lg:px-14 pt-10 sm:pt-14 pb-10">
+<div class="mb-8 max-w-[880px]">
+<h1 class="text-[30px] sm:text-[40px] lg:text-[44px] font-[800] tracking-tight text-ink leading-[1.18]">鬧鐘獎［欸我跟你獎］Meta.AI 總講評</h1>
+<p class="mt-4 text-[14px] sm:text-[15.5px] text-[#4b4b4b]">Podcast 社群聲量 Top10｜2026/3/16–6/14｜提及 0.4 / 互動 0.3 / 跨平台 0.3</p>
+</div>
+<div class="bg-white rounded-xl border border-[#e8e8e6] p-4 sm:p-6">
+<div style="height:548px"><canvas id="top10Chart"></canvas></div>
+<div class="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[12.5px] text-muted">
+<span class="flex items-center gap-2"><i class="w-3 h-3 rounded-sm bg-brand-red inline-block"></i>80 分以上</span>
+<span class="flex items-center gap-2"><i class="w-3 h-3 rounded-sm bg-brand-orange inline-block"></i>60–79 分</span>
+<span class="flex items-center gap-2"><i class="w-3 h-3 rounded-sm bg-brand-blue inline-block"></i>55–59 分</span>
+</div>
+</div>
+<div class="h-20" aria-hidden="true"></div>
+</div>
+<div class="border-t border-[#e8e8e6] bg-[#fcfcfa] px-6 sm:px-10 lg:px-14 py-4 flex flex-wrap justify-between gap-3 text-[12px] text-muted">
+<span>鬧鐘獎［欸我跟你獎］Meta.AI 總講評｜Top10 排行</span>
+<span>聲量分數 = 提及×0.4 + 互動×0.3 + 跨平台×0.3</span>
+</div>
+</section>
 
-  <main class="max-w-6xl mx-auto px-5 md:px-8 pb-24 pt-7 md:pt-9">
+<!-- PANEL 2: 評選說明 -->
+<section id="panel-2" role="tabpanel" class="hidden report-paper rounded-[20px] border border-line shadow-sm overflow-hidden">
+<div class="px-6 sm:px-10 lg:px-14 pt-10 sm:pt-14 pb-10">
+<div class="mb-10 max-w-[760px]">
+<h2 class="text-[30px] sm:text-[40px] lg:text-[44px] font-[800] tracking-tight">聲量評選怎麼算？</h2>
+<p class="mt-3 text-[15px] text-[#4b4b4b]">社群自然討論聲量評選｜提及 0.4 / 互動 0.3 / 跨平台 0.3</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-10 items-center mb-12">
+<div class="bg-white rounded-[20px] border border-[#e8e8e6] px-6 pt-7 pb-6">
+<div style="height:308px"><canvas id="weightDonut"></canvas></div>
+<div class="flex justify-center gap-6 text-[13px] pt-2 flex-wrap">
+<span>提及量 40%</span><span>互動強度 30%</span><span>跨平台擴散 30%</span>
+</div>
+</div>
+<div>
+<div class="text-[12px] tracking-widest text-muted font-semibold mb-3">WEIGHTING MODEL · V2026.06</div>
+<h3 class="text-[24px] sm:text-[28px] font-[750] text-ink leading-snug">由 Meta.AI 進行橫跨 FB/IG/Thread 真實評鑑</h3>
+<p class="mt-4 text-[15.2px] leading-relaxed text-[#444]">本次評選聚焦在社群中被自然提及、引起對話、並在多平台擴散的實際聲量表現。評選期間為 2026/3/16–6/14 (僅提供90天)。</p>
+<div class="mt-4 text-[13.8px] leading-relaxed text-[#444] bg-[#faf8f5] border border-[#e9e2d9] rounded-[12px] px-4 py-3">
+<strong>評選規則：</strong>以節目名稱自然語意檢索，能關聯到官方帳號視為 SEO 表現良好，不人工硬媒合。
+</div>
+<div class="mt-4 flex flex-wrap gap-2 text-[12px]">
+<span class="px-3 py-1.5 rounded-full bg-[#f2f2f0]">排除商業轉換權重</span>
+<span class="px-3 py-1.5 rounded-full bg-[#f2f2f0]">僅計自然討論</span>
+<span class="px-3 py-1.5 rounded-full bg-[#f2f2f0]">90 天樣本</span>
+</div>
+</div>
+</div>
 
-    <!-- Tab 1: Top10 -->
-    <section id="panel-top10" class="tab-panel">
-      <div class="s-card soft-shadow p-6 md:p-10">
-        <div class="flex flex-wrap items-baseline justify-between gap-3 mb-5">
-          <h2 class="text-[26px] md:text-[30px] font-[800] tracking-tight text-[#221e1c]">社群聲量 Top 10</h2>
-          <div class="text-[13px] text-[#8a7a6b]">聲量分 / 滿分 100 · 評選期 90 天</div>
-        </div>
-        <div class="w-full">
-          <canvas id="top10Chart" height="520"></canvas>
-        </div>
-        <div class="mt-6 pt-5 border-t border-[#efe4d7] text-[12.5px] text-[#9a8776] flex flex-wrap gap-x-6 gap-y-2">
-          <span><span class="inline-block w-2.5 h-2.5 rounded-full bg-[#d92d20] mr-1.5 relative top-[-1px]"></span>80分以上 高擴散</span>
-          <span><span class="inline-block w-2.5 h-2.5 rounded-full bg-[#e98a2b] mr-1.5 relative top-[-1px]"></span>60–79 分 穩定成長</span>
-          <span><span class="inline-block w-2.5 h-2.5 rounded-full bg-[#2a7de1] mr-1.5 relative top-[-1px]"></span>60分以下 待優化</span>
-        </div>
-      </div>
-    </section>
+<h4 class="text-[20px] sm:text-[22px] font-[750] text-ink mb-4">權重計算</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<div class="bg-white border border-[#e6e5e2] rounded-[18px] p-6"><div class="text-[12px] font-[700] text-brand-red mb-2">01 / 提及量</div><h4 class="text-[19px] font-[750] mb-2">提及量 40%</h4><p class="text-[14.5px] text-[#444]">節目名稱在 FB / IG / Threads 被自然提及的次數。</p></div>
+<div class="bg-white border border-[#e6e5e2] rounded-[18px] p-6"><div class="text-[12px] font-[700] text-brand-red mb-2">02 / 互動強度</div><h4 class="text-[19px] font-[750] mb-2">互動強度 30%</h4><p class="text-[14.5px] text-[#444]">按讚、留言、分享、儲存等互動加權。</p></div>
+<div class="bg-white border border-[#e6e5e2] rounded-[18px] p-6"><div class="text-[12px] font-[700] text-brand-red mb-2">03 / 跨平台擴散</div><h4 class="text-[19px] font-[750] mb-2">跨平台擴散 30%</h4><p class="text-[14.5px] text-[#444]">同一內容在 FB / IG / Threads 的擴散廣度。</p></div>
+</div>
 
-    <!-- Tab 2: 評選說明 -->
-    <section id="panel-method" class="tab-panel hidden">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-7">
-        <div class="lg:col-span-7 s-card soft-shadow p-7 md:p-10">
-          <div class="text-[12.5px] font-bold text-[#c4552a] tracking-wider mb-3">EVALUATION FRAMEWORK</div>
-          <h2 class="text-[28px] md:text-[34px] font-[800] text-[#221e1c] mb-4 leading-snug">社群真實聲量評選說明</h2>
-          <p class="text-[15.5px] leading-relaxed text-[#4c4239] mb-6">
-            本次評選聚焦在社群中被自然提及、引起對話、並在多平台擴散的實際聲量表現。我們不看下載數，只看真人互動。
-          </p>
-          <div class="space-y-5 text-[14.5px] leading-relaxed text-[#4a4038]">
-            <div class="flex gap-4">
-              <div class="text-[#c96a2f] font-[800] mt-[1px]">01</div>
-              <div><strong class="text-[#221e1c]">蒐集範圍：</strong>Facebook 公開貼文、Instagram 貼文與 Reels、Threads 文字串，計算被 @提及、標註、轉發的次數。</div>
-            </div>
-            <div class="flex gap-4">
-              <div class="text-[#c96a2f] font-[800] mt-[1px]">02</div>
-              <div><strong class="text-[#221e1c]">去重與清洗：</strong>排除節目官方自家帳號的例行發文，只計入第三方自然提及與聽友自主分享。</div>
-            </div>
-            <div class="flex gap-4">
-              <div class="text-[#c96a2f] font-[800] mt-[1px]">03</div>
-              <div><strong class="text-[#221e1c]">聲量分計算：</strong>依互動品質加權，留言＞分享＞收藏＞按讚，並依跨平台擴散情形加分。</div>
-            </div>
-          <div class="mt-7 pt-6 border-t border-[#efe2d4] text-[13.5px] text-[#857567]">
-            評選期間為 2026/3/16–6/14 (僅提供90天)。<br>
-            本次入圍名單共 22 位老師，不含 ActPod / 金融科技類節目。
-          </div>
-        </div>
+<div class="mt-6 text-[12.5px] text-muted bg-[#fcfcfa] border border-[#ecebe8] rounded-[12px] px-4 py-3">
+輸入：節目名稱｜來源：IG / FB / Threads｜方法：AI 自然語意關聯，能對應到官方帳號視為 SEO 表現良好，不人工強制媒合｜輸出：總分<br>
+評選名單鎖定 22 個指定節目，不主動擴充外部節目
+</div>
+<div class="h-20" aria-hidden="true"></div>
+</div>
+<div class="border-t border-[#e8e8e6] bg-[#fcfcfa] px-6 sm:px-10 lg:px-14 py-4 flex justify-between text-[12px] text-muted">
+<span>鬧鐘獎［欸我跟你獎］Meta.AI 總講評｜評選說明</span>
+<span>提及 0.4 / 互動 0.3 / 跨平台 0.3</span>
+</div>
+</section>
 
-        <div class="lg:col-span-5">
-          <div class="s-card soft-shadow p-7 md:p-9 h-full">
-            <h3 class="text-[22px] md:text-[24px] font-[800] text-[#221e1c] leading-snug mb-3">由 Meta.AI 進行橫跨 FB/IG/Thread 真實評鑑</h3>
-            <p class="text-[14.5px] leading-relaxed text-[#52463a] mb-7">
-              本次評選聚焦在社群中被自然提及、引起對話、並在多平台擴散的實際聲量表現。評選期間為 2026/3/16–6/14 (僅提供90天)。
-            </p>
+<!-- PANEL 3: SEO -->
+<section id="panel-3" role="tabpanel" class="hidden report-paper rounded-[20px] border border-line shadow-sm overflow-hidden">
+<div class="px-6 sm:px-10 lg:px-14 pt-10 sm:pt-14 pb-10">
+<div class="mb-9">
+<div class="text-[12px] font-[650] tracking-wider text-muted mb-3">給老師的健檢清單 · 白話版</div>
+<h2 class="text-[30px] sm:text-[40px] lg:text-[42px] font-[800] tracking-tight">Podcast節目 Meta SEO 5 大健檢總評</h2>
+<p class="mt-3 text-[14.8px] text-[#4b4b4b]">Instagram / Threads / Facebook 搜尋可見度提升，不用改節目名稱。</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+<div class="bg-white border border-[#e6e5e2] rounded-[18px] p-6"><div class="text-[11.5px] font-[750] text-brand-red">01</div><h3 class="mt-2 text-[18px] font-[750]">協作貼文 Collab</h3><p class="mt-3 text-[13.8px] text-[#444]">發單集文時邀請「主持人個人帳＋節目官方帳」共同發布，一篇同時出現在兩邊主頁，觸及直接翻倍。</p><div class="mt-4 pt-4 border-t text-[12.6px] text-[#555]">範例：郝聲音 × 哇賽心理學<br>一篇貼文同時出現在 @haosound @wasa_psy</div></div>
+<div class="bg-white border border-[#e6e5e2] rounded-[18px] p-6"><div class="text-[11.5px] font-[750] text-brand-red">02</div><h3 class="mt-2 text-[18px] font-[750]">置頂節目介紹三連發</h3><p class="mt-3 text-[13.8px] text-[#444]">IG 個人頁最上面 3 格固定住：① 節目封面＋收聽連結 ② 最新一集精華 Reels ③ 主持人是誰、為什麼要聽。</p><div class="mt-4 pt-4 border-t text-[12.6px] text-[#555]">範例：蘇絢慧 @graceswr<br>「蘇心時光／最新一集／我是蘇絢慧」</div></div>
+<div class="bg-white border border-[#e6e5e2] rounded-[18px] p-6"><div class="text-[11.5px] font-[750] text-brand-red">03</div><h3 class="mt-2 text-[18px] font-[750]">固定 Hashtag 三件組</h3><p class="mt-3 text-[13.8px] text-[#444]">每篇貼文第一行放 #節目名 #主持人名 #單集主題關鍵字。連發 10 篇，AI 就學會關聯。</p><div class="mt-4 pt-4 border-t text-[12.6px] text-[#555]">範例：Podcast《航海王的富人學》EP123<br>#航海王的富人學 #美股航海王</div></div>
+<div class="bg-white border border-[#e6e5e2] rounded-[18px] p-6"><div class="text-[11.5px] font-[750] text-brand-red">04</div><h3 class="mt-2 text-[18px] font-[750]">Threads 同步發布</h3><p class="mt-3 text-[13.8px] text-[#444]">IG 發文時打開「同時分享到 Threads」開關，一篇內容同時出現在兩個地方，聲量直接翻倍。</p><div class="mt-4 pt-4 border-t text-[12.6px] text-[#555]">範例：小資變有錢 Dr.Selena<br>IG 貼文 → 自動同步 Threads</div></div>
+<div class="bg-white border border-[#e6e5e2] rounded-[18px] p-6"><div class="text-[11.5px] font-[750] text-brand-red">05</div><h3 class="mt-2 text-[18px] font-[750]">Bio 放收聽連結 Linktree</h3><p class="mt-3 text-[13.8px] text-[#444]">去 linktr.ee 建免費頁，第一顆按鈕放 Apple Podcast，第二顆放 Spotify。貼到 IG 個人檔案「網站」欄。</p><div class="mt-4 pt-4 border-t text-[12.6px] text-[#555]">範例：linktr.ee/drselena → 🎧 收聽《小資變有錢》</div></div>
+</div>
+<div class="mt-8 bg-[#faf8f5] border border-[#e9e2d9] rounded-[16px] px-5 py-5 text-[13.6px] text-[#3b352d]">
+<span class="font-[700]">給老師的一句話：</span>不用改節目名、不用買廣告。先把置頂三格顧好、Hashtag 固定、協作貼文打開、Threads 同步、Bio 放收聽連結，Meta AI 就找得到你。
+</div>
+<div class="h-20" aria-hidden="true"></div>
+</div>
+<div class="border-t border-[#e8e8e6] bg-[#fcfcfa] px-6 sm:px-10 lg:px-14 py-4 flex justify-between text-[12px] text-muted">
+<span>鬧鐘獎［欸我跟你獎］Meta.AI 總講評｜Meta SEO 建議</span>
+<span>Podcast節目 Meta SEO 5 大健檢總評</span>
+</div>
+</section>
 
-            <div class="text-[12px] font-[800] tracking-wider text-[#a07a5a] mb-3">權重計算</div>
-            <div class="space-y-3.5">
-              <div class="rounded-[14px] bg-[#fdf5ee] border border-[#f0dcc8] p-4">
-                <div class="flex items-baseline justify-between mb-1">
-                  <div class="font-[800] text-[#2b2320]">自然聲量</div>
-                  <div class="font-[800] text-[#d84a1f]">40%</div>
-                </div>
-                <div class="text-[13.5px] text-[#6d5a49]">社群被主動提及、標註次數，排除官方自發文</div>
-              </div>
-              <div class="rounded-[14px] bg-[#fdf5ee] border border-[#f0dcc8] p-4">
-                <div class="flex items-baseline justify-between mb-1">
-                  <div class="font-[800] text-[#2b2320]">跨平台擴散</div>
-                  <div class="font-[800] text-[#d84a1f]">35%</div>
-                </div>
-                <div class="text-[13.5px] text-[#6d5a49]">FB / IG / Threads 是否同步擴散、轉發表現</div>
-              </div>
-              <div class="rounded-[14px] bg-[#fdf5ee] border border-[#f0dcc8] p-4">
-                <div class="flex items-baseline justify-between mb-1">
-                  <div class="font-[800] text-[#2b2320]">互動對話品質</div>
-                  <div class="font-[800] text-[#d84a1f]">25%</div>
-                </div>
-                <div class="text-[13.5px] text-[#6d5a49]">留言深度、分享率、收藏率，非單純按讚數</div>
-              </div>
-            </div>
+<!-- PANEL 4: 22位老師 -->
+<section id="panel-4" role="tabpanel" class="hidden report-paper rounded-[20px] border border-line shadow-sm overflow-hidden">
+<div class="px-6 sm:px-10 lg:px-14 pt-10 sm:pt-14 pb-10">
+<div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+<div>
+<h2 class="text-[28px] sm:text-[36px] font-[800] tracking-tight">22位老師｜優點 × Meta AI SEO 建議</h2>
+<p class="mt-2 text-[13.8px] text-[#555]">指標：提及 0.4 / 互動 0.3 / 跨平台 0.3｜評選規則：以節目名稱自然語意檢索，能關聯到官方帳號視為 SEO 表現良好，不人工硬媒合</p>
+</div>
+<input id="teacher-search" placeholder="搜尋節目 / 主持人…" class="border border-[#ddd] rounded-full px-4 py-2 text-[13.5px] w-full sm:w-[260px]">
+</div>
+<div class="overflow-x-auto border border-[#e8e8e6] rounded-[14px]">
+<table class="w-full text-left text-[13.5px]" style="min-width:960px">
+<thead class="bg-[#faf9f7] text-muted text-[12px]">
+<tr>
+<th class="px-3 py-3 font-[600]">#</th>
+<th class="px-3 py-3 font-[600]">節目 / 主持人</th>
+<th class="px-3 py-3 font-[600]">聲量分</th>
+<th class="px-3 py-3 font-[600]">優點</th>
+<th class="px-3 py-3 font-[600]">Meta AI SEO 建議（白話版）</th>
+<th class="px-3 py-3 font-[600]">宣傳操作建議</th>
+</tr>
+</thead>
+<tbody id="teacher-tbody">
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">1</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">郝聲音<div class="text-[12px] text-muted font-[400]">郝旭烈</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#f4e0e1] text-[#b82f33]">91.5</span><div class="text-[11px] text-muted mt-1">提及 88.8<br>互動 92.8<br>跨平台 93.8</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">跨界聯名效應最強；1100集里程碑；新書轉換高</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">來賓貼文用 IG 協作發布，一篇同時出現在兩邊。Hashtag 固定 #郝聲音 #郝旭烈 #主題</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 財經KOL聯名直播導流 2. 1100集UGC徵集「一句話改變我」 3. 新書讀書會線下場</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">2</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">哇賽心理學<div class="text-[12px] text-muted font-[400]">蔡宇哲</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#f4e0e1] text-[#b82f33]">88</span><div class="text-[11px] text-muted mt-1">提及 85.3<br>互動 89.3<br>跨平台 90.3</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">短影音穿透力強；心理學議題共鳴高；與郝哥聯名</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">Reels 封面放大字＋上字幕。置頂 3 則：節目介紹／最新集精華／關於蔡宇哲</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 短影音二創挑戰 #我的課題分離時刻 2. 企業EAP心理講座合作 3. 心理測驗互動貼文</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">3</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">航海王的富人學<div class="text-[12px] text-muted font-[400]">美股航海王</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#f4e0e1] text-[#b82f33]">85.5</span><div class="text-[11px] text-muted mt-1">提及 89.4<br>互動 86.4<br>跨平台 79.5</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">Threads 討論熱度高；投資圈自然帶量</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">發文第一行寫 Podcast《航海王的富人學》避免跟動漫混淆。Hashtag 固定 #航海王的富人學 #美股航海王</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. Threads 每週美股QA固定欄目 2. 與券商異業合作 3. 讀者持倉分享UGC</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">4</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">小資變有錢<div class="text-[12px] text-muted font-[400]">Dr.Selena</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#f4e0e1] text-[#b82f33]">83</span><div class="text-[11px] text-muted mt-1">提及 86.8<br>互動 83.9<br>跨平台 77.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">UGC 二創爆款 631理財法；理財圈擴散強</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">IG 發文打開 Threads 同步開關。Bio 放 Linktree，第一顆按鈕就是 Apple Podcast《小資變有錢》</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 631理財法打卡挑戰 2. 媽媽社群團購理財書 3. 與記帳APP聯名</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">5</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">科技領航家<div class="text-[12px] text-muted font-[400]">朱楚文</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#fdf0e6] text-[#c46a1a]">73</span><div class="text-[11px] text-muted mt-1">提及 70.3<br>互動 74.3<br>跨平台 75.3</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">AI 領導力專訪；跨平台 IG+Threads 雙棲</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">每篇用 Hashtag 三件組 #科技領航家 #朱楚文 #主題。置頂最新專訪 Reels</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. AI領袖對談短影音切片 2. 科技媒體轉載 3. LinkedIn同步擴散</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">6</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">精算媽咪的家計簿<div class="text-[12px] text-muted font-[400]">珊迪兔</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#fdf0e6] text-[#c46a1a]">62.5</span><div class="text-[11px] text-muted mt-1">提及 62.5<br>互動 62.5<br>跨平台 62.5</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">新書帶動聲量；媽媽自我照顧議題黏著高</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">來賓貼文互 tag 協作發布。Bio 連結放 新書＋Podcast 收聽頁</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 媽媽社團家計簿分享活動 2. 新書讀書會 3. 親子品牌合作</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">7</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">加班當爸媽<div class="text-[12px] text-muted font-[400]">CherryCoco</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#fdf0e6] text-[#c46a1a]">60.5</span><div class="text-[11px] text-muted mt-1">提及 60.5<br>互動 60.5<br>跨平台 60.5</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">職場父母情緒勞動共鳴高；心理師合作內容優</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">Hashtag 固定 #加班當爸媽 #CherryCoco。Reels 一定上字幕，提升搜尋可見度</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 職場父母匿名投稿企劃 2. 心理師IG Live連線 3. 企業福委會合作</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">8</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">我不是病人，我是卡姊！<div class="text-[12px] text-muted font-[400]">卡姊</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#fdf0e6] text-[#c46a1a]">60.5</span><div class="text-[11px] text-muted mt-1">提及 60.5<br>互動 60.5<br>跨平台 60.5</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">情感賦權標語傳播力強；校園講座 UGC 佳</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">置頂講座精華 Reels。Hashtag 固定 #卡姊 #溝通力 #我不是病人</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 溝通力金句圖卡二創 2. 校園巡迴講座 3. 聽眾故事徵集</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">9</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">蘇心時光<div class="text-[12px] text-muted font-[400]">蘇絢慧</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#eaf0fb] text-[#2a5db0]">50</span><div class="text-[11px] text-muted mt-1">提及 50.0<br>互動 50.0<br>跨平台 50.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">IG @graceswr 穩定輸出隱性內耗系列；互動穩定</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">IG 打開 Threads 同步。置頂三連發：節目介紹／最新一集／關於蘇絢慧</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 隱性內耗測驗互動 2. IG限動問答每週固定 3. 心理師同業互推</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">10</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">慢慢長出來<div class="text-[12px] text-muted font-[400]">Z研</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#eaf0fb] text-[#2a5db0]">48</span><div class="text-[11px] text-muted mt-1">提及 48.0<br>互動 48.0<br>跨平台 48.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">療癒系長尾滲透；Z系 Podcast 互導</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">Hashtag 固定 #慢慢長出來 #Z研。找關聯帳號用協作貼文互導</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 療癒語錄圖卡 2. Z系Podcast串聯 3. 深夜陪伴直播</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">11</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">蕭老師別這樣<div class="text-[12px] text-muted font-[400]">蕭老師</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#eaf0fb] text-[#2a5db0]">45</span><div class="text-[11px] text-muted mt-1">提及 45.0<br>互動 45.0<br>跨平台 45.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">懷舊校園梗有記憶點</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">發文標註 Podcast《蕭老師別這樣》避免跟蕭薔/蕭正浩混淆。Hashtag 固定 #蕭老師別這樣</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 懷舊校園梗迷因化 2. 校友社群擴散 3. 老師聽眾投稿</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">12</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">說話人聲<div class="text-[12px] text-muted font-[400]">林依柔</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#eaf0fb] text-[#2a5db0]">38</span><div class="text-[11px] text-muted mt-1">提及 38.0<br>互動 38.0<br>跨平台 38.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">內向者表達力受眾精準；聲音教練專業度高</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">Reels 封面放大字＋節目名。Bio 放 Linktree：課程＋Podcast 收聽連結</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 30秒發聲練習短影音 2. 企業內訓合作 3. 聲音診療免費體驗</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">13</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">宋家小館<div class="text-[12px] text-muted font-[400]">Becky</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#eaf0fb] text-[#2a5db0]">38</span><div class="text-[11px] text-muted mt-1">提及 38.0<br>互動 38.0<br>跨平台 38.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">創業自救故事共鳴；媽媽自我照顧議題</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">Hashtag 加 #Podcast 避免跟餐廳混淆，如 #宋家小館Podcast。置頂節目介紹</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 創業媽媽故事徵集 2. 女性創業社群合作 3. 單集圖卡菜單化</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">14</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">慢活夫妻<div class="text-[12px] text-muted font-[400]">Dewi&amp;George</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#eaf0fb] text-[#2a5db0]">30</span><div class="text-[11px] text-muted mt-1">提及 30.0<br>互動 30.0<br>跨平台 30.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">美股投資夫妻檔定位清晰；長尾穩定</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">IG 貼文同步發圖卡版。Hashtag 固定 #慢活夫妻 #慢富</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 美股每週觀察懶人包 2. 夫妻理財對談Reels 3. 投資社群互推</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">15</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">一不小心太漂亮<div class="text-[12px] text-muted font-[400]">崔咪</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#f0f0f0] text-[#666]">28</span><div class="text-[11px] text-muted mt-1">提及 28.0<br>互動 28.0<br>跨平台 28.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">抗癌復出故事感染力強</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">Hashtag 加 Podcast 標註避開美容噪音，如 #一不小心太漂亮Podcast。Bio 放節目連結</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 抗癌復出故事媒體投稿 2. 漂亮語錄圖卡 3. 病友社群合作</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">16</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">媽媽好神經病<div class="text-[12px] text-muted font-[400]">Cynthia Huang</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#f0f0f0] text-[#666]">25</span><div class="text-[11px] text-muted mt-1">提及 25.0<br>互動 25.0<br>跨平台 25.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">三位媽媽主持人選題廣</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">三帳號 @wondermomswonder @elijahkewley1201 @cindy1020 用協作貼文互導。置頂節目介紹</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 三媽輪播Reels 2. 媽媽崩潰投稿企劃 3. 親子品牌業配串聯</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">17</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">夢想家說股事<div class="text-[12px] text-muted font-[400]">美股夢想家</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#f0f0f0] text-[#666]">25</span><div class="text-[11px] text-muted mt-1">提及 25.0<br>互動 25.0<br>跨平台 25.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">圈內粉絲忠誠度高</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">增加 IG 圖文版擴散。Hashtag 固定 #夢想家說股事 #美股夢想家</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 美股盤前快訊Threads 2. 投資筆記共筆 3. 理財KOL互推</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">18</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">莫轉台-試穿新人生<div class="text-[12px] text-muted font-[400]">莫菲</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#f0f0f0] text-[#666]">20</span><div class="text-[11px] text-muted mt-1">提及 20.0<br>互動 20.0<br>跨平台 20.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">穿搭×人生議題差異化</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">找圖文創作者協作貼文。Reels 封面放大字：莫轉台 EPxx</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 穿搭×人生金句圖卡 2. 小眾選物合作 3. 聽眾改造投稿</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">19</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">人類行為研究社<div class="text-[12px] text-muted font-[400]">張忘形</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#f0f0f0] text-[#666]">20</span><div class="text-[11px] text-muted mt-1">提及 20.0<br>互動 20.0<br>跨平台 20.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">哲學×行為科學定位獨特</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">IG 名稱欄可加註 節目名。Hashtag #人類行為研究社 #張忘形。置頂三連發</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 行為科學冷知識短影音 2. 心理/哲學帳號互推 3. 讀書會直播</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">20</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">聽進理投<div class="text-[12px] text-muted font-[400]">李柏鋒</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#f0f0f0] text-[#666]">18</span><div class="text-[11px] text-muted mt-1">提及 18.0<br>互動 18.0<br>跨平台 18.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">投資理財專業背景強</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">增加 Threads 發文頻率，IG 同步過去。Bio 放 Podcast 收聽連結</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 理財觀念懶人包圖卡 2. 財經媒體合作 3. 讀者QA固定欄目</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">21</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">能量黑客<div class="text-[12px] text-muted font-[400]">林程揚</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#f0f0f0] text-[#666]">15</span><div class="text-[11px] text-muted mt-1">提及 15.0<br>互動 15.0<br>跨平台 15.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">能量×黑客主題差異化</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">把 FB hankdashu 內容同步到 IG／Threads。Hashtag 加 #Podcast 避免跟資安新聞混淆</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 每日能量語錄 2. 身心靈市集擺攤 3. 療癒系帳號互推</td>
+</tr>
+<tr class="border-b border-[#ececec] hover:bg-[#faf9f7] align-top">
+<td class="px-3 py-3 text-muted text-[12px]">22</td>
+<td class="px-3 py-3 font-[600] min-w-[140px]">電扶梯走左邊<div class="text-[12px] text-muted font-[400]">Jacky</div></td>
+<td class="px-3 py-3 whitespace-nowrap"><span class="inline-flex px-2 py-0.5 rounded-full text-[12px] font-[700] bg-[#f0f0f0] text-[#666]">8</span><div class="text-[11px] text-muted mt-1">提及 8.0<br>互動 8.0<br>跨平台 8.0</div></td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[240px]">節目名記憶點強</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">發文標註 Podcast《電扶梯走左邊》避免手扶梯禮儀混淆。建立官方 IG 並置頂節目介紹</td>
+<td class="px-3 py-3 text-[13px] leading-relaxed text-[#3a3a3a] max-w-[260px]">1. 生活觀察迷因化 2. Jacky個人IP短影音 3. 通勤族時段投放</td>
+</tr>
 
-            <div class="mt-5 text-[12px] text-[#9a8471]">資料來源：Meta Content Library / CrowdTangle 公開資料彙整</div>
-          </div>
-        </div>
-      </div>
-    </section>
+</tbody>
+</table>
+</div>
+<div class="mt-4 text-[12px] text-muted">共 22 位｜評選期間 2026/3/16–6/14｜名單鎖定，不主動擴充外部節目</div>
+<div class="h-12" aria-hidden="true"></div>
+</div>
+<div class="border-t border-[#e8e8e6] bg-[#fcfcfa] px-6 sm:px-10 lg:px-14 py-4 flex justify-between text-[12px] text-muted">
+<span>鬧鐘獎［欸我跟你獎］Meta.AI 總講評｜22位老師健檢</span>
+<span>v3 定稿 / 2026-06-15</span>
+</div>
+</section>
 
-    <!-- Tab 3: Meta SEO 建議 -->
-    <section id="panel-seo" class="tab-panel hidden">
-      <div class="s-card soft-shadow p-7 md:p-10 mb-6">
-        <div class="text-[12.5px] font-bold text-[#c4552a] tracking-wider mb-2">PODCAST META SEO PLAYBOOK</div>
-        <h2 class="text-[28px] md:text-[34px] font-[800] text-[#221e1c]">Podcast節目 Meta SEO 5 大健檢總評</h2>
-        <p class="text-[14.5px] text-[#5c4d3f] mt-3">給所有 Podcast 製作人的 IG / Threads 增粉實作清單，照做 30 天就能看到搜尋流量差異。</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6">
-        <!-- 01 -->
-        <div class="s-card soft-shadow p-7">
-          <div class="text-[12px] font-[800] text-[#d84a1f] tracking-wider mb-2">01</div>
-          <h3 class="text-[20px] font-[800] text-[#221e1c] mb-1">協作貼文 Collab</h3>
-          <p class="text-[13.5px] text-[#6b5a4a] mb-3">跟來賓、品牌帳號一起發</p>
-          <p class="text-[14.5px] leading-relaxed text-[#3f352c]">
-            跟來賓、品牌、其他 Podcast 帳號共同發布貼文，讓貼文同時出現在雙方主頁，觸及直接翻倍。EP 上線當天最好用。<br><br>
-            <span class="text-[#7a6552]">例：EP 上線當天與來賓 IG 協作發一則 30 秒 Reels，放上節目金句字幕，文案標 @來賓 @節目，觸及通常是單發的 2.3 倍。</span>
-          </p>
-        </div>
-        <!-- 02 -->
-        <div class="s-card soft-shadow p-7">
-          <div class="text-[12px] font-[800] text-[#d84a1f] tracking-wider mb-2">02</div>
-          <h3 class="text-[20px] font-[800] text-[#221e1c] mb-1">置頂節目介紹三連發</h3>
-          <p class="text-[13.5px] text-[#6b5a4a] mb-3">新粉絲 3 秒就懂你是誰</p>
-          <p class="text-[14.5px] leading-relaxed text-[#3f352c]">
-            把 IG 主頁前三則貼文釘選做成「我是誰 / 聽什麼 / 在哪聽」，封面統一風格。新粉絲點進來 3 秒就能決定要不要追蹤。<br><br>
-            <span class="text-[#7a6552]">例：左：主持人照片＋一句話定位；中：節目 3 大主題；右：Apple / Spotify / KKBOX 收聽按鈕圖。</span>
-          </p>
-        </div>
-        <!-- 03 -->
-        <div class="s-card soft-shadow p-7">
-          <div class="text-[12px] font-[800] text-[#d84a1f] tracking-wider mb-2">03</div>
-          <h3 class="text-[20px] font-[800] text-[#221e1c] mb-1">固定 Hashtag 三件組</h3>
-          <p class="text-[13.5px] text-[#6b5a4a] mb-3">養 Meta 的搜尋標籤庫</p>
-          <p class="text-[14.5px] leading-relaxed text-[#3f352c]">
-            每篇貼文都放同一組 3 個標籤：#節目名稱 #主持人名稱 #主題關鍵字。連發 20 篇，Meta 就會把你歸類好，搜尋更容易被找到。<br><br>
-            <span class="text-[#7a6552]">例：#郝聲音 #郝旭烈 #商業思維。不要一次塞 30 個，3-5 個最剛好。</span>
-          </p>
-        </div>
-        <!-- 04 -->
-        <div class="s-card soft-shadow p-7">
-          <div class="text-[12px] font-[800] text-[#d84a1f] tracking-wider mb-2">04</div>
-          <h3 class="text-[20px] font-[800] text-[#221e1c] mb-1">Threads 同步發布</h3>
-          <p class="text-[13.5px] text-[#6b5a4a] mb-3">文字觸及現在是 IG 的 3 倍</p>
-          <p class="text-[14.5px] leading-relaxed text-[#3f352c]">
-            把 EP 金句做成 120–150 字短文，直接貼到 Threads，再連回 IG 貼文。Threads 的自然觸及目前還很高，很適合導流。<br><br>
-            <span class="text-[#7a6552]">例：「這集我們聊到：焦慮不是壞事...」＋ EP 連結。標 1 個主題 Hashtag 就好。</span>
-          </p>
-        </div>
-        <!-- 05 -->
-        <div class="s-card soft-shadow p-7 md:col-span-2 xl:col-span-1">
-          <div class="text-[12px] font-[800] text-[#d84a1f] tracking-wider mb-2">05</div>
-          <h3 class="text-[20px] font-[800] text-[#221e1c] mb-1">Bio 放收聽連結 Linktree</h3>
-          <p class="text-[13.5px] text-[#6b5a4a] mb-3">一個連結收攏所有平台</p>
-          <p class="text-[14.5px] leading-relaxed text-[#3f352c]">
-            IG / Threads 自介只能放一個連結，用 Linktree / Firstory / SoundOn 連結頁，把 Apple、Spotify、KKBOX、YouTube 全部放進去。<br><br>
-            <span class="text-[#7a6552]">例：連結名稱不要寫英文，寫「最新一集在這裡」「Apple Podcast」「Spotify 收聽」，點擊率會高很多。記得每月更新置頂連結。</span>
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tab 4: 22位老師健檢 -->
-    <section id="panel-teachers" class="tab-panel hidden">
-      <div class="s-card soft-shadow p-6 md:p-9">
-        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-5">
-          <div>
-            <h2 class="text-[26px] md:text-[30px] font-[800] text-[#221e1c]">22位老師健檢總表</h2>
-            <p class="text-[13.5px] text-[#7a6656] mt-1">可搜尋節目名 / 主持人。分數為社群真實聲量分。</p>
-          </div>
-          <div class="relative w-full md:w-[320px]">
-            <input id="teacherSearch" type="text" placeholder="搜尋 Podcast / 主持人…" class="w-full rounded-[12px] border border-[#e2cfba] bg-[#fffcf8] px-4 py-3 text-[14px] outline-none focus:border-[#d8a97a] focus:ring-2 focus:ring-[#f7e6d4] placeholder:text-[#bba692]">
-            <svg class="w-4 h-4 text-[#b89d85] absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          </div>
-        </div>
-
-        <div class="table-wrap overflow-x-auto rounded-[14px] border border-[#eadfd3]">
-          <table class="data-table w-full min-w-[1080px] bg-white">
-            <thead>
-              <tr>
-                <th style="width:56px">#</th>
-                <th style="width:180px">Podcast</th>
-                <th style="width:120px">主持人</th>
-                <th style="width:92px">聲量分</th>
-                <th style="width:240px">優點</th>
-                <th style="width:280px">Meta AI SEO 建議</th>
-                <th>宣傳操作建議</th>
-              </tr>
-            </thead>
-            <tbody id="teacherTableBody">
-              <!-- Rows injected by JS -->
-            </tbody>
-          </table>
-        </div>
-        <div id="teacherCount" class="text-[12.5px] text-[#9b8570] mt-3">顯示 22 / 22 筆</div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="border-t border-[#e6d8c8] py-10 text-center text-[12.5px] text-[#a48d76]">
-    本報告由 Meta.AI 整理，僅供 鬧鐘獎內部評選參考 · 2026.06.14<br>
-    SoundOn Academy / 先聲奪人
-  </footer>
+</div>
 
 <script>
-const top10Labels = [
-  "郝聲音",
-  "哇賽心理學",
-  "航海王的富人學",
-  "小資變有錢",
-  "科技領航家",
-  "精算媽咪的家計簿",
-  "加班當爸媽",
-  "我不是病人，我是卡姊！",
-  "蘇心時光",
-  "慢慢長出來"
-];
-const top10Scores = [91.5, 88, 85.5, 83, 73, 62.5, 60.5, 60.5, 50, 48];
-
-function scoreColor(score){
-  if(score >= 80) return "#d92d20";
-  if(score >= 60) return "#e6872a";
-  return "#2a7de1";
-}
-
-let top10Chart;
-function initTop10Chart(){
-  const ctx = document.getElementById('top10Chart').getContext('2d');
-  const barColors = top10Scores.map(scoreColor);
-  top10Chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: top10Labels,
-      datasets: [{
-        label: '聲量分',
-        data: top10Scores,
-        backgroundColor: barColors,
-        borderRadius: 7,
-        maxBarThickness: 54
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: '#221c19',
-          titleFont: { family: '"Noto Sans TC"', size: 13 },
-          bodyFont: { family: '"Noto Sans TC"', size: 13 },
-          padding: 12,
-          callbacks: {
-            label: (c) => ` 聲量分：${c.raw}`
-          }
-        }
-      },
-      scales: {
-        x: {
-          beginAtZero: true,
-          max: 100,
-          grid: { color: '#efe3d6' },
-          ticks: { color: '#9a8676', font: { family: '"Noto Sans TC"' } }
-        },
-        y: {
-          grid: { display: false },
-          ticks: { color: '#3b322d', font: { family: '"Noto Sans TC"', size: 13, weight: '600' } }
-        }
-      }
-    }
-  });
-}
-
-// Teacher data - 22 rows
-const teachers = [
-  { rank:1, podcast:"郝聲音", host:"郝旭烈", score:91.5, strength:"商業思維穩定輸出，跨平台轉發率高，聽友主動標註多。", seo:"節目名稱＋主持人名稱固定放 Hashtag，前三則置頂要維持『我是誰／聽什麼／去哪聽』。", promo:"每週一則來賓協作 Reels，EP 上線當天同步 Threads 金句。" },
-  { rank:2, podcast:"哇賽心理學", host:"蔡宇哲", score:88, strength:"心理學議題自然被引用，Threads 討論熱度高。", seo:"每集金句做成圖卡上 Threads，標 #哇賽心理學 #蔡宇哲。", promo:"與心理師 KOL 互換限動，擴大專業圈觸及。" },
-  { rank:3, podcast:"航海王的富人學", host:"航海王", score:85.5, strength:"理財乾貨收藏率高，社群擴散強。", seo:"Hashtag 固定三件組：#航海王的富人學 #航海王 #理財。", promo:"每月一次聽友 Q&A 直播，剪 60 秒短片導流。" },
-  { rank:4, podcast:"小資變有錢", host:"Dr. Selena", score:83, strength:"女性理財圈口碑佳，互動率穩定。", seo:"IG 三連發置頂：我是誰／聽什麼／去哪聽，要補上最新封面。", promo:"與女性創業帳號協作貼文，交換受眾。" },
-  { rank:5, podcast:"科技領航家", host:"—", score:73, strength:"產業觀點被科技媒體引用，專業度高。", seo:"節目標題加上年份／關鍵字，例如『2026 AI 趨勢』，利於搜尋。", promo:"EP 重點整理成 Threads / LinkedIn 長文導流。" },
-  { rank:6, podcast:"精算媽咪的家計簿", host:"精算媽咪", score:62.5, strength:"家庭理財實用，媽媽族群黏著度高。", seo:"固定 Hashtag 三件組要每篇都帶，Bio 放 Linktree 整合收聽。", promo:"媽媽社團口碑貼文協作，用真實心得擴散。" },
-  { rank:7, podcast:"加班當爸媽", host:"—", score:60.5, strength:"育兒共鳴強，留言深度佳。", seo:"每集貼文放 3 個固定 Hashtag，養 Meta 標籤庫。", promo:"與爸媽類 IG 帳號互推，交換限動版位。" },
-  { rank:8, podcast:"我不是病人，我是卡姊！", host:"卡姊", score:60.5, strength:"身心議題真誠分享，社群討論度高。", seo:"Threads 同步發布 EP 金句，導回 IG 主貼文。", promo:"與身心靈創作者 Collab 貼文，擴大同溫層外觸及。" },
-  { rank:9, podcast:"蘇心時光", host:"蘇予昕 諮商心理師", score:50, strength:"諮商心理專業內容穩定，信任感高。", seo:"置頂三連發要補齊收聽連結，封面要統一風格。", promo:"做心理測驗限動，引導截圖分享導流。" },
-  { rank:10, podcast:"慢慢長出來", host:"—", score:48, strength:"成長型內容受年輕族群喜歡。", seo:"Bio 連結更新為最新一集，用中文命名『最新一集在這』。", promo:"金句圖每週發 2 則，提高被轉發機率。" },
-  { rank:11, podcast:"敏迪選讀", host:"敏迪", score:45, strength:"國際新聞解析清楚，時事跟得緊。", seo:"節目名 Hashtag 每篇都要帶，#敏迪選讀 #敏迪。", promo:"新聞時事 Reels 與時事帳號協作發布。" },
-  { rank:12, podcast:"大人的 Small Talk", host:"柚子、張瑋軒", score:42, strength:"職場話題共鳴高，分享率高。", seo:"Threads 同步精華對話，標註來賓帳號。", promo:"與職場 KOL 互訪，交換 EP 宣傳。" },
-  { rank:13, podcast:"馬克信箱", host:"馬克、瑪麗", score:40, strength:"聽友互動黏著強，社群歸屬感高。", seo:"固定 Hashtag #馬克信箱，每週都要出現。", promo:"聽友投稿限動轉發，強化 UGC 擴散。" },
-  { rank:14, podcast:"佐編茶水間", host:"佐編", score:38, strength:"出版／創作圈口碑穩，內容扎實。", seo:"置頂貼文補上節目介紹三連發，新粉絲才看得懂。", promo:"作家來賓協作貼文，標註出版社帳號。" },
-  { rank:15, podcast:"時間的女兒", host:"陳茻", score:35, strength:"文史內容獨特，受眾精準。", seo:"Bio 收聽連結需整理成 Linktree，一頁收攏。", promo:"金句圖卡化，適合在 Threads 被轉貼。" },
-  { rank:16, podcast:"劉軒的 How to", host:"劉軒", score:32, strength:"正向心理學受眾明確。", seo:"每集標題加關鍵字，例如『焦慮／人際』，利於搜尋。", promo:"短影音金句剪輯，30 秒版本發 Reels。" },
-  { rank:17, podcast:"曾寶儀的人生相談所", host:"曾寶儀", score:30, strength:"訪談質感佳，來賓陣容強。", seo:"來賓名字要寫進 Hashtag，增加被搜尋機率。", promo:"與來賓 IG 協作發布，借力來賓粉絲。" },
-  { rank:18, podcast:"唐陽雞酒屋", host:"酒雄", score:28, strength:"台語文化圈擴散中，特色明確。", seo:"固定三組 Hashtag 要持續養，不要一直換。", promo:"台語創作者串聯互推，建立主題社群。" },
-  { rank:19, podcast:"百靈果 News", host:"Ken、Kylie", score:25, strength:"國際觀點鮮明，鐵粉黏著高。", seo:"Threads 發布頻率要拉高，文字觸及現在最好。", promo:"新聞懶人包圖卡，每週一張導流。" },
-  { rank:20, podcast:"股癌", host:"謝孟恭", score:22, strength:"財經聽眾忠誠度高。", seo:"節目名稱 Hashtag 需統一寫法，不要簡寫混用。", promo:"EP 精華剪成 60 秒短片，發 Reels 測試。" },
-  { rank:21, podcast:"傑西大叔", host:"傑西", score:18, strength:"生活觀察有趣，語感輕鬆。", seo:"置頂三連發需補齊：我是誰／聽什麼／去哪聽。", promo:"生活類帳號互推限動，交換受眾池。" },
-  { rank:22, podcast:"歐馬克", host:"歐馬克", score:15, strength:"廣播級主持功力，聲音辨識度高。", seo:"Bio 連結改用 Linktree 整合，中文命名提高點擊。", promo:"老聽友召回貼文，用經典集數回顧導流。" },
-];
-
-function scoreClass(score){
-  if(score >= 80) return "score-high";
-  if(score >= 60) return "score-mid";
-  return "score-low";
-}
-
-function renderTeachers(list){
-  const tbody = document.getElementById('teacherTableBody');
-  tbody.innerHTML = list.map(t => `
-    <tr data-search="${(t.podcast + ' ' + t.host).toLowerCase()}">
-      <td class="text-[#a08a76] font-[700]">${t.rank}</td>
-      <td class="font-[750] text-[#221d1b] whitespace-nowrap">${t.podcast}</td>
-      <td class="text-[#554940]">${t.host}</td>
-      <td><span class="score-badge ${scoreClass(t.score)}">${t.score}</span></td>
-      <td>${t.strength}</td>
-      <td>${t.seo}</td>
-      <td>${t.promo}</td>
-    </tr>
-  `).join('');
-  document.getElementById('teacherCount').textContent = `顯示 ${list.length} / 22 筆`;
-}
-
-renderTeachers(teachers);
-
-// Search
-const searchInput = document.getElementById('teacherSearch');
-searchInput.addEventListener('input', e => {
-  const q = e.target.value.trim().toLowerCase();
-  if(!q){
-    renderTeachers(teachers);
-    return;
+function showPanel(n){
+  for(let i=1;i<=4;i++){
+    document.getElementById('panel-'+i).classList.toggle('hidden', i!==n);
+    const btn=document.getElementById('tab-btn-'+i);
+    btn.classList.toggle('tab-active', i===n);
+    btn.classList.toggle('tab-idle', i!==n);
+    btn.setAttribute('aria-selected', i===n);
   }
-  const filtered = teachers.filter(t => (t.podcast + t.host + t.strength + t.seo).toLowerCase().includes(q));
-  renderTeachers(filtered);
-});
-
-// Tabs
-const tabButtons = document.querySelectorAll('.tab-btn');
-const panels = {
-  top10: document.getElementById('panel-top10'),
-  method: document.getElementById('panel-method'),
-  seo: document.getElementById('panel-seo'),
-  teachers: document.getElementById('panel-teachers'),
-};
-
-tabButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tab = btn.dataset.tab;
-    tabButtons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    Object.values(panels).forEach(p => p.classList.add('hidden'));
-    panels[tab].classList.remove('hidden');
-    window.scrollTo({ top: 150, behavior: 'smooth' });
+  if(n===1) renderTop10();
+  if(n===2) renderDonut();
+}
+const top10Labels = [
+    '郝聲音',
+    '哇賽心理學',
+    '航海王的富人學',
+    '小資變有錢',
+    '科技領航家',
+    '精算媽咪的家計簿',
+    '加班當爸媽',
+    '我不是病人，我是卡姊！',
+    '蘇心時光',
+    '慢慢長出來'
+];
+const top10Values = [91.5, 88.0, 85.5, 83.0, 73.0, 62.5, 60.5, 60.5, 50.0, 48.0];
+function renderTop10(){
+  const ctx=document.getElementById('top10Chart');
+  if(!ctx || ctx._chart) return;
+  ctx._chart = new Chart(ctx, {
+    type:'bar',
+    data:{ labels:top10Labels, datasets:[{ label:'聲量分', data:top10Values, backgroundColor:top10Values.map(v=>v>=80?'#c73a3f':v>=60?'#d97a2b':'#3a6bc5'), borderRadius:6 }] },
+    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{beginAtZero:true, max:100}} }
   });
-});
-
-// Init chart
-window.addEventListener('load', initTop10Chart);
+}
+function renderDonut(){
+  const ctx=document.getElementById('weightDonut');
+  if(!ctx || ctx._chart) return;
+  ctx._chart = new Chart(ctx, {
+    type:'doughnut',
+    data:{ labels:['提及量 40%','互動強度 30%','跨平台擴散 30%'], datasets:[{ data:[40,30,30], backgroundColor:['#1a1a1a','#c73a3f','#d97a2b'] }] },
+    options:{ responsive:true, maintainAspectRatio:false, cutout:'68%', plugins:{legend:{display:false}} }
+  });
+}
+document.addEventListener('DOMContentLoaded', ()=>{ renderTop10(); });
+const searchInput=document.getElementById('teacher-search');
+if(searchInput){
+  searchInput.addEventListener('input', e=>{
+    const q=e.target.value.toLowerCase();
+    document.querySelectorAll('#teacher-tbody tr').forEach(tr=>{
+      tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+  });
+}
 </script>
-<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
 </body>
 </html>
