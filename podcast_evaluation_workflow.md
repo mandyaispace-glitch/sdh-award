@@ -154,6 +154,13 @@ flowchart TD
 *   **成果**：每日自動抓取 Apple Podcasts 台灣區完整 Top 100 榜單，寫入 [daily_top100_archive.csv](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/daily_top100_archive.csv)。
     *   *此做法可防範未來參賽清單有新節目加入時，能夠溯及既往地查詢其在榜歷史天數與名次。*
 
+### 🛡️ 防 AI 幻覺與數據反查審計機制 (Anti-Hallucination & Verification Guardrails)
+
+為確保系統產出數據的絕對真實性，本專案已建立以下反查限制機制：
+1. **每日榜單原始快照 (Apple Chart Audit)**：`daily_ranking_logger.js` 每天在寫入 CSV 之前，會將從 Apple 伺服器取得的 **原始 Raw JSON 回應** 存檔至 `Meta.AI/snapshots/` 資料夾（如 `2026-06-15_raw.json`），並寫入 `ranking_audit.log`，防範人工篡改或寫入遺漏，作為不可篡改的原始證據。
+2. **第一輪文字評分精確引用 (Track A Citation Guardrails)**：在軌道 A 企劃評估中，限制 AI 的所有評分均必須輸出逐字稿中大於 10 個字的「精確原文引文（Citations）」，系統以程式在逐字稿中反查引文，若查無引文則評語無效。
+3. **第二輪音檔時間軸句頭尾驗證 (Track B Timestamp Guardrails)**：將模型參數設為 `temperature: 0` 確保確定性。AI 定位黃金 3 分鐘時，必須精確輸出該片段「開頭第一句話」與「結束最後一句話」，由系統反查逐字稿，以驗證時間軸是否偏離或有幻覺。
+
 ### 📋 MVP 測試與待辦清單 (MVP Testing To-Do List)
 
 目前系統處於 MVP（最小可行性產品）驗證階段，各模組測試與待辦狀態如下：

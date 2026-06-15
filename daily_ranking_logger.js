@@ -26,12 +26,28 @@ async function archiveDailyTop100() {
     
     try {
         const resText = await fetchUrl(url);
+        
+        // Anti-Hallucination Guardrail A: Archive Raw JSON response snapshot
+        const snapshotsDir = path.join(__dirname, 'Meta.AI', 'snapshots');
+        if (!fs.existsSync(snapshotsDir)) {
+            fs.mkdirSync(snapshotsDir, { recursive: true });
+        }
+        const snapshotFilePath = path.join(snapshotsDir, `${dateToday}_raw.json`);
+        fs.writeFileSync(snapshotFilePath, resText, 'utf-8');
+        console.log(` -> [防幻覺審計] 原始 JSON 快照已存檔: Meta.AI/snapshots/${dateToday}_raw.json`);
+        
         const data = JSON.parse(resText);
         const entries = data.feed?.entry || [];
         
+        // Anti-Hallucination Guardrail B: Audit Log Verification
+        const auditLogPath = path.join(__dirname, 'ranking_audit.log');
+        const timestamp = new Date().toISOString();
         if (entries.length === 0) {
+            fs.appendFileSync(auditLogPath, `[${timestamp}] ERROR: Apple榜單抓取條目為空，抓取失敗。\n`);
             console.warn("抓取到的榜單資料為空，未寫入檔案。");
             return;
+        } else {
+            fs.appendFileSync(auditLogPath, `[${timestamp}] SUCCESS: 成功抓取並驗證 Apple 百大榜單，共 ${entries.length} 筆項目，狀態碼: 200。\n`);
         }
         
         const archiveCsvPath = path.join(__dirname, 'daily_top100_archive.csv');

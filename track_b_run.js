@@ -136,10 +136,12 @@ async function queryGeminiModel(fileUri, apiKey) {
   "golden_3_minutes": {
     "start_time": "MM:SS",
     "end_time": "MM:SS",
+    "start_sentence": "在此寫入該片段開頭第一句主持人口中吐出的精確對話文字內容 (不低於10字，供後續逐字稿反查驗證)...",
+    "end_sentence": "在此寫入該片段結束最後一句主持人口中吐出的精確對話文字內容 (不低於10字，供後續逐字稿反查驗證)...",
     "reason": "說明為什麼這段最精采..."
   }
 }
-`;
+\`;
 
 
     const body = {
@@ -152,9 +154,11 @@ async function queryGeminiModel(fileUri, apiKey) {
             }
         ],
         generationConfig: {
-            responseMimeType: "application/json"
+            responseMimeType: "application/json",
+            temperature: 0.0
         }
     };
+
     
     const res = await postRequest(url, headers, body);
     if (res.statusCode !== 200) {

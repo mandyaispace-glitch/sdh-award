@@ -10,44 +10,13 @@ function generateSelfContainedHtml() {
     
     const mdContent = fs.readFileSync(mdPath, 'utf-8');
     
-    // Read and parse Meta.AI social analysis if exists
+    // Check if Meta.AI social analysis exists to enable Track C tab
     const socialHtmlPath = path.join(__dirname, 'Meta.AI', 'Podcast聲量評選建議.html');
-    let socialStyles = '';
-    let socialBody = '';
-    let socialScript = '';
     let hasTrackC = false;
     
     if (fs.existsSync(socialHtmlPath)) {
         hasTrackC = true;
-        let socialContent = fs.readFileSync(socialHtmlPath, 'utf-8');
-        
-        // Ensure noindex tag is present in memory for safety, but DO NOT overwrite the original file
-        if (!socialContent.includes('noindex')) {
-            socialContent = socialContent.replace(
-                /<head>/i,
-                '<head>\n<meta name="robots" content="noindex, nofollow">'
-            );
-            console.log("已在記憶體中為 Podcast聲量評選建議.html 補上 noindex 標記（未修改原始檔案）。");
-        }
-        
-        // Extract Styles
-        const styleMatch = socialContent.match(/<style[^>]*>([\s\S]*?)<\/style>/);
-        if (styleMatch) {
-            socialStyles = styleMatch[1].replace(/body\s*\{[\s\S]*?\}/g, ''); // Strip body background
-        }
-        
-        // Extract Body Content
-        const bodyMatch = socialContent.match(/<body[^>]*>([\s\S]*?)<\/body>/);
-        if (bodyMatch) {
-            let bodyText = bodyMatch[1];
-            // Extract and strip JavaScript
-            const scriptMatch = bodyText.match(/<script[^>]*>([\s\S]*?)<\/script>/);
-            if (scriptMatch) {
-                socialScript = scriptMatch[1];
-                bodyText = bodyText.replace(/<script[^>]*>[\s\S]*?<\/script>/g, '');
-            }
-            socialBody = bodyText;
-        }
+        console.log("找到 Meta.AI/Podcast聲量評選建議.html，將使用 iframe 隔離嵌入以保持 100% 原始設計樣式。");
     } else {
         console.warn("⚠️ 未找到 Meta.AI/Podcast聲量評選建議.html 檔案，將略過軌道三整合。");
     }
@@ -220,8 +189,6 @@ function generateSelfContainedHtml() {
             background: #94a3b8;
         }
         
-        /* Track C (Meta.AI) Embedded CSS */
-        ${socialStyles}
     </style>
 </head>
 <body class="min-h-screen py-10 px-4 sm:px-6 lg:px-8 bg-[#f0efed]">
@@ -274,9 +241,9 @@ function generateSelfContainedHtml() {
             </div>
         </div>
 
-        <!-- Track C Content (Rendered outside glass-card because it has its own paper style) -->
-        <div id="content-track-c" class="hidden">
-            ${socialBody}
+        <!-- Track C Content (Rendered outside glass-card using iframe to preserve original styles) -->
+        <div id="content-track-c" class="hidden w-full">
+            <iframe src="Meta.AI/Podcast聲量評選建議.html" class="w-full h-[85vh] border-0 rounded-2xl shadow-lg bg-[#fdf9f5]"></iframe>
         </div>
 
         <footer class="text-center text-xs text-slate-500 mt-10">
@@ -343,11 +310,6 @@ function generateSelfContainedHtml() {
             } else if (tabId === 'track-c' && trackCContent) {
                 trackCBtn.className = activeBtnClass;
                 trackCContent.classList.remove('hidden');
-                // Trigger chart resize
-                setTimeout(() => {
-                    if (window.top10ChartInstance) { window.top10ChartInstance.resize(); }
-                    if (window.weightDonutInstance) { window.weightDonutInstance.resize(); }
-                }, 50);
             } else {
                 timelineBtn.className = activeBtnClass;
                 mainGlassCard.classList.remove('hidden');
@@ -398,8 +360,6 @@ function generateSelfContainedHtml() {
                 console.error("Mermaid 渲染出錯:", err);
             }
             
-            // Initialize Track C script actions if available
-            ${socialScript}
         });
     </script>
 </body>
