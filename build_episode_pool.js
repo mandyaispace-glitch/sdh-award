@@ -1,13 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+const XLSX = require('xlsx');
 
 // Helper to fetch text content from URL
 function fetchUrl(url) {
     return new Promise((resolve, reject) => {
         const options = {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
             },
             timeout: 15000
         };
@@ -15,6 +16,9 @@ function fetchUrl(url) {
             if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
                 // Handle redirect
                 return fetchUrl(res.headers.location).then(resolve).catch(reject);
+            }
+            if (res.statusCode !== 200) {
+                return reject(new Error(`HTTP status ${res.statusCode}`));
             }
             let data = '';
             res.on('data', (chunk) => { data += chunk; });
@@ -91,61 +95,37 @@ function parseRssFeed(xml) {
 }
 
 async function main() {
-    const csvPath = path.join(__dirname, 'updated_sheet.csv');
-    if (!fs.existsSync(csvPath)) {
-        console.error("找不到 updated_sheet.csv 檔案，請確認位置。");
+    const listPath = path.join(__dirname, 'kol_programs_list.json');
+    if (!fs.existsSync(listPath)) {
+        console.error("找不到 kol_programs_list.json 檔案，請先執行 extract_programs.js。");
         return;
     }
     
-    console.log("正在讀取 updated_sheet.csv 名單...");
-    const csvContent = fs.readFileSync(csvPath, 'utf-8');
-    const lines = csvContent.split(/\r?\n/);
-    
-    const podcastsToProcess = [];
-    
-    // Parse CSV rows
-    for (let i = 2; i < lines.length; i++) {
-        const line = lines[i];
-        if (!line.trim()) continue;
-        
-        // Handle quoted fields
-        const cells = [];
-        let currentCell = '';
-        let inQuotes = false;
-        for (let charIndex = 0; charIndex < line.length; charIndex++) {
-            const char = line[charIndex];
-            if (char === '"') {
-                inQuotes = !inQuotes;
-            } else if (char === ',' && !inQuotes) {
-                cells.push(currentCell.trim());
-                currentCell = '';
-            } else {
-                currentCell += char;
-            }
-        }
-        cells.push(currentCell.trim());
-        
-        const partnerName = cells[2] || '';
-        const podcastName = cells[9] || '';
-        const rssUrl = cells[11] || '';
-        
-        if (partnerName && rssUrl && rssUrl.startsWith('http')) {
-            podcastsToProcess.push({
-                partnerName,
-                podcastName,
-                rssUrl
-            });
-        }
-    }
-    
-    console.log(`共找到 ${podcastsToProcess.length} 個待審查的 Podcast RSS 頻道。開始分析 2026/01/01 - 2026/06/30 期間集數...`);
+    console.log("正在讀取 kol_programs_list.json 名單...");
+    const podcastsToProcess = JSON.parse(fs.readFileSync(listPath, 'utf-8'));
+    console.log(`共載入 ${podcastsToProcess.length} 個 KOL 節目。`);
     
     const eligibilityReport = [];
     const masterEpisodePool = [];
     
     for (let i = 0; i < podcastsToProcess.length; i++) {
         const pod = podcastsToProcess[i];
-        console.log(`\n[${i + 1}/${podcastsToProcess.length}] 正在處理頻道: ${pod.partnerName} (${pod.podcastName || '未命名'})`);
+        console.log(`\n[${i + 1}/${podcastsToProcess.length}] 正在處理: ${pod.partnerName} (${pod.podcastName || '無 Podcast'})`);
+        
+        // If there is no RSS URL, mark as ineligible immediately
+        if (!pod.rssUrl || !pod.rssUrl.startsWith('http')) {
+            console.log(` -> 該 KOL 沒有 Podcast 節目，直接判定為不符合資格。`);
+            eligibilityReport.push({
+                partnerName: pod.partnerName,
+                podcastName: pod.podcastName || "無",
+                rssUrl: pod.rssUrl || "",
+                applePodcastUrl: pod.applePodcastUrl || "",
+                episodesCount: 0,
+                eligible: false,
+                reason: "資格不符 (無 Podcast 節目)"
+            });
+            continue;
+        }
         
         try {
             const xml = await fetchUrl(pod.rssUrl);
@@ -156,10 +136,14 @@ async function main() {
             
             console.log(` -> 抓取成功！期間內共發布了 ${count} 集。符合資格 (>=12集): ${isEligible ? '✅' : '❌'}`);
             
+            // Update the podcast name with the real one parsed from RSS if available
+            const finalPodcastName = parsedTitle && parsedTitle !== 'Unknown' ? parsedTitle : (pod.podcastName || '未知');
+            
             eligibilityReport.push({
                 partnerName: pod.partnerName,
-                podcastName: parsedTitle,
+                podcastName: finalPodcastName,
                 rssUrl: pod.rssUrl,
+                applePodcastUrl: pod.applePodcastUrl || "",
                 episodesCount: count,
                 eligible: isEligible,
                 reason: isEligible ? "合格" : "資格不符 (發片集數不足 12 集)"
@@ -170,7 +154,7 @@ async function main() {
                 episodes.forEach(ep => {
                     masterEpisodePool.push({
                         partnerName: pod.partnerName,
-                        podcastName: parsedTitle,
+                        podcastName: finalPodcastName,
                         episodeTitle: ep.title,
                         pubDate: ep.pubDate,
                         duration: ep.duration,
@@ -186,14 +170,18 @@ async function main() {
                 partnerName: pod.partnerName,
                 podcastName: pod.podcastName || "未知",
                 rssUrl: pod.rssUrl,
+                applePodcastUrl: pod.applePodcastUrl || "",
                 episodesCount: 0,
                 eligible: false,
                 reason: `抓取失敗 (${err.message})`
             });
         }
+        
+        // Add a minor delay between fetches to be safe
+        await new Promise(r => setTimeout(r, 100));
     }
     
-    // Sort report: Eligible first, then alphabetically
+    // Sort report: Eligible first, then alphabetically by partner name
     eligibilityReport.sort((a, b) => {
         if (a.eligible !== b.eligible) {
             return a.eligible ? -1 : 1;
@@ -201,7 +189,53 @@ async function main() {
         return a.partnerName.localeCompare(b.partnerName, 'zh-Hant');
     });
 
-    // Generate Markdown table
+    // Write Multi-Tab Excel using xlsx library
+    console.log("\n正在建立多頁籤 Excel 檔案 (eligible_episodes_pool.xlsx)...");
+    const wb = XLSX.utils.book_new();
+    
+    // Tab 1: KOL 節目名單
+    const sheet1Data = podcastsToProcess.map((pod, idx) => ({
+        "序號": idx + 1,
+        "合作夥伴": pod.partnerName,
+        "節目名稱": pod.podcastName,
+        "Apple Podcast 連結": pod.applePodcastUrl || "",
+        "RSS 連結": pod.rssUrl || "",
+        "備註": (!pod.rssUrl) ? "非 Podcast 創作者" : ""
+    }));
+    const ws1 = XLSX.utils.json_to_sheet(sheet1Data);
+    XLSX.utils.book_append_sheet(wb, ws1, "KOL 節目名單");
+    
+    // Tab 2: 合格單集池
+    const sheet2Data = masterEpisodePool.map(ep => ({
+        "合作夥伴": ep.partnerName,
+        "節目名稱": ep.podcastName,
+        "單集標題": ep.episodeTitle,
+        "發布日期": ep.pubDate,
+        "單集長度(分鐘)": ep.duration !== null ? ep.duration : "",
+        "單集識別碼(GUID)": ep.guid,
+        "音檔連結(MP3)": ep.mp3Url
+    }));
+    const ws2 = XLSX.utils.json_to_sheet(sheet2Data);
+    XLSX.utils.book_append_sheet(wb, ws2, "合格單集池");
+    
+    // Tab 3: 發片量統計與資格判定
+    const sheet3Data = eligibilityReport.map((rep, idx) => ({
+        "序號": idx + 1,
+        "合作夥伴": rep.partnerName,
+        "節目名稱": rep.podcastName,
+        "2026上半年發片量": rep.episodesCount,
+        "資格判定": rep.eligible ? "合格" : "資格不符",
+        "原因": rep.reason
+    }));
+    const ws3 = XLSX.utils.json_to_sheet(sheet3Data);
+    XLSX.utils.book_append_sheet(wb, ws3, "發片量統計與資格判定");
+    
+    const excelOutputPath = path.join(__dirname, 'eligible_episodes_pool.xlsx');
+    XLSX.writeFile(wb, excelOutputPath);
+    console.log(`多頁籤 Excel 檔案已寫入: ${excelOutputPath} (共 ${masterEpisodePool.length} 集)`);
+
+    // Write Eligibility Report (Markdown file)
+    console.log("正在產生 Markdown 資格報告...");
     let tableMd = `| 序號 | 合作夥伴 | 節目名稱 | 2026上半年發片量 | 資格判定 | 備註 |\n`;
     tableMd += `| :---: | :--- | :--- | :---: | :---: | :--- |\n`;
     eligibilityReport.forEach((rep, idx) => {
@@ -210,7 +244,6 @@ async function main() {
         tableMd += `| ${medal} | ${rep.partnerName} | ${rep.podcastName} | **${rep.episodesCount}** | ${status} | ${rep.reason} |\n`;
     });
 
-    // Write Eligibility Report (Markdown file)
     let reportMd = `# SDH Award Podcast 資格審查報告\n\n`;
     reportMd += `*   **審查期間**：2026-01-01 至 2026-06-30。\n`;
     reportMd += `*   **合格門檻**：區間發片量 **&ge; 12 集**。\n\n`;
@@ -219,7 +252,7 @@ async function main() {
     
     const reportPath = path.join(__dirname, 'eligibility_report.md');
     fs.writeFileSync(reportPath, reportMd, 'utf-8');
-    console.log(`\n資格報告已寫入: ${reportPath}`);
+    console.log(`資格報告已寫入: ${reportPath}`);
     
     // Dynamic integration with podcast_evaluation_workflow.md (local)
     const workflowMdPath = path.join(__dirname, 'podcast_evaluation_workflow.md');
@@ -246,19 +279,31 @@ async function main() {
         }
     }
     
-    // Write Master Episode Pool (CSV)
-    let csvHeader = "合作夥伴,節目名稱,單集標題,發布日期,單集長度(分鐘),單集識別碼(GUID),音檔連結(MP3)\n";
-    const csvRows = masterEpisodePool.map(ep => {
-        const escape = (text) => {
-            if (!text) return '""';
-            return `"${text.replace(/"/g, '""')}"`;
-        };
-        return `${escape(ep.partnerName)},${escape(ep.podcastName)},${escape(ep.episodeTitle)},${escape(ep.pubDate)},${ep.duration || '""'},${escape(ep.guid)},${escape(ep.mp3Url)}`;
-    });
+    // Write statistics to eligibility_stats.json for Chart.js
+    const eligibleCount = eligibilityReport.filter(rep => rep.eligible).length;
+    const ineligibleCount = eligibilityReport.length - eligibleCount;
     
-    const poolPath = path.join(__dirname, 'eligible_episodes_pool.csv');
-    fs.writeFileSync(poolPath, csvHeader + csvRows.join('\n'), 'utf-8');
-    console.log(`累計合格集數清單 (含GUID) 已寫入: ${poolPath} (共 ${masterEpisodePool.length} 集)`);
+    const stats = {
+        summary: {
+            totalPrograms: eligibilityReport.length,
+            eligiblePrograms: eligibleCount,
+            ineligiblePrograms: ineligibleCount,
+            totalEpisodes: masterEpisodePool.length
+        },
+        programs: eligibilityReport.map(rep => ({
+            partnerName: rep.partnerName,
+            podcastName: rep.podcastName,
+            episodesCount: rep.episodesCount,
+            eligible: rep.eligible,
+            reason: rep.reason
+        }))
+    };
+    
+    const statsPath = path.join(__dirname, 'eligibility_stats.json');
+    fs.writeFileSync(statsPath, JSON.stringify(stats, null, 2), 'utf-8');
+    console.log(`圖表統計數據已寫入: ${statsPath}`);
 }
 
-main();
+main().catch(err => {
+    console.error("Error running build_episode_pool:", err);
+});

@@ -21,6 +21,21 @@ function generateSelfContainedHtml() {
         console.warn("⚠️ 未找到 Meta.AI/Podcast聲量評選建議.html 檔案，將略過軌道三整合。");
     }
     
+    // Load eligibility stats for Chart.js rendering
+    let stats = {
+        summary: { totalPrograms: 0, eligiblePrograms: 0, ineligiblePrograms: 0, totalEpisodes: 0 },
+        programs: []
+    };
+    const statsPath = path.join(__dirname, 'eligibility_stats.json');
+    if (fs.existsSync(statsPath)) {
+        try {
+            stats = JSON.parse(fs.readFileSync(statsPath, 'utf-8'));
+            console.log(`成功加載統計數據：共 ${stats.summary.totalPrograms} 檔節目，合格 ${stats.summary.eligiblePrograms} 檔。`);
+        } catch (e) {
+            console.error("讀取 eligibility_stats.json 失敗：", e.message);
+        }
+    }
+    
     const htmlTemplate = `<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -200,7 +215,7 @@ function generateSelfContainedHtml() {
                 <span class="text-xs bg-blue-100 text-blue-600 py-1 px-2 rounded-full font-semibold">AI評選系統 Demo</span>
             </div>
             <div class="text-xs text-slate-500">
-                更新時間: 2026-06-15 | 設計者: Antigravity
+                更新時間: 2026-06-17 | 設計者: Antigravity
             </div>
         </header>
 
@@ -222,7 +237,7 @@ function generateSelfContainedHtml() {
             </button>
         </div>
 
-        <!-- Main Content Card (Standard Markdown layout) -->
+        <!-- Main Content Card -->
         <div id="main-glass-card" class="glass-card rounded-2xl p-6 sm:p-10 mb-8">
             <div id="content-plan" class="prose max-w-none">
                 <!-- Plan Markdown renders here -->
@@ -233,15 +248,57 @@ function generateSelfContainedHtml() {
                     </svg>
                 </div>
             </div>
+            
             <div id="content-status" class="prose max-w-none hidden">
-                <!-- Status Markdown renders here -->
+                <!-- Status metrics & charts will be dynamically prepended here -->
+                <div id="status-dashboard" class="not-prose mb-8">
+                    <!-- Metrics cards -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100 shadow-sm">
+                            <div class="text-xs text-blue-800 font-bold tracking-wide">評估節目總數</div>
+                            <div class="text-2xl font-black text-slate-800 mt-1">${stats.summary.totalPrograms} 檔</div>
+                        </div>
+                        <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100 shadow-sm">
+                            <div class="text-xs text-emerald-800 font-bold tracking-wide">審查合格節目</div>
+                            <div class="text-2xl font-black text-emerald-600 mt-1">${stats.summary.eligiblePrograms} 檔</div>
+                        </div>
+                        <div class="bg-rose-50/50 p-4 rounded-xl border border-rose-100 shadow-sm">
+                            <div class="text-xs text-rose-800 font-bold tracking-wide">資格不符/未開節目</div>
+                            <div class="text-2xl font-black text-rose-500 mt-1">${stats.summary.ineligiblePrograms} 檔</div>
+                        </div>
+                        <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-100 shadow-sm">
+                            <div class="text-xs text-amber-800 font-bold tracking-wide">收錄合格單集</div>
+                            <div class="text-2xl font-black text-amber-600 mt-1">${stats.summary.totalEpisodes} 集</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-8">
+                        <div class="md:col-span-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center">
+                            <h3 class="text-sm font-extrabold text-slate-700 mb-4 self-start border-l-4 border-emerald-500 pl-2">KOL 節目審查合格率</h3>
+                            <div class="w-full h-[220px] flex items-center justify-center">
+                                <canvas id="pieChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="md:col-span-8 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center">
+                            <h3 class="text-sm font-extrabold text-slate-700 mb-4 self-start border-l-4 border-blue-500 pl-2">KOL 節目發片量排行 (前 15 名)</h3>
+                            <div class="w-full h-[220px] flex items-center justify-center">
+                                <canvas id="barChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Status Markdown content will render here -->
+                <div id="status-markdown-content"></div>
             </div>
+            
             <div id="content-timeline" class="prose max-w-none hidden">
                 <!-- Timeline Markdown renders here -->
             </div>
         </div>
 
-        <!-- Track C Content (Rendered outside glass-card using iframe to preserve original styles) -->
+        <!-- Track C Content -->
         <div id="content-track-c" class="hidden w-full">
             <iframe src="Meta.AI/Podcast聲量評選建議.html" class="w-full h-[85vh] border-0 rounded-2xl shadow-lg bg-[#fdf9f5]"></iframe>
         </div>
@@ -254,6 +311,11 @@ function generateSelfContainedHtml() {
     <!-- Hidden Raw Markdown Data Source -->
     <textarea id="markdown-source" class="hidden">${mdContent.replace(/<\/textarea>/g, '&lt;/textarea&gt;')}</textarea>
 
+    <!-- Injected JSON Statistics -->
+    <script>
+        window.eligibilityStats = ${JSON.stringify(stats)};
+    </script>
+
     <script>
         // Configure marked.js
         marked.setOptions({
@@ -261,7 +323,7 @@ function generateSelfContainedHtml() {
             gfm: true
         });
 
-        // Initialize Mermaid with Light theme
+        // Initialize Mermaid with Default theme
         mermaid.initialize({
             startOnLoad: false,
             theme: 'default',
@@ -307,6 +369,7 @@ function generateSelfContainedHtml() {
                 statusBtn.className = activeBtnClass;
                 mainGlassCard.classList.remove('hidden');
                 statusContent.classList.remove('hidden');
+                renderCharts(); // Render Chart.js charts on show
             } else if (tabId === 'track-c' && trackCContent) {
                 trackCBtn.className = activeBtnClass;
                 trackCContent.classList.remove('hidden');
@@ -315,6 +378,101 @@ function generateSelfContainedHtml() {
                 mainGlassCard.classList.remove('hidden');
                 timelineContent.classList.remove('hidden');
             }
+        }
+
+        // Global charts instances to prevent canvas reuse errors
+        let pieChartInstance = null;
+        let barChartInstance = null;
+
+        function renderCharts() {
+            const stats = window.eligibilityStats;
+            if (!stats || !stats.summary || stats.summary.totalPrograms === 0) return;
+
+            // Render Pie Chart
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+            if (pieChartInstance) pieChartInstance.destroy();
+            
+            pieChartInstance = new Chart(pieCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['合格 (>=12集)', '不合格 (<12集/無節目)'],
+                    datasets: [{
+                        data: [stats.summary.eligiblePrograms, stats.summary.ineligiblePrograms],
+                        backgroundColor: ['#10b981', '#f43f5e'], // Emerald Green and Rose Red
+                        borderColor: '#ffffff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                font: { family: 'Noto Sans TC', size: 11, weight: 'bold' }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Render Bar Chart
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            if (barChartInstance) barChartInstance.destroy();
+
+            // Sort programs by count descending and take top 15
+            const topPrograms = [...stats.programs]
+                .sort((a, b) => b.episodesCount - a.episodesCount)
+                .slice(0, 15);
+
+            barChartInstance = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: topPrograms.map(p => p.partnerName),
+                    datasets: [{
+                        label: '發片集數',
+                        data: topPrograms.map(p => p.episodesCount),
+                        backgroundColor: topPrograms.map(p => p.eligible ? '#3b82f6' : '#cbd5e1'), // Sky Blue or Light Gray
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#f1f5f9' },
+                            ticks: { font: { family: 'Noto Sans TC', size: 10 } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                font: { family: 'Noto Sans TC', size: 9 },
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: (tooltipItems) => {
+                                    const index = tooltipItems[0].dataIndex;
+                                    return topPrograms[index].podcastName;
+                                },
+                                label: (tooltipItem) => {
+                                    const count = tooltipItem.raw;
+                                    return ' 發片量: ' + count + ' 集';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
@@ -331,8 +489,8 @@ function generateSelfContainedHtml() {
 
             // Render Status Markdown
             const statusHtml = marked.parse(statusMd);
-            const statusContainer = document.getElementById('content-status');
-            statusContainer.innerHTML = statusHtml;
+            const statusContentDiv = document.getElementById('status-markdown-content');
+            statusContentDiv.innerHTML = statusHtml;
 
             // Render Timeline Markdown
             const timelineHtml = marked.parse(timelineMd);
@@ -340,7 +498,7 @@ function generateSelfContainedHtml() {
             timelineContainer.innerHTML = timelineHtml;
 
             // Find and convert Mermaid blocks in all containers
-            [planContainer, statusContainer, timelineContainer].forEach(container => {
+            [planContainer, document.getElementById('content-status'), timelineContainer].forEach(container => {
                 const codeBlocks = container.querySelectorAll('pre code');
                 codeBlocks.forEach(codeBlock => {
                     if (codeBlock.classList.contains('language-mermaid')) {
@@ -359,7 +517,6 @@ function generateSelfContainedHtml() {
             } catch (err) {
                 console.error("Mermaid 渲染出錯:", err);
             }
-            
         });
     </script>
 </body>
@@ -367,7 +524,7 @@ function generateSelfContainedHtml() {
 
     const outputPath = path.join(__dirname, 'podcast_evaluation_workflow.html');
     fs.writeFileSync(outputPath, htmlTemplate, 'utf-8');
-    console.log(`已成功將規劃書與軌道 C (Meta.AI 聲量評選建議) 整合轉換為白底網頁版：${outputPath}`);
+    console.log(`已成功將規劃書與軌道 C (Meta.AI 聲量評選建議) 整合轉換為白底網頁版（含 Chart.js 可視化）：${outputPath}`);
 }
 
 generateSelfContainedHtml();
