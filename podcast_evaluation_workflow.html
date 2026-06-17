@@ -362,13 +362,44 @@ flowchart TD
 
 目前本系統的「Demo 概念驗證」與「自動化數據採集」已成功上線，各模組進度如下：
 
-### 1. 資格審查與合格集數池 (完成 ✅)
-*   **Demo 資料源**：以您的 Google 試算表 24 檔節目清單為範本。
+### 1. 資格審查與合格集數池 (更版完成 ✅)
+*   **資料源**：以您 OneDrive 的 `updated_sheet.csv` 最終版 25 檔節目清單為範本。
 *   **執行腳本**：[build_episode_pool.js](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/build_episode_pool.js)
+*   **篩選區間**：**2026/01/01 至 2026/06/30**
 *   **成果**：
-    *   成功過濾出 **16 檔合格節目** (符合 6 個月發片滿 12 集門檻)。
-    *   順利排除 8 檔已停更或更新頻率不足的節目（如《聽進理投》、《媽媽好神經病》）。
-    *   自動建立包含 **733 個單集的完整資料庫** [eligible_episodes_pool.csv](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/eligible_episodes_pool.csv)，為後續隨機抽樣奠定基礎。
+    *   自動建立包含符合資格單集的完整資料庫 [eligible_episodes_pool.csv](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/eligible_episodes_pool.csv)，每個單集均包含 GUID 音檔抓取碼。
+    *   以下為本次評選區間的自動化資格審查統計總表：
+
+<!-- ELIGIBILITY_START -->
+
+| 序號 | 合作夥伴 | 節目名稱 | 2026上半年發片量 | 資格判定 | 備註 |
+| :---: | :--- | :--- | :---: | :---: | :--- |
+| 🥇 | 主播/主持人 朱楚文 | 科技領航家 | **24** | ✅ 合格 | 合格 |
+| 🥈 | 加班當爸媽．櫻桃可可CherryCoco | 加班當爸媽｜櫻桃可可CherryCoco | **25** | ✅ 合格 | 合格 |
+| 🥉 | 宋家小館｜Becky | 宋家小館 | **42** | ✅ 合格 | 合格 |
+| 4 | 林程揚｜Hank 大叔 | 能量黑客 | **47** | ✅ 合格 | 合格 |
+| 5 | 哇賽心理學_蔡宇哲 | 哇賽心理學 | **36** | ✅ 合格 | 合格 |
+| 6 | 美股航海王 | 航海王的富人學 | **28** | ✅ 合格 | 合格 |
+| 7 | 美股夢想家 | 夢想家說股事 | **36** | ✅ 合格 | 合格 |
+| 8 | 郝旭烈/郝聲音 | 郝聲音 | **174** | ✅ 合格 | 合格 |
+| 9 | 張忘形 | 人類行為研究社 | **23** | ✅ 合格 | 合格 |
+| 10 | 莫菲穿搭 | 【莫轉台】-試穿新人生 | **25** | ✅ 合格 | 合格 |
+| 11 | 電扶梯走左邊 | 電扶梯走左邊 with Jacky (Left Side Escalator) | **23** | ✅ 合格 | 合格 |
+| 12 | 精算媽咪的家計簿｜珊迪兔 | 精算媽咪的家計簿 | **74** | ✅ 合格 | 合格 |
+| 13 | 聲音表達講師 林依柔 | 說話人聲 | **26** | ✅ 合格 | 合格 |
+| 14 | 蘇絢慧分享空間 | 蘇心時光 | **24** | ✅ 合格 | 合格 |
+| 15 | Dr Selena | 小資變有錢｜Dr.Selena生活理財王 | **49** | ✅ 合格 | 合格 |
+| 16 | Z研 | 慢慢長出來 | **24** | ✅ 合格 | 合格 |
+| 17 | 卡姊 | 我不是病人，我是卡姊！ | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
+| 18 | 李柏鋒的擴大機 | 聽進理投 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
+| 19 | 崔咪 | 一不小心太漂亮 | **7** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
+| 20 | 創才 | 金融科技人才培育計劃-焦點主題趨勢講座 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
+| 21 | 慢活夫妻 Dewi&George | 慢活夫妻－專業美股投資與理財 | **8** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
+| 22 | 蕭老師別這樣 | 蕭老師別這樣 | **4** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
+| 23 | ActPod艾帕科技 | ActPod週記 | **7** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
+| 24 | Cynthia Huang黃馨儀 | 媽媽好神經病 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
+
+<!-- ELIGIBILITY_END -->
 
 ### 2. 軌道 B 聲音物理測試環境 (完成 ✅)
 *   **執行腳本**：[track_b_run.js](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/track_b_run.js)

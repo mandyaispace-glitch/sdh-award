@@ -9,7 +9,7 @@ function fetchUrl(url) {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
             },
-            timeout: 10000
+            timeout: 15000
         };
         https.get(url, options, (res) => {
             if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
@@ -23,17 +23,17 @@ function fetchUrl(url) {
     });
 }
 
-// Simple XML parsing of RSS Feed
-function parseRssFeed(xml, monthsLimit = 6) {
+// Simple XML parsing of RSS Feed for 2026/01/01 - 2026/06/30 range
+function parseRssFeed(xml) {
     const episodes = [];
     
     // Find channel title
     const titleMatch = xml.match(/<title>(.*?)<\/title>/);
     const channelTitle = titleMatch ? titleMatch[1].replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim() : 'Unknown';
     
-    // Set 6-month date limit based on reference date 2026-06-14
-    const referenceDate = new Date("2026-06-14T10:00:00Z");
-    const dateLimit = new Date(referenceDate.getTime() - (monthsLimit * 30 * 24 * 60 * 60 * 1000));
+    // Set date limits
+    const startDate = new Date("2026-01-01T00:00:00Z");
+    const endDate = new Date("2026-06-30T23:59:59Z");
     
     // Extract item blocks
     const itemRegex = /<item>([\s\S]*?)<\/item>/g;
@@ -44,10 +44,12 @@ function parseRssFeed(xml, monthsLimit = 6) {
         const titleM = itemContent.match(/<title>(.*?)<\/title>/);
         const pubDateM = itemContent.match(/<pubDate>(.*?)<\/pubDate>/);
         const enclosureM = itemContent.match(/<enclosure[^>]*url="([^"]+)"/);
+        const guidM = itemContent.match(/<guid[^>]*>([\s\S]*?)<\/guid>/);
         
         const title = titleM ? titleM[1].replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim() : '';
         const pubDateStr = pubDateM ? pubDateM[1] : '';
         const mp3Url = enclosureM ? enclosureM[1] : '';
+        const guid = guidM ? guidM[1].replace(/<!\[CDATA\[(.*?)\]\]>/g, '$1').trim() : '';
         
         // Parse duration
         let durationMinutes = null;
@@ -70,11 +72,12 @@ function parseRssFeed(xml, monthsLimit = 6) {
         
         if (pubDateStr) {
             const pubDate = new Date(pubDateStr);
-            if (!isNaN(pubDate.getTime()) && pubDate >= dateLimit) {
+            if (!isNaN(pubDate.getTime()) && pubDate >= startDate && pubDate <= endDate) {
                 episodes.push({
                     title,
                     pubDate: pubDate.toISOString().split('T')[0],
                     mp3Url,
+                    guid,
                     duration: durationMinutes ? Math.round(durationMinutes * 100) / 100 : null
                 });
             }
@@ -94,7 +97,7 @@ async function main() {
         return;
     }
     
-    console.log("正在讀取 updated_sheet.csv...");
+    console.log("正在讀取 updated_sheet.csv 名單...");
     const csvContent = fs.readFileSync(csvPath, 'utf-8');
     const lines = csvContent.split(/\r?\n/);
     
@@ -135,7 +138,7 @@ async function main() {
         }
     }
     
-    console.log(`共找到 ${podcastsToProcess.length} 個待審查的 Podcast RSS 頻道。`);
+    console.log(`共找到 ${podcastsToProcess.length} 個待審查的 Podcast RSS 頻道。開始分析 2026/01/01 - 2026/06/30 期間集數...`);
     
     const eligibilityReport = [];
     const masterEpisodePool = [];
@@ -151,7 +154,7 @@ async function main() {
             const count = episodes.length;
             const isEligible = count >= 12;
             
-            console.log(` -> 抓取成功！過去 6 個月共發布了 ${count} 集。符合資格 (>=12集): ${isEligible ? '✅' : '❌'}`);
+            console.log(` -> 抓取成功！期間內共發布了 ${count} 集。符合資格 (>=12集): ${isEligible ? '✅' : '❌'}`);
             
             eligibilityReport.push({
                 partnerName: pod.partnerName,
@@ -159,7 +162,7 @@ async function main() {
                 rssUrl: pod.rssUrl,
                 episodesCount: count,
                 eligible: isEligible,
-                reason: isEligible ? "合格" : `集數不足 (僅 ${count} 集)`
+                reason: isEligible ? "合格" : "資格不符 (發片集數不足 12 集)"
             });
             
             if (isEligible) {
@@ -171,6 +174,7 @@ async function main() {
                         episodeTitle: ep.title,
                         pubDate: ep.pubDate,
                         duration: ep.duration,
+                        guid: ep.guid,
                         mp3Url: ep.mp3Url
                     });
                 });
@@ -189,36 +193,72 @@ async function main() {
         }
     }
     
-    // Write Eligibility Report (Markdown)
-    let reportMd = `# SDH Award Podcast 資格審查報告\n\n`;
-    reportMd += `*   **審查基準時間**：以 2026-06-14 為準，回推 6 個月。\n`;
-    reportMd += `*   **合格門檻**：過去 6 個月發片量 **$\ge 12$ 集**。\n\n`;
-    reportMd += `## 審查總覽\n\n`;
-    reportMd += `| 序號 | 合作夥伴 | 節目名稱 | 過去 6 個月集數 | 資格判定 | 說明 |\n`;
-    reportMd += `| :--- | :--- | :--- | :---: | :---: | :--- |\n`;
-    
-    eligibilityReport.forEach((rep, idx) => {
-        reportMd += `| ${idx + 1} | ${rep.partnerName} | ${rep.podcastName} | ${rep.episodesCount} | ${rep.eligible ? '✅ 合格' : '❌ 不合格'} | ${rep.reason} |\n`;
+    // Sort report: Eligible first, then alphabetically
+    eligibilityReport.sort((a, b) => {
+        if (a.eligible !== b.eligible) {
+            return a.eligible ? -1 : 1;
+        }
+        return a.partnerName.localeCompare(b.partnerName, 'zh-Hant');
     });
+
+    // Generate Markdown table
+    let tableMd = `| 序號 | 合作夥伴 | 節目名稱 | 2026上半年發片量 | 資格判定 | 備註 |\n`;
+    tableMd += `| :---: | :--- | :--- | :---: | :---: | :--- |\n`;
+    eligibilityReport.forEach((rep, idx) => {
+        const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `${idx + 1}`;
+        const status = rep.eligible ? "✅ 合格" : "❌ <span class='text-red-500 font-bold'>資格不符</span>";
+        tableMd += `| ${medal} | ${rep.partnerName} | ${rep.podcastName} | **${rep.episodesCount}** | ${status} | ${rep.reason} |\n`;
+    });
+
+    // Write Eligibility Report (Markdown file)
+    let reportMd = `# SDH Award Podcast 資格審查報告\n\n`;
+    reportMd += `*   **審查期間**：2026-01-01 至 2026-06-30。\n`;
+    reportMd += `*   **合格門檻**：區間發片量 **&ge; 12 集**。\n\n`;
+    reportMd += `## 審查總覽\n\n`;
+    reportMd += tableMd;
     
     const reportPath = path.join(__dirname, 'eligibility_report.md');
     fs.writeFileSync(reportPath, reportMd, 'utf-8');
-    console.log(`\n審查完成！資格報告已寫入 ${reportPath}`);
+    console.log(`\n資格報告已寫入: ${reportPath}`);
+    
+    // Dynamic integration with podcast_evaluation_workflow.md (local)
+    const workflowMdPath = path.join(__dirname, 'podcast_evaluation_workflow.md');
+    if (fs.existsSync(workflowMdPath)) {
+        let mdContent = fs.readFileSync(workflowMdPath, 'utf-8');
+        const startTag = '<!-- ELIGIBILITY_START -->';
+        const endTag = '<!-- ELIGIBILITY_END -->';
+        const startIndex = mdContent.indexOf(startTag);
+        const endIndex = mdContent.indexOf(endTag);
+        
+        if (startIndex !== -1 && endIndex !== -1) {
+            const before = mdContent.substring(0, startIndex + startTag.length);
+            const after = mdContent.substring(endIndex);
+            const newContent = `${before}\n\n${tableMd}\n${after}`;
+            fs.writeFileSync(workflowMdPath, newContent, 'utf-8');
+            console.log(`已成功將最新集數審查總表動態注入: ${workflowMdPath}`);
+            
+            // Also sync to brain directory if exists
+            const brainMdPath = path.join('C:', 'Users', 'manma', '.gemini', 'antigravity', 'brain', '991a5cf6-de4b-4f16-a27c-3b4b3f0b2984', 'podcast_evaluation_workflow.md');
+            if (fs.existsSync(brainMdPath)) {
+                fs.writeFileSync(brainMdPath, newContent, 'utf-8');
+                console.log(`已同步注入腦庫目錄: ${brainMdPath}`);
+            }
+        }
+    }
     
     // Write Master Episode Pool (CSV)
-    let csvHeader = "合作夥伴,節目名稱,單集標題,發布日期,單集長度(分鐘),音檔連結(MP3)\n";
+    let csvHeader = "合作夥伴,節目名稱,單集標題,發布日期,單集長度(分鐘),單集識別碼(GUID),音檔連結(MP3)\n";
     const csvRows = masterEpisodePool.map(ep => {
-        // Escape quotes and commas
         const escape = (text) => {
             if (!text) return '""';
             return `"${text.replace(/"/g, '""')}"`;
         };
-        return `${escape(ep.partnerName)},${escape(ep.podcastName)},${escape(ep.episodeTitle)},${escape(ep.pubDate)},${ep.duration || '""'},${escape(ep.mp3Url)}`;
+        return `${escape(ep.partnerName)},${escape(ep.podcastName)},${escape(ep.episodeTitle)},${escape(ep.pubDate)},${ep.duration || '""'},${escape(ep.guid)},${escape(ep.mp3Url)}`;
     });
     
     const poolPath = path.join(__dirname, 'eligible_episodes_pool.csv');
     fs.writeFileSync(poolPath, csvHeader + csvRows.join('\n'), 'utf-8');
-    console.log(`累計合格集數清單已寫入 ${poolPath} (共 ${masterEpisodePool.length} 集)`);
+    console.log(`累計合格集數清單 (含GUID) 已寫入: ${poolPath} (共 ${masterEpisodePool.length} 集)`);
 }
 
 main();
