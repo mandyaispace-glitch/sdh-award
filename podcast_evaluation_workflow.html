@@ -183,20 +183,20 @@
 
         <!-- Tab Navigation -->
         <div class="flex space-x-2 p-1.5 bg-slate-200/50 backdrop-blur-md rounded-xl mb-6 max-w-2xl shadow-inner border border-slate-200/30">
-            <button id="tab-btn-plan" class="flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10" onclick="switchTab('plan')">
+            <a id="tab-btn-plan" href="#plan" class="flex-1 py-2.5 text-center text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10" onclick="switchTab('plan'); return false;">
                 📄 評選工作流規劃
-            </button>
-            <button id="tab-btn-status" class="flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('status')">
+            </a>
+            <a id="tab-btn-status" href="#status" class="flex-1 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('status'); return false;">
                 📌 專案執行現況
-            </button>
+            </a>
             
-            <button id="tab-btn-track-c" class="flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-c')">
+            <a id="tab-btn-track-c" href="#track-c" class="flex-1 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-c'); return false;">
                 📊 軌道 C 社群聲量
-            </button>
+            </a>
             
-            <button id="tab-btn-timeline" class="flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('timeline')">
+            <a id="tab-btn-timeline" href="#timeline" class="flex-1 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('timeline'); return false;">
                 ⏳ 專案進程時間軸
-            </button>
+            </a>
         </div>
 
         <!-- Main Content Card -->
@@ -651,8 +651,8 @@ flowchart TD
             const trackCContent = document.getElementById('content-track-c');
             const timelineContent = document.getElementById('content-timeline');
 
-            const activeBtnClass = "flex-1 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
-            const inactiveBtnClass = "flex-1 py-2.5 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
+            const activeBtnClass = "flex-1 py-2.5 text-center text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
+            const inactiveBtnClass = "flex-1 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
 
             planBtn.className = inactiveBtnClass;
             statusBtn.className = inactiveBtnClass;
