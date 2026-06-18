@@ -8,7 +8,7 @@ function fetchJson(url) {
     return new Promise((resolve, reject) => {
         const options = {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
             },
             timeout: 10000
         };
@@ -19,6 +19,10 @@ function fetchJson(url) {
             let data = '';
             res.on('data', chunk => data += chunk);
             res.on('end', () => {
+                if (data.includes("Rate limit")) {
+                    reject(new Error("Rate limit"));
+                    return;
+                }
                 try {
                     resolve(JSON.parse(data));
                 } catch (e) {
@@ -41,24 +45,10 @@ async function lookupRssByAppleId(appleId) {
     }
 }
 
-// Search RSS by podcast title via iTunes API
-async function searchRssByTitle(title) {
-    try {
-        const url = `https://itunes.apple.com/search?term=${encodeURIComponent(title)}&entity=podcast&country=tw`;
-        const data = await fetchJson(url);
-        // Find best match
-        const result = data.results?.[0];
-        if (result) {
-            return {
-                rssUrl: result.feedUrl || null,
-                appleUrl: result.collectionViewUrl || null
-            };
-        }
-        return null;
-    } catch (e) {
-        console.error(`Error searching title ${title}:`, e.message);
-        return null;
-    }
+// Helper to normalize strings for comparison (remove spaces, punctuation, lowercase)
+function normalizeName(name) {
+    if (!name) return "";
+    return name.replace(/[\s\-\_\/\\｜\|\.\,]/g, '').toLowerCase();
 }
 
 async function main() {
@@ -74,12 +64,10 @@ async function main() {
     const doc = await parser.load();
     console.log(`Total Pages: ${doc.numPages}`);
     
-    const cards = [];
+    const rawCards = [];
     
     // Grid layout constants
     const colDivider = 297.5; // X center
-    const rowHeight = 95.5;   // Y distance between rows
-    const topY = 795.0;       // Y top of the grid
     
     for (let pageNum = 2; pageNum <= doc.numPages; pageNum++) {
         console.log(`Parsing Page ${pageNum}...`);
@@ -92,132 +80,185 @@ async function main() {
         const annotations = await page.getAnnotations();
         const linkAnnots = annotations.filter(ann => ann.subtype === 'Link');
         
-        // We will create a grid representation for this page.
-        // For pages 2-6, there are 8 rows and 2 columns.
-        // For page 7, we will adjust based on what we find or default to the same.
-        const numRows = 8;
-        const numCols = 2;
-        
-        // Create 2D array of card cells
-        const grid = Array.from({ length: numRows }, () => 
-            Array.from({ length: numCols }, () => ({
-                textItems: [],
-                links: []
-            }))
-        );
-        
-        // Place text items into grid cells
+        // Group text items into lines (Y within 3 points)
+        const lines = [];
         textContent.items.forEach(item => {
             if (!item.str.trim()) return;
             const x = item.transform[4];
             const y = item.transform[5];
             
-            // Determine column
-            const col = x < colDivider ? 0 : 1;
-            
-            // Determine row based on Y coordinate
-            // We want to map Y to a row index from 0 to 7
-            // row 0: y is near 786.9
-            // row 7: y is near 118.4
-            // Formula: row = round((topY - y) / rowHeight)
-            let row = Math.round((topY - y) / rowHeight);
-            if (row < 0) row = 0;
-            if (row >= numRows) row = numRows - 1;
-            
-            grid[row][col].textItems.push({ str: item.str, x, y });
+            let line = lines.find(l => Math.abs(l.y - y) <= 3);
+            if (!line) {
+                line = { y, items: [] };
+                lines.push(line);
+            }
+            line.items.push({ str: item.str, x, y });
         });
         
-        // Place link annotations into grid cells
+        // Sort lines by Y descending (top to bottom)
+        lines.sort((a, b) => b.y - a.y);
+        
+        // Find card headers on this page
+        const leftHeaders = [];
+        const rightHeaders = [];
+        
+        lines.forEach(line => {
+            line.items.sort((a, b) => a.x - b.x);
+            
+            // Check for Left column header (starts in [70, 80])
+            const leftItem = line.items.find(item => item.x >= 70 && item.x <= 80);
+            if (leftItem) {
+                const headerStr = line.items
+                    .filter(item => item.x >= leftItem.x && item.x < colDivider)
+                    .map(item => item.str)
+                    .join('')
+                    .trim();
+                
+                if (headerStr && headerStr.length > 1 && !leftHeaders.some(h => Math.abs(h.y - line.y) < 10)) {
+                    // Check if it is a noise entry
+                    const isNoise = headerStr.startsWith('http') || 
+                                    headerStr.includes('%') || 
+                                    headerStr.includes('id') || 
+                                    headerStr.includes('·') || 
+                                    headerStr.includes('粉絲') || 
+                                    headerStr.includes('KOL') || 
+                                    headerStr.includes('合作資源') || 
+                                    headerStr.includes('內部提案') || 
+                                    headerStr.includes('資料來源') || 
+                                    headerStr === '主檔' || 
+                                    headerStr === '親子教養';
+                    if (!isNoise) {
+                        leftHeaders.push({ name: headerStr, y: line.y, col: 0 });
+                    }
+                }
+            }
+            
+            // Check for Right column header (starts in [370, 380])
+            const rightItem = line.items.find(item => item.x >= 370 && item.x <= 380);
+            if (rightItem) {
+                const headerStr = line.items
+                    .filter(item => item.x >= rightItem.x)
+                    .map(item => item.str)
+                    .join('')
+                    .trim();
+                
+                if (headerStr && headerStr.length > 1 && !rightHeaders.some(h => Math.abs(h.y - line.y) < 10)) {
+                    const isNoise = headerStr.startsWith('http') || 
+                                    headerStr.includes('%') || 
+                                    headerStr.includes('id') || 
+                                    headerStr.includes('·') || 
+                                    headerStr.includes('粉絲') || 
+                                    headerStr.includes('KOL') || 
+                                    headerStr.includes('合作資源') || 
+                                    headerStr.includes('內部提案') || 
+                                    headerStr.includes('資料來源') || 
+                                    headerStr === '主檔' || 
+                                    headerStr === '親子教養';
+                    if (!isNoise) {
+                        rightHeaders.push({ name: headerStr, y: line.y, col: 1 });
+                    }
+                }
+            }
+        });
+        
+        leftHeaders.sort((a, b) => b.y - a.y);
+        rightHeaders.sort((a, b) => b.y - a.y);
+        
+        console.log(`  -> Page ${pageNum}: Found ${leftHeaders.length} left headers, ${rightHeaders.length} right headers.`);
+        
+        const getRanges = (headers) => {
+            return headers.map((h, idx) => {
+                const top = h.y + 15;
+                const bottom = (idx + 1 < headers.length) ? (headers[idx + 1].y + 15) : 0;
+                return { header: h, top, bottom };
+            });
+        };
+        
+        const leftRanges = getRanges(leftHeaders);
+        const rightRanges = getRanges(rightHeaders);
+        
+        const pageCards = [];
+        leftRanges.forEach(r => pageCards.push({ header: r.header, top: r.top, bottom: r.bottom, col: 0, textItems: [], links: [] }));
+        rightRanges.forEach(r => pageCards.push({ header: r.header, top: r.top, bottom: r.bottom, col: 1, textItems: [], links: [] }));
+        
+        // Place text items
+        textContent.items.forEach(item => {
+            if (!item.str.trim()) return;
+            const x = item.transform[4];
+            const y = item.transform[5];
+            const col = x < colDivider ? 0 : 1;
+            
+            const card = pageCards.find(c => c.col === col && y >= c.bottom && y <= c.top);
+            if (card) {
+                card.textItems.push({ str: item.str, x, y });
+            }
+        });
+        
+        // Place link annotations
         linkAnnots.forEach(ann => {
-            const rect = ann.rect; // [x1, y1, x2, y2]
+            const rect = ann.rect;
             const x = (rect[0] + rect[2]) / 2;
             const y = (rect[1] + rect[3]) / 2;
-            
             const col = x < colDivider ? 0 : 1;
-            let row = Math.round((topY - y) / rowHeight);
-            if (row < 0) row = 0;
-            if (row >= numRows) row = numRows - 1;
             
-            grid[row][col].links.push(ann.url || ann.unsafeUrl);
+            const card = pageCards.find(c => c.col === col && y >= c.bottom && y <= c.top);
+            if (card) {
+                card.links.push(ann.url || ann.unsafeUrl);
+            }
         });
         
-        // Extract card info from each grid cell
-        for (let r = 0; r < numRows; r++) {
-            for (let c = 0; c < numCols; c++) {
-                const cell = grid[r][c];
-                if (cell.textItems.length === 0) continue; // Empty cell
-                
-                // Sort text items: y descending (top to bottom), then x ascending (left to right)
-                cell.textItems.sort((a, b) => {
-                    if (Math.abs(a.y - b.y) > 3) {
-                        return b.y - a.y; // Higher y first
+        // Extract names
+        pageCards.forEach(card => {
+            card.textItems.sort((a, b) => {
+                if (Math.abs(a.y - b.y) > 3) return b.y - a.y;
+                return a.x - b.x;
+            });
+            
+            const lines = [];
+            let currentLine = [];
+            let currentY = -1;
+            card.textItems.forEach(item => {
+                if (currentY === -1 || Math.abs(item.y - currentY) > 3) {
+                    if (currentLine.length > 0) {
+                        lines.push(currentLine.map(x => x.str).join('').trim());
                     }
-                    return a.x - b.x; // Left x first
-                });
-                
-                // Reconstruct lines of text by grouping items with similar Y coordinate
-                const lines = [];
-                let currentLine = [];
-                let currentY = -1;
-                
-                cell.textItems.forEach(item => {
-                    if (currentY === -1 || Math.abs(item.y - currentY) > 3) {
-                        if (currentLine.length > 0) {
-                            lines.push(currentLine.map(x => x.str).join('').trim());
-                        }
-                        currentLine = [item];
-                        currentY = item.y;
-                    } else {
-                        currentLine.push(item);
-                    }
-                });
-                if (currentLine.length > 0) {
-                    lines.push(currentLine.map(x => x.str).join('').trim());
+                    currentLine = [item];
+                    currentY = item.y;
+                } else {
+                    currentLine.push(item);
                 }
-                
-                if (lines.length === 0) continue;
-                
-                // Heuristics to get partnerName and podcastName
-                const partnerName = lines[0];
-                let podcastName = partnerName;
-                
-                if (lines.length > 1) {
-                    const secondLine = lines[1];
-                    // Check if the second line is a category or follower line
-                    const isMetadata = secondLine.includes('·') || 
-                                       secondLine.includes('粉絲') || 
-                                       secondLine.startsWith('粉絲');
-                    if (!isMetadata) {
-                        podcastName = secondLine;
-                    }
-                }
-                
-                // Find Apple Podcast Link in links
-                const appleUrl = cell.links.find(url => url.includes('podcasts.apple.com')) || null;
-                const otherUrls = cell.links.filter(url => !url.includes('podcasts.apple.com'));
-                
-                cards.push({
-                    page: pageNum,
-                    row: r,
-                    col: c,
-                    partnerName,
-                    podcastName,
-                    appleUrl,
-                    otherUrls,
-                    allLinks: cell.links
-                });
+            });
+            if (currentLine.length > 0) {
+                lines.push(currentLine.map(x => x.str).join('').trim());
             }
-        }
+            
+            const partnerName = card.header.name;
+            let podcastName = partnerName;
+            
+            if (lines.length > 1) {
+                const secondLine = lines.find(l => l !== partnerName && !l.includes('·') && !l.includes('粉絲') && !l.startsWith('粉絲'));
+                if (secondLine) {
+                    podcastName = secondLine;
+                }
+            }
+            
+            const appleUrl = card.links.find(url => url.includes('podcasts.apple.com')) || null;
+            
+            rawCards.push({
+                partnerName,
+                podcastName,
+                appleUrl
+            });
+        });
     }
     
-    console.log(`\nSuccessfully grouped ${cards.length} program cards.`);
+    console.log(`\nSuccessfully parsed ${rawCards.length} clean program cards from PDF.`);
     
-    // Now we will resolve the RSS feed URLs for each program.
-    // To prevent hitting APIs too hard and to be safe, we will first check if we already have a matched RSS feed from updated_sheet.csv.
-    // Let's load updated_sheet.csv and create a map.
+    // Load canonical CSV mapping to prioritize correct matches
     const csvPath = 'updated_sheet.csv';
     const csvRssMap = new Map();
     const csvAppleMap = new Map();
+    const csvPodcastNameMap = new Map();
     
     if (fs.existsSync(csvPath)) {
         const csvContent = fs.readFileSync(csvPath, 'utf-8');
@@ -226,90 +267,94 @@ async function main() {
             const line = lines[i];
             if (!line.trim()) continue;
             
-            // Simple split
             const cells = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(x => x.replace(/^"|"$/g, '').trim());
             const partner = cells[2] || '';
             const apple = cells[10] || '';
             const rss = cells[11] || '';
+            const podcastName = cells[9] || '';
+            
             if (partner) {
-                if (rss && rss.startsWith('http')) csvRssMap.set(partner, rss);
-                if (apple && apple.startsWith('http')) csvAppleMap.set(partner, apple);
+                const normalizedPartner = normalizeName(partner);
+                if (rss && rss.startsWith('http')) csvRssMap.set(normalizedPartner, rss);
+                if (apple && apple.startsWith('http')) csvAppleMap.set(normalizedPartner, apple);
+                if (podcastName) csvPodcastNameMap.set(normalizedPartner, podcastName);
             }
         }
     }
     
-    console.log(`Loaded ${csvRssMap.size} existing programs from updated_sheet.csv.`);
+    // Resolve final lists of programs
+    const resolvedPrograms = [];
     
-    // Resolve RSS URLs
-    const finalPrograms = [];
-    
-    for (let i = 0; i < cards.length; i++) {
-        const card = cards[i];
-        console.log(`[${i+1}/${cards.length}] Resolving: ${card.partnerName} (${card.podcastName})`);
+    for (let i = 0; i < rawCards.length; i++) {
+        const card = rawCards[i];
+        const normalizedP = normalizeName(card.partnerName);
         
         let rssUrl = null;
         let appleUrl = card.appleUrl;
+        let podcastName = card.podcastName;
         
-        // 1. Try mapping from CSV by partnerName
-        if (csvRssMap.has(card.partnerName)) {
-            rssUrl = csvRssMap.get(card.partnerName);
-            if (!appleUrl && csvAppleMap.has(card.partnerName)) {
-                appleUrl = csvAppleMap.get(card.partnerName);
+        // 1. Try CSV match first
+        if (csvRssMap.has(normalizedP)) {
+            rssUrl = csvRssMap.get(normalizedP);
+            podcastName = csvPodcastNameMap.get(normalizedP) || podcastName;
+            if (csvAppleMap.has(normalizedP)) {
+                appleUrl = csvAppleMap.get(normalizedP);
             }
-            console.log(`  -> Found in CSV: ${rssUrl}`);
-        }
-        
-        // 2. Try looking up Apple ID if we have Apple URL
-        if (!rssUrl && appleUrl) {
+        } 
+        // 2. If no CSV match, but we have an Apple URL from PDF annotations, query iTunes API
+        else if (appleUrl) {
             const idMatch = appleUrl.match(/\/id(\d+)/);
             if (idMatch) {
                 const appleId = idMatch[1];
-                console.log(`  -> Found Apple ID: ${appleId}. Querying iTunes API...`);
+                console.log(`[Apple Link Lookup] ${card.partnerName} (ID: ${appleId})...`);
                 rssUrl = await lookupRssByAppleId(appleId);
-                if (rssUrl) {
-                    console.log(`    -> iTunes API returned RSS: ${rssUrl}`);
-                }
-                // Sleep slightly to respect rate limits
-                await new Promise(r => setTimeout(r, 100));
+                await new Promise(r => setTimeout(r, 200));
             }
         }
         
-        // 3. Try searching by Title if still no RSS
-        if (!rssUrl) {
-            console.log(`  -> Searching by title: "${card.podcastName}"...`);
-            const searchResult = await searchRssByTitle(card.podcastName);
-            if (searchResult) {
-                rssUrl = searchResult.rssUrl;
-                if (!appleUrl) appleUrl = searchResult.appleUrl;
-                console.log(`    -> Found via Search: ${rssUrl}`);
-            } else {
-                console.log(`    -> No search result found.`);
-            }
-            // Sleep slightly
-            await new Promise(r => setTimeout(r, 100));
-        }
-        
-        finalPrograms.push({
+        resolvedPrograms.push({
             partnerName: card.partnerName,
-            podcastName: card.podcastName,
+            podcastName: podcastName,
             applePodcastUrl: appleUrl || "",
             rssUrl: rssUrl || ""
         });
     }
     
-    // Save to kol_programs_list.json
-    fs.writeFileSync('kol_programs_list.json', JSON.stringify(finalPrograms, null, 2), 'utf-8');
-    console.log(`\n🎉 Extracted all programs! Saved ${finalPrograms.length} entries to kol_programs_list.json.`);
+    // --- Deduplication Logic ---
+    const uniquePrograms = [];
     
-    // Let's print out the ones that failed to resolve RSS
-    const missingRss = finalPrograms.filter(p => !p.rssUrl);
-    console.log(`Total missing RSS URLs: ${missingRss.length}`);
-    if (missingRss.length > 0) {
-        console.log("Missing RSS programs:");
-        missingRss.forEach(p => console.log(`- ${p.partnerName}: ${p.podcastName}`));
-    }
+    resolvedPrograms.forEach(p => {
+        // If it's a non-podcast KOL (empty RSS)
+        if (!p.rssUrl) {
+            // Check if we already have this partnerName to prevent duplicates
+            const existingNonPod = uniquePrograms.find(item => !item.rssUrl && normalizeName(item.partnerName) === normalizeName(p.partnerName));
+            if (!existingNonPod) {
+                uniquePrograms.push(p);
+            }
+            return;
+        }
+        
+        // Check if this RSS feed is already added
+        const existing = uniquePrograms.find(item => item.rssUrl && item.rssUrl === p.rssUrl);
+        if (existing) {
+            // Merge partnerName
+            if (!existing.partnerName.includes(p.partnerName)) {
+                existing.partnerName = `${existing.partnerName} / ${p.partnerName}`;
+            }
+            console.log(`[Merged Duplicate] Combined partner for duplicate RSS: ${existing.partnerName} -> ${existing.podcastName}`);
+        } else {
+            uniquePrograms.push(p);
+        }
+    });
+    
+    // Save to kol_programs_list.json
+    fs.writeFileSync('kol_programs_list.json', JSON.stringify(uniquePrograms, null, 2), 'utf-8');
+    console.log(`\n🎉 Completed! Saved ${uniquePrograms.length} unique entries to kol_programs_list.json.`);
+    
+    const missing = uniquePrograms.filter(p => !p.rssUrl);
+    console.log(`Total non-podcast KOLs: ${missing.length}`);
 }
 
 main().catch(err => {
-    console.error("Error running main:", err);
+    console.error("Error:", err);
 });

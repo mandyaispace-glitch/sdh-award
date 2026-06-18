@@ -1,71 +1,15 @@
 {
   "summary": {
-    "totalPrograms": 83,
-    "eligiblePrograms": 56,
-    "ineligiblePrograms": 27,
-    "totalEpisodes": 2447
+    "totalPrograms": 82,
+    "eligiblePrograms": 21,
+    "ineligiblePrograms": 61,
+    "totalEpisodes": 815
   },
   "programs": [
-    {
-      "partnerName": "30節約男子",
-      "podcastName": "財富餐車不打烊",
-      "episodesCount": 30,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "丁菱娟",
-      "podcastName": "丁菱娟的邊走邊想",
-      "episodesCount": 24,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "人生啊！小歐",
-      "podcastName": "人生啊｜陪你一起看懂人生",
-      "episodesCount": 23,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "下半場陪談師＿張嘉茹老師",
-      "podcastName": "下半場人生陪談師",
-      "episodesCount": 15,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "小思大維｜雪柔",
-      "podcastName": "小思大維",
-      "episodesCount": 19,
-      "eligible": true,
-      "reason": "合格"
-    },
     {
       "partnerName": "山姆書書",
       "podcastName": "山姆書書",
       "episodesCount": 24,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "不敗教主-陳重銘",
-      "podcastName": "不敗教主陳重銘",
-      "episodesCount": 69,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "五吉郎",
-      "podcastName": "五吉郎",
-      "episodesCount": 121,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "王琄",
-      "podcastName": "琄蜜莉的異想世界",
-      "episodesCount": 14,
       "eligible": true,
       "reason": "合格"
     },
@@ -80,48 +24,6 @@
       "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
       "podcastName": "加班當爸媽｜櫻桃可可CherryCoco",
       "episodesCount": 26,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "尼可這樣說",
-      "podcastName": "尼可這樣說",
-      "episodesCount": 38,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "布姐陪你聰明工作創意生活",
-      "podcastName": "布姐的沙發",
-      "episodesCount": 63,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "布萊恩老師",
-      "podcastName": "郝聲音",
-      "episodesCount": 174,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "幼兒情緒教育學院-萬叔的心café",
-      "podcastName": "布姐的沙發",
-      "episodesCount": 63,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "瓦基閱讀前哨站",
-      "podcastName": "下一本讀什麼？",
-      "episodesCount": 60,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "全遠距工作的行銷人|Coco",
-      "podcastName": "學習喳",
-      "episodesCount": 14,
       "eligible": true,
       "reason": "合格"
     },
@@ -147,21 +49,7 @@
       "reason": "合格"
     },
     {
-      "partnerName": "我的動齡限量版",
-      "podcastName": "我的動齡限量版",
-      "episodesCount": 36,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "姊姊不想懂事了",
-      "podcastName": "《姐姐不想懂事了》 | Soft Rebellion",
-      "episodesCount": 18,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "姐姐不想懂事了｜莉安君怡",
+      "partnerName": "姐姐不想懂事了｜莉安君怡 / 姊姊不想懂事了",
       "podcastName": "《姐姐不想懂事了》 | Soft Rebellion",
       "episodesCount": 18,
       "eligible": true,
@@ -169,43 +57,15 @@
     },
     {
       "partnerName": "林程揚｜Hank大叔",
-      "podcastName": "佐編茶水間",
-      "episodesCount": 14,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "治療師瑪奇",
-      "podcastName": "教出你的路",
-      "episodesCount": 18,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "玩命之徒｜林尚諾大師兄",
-      "podcastName": "玩命之徒",
-      "episodesCount": 24,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "阿駿日常",
-      "podcastName": "郝聲音",
-      "episodesCount": 174,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "品牌女子A娜",
-      "podcastName": "你也想紅嗎",
-      "episodesCount": 19,
+      "podcastName": "能量黑客",
+      "episodesCount": 48,
       "eligible": true,
       "reason": "合格"
     },
     {
       "partnerName": "哇賽心理學_蔡宇哲",
       "podcastName": "哇賽心理學",
-      "episodesCount": 36,
+      "episodesCount": 37,
       "eligible": true,
       "reason": "合格"
     },
@@ -231,13 +91,6 @@
       "reason": "合格"
     },
     {
-      "partnerName": "胡咪老師",
-      "podcastName": "分手的99個理由",
-      "episodesCount": 47,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
       "partnerName": "孫子玲",
       "podcastName": "子玲的親子聊心屋-媽咪的自我成長&親子教養",
       "episodesCount": 16,
@@ -245,23 +98,9 @@
       "reason": "合格"
     },
     {
-      "partnerName": "孫治華",
-      "podcastName": "人生挖挖WoW-企業人生策略學",
-      "episodesCount": 17,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
       "partnerName": "郝旭烈/郝聲音",
       "podcastName": "郝聲音",
-      "episodesCount": 174,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "高言值表達力教練｜竺宥璋｜小竺",
-      "podcastName": "五吉郎",
-      "episodesCount": 121,
+      "episodesCount": 175,
       "eligible": true,
       "reason": "合格"
     },
@@ -273,20 +112,6 @@
       "reason": "合格"
     },
     {
-      "partnerName": "斜槓空姐cindy",
-      "podcastName": "郝聲音",
-      "episodesCount": 174,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "梁哲維",
-      "podcastName": "OHMYBOOK｜哲維說書",
-      "episodesCount": 42,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
       "partnerName": "莫菲穿搭",
       "podcastName": "【莫轉台】-試穿新人生",
       "episodesCount": 25,
@@ -294,51 +119,16 @@
       "reason": "合格"
     },
     {
-      "partnerName": "無所不試無樂不作",
-      "podcastName": "無所不試 無樂不作",
-      "episodesCount": 29,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "楊月娥（楊肉爐）",
-      "podcastName": "楊肉盧",
-      "episodesCount": 25,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "瑪那熊諮商心理師",
-      "podcastName": "傑森的人生賽道",
-      "episodesCount": 23,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
       "partnerName": "精算媽咪的家計簿｜珊迪兔",
       "podcastName": "精算媽咪的家計簿",
-      "episodesCount": 74,
+      "episodesCount": 75,
       "eligible": true,
       "reason": "合格"
     },
     {
-      "partnerName": "維琪的幸福叮嚀",
-      "podcastName": "能量黑客",
-      "episodesCount": 47,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "閱讀聊樂key",
-      "podcastName": "閱讀聊樂KEY",
-      "episodesCount": 24,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "聰明主婦的生活投資學",
-      "podcastName": "聰明生活投資學",
-      "episodesCount": 17,
+      "partnerName": "蕭邦",
+      "podcastName": "蕭邦相談室",
+      "episodesCount": 51,
       "eligible": true,
       "reason": "合格"
     },
@@ -357,81 +147,144 @@
       "reason": "合格"
     },
     {
-      "partnerName": "爛泥媽媽的重生日記（Jill)",
-      "podcastName": "爛泥Jill式優雅",
-      "episodesCount": 24,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "Coco｜全遠距工作的行銷人",
-      "podcastName": "學習喳",
-      "episodesCount": 14,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
       "partnerName": "Dr Selena",
       "podcastName": "小資變有錢｜Dr.Selena生活理財王",
-      "episodesCount": 49,
+      "episodesCount": 50,
       "eligible": true,
       "reason": "合格"
     },
     {
-      "partnerName": "Fire人生大學｜道哥",
-      "podcastName": "FIRE 人生大學",
-      "episodesCount": 21,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "GK爸爸",
-      "podcastName": "GK爸爸原創故事繪本",
-      "episodesCount": 33,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "Vito大叔",
-      "podcastName": "粉紅地獄辛辣麵",
-      "episodesCount": 47,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "—",
-      "podcastName": "歡迎光臨",
-      "episodesCount": 2,
+      "partnerName": "30節約男子",
+      "podcastName": "財富餐車不打烊",
+      "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "丁菱娟",
+      "podcastName": "丁菱娟邊走邊想",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "人生啊！小歐",
+      "podcastName": "人生啊｜用我的人生故事，陪你看懂自己",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "下半場陪談師＿張嘉茹老師",
+      "podcastName": "下半場陪談師",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "小河馬媽媽",
       "podcastName": "來晚無添加河粉吧！",
-      "episodesCount": 9,
+      "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "小思大維｜雪柔",
+      "podcastName": "小思大維",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "不敗教主-陳重銘",
+      "podcastName": "不敗教主-陳重銘",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "五吉郎",
+      "podcastName": "五",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "文森說書",
-      "podcastName": "米米說",
+      "podcastName": "文森說書",
       "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "犬兒媽咪の育兒手帳",
       "podcastName": "育兒專機",
-      "episodesCount": 4,
+      "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "王琄",
+      "podcastName": "琄蜜莉的異想世界",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "尼可這樣說",
+      "podcastName": "尼",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "布姐陪你聰明工作創意生活",
+      "podcastName": "布姐的沙發",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "布萊恩老師",
+      "podcastName": "布萊恩老師",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "幼兒情緒教育學院-萬叔的心café",
+      "podcastName": "幼兒情緒教育學院-萬叔的心café",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "瓦基閱讀前哨站",
+      "podcastName": "下一本讀什麼",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "全遠距工作的行銷人|Coco",
+      "podcastName": "—",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "即薑抵達｜薑咪",
-      "podcastName": "即薑抵達",
-      "episodesCount": 11,
+      "podcastName": "即薑抵達https://open.spotify.com/show/6ZUSdp6iLOWJqay7uKTBxO",
+      "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "我的動齡限量版",
+      "podcastName": "我的動齡限量版",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "李柏鋒的擴大機",
@@ -442,17 +295,59 @@
     },
     {
       "partnerName": "林慧",
-      "podcastName": "做自己很難嗎？",
-      "episodesCount": 2,
+      "podcastName": "SoWhat做自己很難嗎？",
+      "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "治療師瑪奇",
+      "podcastName": "教出你的路",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "玩命之徒｜林尚諾大師兄",
+      "podcastName": "玩命之徒",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "育兒專機｜犬媽",
       "podcastName": "育兒專機",
-      "episodesCount": 4,
+      "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "阿駿日常",
+      "podcastName": "阿",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "品牌女子A娜",
+      "podcastName": "你也想紅嗎",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "胡咪老師",
+      "podcastName": "分手的99個理由",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "孫治華",
+      "podcastName": "人生挖挖WoW-企業人生策略學",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "迷途艾比",
@@ -460,6 +355,13 @@
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (發片集數不足 12 集)"
+    },
+    {
+      "partnerName": "高言值表達力教練｜竺宥璋｜小竺",
+      "podcastName": "—",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "崔咪",
@@ -470,38 +372,66 @@
     },
     {
       "partnerName": "張書書",
-      "podcastName": "拎老書",
-      "episodesCount": 9,
+      "podcastName": "張書書",
+      "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "斜槓空姐cindy",
+      "podcastName": "斜槓空姐cindy",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "曼蒂歐逆-轉型之路",
-      "podcastName": "任性歐逆機智生活",
-      "episodesCount": 9,
+      "podcastName": "曼蒂歐逆-轉型之路",
+      "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "梁哲維",
+      "podcastName": "哲維說書",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "莊舒涵（卡姊）",
       "podcastName": "我不是病人，我是卡姊！",
       "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "喬王的投資理財筆記",
-      "podcastName": "斜槓 槓槓槓",
-      "episodesCount": 2,
+      "podcastName": "斜槓槓槓槓",
+      "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "無所不試無樂不作",
+      "podcastName": "無所不試無樂不作",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "微光中的貓| Claire Hsiao",
-      "podcastName": "《 微光中的北極星 》人生策略、自我成長、內在力量",
-      "episodesCount": 7,
+      "podcastName": "微光中的北極星",
+      "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "楊月娥（楊肉爐）",
+      "podcastName": "楊肉盧",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "雷浩斯價值投資網",
@@ -518,11 +448,25 @@
       "reason": "資格不符 (發片集數不足 12 集)"
     },
     {
+      "partnerName": "瑪那熊諮商心理師",
+      "podcastName": "瑪那熊諮商心理師",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "維琪的幸福叮嚀",
+      "podcastName": "能量黑客",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
       "partnerName": "趙函穎的營養健康週報",
       "podcastName": "趙函穎的營養健康報報",
       "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "劉亦酉",
@@ -533,8 +477,15 @@
     },
     {
       "partnerName": "廣播主持人_楊凱涵",
-      "podcastName": "請多包涵 / BaoHan Talk",
-      "episodesCount": 4,
+      "podcastName": "請多包涵/ BaoHan Talk",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "樂筆",
+      "podcastName": "歡迎光臨",
+      "episodesCount": 2,
       "eligible": false,
       "reason": "資格不符 (發片集數不足 12 集)"
     },
@@ -547,17 +498,24 @@
     },
     {
       "partnerName": "鄧惠文",
-      "podcastName": "鄧惠文 不想說",
-      "episodesCount": 9,
+      "podcastName": "鄧惠文不想說",
+      "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
-      "partnerName": "蕭邦",
-      "podcastName": "歡迎光臨",
-      "episodesCount": 2,
+      "partnerName": "閱讀聊樂key",
+      "podcastName": "閱讀聊樂key",
+      "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "聰明主婦的生活投資學",
+      "podcastName": "聰明生活投資學",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "謎卡Mika Lin",
@@ -568,10 +526,24 @@
     },
     {
       "partnerName": "蘋果老師",
-      "podcastName": "網紅，紅什麼",
+      "podcastName": "網紅，紅什麼？",
       "episodesCount": 0,
       "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "爛泥媽媽的重生日記（Jill)",
+      "podcastName": "爛泥Jill式優雅",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "Coco｜全遠距工作的行銷人",
+      "podcastName": "Coco｜全遠距工作的行銷人",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "Cynthia Huang黃馨儀",
@@ -581,8 +553,29 @@
       "reason": "資格不符 (發片集數不足 12 集)"
     },
     {
+      "partnerName": "Fire人生大學｜道哥",
+      "podcastName": "FIRE人生大學",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "GK爸爸",
+      "podcastName": "GK爸爸原創故事繪本",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
       "partnerName": "MandyAI共享幕僚",
       "podcastName": "AI共享幕僚",
+      "episodesCount": 0,
+      "eligible": false,
+      "reason": "資格不符 (無 Podcast 節目)"
+    },
+    {
+      "partnerName": "Vito大叔",
+      "podcastName": "粉紅地獄辛辣麵分手的99個理由",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
