@@ -1,5 +1,7 @@
 {
   "summary": {
+    "totalKols": 79,
+    "hasPodcastCount": 65,
     "totalPrograms": 79,
     "eligiblePrograms": 46,
     "ineligiblePrograms": 33,
@@ -414,35 +416,35 @@
     },
     {
       "partnerName": "人生啊！小歐",
-      "podcastName": "人生啊｜用我的人生故事，陪你看懂自己",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "下半場陪談師＿張嘉茹老師",
-      "podcastName": "下半場陪談師",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "布萊恩老師",
-      "podcastName": "布萊恩老師",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "幼兒情緒教育學院-萬叔的心café",
-      "podcastName": "幼兒情緒教育學院-萬叔的心café",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "全遠距工作的行銷人|Coco",
-      "podcastName": "全遠距工作的行銷人|Coco",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
@@ -456,7 +458,7 @@
     },
     {
       "partnerName": "阿駿日常",
-      "podcastName": "阿駿日常",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
@@ -470,28 +472,28 @@
     },
     {
       "partnerName": "高言值表達力教練｜竺宥璋｜小竺",
-      "podcastName": "高言值表達力教練｜竺宥璋｜小竺",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "張書書",
-      "podcastName": "張書書",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "斜槓空姐cindy",
-      "podcastName": "斜槓空姐cindy",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "曼蒂歐逆-轉型之路",
-      "podcastName": "曼蒂歐逆-轉型之路",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
@@ -505,14 +507,14 @@
     },
     {
       "partnerName": "雷浩斯價值投資網",
-      "podcastName": "雷浩斯價值投資網",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
     },
     {
       "partnerName": "瑪那熊諮商心理師",
-      "podcastName": "瑪那熊諮商心理師",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
@@ -526,7 +528,7 @@
     },
     {
       "partnerName": "劉亦酉",
-      "podcastName": "劉亦酉",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
@@ -547,7 +549,7 @@
     },
     {
       "partnerName": "Coco｜全遠距工作的行銷人",
-      "podcastName": "Coco｜全遠距工作的行銷人",
+      "podcastName": "無",
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"

@@ -96,14 +96,43 @@ function parseRssFeed(xml) {
 
 async function main() {
     const listPath = path.join(__dirname, 'kol_programs_list.json');
-    if (!fs.existsSync(listPath)) {
-        console.error("找不到 kol_programs_list.json 檔案，請先執行 extract_programs.js。");
-        return;
+    const excelOutputPath = path.join(__dirname, 'eligible_episodes_pool.xlsx');
+    
+    let podcastsToProcess = [];
+    
+    // Check if Excel already exists to read '合作名單' as source of truth
+    if (fs.existsSync(excelOutputPath)) {
+        console.log("偵測到已存在的 Excel 檔案，正在從「合作名單」頁籤讀取資料作為事實來源 (Source of Truth)...");
+        try {
+            const workbook = XLSX.readFile(excelOutputPath);
+            const wsCoop = workbook.Sheets["合作名單"];
+            if (wsCoop) {
+                const rawRows = XLSX.utils.sheet_to_json(wsCoop);
+                podcastsToProcess = rawRows.map(row => {
+                    const hasPodcast = row["是否有Podcast節目"] === "是" || row["是否有Podcast節目"] === "true" || row["是否有Podcast節目"] === true;
+                    return {
+                        partnerName: row["合作夥伴"] || "",
+                        podcastName: (row["節目名稱"] === "無" || !row["節目名稱"]) ? "" : row["節目名稱"],
+                        applePodcastUrl: row["Apple Podcast 連結"] || "",
+                        rssUrl: hasPodcast ? (row["RSS 連結"] || "") : ""
+                    };
+                });
+                console.log(`成功自 Excel「合作名單」加載 ${podcastsToProcess.length} 筆合作夥伴資料！`);
+            }
+        } catch (err) {
+            console.warn(`讀取 Excel 失敗 (${err.message})，將改用 JSON 檔案作為來源。`);
+        }
     }
     
-    console.log("正在讀取 kol_programs_list.json 名單...");
-    const podcastsToProcess = JSON.parse(fs.readFileSync(listPath, 'utf-8'));
-    console.log(`共載入 ${podcastsToProcess.length} 個 KOL 節目。`);
+    if (podcastsToProcess.length === 0) {
+        if (!fs.existsSync(listPath)) {
+            console.error("找不到 kol_programs_list.json 檔案，請先執行 extract_programs.js。");
+            return;
+        }
+        console.log("正在讀取 kol_programs_list.json 名單...");
+        podcastsToProcess = JSON.parse(fs.readFileSync(listPath, 'utf-8'));
+        console.log(`共載入 ${podcastsToProcess.length} 個 KOL 節目。`);
+    }
     
     const eligibilityReport = [];
     const masterEpisodePool = [];
@@ -247,8 +276,6 @@ async function main() {
     }));
     const ws3 = XLSX.utils.json_to_sheet(sheet3Data);
     XLSX.utils.book_append_sheet(wb, ws3, "發片量統計與資格判定");
-    
-    const excelOutputPath = path.join(__dirname, 'eligible_episodes_pool.xlsx');
     XLSX.writeFile(wb, excelOutputPath);
     console.log(`多頁籤 Excel 檔案已寫入: ${excelOutputPath} (共 ${masterEpisodePool.length} 集)`);
 
