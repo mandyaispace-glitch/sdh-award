@@ -181,10 +181,10 @@ async function main() {
         await new Promise(r => setTimeout(r, 100));
     }
     
-    // Sort report: Eligible first, then alphabetically by partner name
+    // Sort report: Episode count descending, then alphabetically by partner name
     eligibilityReport.sort((a, b) => {
-        if (a.eligible !== b.eligible) {
-            return a.eligible ? -1 : 1;
+        if (b.episodesCount !== a.episodesCount) {
+            return b.episodesCount - a.episodesCount;
         }
         return a.partnerName.localeCompare(b.partnerName, 'zh-Hant');
     });

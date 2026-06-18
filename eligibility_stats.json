@@ -7,114 +7,9 @@
   },
   "programs": [
     {
-      "partnerName": "山姆書書",
-      "podcastName": "山姆書書",
-      "episodesCount": 24,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "主播/主持人朱楚文",
-      "podcastName": "科技領航家",
-      "episodesCount": 24,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
-      "podcastName": "加班當爸媽｜櫻桃可可CherryCoco",
-      "episodesCount": 26,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "佐依Zoey",
-      "podcastName": "佐編茶水間",
-      "episodesCount": 14,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "別人的工作最有趣｜Fiona",
-      "podcastName": "別人的工作最有趣",
-      "episodesCount": 24,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "宋家小館｜Becky",
-      "podcastName": "宋家小館",
-      "episodesCount": 42,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "姐姐不想懂事了｜莉安君怡 / 姊姊不想懂事了",
-      "podcastName": "《姐姐不想懂事了》 | Soft Rebellion",
-      "episodesCount": 18,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "林程揚｜Hank大叔",
-      "podcastName": "能量黑客",
-      "episodesCount": 48,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "哇賽心理學_蔡宇哲",
-      "podcastName": "哇賽心理學",
-      "episodesCount": 37,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "美股航海王",
-      "podcastName": "航海王的富人學",
-      "episodesCount": 28,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "美股夢想家",
-      "podcastName": "夢想家說股事",
-      "episodesCount": 36,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "美業幹什麼｜蔡佩陵",
-      "podcastName": "美業幹什麼",
-      "episodesCount": 29,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "孫子玲",
-      "podcastName": "子玲的親子聊心屋-媽咪的自我成長&親子教養",
-      "episodesCount": 16,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
       "partnerName": "郝旭烈/郝聲音",
       "podcastName": "郝聲音",
       "episodesCount": 175,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "張忘形",
-      "podcastName": "人類行為研究社",
-      "episodesCount": 23,
-      "eligible": true,
-      "reason": "合格"
-    },
-    {
-      "partnerName": "莫菲穿搭",
-      "podcastName": "【莫轉台】-試穿新人生",
-      "episodesCount": 25,
       "eligible": true,
       "reason": "合格"
     },
@@ -133,9 +28,93 @@
       "reason": "合格"
     },
     {
+      "partnerName": "Dr Selena",
+      "podcastName": "小資變有錢｜Dr.Selena生活理財王",
+      "episodesCount": 50,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "林程揚｜Hank大叔",
+      "podcastName": "能量黑客",
+      "episodesCount": 48,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "宋家小館｜Becky",
+      "podcastName": "宋家小館",
+      "episodesCount": 42,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "哇賽心理學_蔡宇哲",
+      "podcastName": "哇賽心理學",
+      "episodesCount": 37,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "美股夢想家",
+      "podcastName": "夢想家說股事",
+      "episodesCount": 36,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "美業幹什麼｜蔡佩陵",
+      "podcastName": "美業幹什麼",
+      "episodesCount": 29,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "美股航海王",
+      "podcastName": "航海王的富人學",
+      "episodesCount": 28,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+      "podcastName": "加班當爸媽｜櫻桃可可CherryCoco",
+      "episodesCount": 26,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
       "partnerName": "聲音表達講師林依柔",
       "podcastName": "說話人聲",
       "episodesCount": 26,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "莫菲穿搭",
+      "podcastName": "【莫轉台】-試穿新人生",
+      "episodesCount": 25,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "山姆書書",
+      "podcastName": "山姆書書",
+      "episodesCount": 24,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "主播/主持人朱楚文",
+      "podcastName": "科技領航家",
+      "episodesCount": 24,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "別人的工作最有趣｜Fiona",
+      "podcastName": "別人的工作最有趣",
+      "episodesCount": 24,
       "eligible": true,
       "reason": "合格"
     },
@@ -147,11 +126,60 @@
       "reason": "合格"
     },
     {
-      "partnerName": "Dr Selena",
-      "podcastName": "小資變有錢｜Dr.Selena生活理財王",
-      "episodesCount": 50,
+      "partnerName": "張忘形",
+      "podcastName": "人類行為研究社",
+      "episodesCount": 23,
       "eligible": true,
       "reason": "合格"
+    },
+    {
+      "partnerName": "姐姐不想懂事了｜莉安君怡 / 姊姊不想懂事了",
+      "podcastName": "《姐姐不想懂事了》 | Soft Rebellion",
+      "episodesCount": 18,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "孫子玲",
+      "podcastName": "子玲的親子聊心屋-媽咪的自我成長&親子教養",
+      "episodesCount": 16,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "佐依Zoey",
+      "podcastName": "佐編茶水間",
+      "episodesCount": 14,
+      "eligible": true,
+      "reason": "合格"
+    },
+    {
+      "partnerName": "潘思璇ＣＰ",
+      "podcastName": "CP有主見",
+      "episodesCount": 11,
+      "eligible": false,
+      "reason": "資格不符 (發片集數不足 12 集)"
+    },
+    {
+      "partnerName": "慢活夫妻Dewi&George",
+      "podcastName": "慢活夫妻－專業美股投資與理財",
+      "episodesCount": 8,
+      "eligible": false,
+      "reason": "資格不符 (發片集數不足 12 集)"
+    },
+    {
+      "partnerName": "崔咪",
+      "podcastName": "一不小心太漂亮",
+      "episodesCount": 7,
+      "eligible": false,
+      "reason": "資格不符 (發片集數不足 12 集)"
+    },
+    {
+      "partnerName": "樂筆",
+      "podcastName": "歡迎光臨",
+      "episodesCount": 2,
+      "eligible": false,
+      "reason": "資格不符 (發片集數不足 12 集)"
     },
     {
       "partnerName": "30節約男子",
@@ -364,13 +392,6 @@
       "reason": "資格不符 (無 Podcast 節目)"
     },
     {
-      "partnerName": "崔咪",
-      "podcastName": "一不小心太漂亮",
-      "episodesCount": 7,
-      "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
-    },
-    {
       "partnerName": "張書書",
       "podcastName": "張書書",
       "episodesCount": 0,
@@ -441,13 +462,6 @@
       "reason": "資格不符 (無 Podcast 節目)"
     },
     {
-      "partnerName": "慢活夫妻Dewi&George",
-      "podcastName": "慢活夫妻－專業美股投資與理財",
-      "episodesCount": 8,
-      "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
-    },
-    {
       "partnerName": "瑪那熊諮商心理師",
       "podcastName": "瑪那熊諮商心理師",
       "episodesCount": 0,
@@ -481,20 +495,6 @@
       "episodesCount": 0,
       "eligible": false,
       "reason": "資格不符 (無 Podcast 節目)"
-    },
-    {
-      "partnerName": "樂筆",
-      "podcastName": "歡迎光臨",
-      "episodesCount": 2,
-      "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
-    },
-    {
-      "partnerName": "潘思璇ＣＰ",
-      "podcastName": "CP有主見",
-      "episodesCount": 11,
-      "eligible": false,
-      "reason": "資格不符 (發片集數不足 12 集)"
     },
     {
       "partnerName": "鄧惠文",
