@@ -313,6 +313,42 @@ function generateSelfContainedHtml() {
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Rankings section -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm my-8">
+                        <h3 class="text-sm font-extrabold text-slate-700 mb-4 border-l-4 border-rose-500 pl-2">
+                            Apple Podcast 霸榜歷史排行走勢 (曾入榜 KOL)
+                        </h3>
+                        <p class="text-xs text-slate-500 mb-4">
+                            統計自收錄起點 (2026-06-14) 迄今，KOL 節目在 Apple Podcast 台灣每日熱門 Top 100 總榜的名次波動走勢（名次越往上方表示排行越高，若當日未入榜則不顯示點位）。
+                        </p>
+                        <div class="w-full h-[320px] mb-6">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                        
+                        <h3 class="text-sm font-extrabold text-slate-700 mb-3 border-l-4 border-amber-500 pl-2">
+                            KOL 霸榜詳細數據表
+                        </h3>
+                        <div class="overflow-x-auto border border-slate-100 rounded-xl">
+                            <table class="min-w-full divide-y divide-slate-200 text-xs sm:text-sm">
+                                <thead class="bg-slate-50/70">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left font-bold text-slate-700">名次</th>
+                                        <th class="px-3 py-2 text-left font-bold text-slate-700">合作夥伴</th>
+                                        <th class="px-3 py-2 text-left font-bold text-slate-700">節目名稱</th>
+                                        <th class="px-3 py-2 text-center font-bold text-slate-700">在榜天數</th>
+                                        <th class="px-3 py-2 text-center font-bold text-slate-700">在榜率</th>
+                                        <th class="px-3 py-2 text-center font-bold text-slate-700">平均排名</th>
+                                        <th class="px-3 py-2 text-center font-bold text-slate-700">最佳排名</th>
+                                        <th class="px-3 py-2 text-left font-bold text-slate-700">歷史名次軌跡</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="leaderboard-tbody" class="divide-y divide-slate-100 bg-white">
+                                    <!-- Dynamic rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Status Markdown content will render here -->
@@ -414,6 +450,7 @@ function generateSelfContainedHtml() {
         // Global charts instances to prevent canvas reuse errors
         let pieChartInstance = null;
         let barChartInstance = null;
+        let lineChartInstance = null;
 
         function renderCharts() {
             const stats = window.eligibilityStats;
@@ -504,6 +541,130 @@ function generateSelfContainedHtml() {
                     }
                 }
             });
+
+            // Render Line Chart (Apple rankings over time)
+            const lineCtx = document.getElementById('lineChart').getContext('2d');
+            if (lineChartInstance) lineChartInstance.destroy();
+
+            const dates = stats.dates || [];
+            const leaderboard = stats.leaderboard || [];
+
+            // Define colors for the lines
+            const lineColors = [
+                '#E8452A', // Brand Red
+                '#2a7de1', // Brand Blue
+                '#10b981', // Emerald Green
+                '#e56b1f', // Brand Orange
+                '#8b5cf6', // Violet
+                '#f59e0b', // Amber
+                '#ec4899', // Pink
+                '#06b6d4'  // Cyan
+            ];
+
+            const datasets = leaderboard.map((item, idx) => {
+                const dataPoints = dates.map(date => {
+                    return item.history[date] !== undefined ? item.history[date] : null;
+                });
+
+                return {
+                    label: item.partnerName,
+                    data: dataPoints,
+                    borderColor: lineColors[idx % lineColors.length],
+                    backgroundColor: lineColors[idx % lineColors.length],
+                    borderWidth: 3,
+                    tension: 0.1,
+                    spanGaps: false, // Don't bridge gaps where not on chart
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                };
+            });
+
+            lineChartInstance = new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: dates.map(d => d.slice(5)), // "MM-DD"
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            reverse: true,
+                            min: 1,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: '名次 (越往上名次越高)',
+                                font: { family: 'Noto Sans TC', size: 11, weight: 'bold' }
+                            },
+                            grid: { color: '#e2e8f0' },
+                            ticks: {
+                                font: { family: 'Noto Sans TC', size: 10 },
+                                stepSize: 10
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '日期',
+                                font: { family: 'Noto Sans TC', size: 11, weight: 'bold' }
+                            },
+                            grid: { color: '#f1f5f9' },
+                            ticks: {
+                                font: { family: 'Noto Sans TC', size: 10 }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                font: { family: 'Noto Sans TC', size: 11, weight: 'bold' }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const value = context.raw;
+                                    return ' ' + context.dataset.label + ': #' + value;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Render Leaderboard Table
+            const tbody = document.getElementById('leaderboard-tbody');
+            if (tbody) {
+                tbody.innerHTML = '';
+                if (leaderboard.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="8" class="text-center py-4 text-slate-400">目前無在榜數據</td></tr>';
+                } else {
+                    leaderboard.forEach((item, idx) => {
+                        const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : (idx + 1).toString();
+                        const presenceRate = stats.summary.archivedDatesCount ? (Math.round((item.daysOnChart / stats.summary.archivedDatesCount) * 100) + '%') : "0%";
+
+                        const tr = document.createElement('tr');
+                        tr.className = "hover:bg-slate-50 transition-colors";
+                        tr.innerHTML = \`
+                            <td class="px-3 py-2.5 text-left font-bold text-slate-800">\${medal}</td>
+                            <td class="px-3 py-2.5 text-left font-semibold text-slate-900">\${item.partnerName}</td>
+                            <td class="px-3 py-2.5 text-left text-slate-700">
+                                <a href="\${item.applePodcastUrl}" target="_blank" class="text-blue-600 hover:underline font-medium">\${item.podcastName}</a>
+                            </td>
+                            <td class="px-3 py-2.5 text-center font-bold text-emerald-600">\${item.daysOnChart}</td>
+                            <td class="px-3 py-2.5 text-center font-semibold text-slate-600">\${presenceRate}</td>
+                            <td class="px-3 py-2.5 text-center font-semibold text-blue-600">#\${item.avgRank}</td>
+                            <td class="px-3 py-2.5 text-center font-bold text-rose-500">#\${item.bestRank}</td>
+                            <td class="px-3 py-2.5 text-left text-slate-500 text-xs font-mono">\${item.details}</td>
+                        \`;
+                        tbody.appendChild(tr);
+                    });
+                }
+            }
         }
 
         document.addEventListener('DOMContentLoaded', async () => {

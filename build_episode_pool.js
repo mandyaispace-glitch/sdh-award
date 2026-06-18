@@ -220,6 +220,97 @@ async function main() {
         return a.partnerName.localeCompare(b.partnerName, 'zh-Hant');
     });
 
+    // --- Apple Podcast Rankings Leaderboard (霸榜排行) ---
+    const rankingCsvPath = path.join(__dirname, 'daily_top100_archive.csv');
+    const leaderboard = [];
+    let archivedDatesCount = 0;
+    let archivedDatesList = [];
+    
+    // Normalization helper
+    const norm = (name) => {
+        if (!name) return "";
+        return name.replace(/老師|大叔|心理師|教練|醫師|媽媽/g, '')
+                   .replace(/[\s\-\_\/\\｜\|\.\,:\：\《\》\(\)\（\）\防\？\?]/g, '')
+                   .toLowerCase();
+    };
+
+    if (fs.existsSync(rankingCsvPath)) {
+        try {
+            console.log("正在讀取 daily_top100_archive.csv 榜單存檔，計算霸榜排行...");
+            const csvContent = fs.readFileSync(rankingCsvPath, 'utf-8');
+            const lines = csvContent.split(/\r?\n/);
+            const chartEntries = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                const cells = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(x => x.replace(/^"|"$/g, '').trim());
+                if (cells.length < 5) continue;
+                
+                chartEntries.push({
+                    date: cells[0],
+                    rank: parseInt(cells[1]),
+                    trackName: cells[2],
+                    artistName: cells[3],
+                    genre: cells[4]
+                });
+            }
+            
+            const dates = [...new Set(chartEntries.map(x => x.date))].sort();
+            archivedDatesCount = dates.length;
+            archivedDatesList = dates;
+            
+            podcastsToProcess.forEach(kol => {
+                if (!kol.rssUrl) return; // Skip non-podcast
+                
+                const normKolPartner = norm(kol.partnerName);
+                const normKolPodcast = norm(kol.podcastName);
+                
+                const matches = chartEntries.filter(entry => {
+                    const normTrack = norm(entry.trackName);
+                    const normArtist = norm(entry.artistName);
+                    
+                    return (normTrack && (normTrack.includes(normKolPodcast) || normKolPodcast.includes(normTrack) || normTrack.includes(normKolPartner))) ||
+                           (normArtist && (normArtist.includes(normKolPartner) || normKolPartner.includes(normArtist)));
+                });
+                
+                if (matches.length > 0) {
+                    const ranks = matches.map(m => m.rank);
+                    const avgRank = ranks.reduce((a, b) => a + b, 0) / ranks.length;
+                    const bestRank = Math.min(...ranks);
+                    const daysCount = [...new Set(matches.map(m => m.date))].length;
+                    
+                    const historyMap = {};
+                    matches.forEach(m => {
+                        historyMap[m.date] = m.rank;
+                    });
+                    
+                    leaderboard.push({
+                        partnerName: kol.partnerName,
+                        podcastName: kol.podcastName,
+                        applePodcastUrl: kol.applePodcastUrl || "",
+                        rssUrl: kol.rssUrl || "",
+                        daysOnChart: daysCount,
+                        avgRank: Math.round(avgRank * 10) / 10,
+                        bestRank: bestRank,
+                        history: historyMap,
+                        details: matches.map(m => `${m.date.slice(5)}(#${m.rank})`).join(', ')
+                    });
+                }
+            });
+            
+            // Sort: days on chart descending, then average rank ascending (lower rank is better)
+            leaderboard.sort((a, b) => {
+                if (b.daysOnChart !== a.daysOnChart) return b.daysOnChart - a.daysOnChart;
+                return a.avgRank - b.avgRank;
+            });
+            console.log(`成功計算霸榜排行：共 ${leaderboard.length} 檔節目曾入榜（統計天數：${archivedDatesCount} 天）。`);
+        } catch (err) {
+            console.error("計算霸榜排行失敗：", err.message);
+        }
+    }
+
     // Write Multi-Tab Excel using xlsx library
     console.log("\n正在建立多頁籤 Excel 檔案 (eligible_episodes_pool.xlsx)...");
     const wb = XLSX.utils.book_new();
@@ -276,6 +367,23 @@ async function main() {
     }));
     const ws3 = XLSX.utils.json_to_sheet(sheet3Data);
     XLSX.utils.book_append_sheet(wb, ws3, "發片量統計與資格判定");
+    
+    // Tab 5: Apple榜單歷史排行
+    const sheetLeaderboardData = leaderboard.map((item, idx) => ({
+        "名次": idx + 1,
+        "合作夥伴": item.partnerName,
+        "節目名稱": item.podcastName,
+        "在榜天數": item.daysOnChart,
+        "在榜率": archivedDatesCount ? `${Math.round((item.daysOnChart / archivedDatesCount) * 100)}%` : "0%",
+        "平均排名": `#${item.avgRank}`,
+        "最佳排名": `#${item.bestRank}`,
+        "歷史名次軌跡": item.details,
+        "Apple Podcast 連結": item.applePodcastUrl,
+        "RSS 連結": item.rssUrl
+    }));
+    const wsLeaderboard = XLSX.utils.json_to_sheet(sheetLeaderboardData);
+    XLSX.utils.book_append_sheet(wb, wsLeaderboard, "Apple榜單歷史排行");
+    
     XLSX.writeFile(wb, excelOutputPath);
     console.log(`多頁籤 Excel 檔案已寫入: ${excelOutputPath} (共 ${masterEpisodePool.length} 集)`);
 
@@ -323,6 +431,42 @@ async function main() {
             }
         }
     }
+    // --- Generate Ranking Markdown Table ---
+    let rankingTableMd = `| 名次 | 合作夥伴 | 節目名稱 | 在榜天數 | 在榜率 | 平均排名 | 最佳排名 | 歷史名次軌跡 |\n`;
+    rankingTableMd += `| :---: | :--- | :--- | :---: | :---: | :---: | :---: | :--- |\n`;
+    leaderboard.forEach((item, idx) => {
+        const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `${idx + 1}`;
+        const presenceRate = archivedDatesCount ? `${Math.round((item.daysOnChart / archivedDatesCount) * 100)}%` : "0%";
+        rankingTableMd += `| ${medal} | ${item.partnerName} | ${item.podcastName} | **${item.daysOnChart}** | ${presenceRate} | #${item.avgRank} | #${item.bestRank} | ${item.details} |\n`;
+    });
+
+    // Dynamic integration of Ranking table with podcast_evaluation_workflow.md (local)
+    if (fs.existsSync(workflowMdPath)) {
+        try {
+            let mdContent = fs.readFileSync(workflowMdPath, 'utf-8');
+            const startTag = '<!-- RANKING_START -->';
+            const endTag = '<!-- RANKING_END -->';
+            const startIndex = mdContent.indexOf(startTag);
+            const endIndex = mdContent.indexOf(endTag);
+            
+            if (startIndex !== -1 && endIndex !== -1) {
+                const before = mdContent.substring(0, startIndex + startTag.length);
+                const after = mdContent.substring(endIndex);
+                const newContent = `${before}\n\n${rankingTableMd}\n${after}`;
+                fs.writeFileSync(workflowMdPath, newContent, 'utf-8');
+                console.log(`已成功將最新榜單歷史排行總表動態注入: ${workflowMdPath}`);
+                
+                // Also sync to brain directory if exists
+                const brainMdPath = path.join('C:', 'Users', 'manma', '.gemini', 'antigravity', 'brain', '991a5cf6-de4b-4f16-a27c-3b4b3f0b2984', 'podcast_evaluation_workflow.md');
+                if (fs.existsSync(brainMdPath)) {
+                    fs.writeFileSync(brainMdPath, newContent, 'utf-8');
+                    console.log(`已同步注入腦庫目錄: ${brainMdPath}`);
+                }
+            }
+        } catch (err) {
+            console.error("注入榜單歷史排行總表失敗：", err.message);
+        }
+    }
     
     // Write statistics to eligibility_stats.json for Chart.js
     const eligibleCount = eligibilityReport.filter(rep => rep.eligible).length;
@@ -337,7 +481,8 @@ async function main() {
             totalPrograms: eligibilityReport.length,
             eligiblePrograms: eligibleCount,
             ineligiblePrograms: ineligibleCount,
-            totalEpisodes: masterEpisodePool.length
+            totalEpisodes: masterEpisodePool.length,
+            archivedDatesCount: archivedDatesCount
         },
         programs: eligibilityReport.map(rep => ({
             partnerName: rep.partnerName,
@@ -345,7 +490,9 @@ async function main() {
             episodesCount: rep.episodesCount,
             eligible: rep.eligible,
             reason: rep.reason
-        }))
+        })),
+        dates: archivedDatesList,
+        leaderboard: leaderboard
     };
     
     const statsPath = path.join(__dirname, 'eligibility_stats.json');
