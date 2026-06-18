@@ -159,7 +159,9 @@ async function main() {
                         pubDate: ep.pubDate,
                         duration: ep.duration,
                         guid: ep.guid,
-                        mp3Url: ep.mp3Url
+                        mp3Url: ep.mp3Url,
+                        applePodcastUrl: pod.applePodcastUrl || "",
+                        rssUrl: pod.rssUrl || ""
                     });
                 });
             }
@@ -193,7 +195,19 @@ async function main() {
     console.log("\n正在建立多頁籤 Excel 檔案 (eligible_episodes_pool.xlsx)...");
     const wb = XLSX.utils.book_new();
     
-    // Tab 1: KOL 節目名單
+    // Tab 1: 合作名單 (包含所有KOL，標註是否有Podcast節目)
+    const sheetCoopData = podcastsToProcess.map((pod, idx) => ({
+        "序號": idx + 1,
+        "合作夥伴": pod.partnerName,
+        "節目名稱": pod.rssUrl ? pod.podcastName : "無",
+        "是否有Podcast節目": pod.rssUrl ? "是" : "否",
+        "Apple Podcast 連結": pod.applePodcastUrl || "",
+        "RSS 連結": pod.rssUrl || ""
+    }));
+    const wsCoop = XLSX.utils.json_to_sheet(sheetCoopData);
+    XLSX.utils.book_append_sheet(wb, wsCoop, "合作名單");
+    
+    // Tab 2: KOL 節目名單 (僅供比對用，保留舊有格式)
     const sheet1Data = podcastsToProcess.map((pod, idx) => ({
         "序號": idx + 1,
         "合作夥伴": pod.partnerName,
@@ -205,7 +219,7 @@ async function main() {
     const ws1 = XLSX.utils.json_to_sheet(sheet1Data);
     XLSX.utils.book_append_sheet(wb, ws1, "KOL 節目名單");
     
-    // Tab 2: 合格單集池
+    // Tab 3: 合格單集池
     const sheet2Data = masterEpisodePool.map(ep => ({
         "合作夥伴": ep.partnerName,
         "節目名稱": ep.podcastName,
@@ -213,19 +227,23 @@ async function main() {
         "發布日期": ep.pubDate,
         "單集長度(分鐘)": ep.duration !== null ? ep.duration : "",
         "單集識別碼(GUID)": ep.guid,
-        "音檔連結(MP3)": ep.mp3Url
+        "音檔連結(MP3)": ep.mp3Url,
+        "Apple Podcast 連結": ep.applePodcastUrl || "",
+        "RSS 連結": ep.rssUrl || ""
     }));
     const ws2 = XLSX.utils.json_to_sheet(sheet2Data);
     XLSX.utils.book_append_sheet(wb, ws2, "合格單集池");
     
-    // Tab 3: 發片量統計與資格判定
+    // Tab 4: 發片量統計與資格判定
     const sheet3Data = eligibilityReport.map((rep, idx) => ({
         "序號": idx + 1,
         "合作夥伴": rep.partnerName,
         "節目名稱": rep.podcastName,
         "2026上半年發片量": rep.episodesCount,
         "資格判定": rep.eligible ? "合格" : "資格不符",
-        "原因": rep.reason
+        "原因": rep.reason,
+        "Apple Podcast 連結": rep.applePodcastUrl || "",
+        "RSS 連結": rep.rssUrl || ""
     }));
     const ws3 = XLSX.utils.json_to_sheet(sheet3Data);
     XLSX.utils.book_append_sheet(wb, ws3, "發片量統計與資格判定");
@@ -282,9 +300,13 @@ async function main() {
     // Write statistics to eligibility_stats.json for Chart.js
     const eligibleCount = eligibilityReport.filter(rep => rep.eligible).length;
     const ineligibleCount = eligibilityReport.length - eligibleCount;
+    const totalKols = eligibilityReport.length;
+    const hasPodcastCount = eligibilityReport.filter(rep => rep.rssUrl && rep.rssUrl.startsWith('http')).length;
     
     const stats = {
         summary: {
+            totalKols: totalKols,
+            hasPodcastCount: hasPodcastCount,
             totalPrograms: eligibilityReport.length,
             eligiblePrograms: eligibleCount,
             ineligiblePrograms: ineligibleCount,

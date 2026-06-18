@@ -3,8 +3,8 @@ const path = require('path');
 const { PDFParse } = require('pdf-parse');
 const https = require('https');
 
-// Helper for HTTP GET
-function fetchJson(url) {
+// Helper for HTTP GET with Retries and Backoff
+function fetchJson(url, retries = 3, delay = 2000) {
     return new Promise((resolve, reject) => {
         const options = {
             headers: {
@@ -12,15 +12,22 @@ function fetchJson(url) {
             },
             timeout: 10000
         };
-        https.get(url, options, (res) => {
+        const req = https.get(url, options, (res) => {
             if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-                return fetchJson(res.headers.location).then(resolve).catch(reject);
+                return fetchJson(res.headers.location, retries, delay).then(resolve).catch(reject);
             }
             let data = '';
             res.on('data', chunk => data += chunk);
             res.on('end', () => {
                 if (data.includes("Rate limit")) {
-                    reject(new Error("Rate limit"));
+                    if (retries > 0) {
+                        console.warn(`  -> Rate limited on ${url}. Retrying in ${delay/1000}s...`);
+                        setTimeout(() => {
+                            fetchJson(url, retries - 1, delay * 2).then(resolve).catch(reject);
+                        }, delay);
+                    } else {
+                        reject(new Error("Rate limit"));
+                    }
                     return;
                 }
                 try {
@@ -29,7 +36,18 @@ function fetchJson(url) {
                     reject(new Error("Failed to parse JSON: " + e.message));
                 }
             });
-        }).on('error', reject);
+        });
+        
+        req.on('error', (err) => {
+            if (retries > 0) {
+                console.warn(`  -> Network error (${err.message}) on ${url}. Retrying in ${delay/1000}s...`);
+                setTimeout(() => {
+                    fetchJson(url, retries - 1, delay * 2).then(resolve).catch(reject);
+                }, delay);
+            } else {
+                reject(err);
+            }
+        });
     });
 }
 
@@ -45,10 +63,45 @@ async function lookupRssByAppleId(appleId) {
     }
 }
 
+// Search RSS by podcast title or creator name via iTunes API
+async function searchRssByTitle(title) {
+    try {
+        const url = `https://itunes.apple.com/search?term=${encodeURIComponent(title)}&entity=podcast&country=tw`;
+        const data = await fetchJson(url);
+        const result = data.results?.[0];
+        if (result) {
+            return {
+                rssUrl: result.feedUrl || null,
+                appleUrl: result.collectionViewUrl || null,
+                trackName: result.trackName || "",
+                artistName: result.artistName || ""
+            };
+        }
+        return null;
+    } catch (e) {
+        console.error(`Error searching title ${title}:`, e.message);
+        return null;
+    }
+}
+
 // Helper to normalize strings for comparison (remove spaces, punctuation, lowercase)
 function normalizeName(name) {
     if (!name) return "";
-    return name.replace(/[\s\-\_\/\\｜\|\.\,]/g, '').toLowerCase();
+    let clean = name.replace(/老師|大叔|心理師|教練|醫師|媽媽/g, '');
+    return clean.replace(/[\s\-\_\/\\｜\|\.\,:\：\《\》\(\)\（\）]/g, '').toLowerCase();
+}
+
+// Check if search results are a real match to prevent guest-slot mismatches
+function isRealPodcastMatch(searchTerm, trackName, artistName) {
+    const normSearch = normalizeName(searchTerm);
+    const normTrack = normalizeName(trackName);
+    const normArtist = normalizeName(artistName);
+    
+    if (!normSearch || normSearch.length <= 1) return false;
+    
+    return normTrack.includes(normSearch) || 
+           normArtist.includes(normSearch) || 
+           normSearch.includes(normTrack);
 }
 
 async function main() {
@@ -71,10 +124,7 @@ async function main() {
         console.log(`Parsing Page ${pageNum}...`);
         const page = await doc.getPage(pageNum);
         
-        // 1. Get text content
         const textContent = await page.getTextContent();
-        
-        // 2. Get annotations (links)
         const annotations = await page.getAnnotations();
         const linkAnnots = annotations.filter(ann => ann.subtype === 'Link');
         
@@ -93,10 +143,8 @@ async function main() {
             line.items.push({ str: item.str, x, y });
         });
         
-        // Sort lines by Y descending (top to bottom)
         lines.sort((a, b) => b.y - a.y);
         
-        // Find card headers on this page
         const leftHeaders = [];
         const rightHeaders = [];
         
@@ -113,7 +161,6 @@ async function main() {
                     .trim();
                 
                 if (headerStr && headerStr.length > 1 && !leftHeaders.some(h => Math.abs(h.y - line.y) < 10)) {
-                    // Check if it is a noise entry
                     const isNoise = headerStr.startsWith('http') || 
                                     headerStr.includes('%') || 
                                     headerStr.includes('id') || 
@@ -124,7 +171,8 @@ async function main() {
                                     headerStr.includes('內部提案') || 
                                     headerStr.includes('資料來源') || 
                                     headerStr === '主檔' || 
-                                    headerStr === '親子教養';
+                                    headerStr === '親子教養' ||
+                                    headerStr.includes('盛德好');
                     if (!isNoise) {
                         leftHeaders.push({ name: headerStr, y: line.y, col: 0 });
                     }
@@ -151,7 +199,8 @@ async function main() {
                                     headerStr.includes('內部提案') || 
                                     headerStr.includes('資料來源') || 
                                     headerStr === '主檔' || 
-                                    headerStr === '親子教養';
+                                    headerStr === '親子教養' ||
+                                    headerStr.includes('盛德好');
                     if (!isNoise) {
                         rightHeaders.push({ name: headerStr, y: line.y, col: 1 });
                     }
@@ -229,10 +278,24 @@ async function main() {
             }
             
             const partnerName = card.header.name;
-            let podcastName = partnerName;
             
+            // Exclude MandyAI (the user/organizer assistant)
+            if (partnerName.includes('MandyAI') || partnerName.includes('AI共享幕僚')) {
+                console.log(`[Excluded Organizer] ${partnerName} skipped.`);
+                return;
+            }
+            
+            let podcastName = partnerName;
             if (lines.length > 1) {
-                const secondLine = lines.find(l => l !== partnerName && !l.includes('·') && !l.includes('粉絲') && !l.startsWith('粉絲'));
+                // Find second line, ignoring partnerName, category list, follower list, and single-character initials or dashes
+                const secondLine = lines.find(l => {
+                    return l !== partnerName && 
+                           l.length > 2 && // Skip single-character initials and short noise like dashes
+                           !l.includes('·') && 
+                           !l.includes('粉絲') && 
+                           !l.startsWith('粉絲') &&
+                           l !== '—';
+                });
                 if (secondLine) {
                     podcastName = secondLine;
                 }
@@ -248,7 +311,9 @@ async function main() {
         });
     }
     
-    // Load canonical CSV mapping to prioritize correct matches
+    console.log(`\nSuccessfully parsed ${rawCards.length} clean KOL cards from PDF.`);
+    
+    // Load CSV
     const csvPath = 'updated_sheet.csv';
     const csvRssMap = new Map();
     const csvAppleMap = new Map();
@@ -276,7 +341,6 @@ async function main() {
         }
     }
     
-    // Resolve final lists of programs and filter strictly for actual podcast shows
     const resolvedPrograms = [];
     
     for (let i = 0; i < rawCards.length; i++) {
@@ -294,6 +358,7 @@ async function main() {
             if (csvAppleMap.has(normalizedP)) {
                 appleUrl = csvAppleMap.get(normalizedP);
             }
+            console.log(`[CSV Match] ${card.partnerName} -> ${podcastName} (RSS: ${rssUrl})`);
         } 
         // 2. If no CSV match, but we have an Apple URL from PDF annotations, query iTunes API
         else if (appleUrl) {
@@ -305,29 +370,64 @@ async function main() {
                 await new Promise(r => setTimeout(r, 200));
             }
         }
-        
-        // STRICT FILTERING:
-        // Only keep if the program has a resolved RSS URL.
-        // If it has only IG, FB, YT, or no podcast links disclosed, we delete/skip it entirely!
-        if (rssUrl && rssUrl.startsWith('http')) {
-            resolvedPrograms.push({
-                partnerName: card.partnerName,
-                podcastName: podcastName,
-                applePodcastUrl: appleUrl || "",
-                rssUrl: rssUrl
-            });
-        } else {
-            console.log(`[Deleted KOL] ${card.partnerName} has no Podcast program disclosed. Removed.`);
+        // 3. If no Apple link and no CSV match, search iTunes API by Title or Partner Name
+        else {
+            // Guardrail: Skip searching if term is too short or invalid
+            const term = normalizeName(podcastName);
+            if (term && term.length > 1) {
+                console.log(`[Searching API] ${card.partnerName} (${podcastName})...`);
+                
+                // Search by Podcast Name first
+                let searchResult = await searchRssByTitle(podcastName);
+                
+                // Verify if it is a real match (not guest slot)
+                if (searchResult && isRealPodcastMatch(podcastName, searchResult.trackName, searchResult.artistName)) {
+                    rssUrl = searchResult.rssUrl;
+                    appleUrl = searchResult.appleUrl;
+                    podcastName = searchResult.trackName;
+                    console.log(`  -> Resolved via title search: "${podcastName}" -> ${rssUrl}`);
+                } else {
+                    // Try searching by Partner Name
+                    searchResult = await searchRssByTitle(card.partnerName);
+                    if (searchResult && isRealPodcastMatch(card.partnerName, searchResult.trackName, searchResult.artistName)) {
+                        rssUrl = searchResult.rssUrl;
+                        appleUrl = searchResult.appleUrl;
+                        podcastName = searchResult.trackName;
+                        console.log(`  -> Resolved via partner search: "${podcastName}" -> ${rssUrl}`);
+                    } else {
+                        console.log(`  -> Rejected/No match for "${card.partnerName}". Classified as non-podcast.`);
+                    }
+                }
+                await new Promise(r => setTimeout(r, 200));
+            } else {
+                console.log(`[Skipped Search] ${card.partnerName} has invalid search term "${podcastName}". Classified as non-podcast.`);
+            }
         }
+        
+        resolvedPrograms.push({
+            partnerName: card.partnerName,
+            podcastName: podcastName,
+            applePodcastUrl: appleUrl || "",
+            rssUrl: rssUrl || ""
+        });
     }
     
-    // --- Deduplication Logic ---
+    // --- Deduplication and Merging ---
     const uniquePrograms = [];
     
     resolvedPrograms.forEach(p => {
+        // Non-podcast KOLs
+        if (!p.rssUrl) {
+            const existingNonPod = uniquePrograms.find(item => !item.rssUrl && normalizeName(item.partnerName) === normalizeName(p.partnerName));
+            if (!existingNonPod) {
+                uniquePrograms.push(p);
+            }
+            return;
+        }
+        
+        // Podcast programs
         const existing = uniquePrograms.find(item => item.rssUrl === p.rssUrl);
         if (existing) {
-            // Merge partnerName
             if (!existing.partnerName.includes(p.partnerName)) {
                 existing.partnerName = `${existing.partnerName} / ${p.partnerName}`;
             }
@@ -339,7 +439,11 @@ async function main() {
     
     // Save to kol_programs_list.json
     fs.writeFileSync('kol_programs_list.json', JSON.stringify(uniquePrograms, null, 2), 'utf-8');
-    console.log(`\n🎉 Completed! Saved ${uniquePrograms.length} unique podcast programs to kol_programs_list.json.`);
+    console.log(`\n🎉 Completed! Saved ${uniquePrograms.length} unique entries to kol_programs_list.json.`);
+    
+    const missing = uniquePrograms.filter(p => !p.rssUrl);
+    console.log(`Total Podcast Programs: ${uniquePrograms.length - missing.length}`);
+    console.log(`Total Non-Podcast KOLs: ${missing.length}`);
 }
 
 main().catch(err => {

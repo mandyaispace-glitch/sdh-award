@@ -36,6 +36,12 @@ function generateSelfContainedHtml() {
         }
     }
     
+    // Calculate custom breakdown values for cooperative KOLs
+    const noPodcastCount = stats.programs.filter(p => p.reason && p.reason.includes('無 Podcast')).length;
+    const insufficientCount = stats.programs.filter(p => p.reason && p.reason.includes('不足')).length;
+    const totalKols = stats.summary.totalKols || stats.summary.totalPrograms || 79;
+    const hasPodcastCount = stats.summary.hasPodcastCount || (stats.summary.totalPrograms - noPodcastCount) || 65;
+    
     const htmlTemplate = `<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -254,21 +260,41 @@ function generateSelfContainedHtml() {
                 <div id="status-dashboard" class="not-prose mb-8">
                     <!-- Metrics cards -->
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                        <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100 shadow-sm">
-                            <div class="text-xs text-blue-800 font-bold tracking-wide">評估節目總數</div>
-                            <div class="text-2xl font-black text-slate-800 mt-1">${stats.summary.totalPrograms} 檔</div>
+                        <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="text-xs text-blue-800 font-bold tracking-wide">合作總KOL數量</div>
+                                <div class="text-2xl font-black text-slate-800 mt-1">${totalKols} 檔</div>
+                            </div>
+                            <div class="text-[11px] text-blue-600 font-semibold mt-1">
+                                (其中 ${hasPodcastCount} 檔有 Podcast)
+                            </div>
                         </div>
-                        <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100 shadow-sm">
-                            <div class="text-xs text-emerald-800 font-bold tracking-wide">審查合格節目</div>
-                            <div class="text-2xl font-black text-emerald-600 mt-1">${stats.summary.eligiblePrograms} 檔</div>
+                        <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="text-xs text-emerald-800 font-bold tracking-wide">審查合格節目</div>
+                                <div class="text-2xl font-black text-emerald-600 mt-1">${stats.summary.eligiblePrograms} 檔</div>
+                            </div>
+                            <div class="text-[11px] text-emerald-600 font-semibold mt-1">
+                                (發片集數 &ge; 12 集)
+                            </div>
                         </div>
-                        <div class="bg-rose-50/50 p-4 rounded-xl border border-rose-100 shadow-sm">
-                            <div class="text-xs text-rose-800 font-bold tracking-wide">資格不符/未開節目</div>
-                            <div class="text-2xl font-black text-rose-500 mt-1">${stats.summary.ineligiblePrograms} 檔</div>
+                        <div class="bg-rose-50/50 p-4 rounded-xl border border-rose-100 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="text-xs text-rose-800 font-bold tracking-wide">不符合資格數量</div>
+                                <div class="text-2xl font-black text-rose-500 mt-1">${stats.summary.ineligiblePrograms} 檔</div>
+                            </div>
+                            <div class="text-[10px] text-rose-600 font-semibold mt-1 leading-tight">
+                                (${insufficientCount} 檔發片不足，${noPodcastCount} 檔無 Podcast)
+                            </div>
                         </div>
-                        <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-100 shadow-sm">
-                            <div class="text-xs text-amber-800 font-bold tracking-wide">收錄合格單集</div>
-                            <div class="text-2xl font-black text-amber-600 mt-1">${stats.summary.totalEpisodes} 集</div>
+                        <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-100 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="text-xs text-amber-800 font-bold tracking-wide">收錄合格單集</div>
+                                <div class="text-2xl font-black text-amber-600 mt-1">${stats.summary.totalEpisodes} 集</div>
+                            </div>
+                            <div class="text-[11px] text-amber-600 font-semibold mt-1">
+                                (已寫入單集池頁籤)
+                            </div>
                         </div>
                     </div>
                     
