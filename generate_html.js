@@ -38,7 +38,7 @@ function generateSelfContainedHtml() {
     
     // Calculate custom breakdown values for cooperative KOLs
     const noPodcastCount = stats.programs.filter(p => p.reason && p.reason.includes('無 Podcast')).length;
-    const insufficientCount = stats.programs.filter(p => p.reason && p.reason.includes('不足')).length;
+    const insufficientCount = stats.programs.filter(p => !p.eligible && p.reason && !p.reason.includes('無 Podcast')).length;
     const totalKols = stats.summary.totalKols || stats.summary.totalPrograms || 79;
     const hasPodcastCount = stats.summary.hasPodcastCount || (stats.summary.totalPrograms - noPodcastCount) || 65;
     

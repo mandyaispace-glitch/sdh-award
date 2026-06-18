@@ -88,9 +88,24 @@ function parseRssFeed(xml) {
         }
     }
     
+    // Find the overall latest episode's pubDate in the RSS XML (first <item>'s <pubDate>)
+    let lastBuildDate = null;
+    const firstItemMatch = xml.match(/<item>([\s\S]*?)<\/item>/);
+    if (firstItemMatch) {
+        const itemContent = firstItemMatch[1];
+        const pubDateM = itemContent.match(/<pubDate>(.*?)<\/pubDate>/);
+        if (pubDateM) {
+            const parsedD = new Date(pubDateM[1]);
+            if (!isNaN(parsedD.getTime())) {
+                lastBuildDate = parsedD.toISOString().split('T')[0];
+            }
+        }
+    }
+    
     return {
         title: channelTitle,
-        episodes
+        episodes,
+        lastBuildDate
     };
 }
 
@@ -151,14 +166,15 @@ async function main() {
                 applePodcastUrl: pod.applePodcastUrl || "",
                 episodesCount: 0,
                 eligible: false,
-                reason: "資格不符 (無 Podcast 節目)"
+                reason: "資格不符 (無 Podcast 節目)",
+                lastBuildDate: ""
             });
             continue;
         }
         
         try {
             const xml = await fetchUrl(pod.rssUrl);
-            const { title: parsedTitle, episodes } = parseRssFeed(xml);
+            const { title: parsedTitle, episodes, lastBuildDate } = parseRssFeed(xml);
             
             const count = episodes.length;
             const isEligible = count >= 12;
@@ -168,6 +184,15 @@ async function main() {
             // Update the podcast name with the real one parsed from RSS if available
             const finalPodcastName = parsedTitle && parsedTitle !== 'Unknown' ? parsedTitle : (pod.podcastName || '未知');
             
+            let reasonStr = "合格";
+            if (!isEligible) {
+                if (lastBuildDate) {
+                    reasonStr = `資格不符 (2026年發片不足。最後更新時間：${lastBuildDate})`;
+                } else {
+                    reasonStr = "資格不符 (無更新/無發片)";
+                }
+            }
+
             eligibilityReport.push({
                 partnerName: pod.partnerName,
                 podcastName: finalPodcastName,
@@ -175,7 +200,8 @@ async function main() {
                 applePodcastUrl: pod.applePodcastUrl || "",
                 episodesCount: count,
                 eligible: isEligible,
-                reason: isEligible ? "合格" : "資格不符 (發片集數不足 12 集)"
+                reason: reasonStr,
+                lastBuildDate: lastBuildDate || "無更新紀錄"
             });
             
             if (isEligible) {
@@ -204,7 +230,8 @@ async function main() {
                 applePodcastUrl: pod.applePodcastUrl || "",
                 episodesCount: 0,
                 eligible: false,
-                reason: `抓取失敗 (${err.message})`
+                reason: `抓取失敗 (${err.message})`,
+                lastBuildDate: "抓取失敗"
             });
         }
         
@@ -316,25 +343,27 @@ async function main() {
     const wb = XLSX.utils.book_new();
     
     // Tab 1: 合作名單 (包含所有KOL，標註是否有Podcast節目)
-    const sheetCoopData = podcastsToProcess.map((pod, idx) => ({
+    const sheetCoopData = eligibilityReport.map((rep, idx) => ({
         "序號": idx + 1,
-        "合作夥伴": pod.partnerName,
-        "節目名稱": pod.rssUrl ? pod.podcastName : "無",
-        "是否有Podcast節目": pod.rssUrl ? "是" : "否",
-        "Apple Podcast 連結": pod.applePodcastUrl || "",
-        "RSS 連結": pod.rssUrl || ""
+        "合作夥伴": rep.partnerName,
+        "節目名稱": rep.rssUrl ? rep.podcastName : "無",
+        "是否有Podcast節目": rep.rssUrl ? "是" : "否",
+        "最後更新日期": rep.lastBuildDate || "無",
+        "Apple Podcast 連結": rep.applePodcastUrl || "",
+        "RSS 連結": rep.rssUrl || ""
     }));
     const wsCoop = XLSX.utils.json_to_sheet(sheetCoopData);
     XLSX.utils.book_append_sheet(wb, wsCoop, "合作名單");
     
     // Tab 2: KOL 節目名單 (僅供比對用，保留舊有格式)
-    const sheet1Data = podcastsToProcess.map((pod, idx) => ({
+    const sheet1Data = eligibilityReport.map((rep, idx) => ({
         "序號": idx + 1,
-        "合作夥伴": pod.partnerName,
-        "節目名稱": pod.podcastName,
-        "Apple Podcast 連結": pod.applePodcastUrl || "",
-        "RSS 連結": pod.rssUrl || "",
-        "備註": (!pod.rssUrl) ? "非 Podcast 創作者" : ""
+        "合作夥伴": rep.partnerName,
+        "節目名稱": rep.podcastName,
+        "最後更新日期": rep.lastBuildDate || "無",
+        "Apple Podcast 連結": rep.applePodcastUrl || "",
+        "RSS 連結": rep.rssUrl || "",
+        "備註": (!rep.rssUrl) ? "非 Podcast 創作者" : ""
     }));
     const ws1 = XLSX.utils.json_to_sheet(sheet1Data);
     XLSX.utils.book_append_sheet(wb, ws1, "KOL 節目名單");
@@ -359,6 +388,7 @@ async function main() {
         "序號": idx + 1,
         "合作夥伴": rep.partnerName,
         "節目名稱": rep.podcastName,
+        "最後更新日期": rep.lastBuildDate || "無",
         "2026上半年發片量": rep.episodesCount,
         "資格判定": rep.eligible ? "合格" : "資格不符",
         "原因": rep.reason,
@@ -389,12 +419,13 @@ async function main() {
 
     // Write Eligibility Report (Markdown file)
     console.log("正在產生 Markdown 資格報告...");
-    let tableMd = `| 序號 | 合作夥伴 | 節目名稱 | 2026上半年發片量 | 資格判定 | 備註 |\n`;
-    tableMd += `| :---: | :--- | :--- | :---: | :---: | :--- |\n`;
+    let tableMd = `| 序號 | 合作夥伴 | 節目名稱 | 最後更新日期 | 2026上半年發片量 | 資格判定 | 備註 |\n`;
+    tableMd += `| :---: | :--- | :--- | :---: | :---: | :---: | :--- |\n`;
     eligibilityReport.forEach((rep, idx) => {
         const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `${idx + 1}`;
         const status = rep.eligible ? "✅ 合格" : "❌ <span class='text-red-500 font-bold'>資格不符</span>";
-        tableMd += `| ${medal} | ${rep.partnerName} | ${rep.podcastName} | **${rep.episodesCount}** | ${status} | ${rep.reason} |\n`;
+        const lastDate = rep.lastBuildDate || "無";
+        tableMd += `| ${medal} | ${rep.partnerName} | ${rep.podcastName} | ${lastDate} | **${rep.episodesCount}** | ${status} | ${rep.reason} |\n`;
     });
 
     let reportMd = `# SDH Award Podcast 資格審查報告\n\n`;
@@ -489,7 +520,8 @@ async function main() {
             podcastName: rep.podcastName,
             episodesCount: rep.episodesCount,
             eligible: rep.eligible,
-            reason: rep.reason
+            reason: rep.reason,
+            lastBuildDate: rep.lastBuildDate || "無"
         })),
         dates: archivedDatesList,
         leaderboard: leaderboard
