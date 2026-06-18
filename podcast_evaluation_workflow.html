@@ -635,6 +635,11 @@ flowchart TD
 
         // Tab Switching Logic
         function switchTab(tabId) {
+            // Update URL hash without scrolling jump
+            if (window.location.hash !== '#' + tabId) {
+                history.replaceState(null, null, '#' + tabId);
+            }
+            
             const planBtn = document.getElementById('tab-btn-plan');
             const statusBtn = document.getElementById('tab-btn-status');
             const trackCBtn = document.getElementById('tab-btn-track-c');
@@ -815,6 +820,20 @@ flowchart TD
                 await mermaid.run();
             } catch (err) {
                 console.error("Mermaid 渲染出錯:", err);
+            }
+            
+            // Handle initial hash routing after markdown and mermaid are fully ready
+            const initialHash = window.location.hash.slice(1);
+            if (['plan', 'status', 'track-c', 'timeline'].includes(initialHash)) {
+                switchTab(initialHash);
+            }
+        });
+
+        // Listen for history back/forward hash changes
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.slice(1);
+            if (['plan', 'status', 'track-c', 'timeline'].includes(hash)) {
+                switchTab(hash);
             }
         });
     </script>
