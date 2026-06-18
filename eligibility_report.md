@@ -9,7 +9,7 @@
 | :---: | :--- | :--- | :---: | :---: | :--- |
 | 🥇 | 郝旭烈/郝聲音 | 郝聲音 | **175** | ✅ 合格 | 合格 |
 | 🥈 | 精算媽咪的家計簿｜珊迪兔 | 精算媽咪的家計簿 | **75** | ✅ 合格 | 合格 |
-| 🥉 | 蕭邦 | 蕭邦相談室 | **51** | ✅ 合格 | 合格 |
+| 🥉 | 蕭邦 | 蕭邦相談室 | **52** | ✅ 合格 | 合格 |
 | 4 | Dr Selena | 小資變有錢｜Dr.Selena生活理財王 | **50** | ✅ 合格 | 合格 |
 | 5 | 林程揚｜Hank大叔 | 能量黑客 | **48** | ✅ 合格 | 合格 |
 | 6 | 宋家小館｜Becky | 宋家小館 | **42** | ✅ 合格 | 合格 |
@@ -32,60 +32,7 @@
 | 23 | 慢活夫妻Dewi&George | 慢活夫妻－專業美股投資與理財 | **8** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
 | 24 | 崔咪 | 一不小心太漂亮 | **7** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
 | 25 | 樂筆 | 歡迎光臨 | **2** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
-| 26 | 30節約男子 | 財富餐車不打烊 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 27 | 丁菱娟 | 丁菱娟邊走邊想 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 28 | 人生啊！小歐 | 人生啊｜用我的人生故事，陪你看懂自己 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 29 | 下半場陪談師＿張嘉茹老師 | 下半場陪談師 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 30 | 小河馬媽媽 | 來晚無添加河粉吧！ | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 31 | 小思大維｜雪柔 | 小思大維 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 32 | 不敗教主-陳重銘 | 不敗教主-陳重銘 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 33 | 五吉郎 | 五 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 34 | 文森說書 | 文森說書 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 35 | 犬兒媽咪の育兒手帳 | 育兒專機 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 36 | 王琄 | 琄蜜莉的異想世界 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 37 | 尼可這樣說 | 尼 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 38 | 布姐陪你聰明工作創意生活 | 布姐的沙發 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 39 | 布萊恩老師 | 布萊恩老師 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 40 | 幼兒情緒教育學院-萬叔的心café | 幼兒情緒教育學院-萬叔的心café | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 41 | 瓦基閱讀前哨站 | 下一本讀什麼 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 42 | 全遠距工作的行銷人|Coco | — | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 43 | 即薑抵達｜薑咪 | 即薑抵達https://open.spotify.com/show/6ZUSdp6iLOWJqay7uKTBxO | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 44 | 我的動齡限量版 | 我的動齡限量版 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 45 | 李柏鋒的擴大機 | 聽進理投 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
-| 46 | 林慧 | SoWhat做自己很難嗎？ | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 47 | 治療師瑪奇 | 教出你的路 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 48 | 玩命之徒｜林尚諾大師兄 | 玩命之徒 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 49 | 育兒專機｜犬媽 | 育兒專機 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 50 | 阿駿日常 | 阿 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 51 | 品牌女子A娜 | 你也想紅嗎 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 52 | 胡咪老師 | 分手的99個理由 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 53 | 孫治華 | 人生挖挖WoW-企業人生策略學 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 54 | 迷途艾比 | 迷途星球 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
-| 55 | 高言值表達力教練｜竺宥璋｜小竺 | — | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 56 | 張書書 | 張書書 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 57 | 斜槓空姐cindy | 斜槓空姐cindy | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 58 | 曼蒂歐逆-轉型之路 | 曼蒂歐逆-轉型之路 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 59 | 梁哲維 | 哲維說書 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 60 | 莊舒涵（卡姊） | 我不是病人，我是卡姊！ | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 61 | 喬王的投資理財筆記 | 斜槓槓槓槓 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 62 | 無所不試無樂不作 | 無所不試無樂不作 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 63 | 微光中的貓| Claire Hsiao | 微光中的北極星 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 64 | 楊月娥（楊肉爐） | 楊肉盧 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 65 | 雷浩斯價值投資網 | 雷浩斯價值投資網 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 66 | 瑪那熊諮商心理師 | 瑪那熊諮商心理師 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 67 | 維琪的幸福叮嚀 | 能量黑客 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 68 | 趙函穎的營養健康週報 | 趙函穎的營養健康報報 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 69 | 劉亦酉 | 劉亦酉 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 70 | 廣播主持人_楊凱涵 | 請多包涵/ BaoHan Talk | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 71 | 鄧惠文 | 鄧惠文不想說 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 72 | 閱讀聊樂key | 閱讀聊樂key | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 73 | 聰明主婦的生活投資學 | 聰明生活投資學 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 74 | 謎卡Mika Lin | 米米說 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
-| 75 | 蘋果老師 | 網紅，紅什麼？ | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 76 | 爛泥媽媽的重生日記（Jill) | 爛泥Jill式優雅 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 77 | Coco｜全遠距工作的行銷人 | Coco｜全遠距工作的行銷人 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 78 | Cynthia Huang黃馨儀 | 媽媽好神經病 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
-| 79 | Fire人生大學｜道哥 | FIRE人生大學 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 80 | GK爸爸 | GK爸爸原創故事繪本 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 81 | MandyAI共享幕僚 | AI共享幕僚 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
-| 82 | Vito大叔 | 粉紅地獄辛辣麵分手的99個理由 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (無 Podcast 節目) |
+| 26 | 李柏鋒的擴大機 | 聽進理投 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
+| 27 | 迷途艾比 | 迷途星球 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
+| 28 | 謎卡Mika Lin | 米米說 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |
+| 29 | Cynthia Huang黃馨儀 | 媽媽好神經病 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (發片集數不足 12 集) |

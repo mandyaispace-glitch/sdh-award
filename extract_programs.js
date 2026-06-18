@@ -65,8 +65,6 @@ async function main() {
     console.log(`Total Pages: ${doc.numPages}`);
     
     const rawCards = [];
-    
-    // Grid layout constants
     const colDivider = 297.5; // X center
     
     for (let pageNum = 2; pageNum <= doc.numPages; pageNum++) {
@@ -164,8 +162,6 @@ async function main() {
         leftHeaders.sort((a, b) => b.y - a.y);
         rightHeaders.sort((a, b) => b.y - a.y);
         
-        console.log(`  -> Page ${pageNum}: Found ${leftHeaders.length} left headers, ${rightHeaders.length} right headers.`);
-        
         const getRanges = (headers) => {
             return headers.map((h, idx) => {
                 const top = h.y + 15;
@@ -252,8 +248,6 @@ async function main() {
         });
     }
     
-    console.log(`\nSuccessfully parsed ${rawCards.length} clean program cards from PDF.`);
-    
     // Load canonical CSV mapping to prioritize correct matches
     const csvPath = 'updated_sheet.csv';
     const csvRssMap = new Map();
@@ -282,7 +276,7 @@ async function main() {
         }
     }
     
-    // Resolve final lists of programs
+    // Resolve final lists of programs and filter strictly for actual podcast shows
     const resolvedPrograms = [];
     
     for (let i = 0; i < rawCards.length; i++) {
@@ -312,30 +306,26 @@ async function main() {
             }
         }
         
-        resolvedPrograms.push({
-            partnerName: card.partnerName,
-            podcastName: podcastName,
-            applePodcastUrl: appleUrl || "",
-            rssUrl: rssUrl || ""
-        });
+        // STRICT FILTERING:
+        // Only keep if the program has a resolved RSS URL.
+        // If it has only IG, FB, YT, or no podcast links disclosed, we delete/skip it entirely!
+        if (rssUrl && rssUrl.startsWith('http')) {
+            resolvedPrograms.push({
+                partnerName: card.partnerName,
+                podcastName: podcastName,
+                applePodcastUrl: appleUrl || "",
+                rssUrl: rssUrl
+            });
+        } else {
+            console.log(`[Deleted KOL] ${card.partnerName} has no Podcast program disclosed. Removed.`);
+        }
     }
     
     // --- Deduplication Logic ---
     const uniquePrograms = [];
     
     resolvedPrograms.forEach(p => {
-        // If it's a non-podcast KOL (empty RSS)
-        if (!p.rssUrl) {
-            // Check if we already have this partnerName to prevent duplicates
-            const existingNonPod = uniquePrograms.find(item => !item.rssUrl && normalizeName(item.partnerName) === normalizeName(p.partnerName));
-            if (!existingNonPod) {
-                uniquePrograms.push(p);
-            }
-            return;
-        }
-        
-        // Check if this RSS feed is already added
-        const existing = uniquePrograms.find(item => item.rssUrl && item.rssUrl === p.rssUrl);
+        const existing = uniquePrograms.find(item => item.rssUrl === p.rssUrl);
         if (existing) {
             // Merge partnerName
             if (!existing.partnerName.includes(p.partnerName)) {
@@ -349,10 +339,7 @@ async function main() {
     
     // Save to kol_programs_list.json
     fs.writeFileSync('kol_programs_list.json', JSON.stringify(uniquePrograms, null, 2), 'utf-8');
-    console.log(`\n🎉 Completed! Saved ${uniquePrograms.length} unique entries to kol_programs_list.json.`);
-    
-    const missing = uniquePrograms.filter(p => !p.rssUrl);
-    console.log(`Total non-podcast KOLs: ${missing.length}`);
+    console.log(`\n🎉 Completed! Saved ${uniquePrograms.length} unique podcast programs to kol_programs_list.json.`);
 }
 
 main().catch(err => {
