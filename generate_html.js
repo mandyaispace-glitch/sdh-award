@@ -233,6 +233,9 @@ function generateSelfContainedHtml() {
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
+        #poc-overall-summary {
+            color: #eff6ff !important;
+        }
         
     </style>
 </head>
@@ -357,10 +360,10 @@ function generateSelfContainedHtml() {
                     
                     <!-- Overall Summary Card -->
                     <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 rounded-2xl text-white shadow-md mb-6 space-y-2">
-                        <h4 class="text-sm font-extrabold flex items-center">
+                        <h4 class="text-sm font-extrabold flex items-center text-white">
                             <span class="text-lg mr-2">🔮</span> 評審團決審綜合總評 (多集綜合)
                         </h4>
-                        <p id="poc-overall-summary" class="text-xs text-blue-50 leading-relaxed font-medium">
+                        <p id="poc-overall-summary" class="text-xs text-blue-50 leading-relaxed font-medium" style="color: #eff6ff !important;">
                             <!-- Injected summary -->
                         </p>
                     </div>
@@ -823,12 +826,29 @@ function generateSelfContainedHtml() {
                                     <span>🎙️ \${partner}</span>
                                     <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">3集隨機抽樣</span>
                                 </div>
-                                <ul class="space-y-2 text-xs text-slate-600">
+                                <ul class="space-y-3 text-xs text-slate-600">
                     \`;
                     eps.forEach((ep, idx) => {
+                        let segsHtml = '';
+                        if (ep.recommended_segments && ep.recommended_segments.length > 0) {
+                            segsHtml += '<div class="pl-4 mt-2 border-l-2 border-slate-100 space-y-1.5 text-[10px] text-slate-500">';
+                            ep.recommended_segments.forEach(seg => {
+                                segsHtml += \`
+                                    <div class="py-0.5">
+                                        <span class="font-mono font-bold text-emerald-700 bg-emerald-50 px-1 rounded mr-1">\${seg.time_range}</span>
+                                        <span class="font-semibold text-slate-700">\${seg.title}</span>
+                                        <span class="text-slate-500">— \${seg.reason}</span>
+                                    </div>
+                                \`;
+                            });
+                            segsHtml += '</div>';
+                        }
                         epListHtml += \`
-                                    <li class="line-clamp-2 leading-relaxed">
-                                        <span class="font-bold text-blue-600">\${idx+1}.</span> \${ep.title}
+                                    <li class="border-b border-slate-100 last:border-0 pb-2 mb-2 last:pb-0 last:mb-0">
+                                        <div class="font-semibold text-slate-800 leading-relaxed">
+                                            <span class="font-bold text-blue-600">\${idx+1}.</span> \${ep.title}
+                                        </div>
+                                        \${segsHtml}
                                     </li>
                         \`;
                     });

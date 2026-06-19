@@ -618,7 +618,7 @@ async function main() {
         // 1. Duo Hosts Award: Only duo hosts can be scored. Single host shows must be null/not applicable.
         if (pkResults.awards.best_duo_hosts) {
             pkResults.awards.best_duo_hosts.ranking.forEach(r => {
-                if (r.partnerName === "郝旭烈/郝聲音" || r.partnerName === "五吉郎") {
+                if (r.partnerName === "郝旭烈/郝聲音" || r.partnerName === "五吉郎" || r.partnerName === "哇賽心理學_蔡宇哲") {
                     r.score = null;
                     r.compliance = "不適用";
                     r.reason = "單人主持節目，不適用此獎項。";
