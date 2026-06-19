@@ -221,7 +221,7 @@ function generateSelfContainedHtml() {
                 <span class="text-xs bg-blue-100 text-blue-600 py-1 px-2 rounded-full font-semibold">AI評選系統 Demo</span>
             </div>
             <div class="text-xs text-slate-500">
-                更新時間: 2026-06-17 | 設計者: Antigravity
+                更新時間: ${new Date().toISOString().split('T')[0]} | 設計者: Antigravity
             </div>
         </header>
 
