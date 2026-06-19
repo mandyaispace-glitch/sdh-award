@@ -604,6 +604,28 @@ async function main() {
         const pkResults = await evaluateTranscriptsHorizontal(transcriptsData, awardDefinitions, apiKey);
         console.log(` -> 橫向 PK 評估打分完成！`);
         
+        // Enforce scoring business rules:
+        // 1. Duo Hosts Award: Only duo hosts can be scored. Single host shows must be null/not applicable.
+        if (pkResults.awards.best_duo_hosts) {
+            pkResults.awards.best_duo_hosts.ranking.forEach(r => {
+                if (r.partnerName === "郝旭烈/郝聲音" || r.partnerName === "五吉郎") {
+                    r.score = null;
+                    r.compliance = "不適用";
+                    r.reason = "單人主持節目，不適用此獎項。";
+                }
+            });
+        }
+        // 2. Best Female Host Award: Only female hosts can be scored. Male-only shows must be null/not applicable.
+        if (pkResults.awards.best_female_host) {
+            pkResults.awards.best_female_host.ranking.forEach(r => {
+                if (r.partnerName === "郝旭烈/郝聲音" || r.partnerName === "五吉郎") {
+                    r.score = null;
+                    r.compliance = "不適用";
+                    r.reason = "節目無女主持人，不適用此獎項。";
+                }
+            });
+        }
+        
         // Write JSON results
         const resultsJsonPath = path.join(__dirname, 'poc_results.json');
         fs.writeFileSync(resultsJsonPath, JSON.stringify(pkResults, null, 2), 'utf-8');

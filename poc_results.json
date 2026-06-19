@@ -40,15 +40,15 @@
         {
           "rank": 2,
           "partnerName": "郝旭烈/郝聲音",
-          "score": 8.5,
-          "reason": "主持人與來賓（設計師、MJ老師）互動良好，接話與延伸觀點流暢，偶有幽默吐槽，整體對談氛圍佳。",
-          "compliance": "符合"
+          "score": null,
+          "reason": "單人主持節目，不適用此獎項。",
+          "compliance": "不適用"
         },
         {
           "rank": 3,
           "partnerName": "五吉郎",
-          "score": 8,
-          "reason": "節目為單人主持，故此獎項不適用。",
+          "score": null,
+          "reason": "單人主持節目，不適用此獎項。",
           "compliance": "不適用"
         }
       ],
@@ -122,14 +122,14 @@
           "rank": 2,
           "partnerName": "郝旭烈/郝聲音",
           "score": null,
-          "reason": "節目無女主持人",
+          "reason": "節目無女主持人，不適用此獎項。",
           "compliance": "不適用"
         },
         {
           "rank": 3,
           "partnerName": "五吉郎",
           "score": null,
-          "reason": "節目無女主持人",
+          "reason": "節目無女主持人，不適用此獎項。",
           "compliance": "不適用"
         }
       ],
