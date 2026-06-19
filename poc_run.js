@@ -294,7 +294,7 @@ ${awardDefinitions}
 ${combinedTranscriptsText}
 
 【任務要求】：
-請對照評選指標，針對以下 10 個與文本/口條相關的獎項，在三檔候選節目中進行橫向對比：
+請對照評選指標，針對以下 11 個與文本/口條相關的獎項，在三檔候選節目中進行橫向對比：
 1. 最佳內容架構獎 (content_structure)
 2. 最佳默契獎 (best_duo_hosts) (注意：若是單人主持節目，請在該節目的評分填 null，並在 PK 排名中予以說明)
 3. 最神單元企劃獎 (episode_planning)
@@ -303,8 +303,9 @@ ${combinedTranscriptsText}
 6. 聽完馬上獎（極致推坑王） (best_cta)
 7. 只有你在獎（稀有藍海守護者） (niche_market)
 8. 自我探索獎 (self_exploration)
-9. 講不完大獎 / 泡麵沒熟獎 (時長精煉度) (duration_efficiency)
-10. 醒醒再獎 / 年度療癒獎 / 深夜輕輕獎 (第一輪意向) (atmosphere)
+9. 講不完大獎 (best_long_form) (注意：時長超過 60 分鐘為佳，未達 60 分鐘之節目請評估為不符合且打低分)
+10. 泡麵沒熟獎 (best_short_form) (注意：時長控制在 10-15 分鐘為佳，時長大於 15 分鐘請評估為不符合且打低分)
+11. 醒醒再獎 / 年度療癒獎 / 深夜輕輕獎 (第一輪意向) (atmosphere)
 
 為每個獎項排出第一名（金獎）、第二名（銀獎）與第三名（銅獎）。打分範圍為 1.0 至 10.0 分（最小級距 0.5 分），並給出詳細的「評分說明」以及「是否對應符合我們的定義要求」（compliance，填「符合」或「不符合(原因)」）。
 
@@ -383,12 +384,21 @@ ${combinedTranscriptsText}
       ],
       "comparative_analysis": "..."
     },
-    "duration_efficiency": {
-      "award_name": "講不完大獎 / 泡麵沒熟獎 (時長精煉度)",
+    "best_long_form": {
+      "award_name": "講不完大獎",
       "ranking": [
         { "rank": 1, "partnerName": "郝旭烈/郝聲音", "score": 9.0, "reason": "說明理由...", "compliance": "符合" },
-        { "rank": 2, "partnerName": "五吉郎", "score": 4.0, "reason": "說明理由...", "compliance": "不符合(原因：時長既未超過 60 分鐘也未在 15 分鐘內)" },
-        { "rank": 3, "partnerName": "哇賽心理學_蔡宇哲", "score": 4.0, "reason": "說明理由...", "compliance": "不符合(原因：時長不符合該時長獎項之門檻)" }
+        { "rank": 2, "partnerName": "五吉郎", "score": 4.0, "reason": "說明理由...", "compliance": "不符合(原因：時長小於60分鐘)" },
+        { "rank": 3, "partnerName": "哇賽心理學_蔡宇哲", "score": 4.0, "reason": "說明理由...", "compliance": "不符合(原因：時長小於60分鐘)" }
+      ],
+      "comparative_analysis": "..."
+    },
+    "best_short_form": {
+      "award_name": "泡麵沒熟獎",
+      "ranking": [
+        { "rank": 1, "partnerName": "郝旭烈/郝聲音", "score": 4.0, "reason": "說明理由...", "compliance": "不符合(原因：時長大於15分鐘)" },
+        { "rank": 2, "partnerName": "五吉郎", "score": 4.0, "reason": "說明理由...", "compliance": "不符合(原因：時長大於15分鐘)" },
+        { "rank": 3, "partnerName": "哇賽心理學_蔡宇哲", "score": 4.0, "reason": "說明理由...", "compliance": "不符合(原因：時長大於15分鐘)" }
       ],
       "comparative_analysis": "..."
     },
