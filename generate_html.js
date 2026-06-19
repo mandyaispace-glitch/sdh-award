@@ -36,6 +36,30 @@ function generateSelfContainedHtml() {
         }
     }
     
+    // Load POC results
+    let pocResults = null;
+    const pocResultsPath = path.join(__dirname, 'poc_results.json');
+    if (fs.existsSync(pocResultsPath)) {
+        try {
+            pocResults = JSON.parse(fs.readFileSync(pocResultsPath, 'utf-8'));
+            console.log("成功加載 POC 評分結果。");
+        } catch (e) {
+            console.error("讀取 poc_results.json 失敗：", e.message);
+        }
+    }
+    
+    // Load Selected Episodes
+    let selectedEpisodes = null;
+    const selectedEpisodesPath = path.join(__dirname, 'selected_episodes_for_poc.json');
+    if (fs.existsSync(selectedEpisodesPath)) {
+        try {
+            selectedEpisodes = JSON.parse(fs.readFileSync(selectedEpisodesPath, 'utf-8'));
+            console.log(`成功加載 POC 抽樣單集清單。`);
+        } catch (e) {
+            console.error("讀取 selected_episodes_for_poc.json 失敗：", e.message);
+        }
+    }
+    
     // Calculate custom breakdown values for cooperative KOLs
     const noPodcastCount = stats.programs.filter(p => p.reason && p.reason.includes('無 Podcast')).length;
     const insufficientCount = stats.programs.filter(p => !p.eligible && p.reason && !p.reason.includes('無 Podcast')).length;
@@ -241,6 +265,9 @@ function generateSelfContainedHtml() {
             <a id="tab-btn-timeline" href="#timeline" class="flex-1 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('timeline'); return false;">
                 ⏳ 專案進程時間軸
             </a>
+            <a id="tab-btn-deploy" href="#deploy" class="flex-1 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('deploy'); return false;">
+                💾 系統部署與移轉
+            </a>
         </div>
 
         <!-- Main Content Card -->
@@ -317,12 +344,43 @@ function generateSelfContainedHtml() {
 
                 </div>
                 
+                <!-- POC Results Section -->
+                <div id="poc-dashboard" class="not-prose mb-10 hidden border-t border-slate-200 pt-8">
+                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-blue-600 pl-2">
+                        🏆 決審相對 PK 評選結果 (3集隨機抽樣 POC)
+                    </h3>
+                    
+                    <!-- Episodes list grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" id="poc-episodes-list">
+                        <!-- Episode lists dynamically injected -->
+                    </div>
+                    
+                    <!-- Overall Summary Card -->
+                    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 rounded-2xl text-white shadow-md mb-6 space-y-2">
+                        <h4 class="text-sm font-extrabold flex items-center">
+                            <span class="text-lg mr-2">🔮</span> 評審團決審綜合總評 (多集綜合)
+                        </h4>
+                        <p id="poc-overall-summary" class="text-xs text-blue-50 leading-relaxed font-medium">
+                            <!-- Injected summary -->
+                        </p>
+                    </div>
+                    
+                    <!-- Awards container -->
+                    <div class="space-y-6" id="poc-awards-container">
+                        <!-- Award details dynamically injected -->
+                    </div>
+                </div>
+                
                 <!-- Status Markdown content will render here -->
                 <div id="status-markdown-content"></div>
             </div>
             
             <div id="content-timeline" class="prose max-w-none hidden">
                 <!-- Timeline Markdown renders here -->
+            </div>
+            
+            <div id="content-deploy" class="prose max-w-none hidden">
+                <!-- Deploy Markdown renders here -->
             </div>
         </div>
 
@@ -384,6 +442,8 @@ function generateSelfContainedHtml() {
     <!-- Injected JSON Statistics -->
     <script>
         window.eligibilityStats = ${JSON.stringify(stats)};
+        window.pocResults = ${JSON.stringify(pocResults)};
+        window.selectedEpisodes = ${JSON.stringify(selectedEpisodes)};
     </script>
 
     <script>
@@ -415,12 +475,14 @@ function generateSelfContainedHtml() {
             const statusBtn = document.getElementById('tab-btn-status');
             const trackCBtn = document.getElementById('tab-btn-track-c');
             const timelineBtn = document.getElementById('tab-btn-timeline');
+            const deployBtn = document.getElementById('tab-btn-deploy');
             
             const mainGlassCard = document.getElementById('main-glass-card');
             const planContent = document.getElementById('content-plan');
             const statusContent = document.getElementById('content-status');
             const trackCContent = document.getElementById('content-track-c');
             const timelineContent = document.getElementById('content-timeline');
+            const deployContent = document.getElementById('content-deploy');
 
             const activeBtnClass = "flex-1 py-2.5 text-center text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
             const inactiveBtnClass = "flex-1 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
@@ -429,11 +491,13 @@ function generateSelfContainedHtml() {
             statusBtn.className = inactiveBtnClass;
             if (trackCBtn) trackCBtn.className = inactiveBtnClass;
             timelineBtn.className = inactiveBtnClass;
+            deployBtn.className = inactiveBtnClass;
 
             planContent.classList.add('hidden');
             statusContent.classList.add('hidden');
             if (trackCContent) trackCContent.classList.add('hidden');
             timelineContent.classList.add('hidden');
+            deployContent.classList.add('hidden');
             mainGlassCard.classList.add('hidden');
 
             if (tabId === 'plan') {
@@ -449,6 +513,10 @@ function generateSelfContainedHtml() {
                 trackCBtn.className = activeBtnClass;
                 trackCContent.classList.remove('hidden');
                 renderCharts(); // Render Chart.js charts on show
+            } else if (tabId === 'deploy') {
+                deployBtn.className = activeBtnClass;
+                mainGlassCard.classList.remove('hidden');
+                deployContent.classList.remove('hidden');
             } else {
                 timelineBtn.className = activeBtnClass;
                 mainGlassCard.classList.remove('hidden');
@@ -692,6 +760,7 @@ function generateSelfContainedHtml() {
             const planMd = parts[0] || '';
             const statusMd = parts[1] || '';
             const timelineMd = parts[2] || '';
+            const deployMd = parts[3] || '';
             
             // Render Plan Markdown
             const planHtml = marked.parse(planMd);
@@ -708,8 +777,13 @@ function generateSelfContainedHtml() {
             const timelineContainer = document.getElementById('content-timeline');
             timelineContainer.innerHTML = timelineHtml;
 
+            // Render Deploy Markdown
+            const deployHtml = marked.parse(deployMd);
+            const deployContainer = document.getElementById('content-deploy');
+            deployContainer.innerHTML = deployHtml;
+
             // Find and convert Mermaid blocks in all containers
-            [planContainer, document.getElementById('content-status'), timelineContainer].forEach(container => {
+            [planContainer, document.getElementById('content-status'), timelineContainer, deployContainer].forEach(container => {
                 const codeBlocks = container.querySelectorAll('pre code');
                 codeBlocks.forEach(codeBlock => {
                     if (codeBlock.classList.contains('language-mermaid')) {
@@ -728,10 +802,113 @@ function generateSelfContainedHtml() {
             } catch (err) {
                 console.error("Mermaid 渲染出錯:", err);
             }
+
+            // Render POC Results in dashboard if available
+            const pocResults = window.pocResults;
+            const selectedEpisodes = window.selectedEpisodes;
+            const pocDashboard = document.getElementById('poc-dashboard');
+            
+            if (pocResults && selectedEpisodes && pocDashboard) {
+                pocDashboard.classList.remove('hidden');
+                
+                // 1. Render Episode List
+                let epListHtml = '';
+                const targetPartners = ["郝旭烈/郝聲音", "五吉郎", "哇賽心理學_蔡宇哲"];
+                targetPartners.forEach(partner => {
+                    const eps = selectedEpisodes.filter(e => e.partnerName === partner);
+                    epListHtml += \`
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <div class="text-sm font-bold text-slate-800 border-b pb-2 mb-3 flex justify-between items-center">
+                                    <span>🎙️ \${partner}</span>
+                                    <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">3集隨機抽樣</span>
+                                </div>
+                                <ul class="space-y-2 text-xs text-slate-600">
+                    \`;
+                    eps.forEach((ep, idx) => {
+                        epListHtml += \`
+                                    <li class="line-clamp-2 leading-relaxed">
+                                        <span class="font-bold text-blue-600">\${idx+1}.</span> \${ep.title}
+                                    </li>
+                        \`;
+                    });
+                    epListHtml += \`
+                                </ul>
+                            </div>
+                        </div>
+                    \`;
+                });
+                document.getElementById('poc-episodes-list').innerHTML = epListHtml;
+                
+                // 2. Render Awards Table
+                let awardsHtml = '';
+                const awardsKeys = Object.keys(pocResults.awards);
+                awardsKeys.forEach(key => {
+                    const aw = pocResults.awards[key];
+                    
+                    // Get rows for the 3 partners in this award
+                    let partnerRows = '';
+                    aw.ranking.forEach(r => {
+                        const medal = r.rank === 1 ? '🥇 金獎' : r.rank === 2 ? '🥈 銀獎' : '🥉 銅獎';
+                        const medalColor = r.rank === 1 ? 'text-amber-500' : r.rank === 2 ? 'text-slate-400' : 'text-amber-700';
+                        const scoreText = r.score !== null ? \`\${r.score} 分\` : 'N/A';
+                        
+                        const isCompliant = r.compliance === '符合';
+                        const isNa = r.compliance === '不適用' || r.compliance === 'N/A';
+                        const badgeClass = isCompliant ? 'bg-emerald-100 text-emerald-700' : isNa ? 'bg-slate-100 text-slate-500' : 'bg-rose-100 text-rose-700';
+                        const badgeText = r.compliance || '符合';
+                        
+                        partnerRows += \`
+                            <tr class="hover:bg-slate-50/50">
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold \${medalColor}">\${medal}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-semibold text-slate-800">\${r.partnerName}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold text-blue-600">\${scoreText}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs">
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold \${badgeClass}">\${badgeText}</span>
+                                </td>
+                                <td class="px-3 py-2.5 text-xs text-slate-600 leading-relaxed">\${r.reason}</td>
+                            </tr>
+                        \`;
+                    });
+                    
+                    awardsHtml += \`
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <h4 class="text-sm font-extrabold text-slate-800 flex items-center">
+                                    <span class="text-lg mr-2">🏅</span> \${aw.award_name}
+                                </h4>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-slate-100 text-left">
+                                    <thead class="bg-slate-50/50 text-[10px] uppercase font-bold text-slate-500 tracking-wider">
+                                        <tr>
+                                            <th class="px-3 py-2">獎項名次</th>
+                                            <th class="px-3 py-2">合作夥伴</th>
+                                            <th class="px-3 py-2">打分</th>
+                                            <th class="px-3 py-2">符合定義</th>
+                                            <th class="px-3 py-2">評分說明</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 bg-white">
+                                        \${partnerRows}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="bg-blue-50/40 p-3.5 rounded-xl border border-blue-100/50 text-xs text-slate-700 leading-relaxed">
+                                <span class="font-bold text-blue-800">🔍 橫向 PK 對手對比：</span>\${aw.comparative_analysis}
+                            </div>
+                        </div>
+                    \`;
+                });
+                document.getElementById('poc-awards-container').innerHTML = awardsHtml;
+                
+                // 3. Render Overall Summary
+                document.getElementById('poc-overall-summary').textContent = pocResults.overall_summary;
+            }
             
             // Handle initial hash routing after markdown and mermaid are fully ready
             const initialHash = window.location.hash.slice(1);
-            if (['plan', 'status', 'track-c', 'timeline'].includes(initialHash)) {
+            if (['plan', 'status', 'track-c', 'timeline', 'deploy'].includes(initialHash)) {
                 switchTab(initialHash);
             }
         });
@@ -739,7 +916,7 @@ function generateSelfContainedHtml() {
         // Listen for history back/forward hash changes
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.slice(1);
-            if (['plan', 'status', 'track-c', 'timeline'].includes(hash)) {
+            if (['plan', 'status', 'track-c', 'timeline', 'deploy'].includes(hash)) {
                 switchTab(hash);
             }
         });

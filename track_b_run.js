@@ -41,7 +41,7 @@ function postRequest(url, headers, body) {
         });
         req.on('error', (err) => { reject(err); });
         if (body) {
-            req.write(typeof body === 'string' ? body : JSON.stringify(body));
+            req.write(Buffer.isBuffer(body) || typeof body === 'string' ? body : JSON.stringify(body));
         }
         req.end();
     });
@@ -97,7 +97,7 @@ async function uploadAudioToGemini(filePath, apiKey) {
     const fileBuffer = fs.readFileSync(filePath);
     const uploadHeaders = {
         'X-Goog-Upload-Offset': '0',
-        'X-Goog-Upload-Command': 'finalize',
+        'X-Goog-Upload-Command': 'upload, finalize',
         'Content-Length': fileSize.toString()
     };
     
@@ -112,9 +112,9 @@ async function uploadAudioToGemini(filePath, apiKey) {
 }
 
 async function queryGeminiModel(fileUri, apiKey) {
-    console.log(" -> 正在發送評估 Prompt 給 Gemini 1.5 Pro 進行分析...");
+    console.log(" -> 正在發送評估 Prompt 給 Gemini 2.5 Pro 進行分析...");
     
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${apiKey}`;
     const headers = { 'Content-Type': 'application/json' };
     
     const prompt = `
@@ -141,7 +141,7 @@ async function queryGeminiModel(fileUri, apiKey) {
     "reason": "說明為什麼這段最精采..."
   }
 }
-\`;
+`;
 
 
     const body = {
