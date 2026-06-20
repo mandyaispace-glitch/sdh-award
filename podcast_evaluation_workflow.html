@@ -192,34 +192,54 @@
             </div>
         </header>
 
-        <!-- Tab Navigation -->
-        <div class="flex overflow-x-auto whitespace-nowrap scrollbar-none space-x-2 p-1.5 bg-slate-200/50 backdrop-blur-md rounded-xl mb-6 shadow-inner border border-slate-200/30">
-            <a id="tab-btn-plan" href="#plan" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10" onclick="switchTab('plan'); return false;">
-                📄 評選工作流規劃
-            </a>
-            <a id="tab-btn-eligibility" href="#eligibility" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('eligibility'); return false;">
-                🔍 資格審查
-            </a>
-            <a id="tab-btn-demo" href="#demo" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('demo'); return false;">
-                🎯 Demo 成果彙整
-            </a>
-            <a id="tab-btn-track-a" href="#track-a" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-a'); return false;">
-                🏆 軌道 A 文本獎
-            </a>
-            <a id="tab-btn-track-b" href="#track-b" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-b'); return false;">
-                🎙️ 軌道 B 聲音獎
-            </a>
+        <!-- Grouped Tab Navigation -->
+        <div class="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0 mb-6 bg-slate-100/60 p-4 rounded-2xl border border-slate-200/50 backdrop-blur-md">
+            <!-- Group 1: 管理與進度 -->
+            <div class="flex-1 flex flex-col space-y-2">
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-wider pl-1.5 flex items-center space-x-1">
+                    <span>🛠️ 管理與進度</span>
+                </span>
+                <div class="flex flex-wrap gap-1.5 p-1 bg-slate-200/40 rounded-xl border border-slate-200/20">
+                    <a id="tab-btn-plan" href="#plan" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10" onclick="switchTab('plan'); return false;">
+                        📄 工作流規劃
+                    </a>
+                    <a id="tab-btn-eligibility" href="#eligibility" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('eligibility'); return false;">
+                        🔍 資格審查
+                    </a>
+                    <a id="tab-btn-timeline" href="#timeline" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('timeline'); return false;">
+                        ⏳ 進程時間軸
+                    </a>
+                    <a id="tab-btn-deploy" href="#deploy" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('deploy'); return false;">
+                        💾 移交指南
+                    </a>
+                </div>
+            </div>
             
-            <a id="tab-btn-track-c" href="#track-c" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-c'); return false;">
-                📊 軌道 C 社群聲量
-            </a>
-            
-            <a id="tab-btn-timeline" href="#timeline" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('timeline'); return false;">
-                ⏳ 專案進程時間軸
-            </a>
-            <a id="tab-btn-deploy" href="#deploy" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('deploy'); return false;">
-                💾 系統部署與移轉
-            </a>
+            <!-- Vertical divider line on desktop -->
+            <div class="hidden md:block w-px bg-slate-200/80 my-2"></div>
+
+            <!-- Group 2: 評選成果決選參考 -->
+            <div class="flex-1 flex flex-col space-y-2">
+                <span class="text-[10px] font-black text-indigo-400 uppercase tracking-wider pl-1.5 flex items-center space-x-1">
+                    <span>🎯 評選成果區 (決選參考)</span>
+                </span>
+                <div class="flex flex-wrap gap-1.5 p-1 bg-slate-200/40 rounded-xl border border-slate-200/20">
+                    <a id="tab-btn-demo" href="#demo" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('demo'); return false;">
+                        🎯 Demo 成果
+                    </a>
+                    <a id="tab-btn-track-a" href="#track-a" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-a'); return false;">
+                        🏆 A軌文本
+                    </a>
+                    <a id="tab-btn-track-b" href="#track-b" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-b'); return false;">
+                        🎙️ B軌聲音
+                    </a>
+                    
+                    <a id="tab-btn-track-c" href="#track-c" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-c'); return false;">
+                        📊 C軌聲量
+                    </a>
+                    
+                </div>
+            </div>
         </div>
 
         <!-- Main Content Card -->
@@ -319,7 +339,7 @@
             <div id="content-track-a" class="prose max-w-none hidden space-y-6">
                 <div class="not-prose">
                     <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-blue-600 pl-2">
-                        🏆 決審相對 PK 評選結果 — 軌道 A 文本獎
+                        🏆 決審相對 PK 決選參考 — A軌文本
                     </h3>
                     
                     <!-- Overall Summary Card -->
@@ -343,7 +363,7 @@
             <div id="content-track-b" class="prose max-w-none hidden space-y-6">
                 <div class="not-prose">
                     <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-indigo-600 pl-2">
-                        🎙️ 決審相對 PK 評選結果 — 軌道 B 聲音及氣氛獎
+                        🎙️ 決審相對 PK 決選參考 — B軌聲音及氣氛
                     </h3>
                     
                     <!-- Overall Summary Card -->
@@ -979,8 +999,8 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
             const timelineContent = document.getElementById('content-timeline');
             const deployContent = document.getElementById('content-deploy');
 
-            const activeBtnClass = "flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
-            const inactiveBtnClass = "flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
+            const activeBtnClass = "flex-1 py-2 text-center text-[11px] sm:text-xs font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
+            const inactiveBtnClass = "flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
 
             planBtn.className = inactiveBtnClass;
             if (eligibilityBtn) eligibilityBtn.className = inactiveBtnClass;
