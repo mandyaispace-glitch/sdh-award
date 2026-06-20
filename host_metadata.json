@@ -1,0 +1,345 @@
+{
+  "郝旭烈/郝聲音": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "郝旭烈",
+    "description": "單人男主持"
+  },
+  "五吉郎": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "五吉郎",
+    "description": "單人男主持"
+  },
+  "精算媽咪的家計簿｜珊迪兔": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "珊迪兔",
+    "description": "單人女主持"
+  },
+  "不敗教主-陳重銘": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "陳重銘",
+    "description": "單人男主持"
+  },
+  "布姐陪你聰明工作創意生活": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "布姐",
+    "description": "單人女主持"
+  },
+  "瓦基閱讀前哨站": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "瓦基",
+    "description": "單人男主持"
+  },
+  "蕭邦": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "蕭邦",
+    "description": "單人男主持"
+  },
+  "Dr Selena": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "Selena",
+    "description": "單人女主持"
+  },
+  "林程揚｜Hank大叔 / 維琪的幸福叮嚀": {
+    "has_male_host": true,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": true,
+    "hosts": "Hank大叔 / Vicki維琪",
+    "description": "男女雙主持"
+  },
+  "胡咪老師": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "胡咪老師",
+    "description": "單人女主持"
+  },
+  "Vito大叔": {
+    "has_male_host": true,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": true,
+    "hosts": "Vito大叔 / 麥姐",
+    "description": "男女雙主持"
+  },
+  "宋家小館｜Becky": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "Becky",
+    "description": "單人女主持"
+  },
+  "梁哲維": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "梁哲維",
+    "description": "單人男主持"
+  },
+  "尼可這樣說": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "尼可",
+    "description": "單人女主持"
+  },
+  "我的動齡限量版": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "許莉安",
+    "description": "單人女主持"
+  },
+  "哇賽心理學_蔡宇哲": {
+    "has_male_host": true,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "蔡宇哲 / 娜娜 (分集單人主持)",
+    "description": "男女主持 (分集單獨主持)"
+  },
+  "美股夢想家": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "美股夢想家",
+    "description": "單人男主持"
+  },
+  "GK爸爸": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "GK爸爸",
+    "description": "單人男主持"
+  },
+  "30節約男子": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "30節約男子",
+    "description": "單人男主持"
+  },
+  "美股航海王": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "美股航海王",
+    "description": "單人男主持"
+  },
+  "美業幹什麼｜蔡佩陵": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "蔡佩陵",
+    "description": "單人女主持"
+  },
+  "無所不試無樂不作": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "Catherine",
+    "description": "單人女主持"
+  },
+  "加班當爸媽．櫻桃可可CherryCoco": {
+    "has_male_host": true,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": true,
+    "hosts": "Cherry / Coco",
+    "description": "夫妻雙主持"
+  },
+  "聲音表達講師林依柔": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "林依柔",
+    "description": "單人女主持"
+  },
+  "丁菱娟": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "丁菱娟",
+    "description": "單人女主持"
+  },
+  "莫菲穿搭": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "莫菲",
+    "description": "單人女主持"
+  },
+  "楊月娥（楊肉爐）": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "楊月娥",
+    "description": "單人女主持"
+  },
+  "蘇絢慧分享空間": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "蘇絢慧",
+    "description": "單人女主持"
+  },
+  "山姆書書": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "山姆",
+    "description": "單人男主持"
+  },
+  "主播/主持人朱楚文": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "朱楚文",
+    "description": "單人女主持"
+  },
+  "別人的工作最有趣｜Fiona": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "Fiona",
+    "description": "單人女主持"
+  },
+  "玩命之徒｜林尚諾大師兄": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "林尚諾",
+    "description": "單人男主持"
+  },
+  "閱讀聊樂key": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "偉凡",
+    "description": "單人男主持"
+  },
+  "爛泥媽媽的重生日記（Jill)": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "Jill",
+    "description": "單人女主持"
+  },
+  "人生啊！小歐": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "小歐",
+    "description": "單人男主持"
+  },
+  "張忘形": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "張忘形",
+    "description": "單人男主持"
+  },
+  "FIRE人生大學｜道哥": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "道哥",
+    "description": "單人男主持"
+  },
+  "小思大維｜雪柔": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "雪柔",
+    "description": "單人女主持"
+  },
+  "品牌女子A娜": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "A娜",
+    "description": "單人女主持"
+  },
+  "姐姐不想懂事了｜莉安君怡 / 姊姊不想懂事了": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": true,
+    "hosts": "莉安 / 君怡",
+    "description": "雙女主持"
+  },
+  "治療師瑪奇": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "瑪奇",
+    "description": "單人男主持"
+  },
+  "孫治華": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "孫治華",
+    "description": "單人男主持"
+  },
+  "聰明主婦的生活投資學": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "聰明主婦",
+    "description": "單人女主持"
+  },
+  "文森說書": {
+    "has_male_host": true,
+    "has_female_host": false,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "文森",
+    "description": "單人男主持"
+  },
+  "孫子玲": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "孫子玲",
+    "description": "單人女主持"
+  },
+  "王琄": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "王琄",
+    "description": "單人女主持"
+  },
+  "佐依Zoey": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "Zoey",
+    "description": "單人女主持"
+  },
+  "斜槓空姐cindy": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "cindy",
+    "description": "單人女主持"
+  },
+  "潘思璇ＣＰ": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": false,
+    "hosts": "潘思璇",
+    "description": "單人女主持"
+  }
+}
