@@ -277,11 +277,11 @@ function generateSelfContainedHtml() {
             <a id="tab-btn-plan" href="#plan" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10" onclick="switchTab('plan'); return false;">
                 📄 評選工作流規劃
             </a>
-            <a id="tab-btn-status" href="#status" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('status'); return false;">
-                📌 專案執行現況
-            </a>
             <a id="tab-btn-eligibility" href="#eligibility" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('eligibility'); return false;">
-                🔍 資格審查詳情
+                🔍 資格審查
+            </a>
+            <a id="tab-btn-demo" href="#demo" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('demo'); return false;">
+                🎯 Demo 成果彙整
             </a>
             <a id="tab-btn-track-a" href="#track-a" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-a'); return false;">
                 🏆 軌道 A 文本獎
@@ -314,7 +314,7 @@ function generateSelfContainedHtml() {
                 </div>
             </div>
             
-                        <div id="content-status" class="prose max-w-none hidden">
+                        <div id="content-demo" class="prose max-w-none hidden">
                 <!-- POC Sample Episodes Section -->
                 <div id="poc-dashboard" class="not-prose mb-10 hidden pt-4">
                     <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-blue-600 pl-2">
@@ -328,9 +328,6 @@ function generateSelfContainedHtml() {
                         <!-- Episode lists dynamically injected -->
                     </div>
                 </div>
-                
-                <!-- Status Markdown content will render here -->
-                <div id="status-markdown-content"></div>
             </div>
 
             <!-- Eligibility Tab Content -->
@@ -564,8 +561,8 @@ function generateSelfContainedHtml() {
             }
             
             const planBtn = document.getElementById('tab-btn-plan');
-            const statusBtn = document.getElementById('tab-btn-status');
             const eligibilityBtn = document.getElementById('tab-btn-eligibility');
+            const demoBtn = document.getElementById('tab-btn-demo');
             const trackABtn = document.getElementById('tab-btn-track-a');
             const trackBBtn = document.getElementById('tab-btn-track-b');
             const trackCBtn = document.getElementById('tab-btn-track-c');
@@ -574,8 +571,8 @@ function generateSelfContainedHtml() {
             
             const mainGlassCard = document.getElementById('main-glass-card');
             const planContent = document.getElementById('content-plan');
-            const statusContent = document.getElementById('content-status');
             const eligibilityContent = document.getElementById('content-eligibility');
+            const demoContent = document.getElementById('content-demo');
             const trackAContent = document.getElementById('content-track-a');
             const trackBContent = document.getElementById('content-track-b');
             const trackCContent = document.getElementById('content-track-c');
@@ -586,8 +583,8 @@ function generateSelfContainedHtml() {
             const inactiveBtnClass = "flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
 
             planBtn.className = inactiveBtnClass;
-            statusBtn.className = inactiveBtnClass;
             if (eligibilityBtn) eligibilityBtn.className = inactiveBtnClass;
+            if (demoBtn) demoBtn.className = inactiveBtnClass;
             if (trackABtn) trackABtn.className = inactiveBtnClass;
             if (trackBBtn) trackBBtn.className = inactiveBtnClass;
             if (trackCBtn) trackCBtn.className = inactiveBtnClass;
@@ -595,8 +592,8 @@ function generateSelfContainedHtml() {
             deployBtn.className = inactiveBtnClass;
 
             planContent.classList.add('hidden');
-            statusContent.classList.add('hidden');
             if (eligibilityContent) eligibilityContent.classList.add('hidden');
+            if (demoContent) demoContent.classList.add('hidden');
             if (trackAContent) trackAContent.classList.add('hidden');
             if (trackBContent) trackBContent.classList.add('hidden');
             if (trackCContent) trackCContent.classList.add('hidden');
@@ -608,15 +605,15 @@ function generateSelfContainedHtml() {
                 planBtn.className = activeBtnClass;
                 mainGlassCard.classList.remove('hidden');
                 planContent.classList.remove('hidden');
-            } else if (tabId === 'status') {
-                statusBtn.className = activeBtnClass;
-                mainGlassCard.classList.remove('hidden');
-                statusContent.classList.remove('hidden');
             } else if (tabId === 'eligibility' && eligibilityContent) {
                 eligibilityBtn.className = activeBtnClass;
                 mainGlassCard.classList.remove('hidden');
                 eligibilityContent.classList.remove('hidden');
                 renderCharts(); // Render Chart.js charts on show
+            } else if (tabId === 'demo' && demoContent) {
+                demoBtn.className = activeBtnClass;
+                mainGlassCard.classList.remove('hidden');
+                demoContent.classList.remove('hidden');
             } else if (tabId === 'track-a' && trackAContent) {
                 trackABtn.className = activeBtnClass;
                 mainGlassCard.classList.remove('hidden');
@@ -1018,9 +1015,8 @@ function generateSelfContainedHtml() {
             const parts = rawMarkdown.split('<!-- tab-split -->');
             const planMd = parts[0] || '';
             const eligibilityMd = parts[1] || '';
-            const statusMd = parts[2] || '';
-            const timelineMd = parts[3] || '';
-            const deployMd = parts[4] || '';
+            const timelineMd = parts[2] || '';
+            const deployMd = parts[3] || '';
             
             // Render Plan Markdown
             const planHtml = marked.parse(planMd);
@@ -1033,11 +1029,6 @@ function generateSelfContainedHtml() {
             const eligibilityContentDiv = document.getElementById('eligibility-markdown-content');
             if (eligibilityContentDiv) eligibilityContentDiv.innerHTML = eligibilityHtml;
 
-            // Render Status Markdown
-            const statusHtml = marked.parse(statusMd);
-            const statusContentDiv = document.getElementById('status-markdown-content');
-            if (statusContentDiv) statusContentDiv.innerHTML = statusHtml;
-
             // Render Timeline Markdown
             const timelineHtml = marked.parse(timelineMd);
             const timelineContainer = document.getElementById('content-timeline');
@@ -1049,7 +1040,7 @@ function generateSelfContainedHtml() {
             deployContainer.innerHTML = deployHtml;
 
             // Find and convert Mermaid blocks in all containers
-            [planContainer, eligibilityContainer, document.getElementById('content-status'), timelineContainer, deployContainer].forEach(container => {
+            [planContainer, eligibilityContainer, document.getElementById('content-demo'), timelineContainer, deployContainer].forEach(container => {
                 const codeBlocks = container.querySelectorAll('pre code');
                 codeBlocks.forEach(codeBlock => {
                     if (codeBlock.classList.contains('language-mermaid')) {
@@ -1316,7 +1307,7 @@ function generateSelfContainedHtml() {
             }
 // Handle initial hash routing after markdown and mermaid are fully ready
             const initialHash = window.location.hash.slice(1);
-            if (['plan', 'status', 'eligibility', 'track-a', 'track-b', 'track-c', 'timeline', 'deploy'].includes(initialHash)) {
+            if (['plan', 'eligibility', 'demo', 'track-a', 'track-b', 'track-c', 'timeline', 'deploy'].includes(initialHash)) {
                 switchTab(initialHash);
             }
         });
@@ -1324,7 +1315,7 @@ function generateSelfContainedHtml() {
         // Listen for history back/forward hash changes
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.slice(1);
-            if (['plan', 'status', 'eligibility', 'track-a', 'track-b', 'track-c', 'timeline', 'deploy'].includes(hash)) {
+            if (['plan', 'eligibility', 'demo', 'track-a', 'track-b', 'track-c', 'timeline', 'deploy'].includes(hash)) {
                 switchTab(hash);
             }
         });
