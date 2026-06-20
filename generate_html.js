@@ -307,12 +307,6 @@ function generateSelfContainedHtml() {
                     <a id="tab-btn-demo" href="#demo" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('demo'); return false;">
                         🎯 Demo 成果
                     </a>
-                    <a id="tab-btn-track-a" href="#track-a" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-a'); return false;">
-                        🏆 A軌文本
-                    </a>
-                    <a id="tab-btn-track-b" href="#track-b" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-b'); return false;">
-                        🎙️ B軌聲音
-                    </a>
                     ${hasTrackC ? `
                     <a id="tab-btn-track-c" href="#track-c" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-c'); return false;">
                         📊 C軌聲量
@@ -346,6 +340,71 @@ function generateSelfContainedHtml() {
                     <!-- Episodes list grid -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" id="poc-episodes-list">
                         <!-- Episode lists dynamically injected -->
+                    </div>
+                </div>
+
+                <!-- Track A POC Results inside Demo Tab -->
+                <div class="not-prose mt-10 space-y-6 border-t border-slate-200/60 pt-8">
+                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-blue-600 pl-2">
+                        🏆 A軌文本決選參考 (POC 成果)
+                    </h3>
+                    
+                    <!-- Overall Summary Card -->
+                    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 rounded-2xl text-white shadow-md mb-6 space-y-2">
+                        <h4 class="text-sm font-extrabold flex items-center text-white">
+                            <span class="text-lg mr-2">🔮</span> 評審團文本評選綜合總評
+                        </h4>
+                        <p id="poc-overall-summary-a" class="text-xs text-blue-50 leading-relaxed font-medium" style="color: #eff6ff !important;">
+                            <!-- Injected summary -->
+                        </p>
+                    </div>
+                    
+                    <!-- Track A Awards container -->
+                    <div class="space-y-6" id="poc-awards-container-track-a">
+                        <!-- Injected Track A awards -->
+                    </div>
+                </div>
+
+                <!-- Track B POC Results inside Demo Tab -->
+                <div class="not-prose mt-10 space-y-6 border-t border-slate-200/60 pt-8">
+                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-indigo-600 pl-2">
+                        🎙️ B軌聲音決選參考 (POC 成果)
+                    </h3>
+                    
+                    <!-- Overall Summary Card -->
+                    <div class="bg-gradient-to-r from-indigo-600 to-purple-700 p-6 rounded-2xl text-white shadow-md mb-6 space-y-2">
+                        <h4 class="text-sm font-extrabold flex items-center text-white">
+                            <span class="text-lg mr-2">🔮</span> 評審團聲音評選綜合總評
+                        </h4>
+                        <p id="poc-overall-summary-b" class="text-xs text-blue-50 leading-relaxed font-medium" style="color: #eff6ff !important;">
+                            <!-- Injected summary -->
+                        </p>
+                    </div>
+
+                    <!-- Voice Diagnostics Comparison Chart -->
+                    <div id="voice-analysis-chart-card" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center mb-6 hidden">
+                        <h3 class="text-sm font-extrabold text-slate-700 mb-2 self-start border-l-4 border-indigo-500 pl-2">
+                            聲音物理評估對比 (平均語速 vs 贅字頻率)
+                        </h3>
+                        <p class="text-xs text-slate-500 mb-4 self-start">
+                            呈現 9 個抽樣單集的平均語速（WPM，柱狀圖，對應左軸）與贅字頻率等級（低/中/高，折線圖，對應右軸，點位越高代表口條越流暢、贅字越少）。
+                        </p>
+                        <div class="w-full h-[320px] flex items-center justify-center">
+                            <canvas id="voiceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Track B Awards container -->
+                    <div class="space-y-6 mb-8" id="poc-awards-container-track-b">
+                        <!-- Injected Track B awards -->
+                    </div>
+
+                    <!-- Voice Diagnostics Details Grid (9 episodes) -->
+                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-emerald-600 pl-2">
+                        🔍 聲音物理評估詳情 (9集 POC 深入分析)
+                    </h3>
+                    <div class="grid grid-cols-1 gap-4" id="voice-diagnostics-list">
+                        <!-- Dynamic list of voice diagnostics for all 9 episodes -->
                     </div>
                 </div>
             </div>
@@ -415,74 +474,6 @@ function generateSelfContainedHtml() {
                 <div id="eligibility-markdown-content"></div>
             </div>
 
-            <!-- Track A Tab Content -->
-            <div id="content-track-a" class="prose max-w-none hidden space-y-6">
-                <div class="not-prose">
-                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-blue-600 pl-2">
-                        🏆 決審相對 PK 決選參考 — A軌文本
-                    </h3>
-                    
-                    <!-- Overall Summary Card -->
-                    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 rounded-2xl text-white shadow-md mb-6 space-y-2">
-                        <h4 class="text-sm font-extrabold flex items-center text-white">
-                            <span class="text-lg mr-2">🔮</span> 評審團文本評選綜合總評
-                        </h4>
-                        <p id="poc-overall-summary-a" class="text-xs text-blue-50 leading-relaxed font-medium" style="color: #eff6ff !important;">
-                            <!-- Injected summary -->
-                        </p>
-                    </div>
-                    
-                    <!-- Track A Awards container -->
-                    <div class="space-y-6" id="poc-awards-container-track-a">
-                        <!-- Injected Track A awards -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Track B Tab Content -->
-            <div id="content-track-b" class="prose max-w-none hidden space-y-6">
-                <div class="not-prose">
-                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-indigo-600 pl-2">
-                        🎙️ 決審相對 PK 決選參考 — B軌聲音及氣氛
-                    </h3>
-                    
-                    <!-- Overall Summary Card -->
-                    <div class="bg-gradient-to-r from-indigo-600 to-purple-700 p-6 rounded-2xl text-white shadow-md mb-6 space-y-2">
-                        <h4 class="text-sm font-extrabold flex items-center text-white">
-                            <span class="text-lg mr-2">🔮</span> 評審團聲音評選綜合總評
-                        </h4>
-                        <p id="poc-overall-summary-b" class="text-xs text-blue-50 leading-relaxed font-medium" style="color: #eff6ff !important;">
-                            <!-- Injected summary -->
-                        </p>
-                    </div>
-
-                    <!-- Voice Diagnostics Comparison Chart -->
-                    <div id="voice-analysis-chart-card" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center mb-6 hidden">
-                        <h3 class="text-sm font-extrabold text-slate-700 mb-2 self-start border-l-4 border-indigo-500 pl-2">
-                            聲音物理評估對比 (平均語速 vs 贅字頻率)
-                        </h3>
-                        <p class="text-xs text-slate-500 mb-4 self-start">
-                            呈現 9 個抽樣單集的平均語速（WPM，柱狀圖，對應左軸）與贅字頻率等級（低/中/高，折線圖，對應右軸，點位越高代表口條越流暢、贅字越少）。
-                        </p>
-                        <div class="w-full h-[320px] flex items-center justify-center">
-                            <canvas id="voiceChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Track B Awards container -->
-                    <div class="space-y-6 mb-8" id="poc-awards-container-track-b">
-                        <!-- Injected Track B awards -->
-                    </div>
-
-                    <!-- Voice Diagnostics Details Grid (9 episodes) -->
-                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-emerald-600 pl-2">
-                        🔍 聲音物理評估詳情 (9集 POC 深入分析)
-                    </h3>
-                    <div class="grid grid-cols-1 gap-4" id="voice-diagnostics-list">
-                        <!-- Dynamic list of voice diagnostics for all 9 episodes -->
-                    </div>
-                </div>
-            </div>
 <div id="content-timeline" class="prose max-w-none hidden">
                 <!-- Timeline Markdown renders here -->
             </div>
@@ -583,8 +574,6 @@ function generateSelfContainedHtml() {
             const planBtn = document.getElementById('tab-btn-plan');
             const eligibilityBtn = document.getElementById('tab-btn-eligibility');
             const demoBtn = document.getElementById('tab-btn-demo');
-            const trackABtn = document.getElementById('tab-btn-track-a');
-            const trackBBtn = document.getElementById('tab-btn-track-b');
             const trackCBtn = document.getElementById('tab-btn-track-c');
             const timelineBtn = document.getElementById('tab-btn-timeline');
             const deployBtn = document.getElementById('tab-btn-deploy');
@@ -593,8 +582,6 @@ function generateSelfContainedHtml() {
             const planContent = document.getElementById('content-plan');
             const eligibilityContent = document.getElementById('content-eligibility');
             const demoContent = document.getElementById('content-demo');
-            const trackAContent = document.getElementById('content-track-a');
-            const trackBContent = document.getElementById('content-track-b');
             const trackCContent = document.getElementById('content-track-c');
             const timelineContent = document.getElementById('content-timeline');
             const deployContent = document.getElementById('content-deploy');
@@ -605,8 +592,6 @@ function generateSelfContainedHtml() {
             planBtn.className = inactiveBtnClass;
             if (eligibilityBtn) eligibilityBtn.className = inactiveBtnClass;
             if (demoBtn) demoBtn.className = inactiveBtnClass;
-            if (trackABtn) trackABtn.className = inactiveBtnClass;
-            if (trackBBtn) trackBBtn.className = inactiveBtnClass;
             if (trackCBtn) trackCBtn.className = inactiveBtnClass;
             timelineBtn.className = inactiveBtnClass;
             deployBtn.className = inactiveBtnClass;
@@ -614,8 +599,6 @@ function generateSelfContainedHtml() {
             planContent.classList.add('hidden');
             if (eligibilityContent) eligibilityContent.classList.add('hidden');
             if (demoContent) demoContent.classList.add('hidden');
-            if (trackAContent) trackAContent.classList.add('hidden');
-            if (trackBContent) trackBContent.classList.add('hidden');
             if (trackCContent) trackCContent.classList.add('hidden');
             timelineContent.classList.add('hidden');
             deployContent.classList.add('hidden');
@@ -634,15 +617,7 @@ function generateSelfContainedHtml() {
                 demoBtn.className = activeBtnClass;
                 mainGlassCard.classList.remove('hidden');
                 demoContent.classList.remove('hidden');
-            } else if (tabId === 'track-a' && trackAContent) {
-                trackABtn.className = activeBtnClass;
-                mainGlassCard.classList.remove('hidden');
-                trackAContent.classList.remove('hidden');
-            } else if (tabId === 'track-b' && trackBContent) {
-                trackBBtn.className = activeBtnClass;
-                mainGlassCard.classList.remove('hidden');
-                trackBContent.classList.remove('hidden');
-                renderCharts(); // Render voice Chart on show
+                renderCharts(); // Render voice Chart on show (since voice Chart is now in Demo tab!)
             } else if (tabId === 'track-c' && trackCContent) {
                 trackCBtn.className = activeBtnClass;
                 trackCContent.classList.remove('hidden');
@@ -1097,7 +1072,7 @@ function generateSelfContainedHtml() {
                         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
                             <div>
                                 <div class="text-sm font-bold text-slate-800 border-b pb-2 mb-3 flex justify-between items-center">
-                                    <span>🎙️ \\\${partner}</span>
+                                    <span>🎙️ \${partner}</span>
                                     <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">3集隨機抽樣</span>
                                 </div>
                                 <ul class="space-y-3 text-xs text-slate-600">
@@ -1109,9 +1084,9 @@ function generateSelfContainedHtml() {
                             ep.recommended_segments.forEach(seg => {
                                 segsHtml += \`
                                     <div class="py-0.5">
-                                        <span class="font-mono font-bold text-emerald-700 bg-emerald-50 px-1 rounded mr-1">\\\${seg.time_range}</span>
-                                        <span class="font-semibold text-slate-700">\\\${seg.title}</span>
-                                        <span class="text-slate-500">— \\\${seg.reason}</span>
+                                        <span class="font-mono font-bold text-emerald-700 bg-emerald-50 px-1 rounded mr-1">\${seg.time_range}</span>
+                                        <span class="font-semibold text-slate-700">\${seg.title}</span>
+                                        <span class="text-slate-500">— \${seg.reason}</span>
                                     </div>
                                 \`;
                             });
@@ -1120,9 +1095,9 @@ function generateSelfContainedHtml() {
                         epListHtml += \`
                                     <li class="border-b border-slate-100 last:border-0 pb-2 mb-2 last:pb-0 last:mb-0">
                                         <div class="font-semibold text-slate-800 leading-relaxed">
-                                            <span class="font-bold text-blue-600">\\\${idx+1}.</span> \\\${ep.title}
+                                            <span class="font-bold text-blue-600">\${idx+1}.</span> \${ep.title}
                                         </div>
-                                        \\\${segsHtml}
+                                        \${segsHtml}
                                     </li>
                         \`;
                     });
@@ -1150,7 +1125,7 @@ function generateSelfContainedHtml() {
                     aw.ranking.forEach(r => {
                         const medal = r.rank === 1 ? '🥇 金獎' : r.rank === 2 ? '🥈 銀獎' : '🥉 銅獎';
                         const medalColor = r.rank === 1 ? 'text-amber-500' : r.rank === 2 ? 'text-slate-400' : 'text-amber-700';
-                        const scoreText = r.score !== null ? \`\\\${r.score} 分\` : 'N/A';
+                        const scoreText = r.score !== null ? \`\${r.score} 分\` : 'N/A';
                         
                         const isCompliant = r.compliance === '符合';
                         const isNa = r.compliance === '不適用' || r.compliance === 'N/A';
@@ -1159,13 +1134,13 @@ function generateSelfContainedHtml() {
                         
                         partnerRows += \`
                             <tr class="hover:bg-slate-50/50">
-                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold \\\${medalColor}">\\\${medal}</td>
-                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-semibold text-slate-800">\\\${r.partnerName}</td>
-                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold text-blue-600">\\\${scoreText}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold \${medalColor}">\${medal}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-semibold text-slate-800">\${r.partnerName}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold text-blue-600">\${scoreText}</td>
                                 <td class="px-3 py-2.5 whitespace-nowrap text-xs">
-                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold \\\${badgeClass}">\\\${badgeText}</span>
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold \${badgeClass}">\${badgeText}</span>
                                 </td>
-                                <td class="px-3 py-2.5 text-xs text-slate-600 leading-relaxed">\\\${r.reason}</td>
+                                <td class="px-3 py-2.5 text-xs text-slate-600 leading-relaxed">\${r.reason}</td>
                             </tr>
                         \`;
                     });
@@ -1174,7 +1149,7 @@ function generateSelfContainedHtml() {
                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
                             <div class="flex justify-between items-center border-b pb-3">
                                 <h4 class="text-sm font-extrabold text-slate-800 flex items-center">
-                                    <span class="text-lg mr-2">🏅</span> \\\${aw.award_name}
+                                    <span class="text-lg mr-2">🏅</span> \${aw.award_name}
                                 </h4>
                             </div>
                             <div class="overflow-x-auto">
@@ -1189,12 +1164,12 @@ function generateSelfContainedHtml() {
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-100 bg-white">
-                                        \\\${partnerRows}
+                                        \${partnerRows}
                                     </tbody>
                                 </table>
                             </div>
                             <div class="bg-blue-50/40 p-3.5 rounded-xl border border-blue-100/50 text-xs text-slate-700 leading-relaxed">
-                                <span class="font-bold text-blue-800">🔍 橫向 PK 對手對比：</span>\\\${aw.comparative_analysis}
+                                <span class="font-bold text-blue-800">🔍 橫向 PK 對手對比：</span>\${aw.comparative_analysis}
                             </div>
                         </div>
                     \`;
@@ -1257,15 +1232,15 @@ function generateSelfContainedHtml() {
                             <!-- Header -->
                             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b pb-3 space-y-2 sm:space-y-0">
                                 <div class="flex items-center space-x-2.5">
-                                    <span class="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg font-bold border border-slate-200/50">#\\\${idx+1}</span>
-                                    <span class="text-xs font-bold bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-lg border border-indigo-100/50">🎙️ \\\${item.partnerName} (\\\${item.podcastName})</span>
+                                    <span class="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg font-bold border border-slate-200/50">#\${idx+1}</span>
+                                    <span class="text-xs font-bold bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-lg border border-indigo-100/50">🎙️ \${item.partnerName} (\${item.podcastName})</span>
                                 </div>
-                                <span class="self-start sm:self-auto px-2.5 py-1 rounded-full text-xs font-bold \\\${acBadgeClass}">\\\${acBadgeText}</span>
+                                <span class="self-start sm:self-auto px-2.5 py-1 rounded-full text-xs font-bold \${acBadgeClass}">\${acBadgeText}</span>
                             </div>
                             
                             <!-- Episode Title -->
                             <h4 class="text-sm font-extrabold text-slate-800 leading-relaxed">
-                                \\\${item.title}
+                                \${item.title}
                             </h4>
                             
                             <!-- 2-Column Detail Grid -->
@@ -1278,19 +1253,19 @@ function generateSelfContainedHtml() {
                                     <div class="space-y-2.5 text-xs">
                                         <div class="flex items-center justify-between">
                                             <span class="text-slate-500 font-medium">平均語速:</span>
-                                            \\\${wpmBadge}
+                                            \${wpmBadge}
                                         </div>
                                         <div class="flex items-center justify-between">
                                             <span class="text-slate-500 font-medium">贅字贅詞頻率:</span>
-                                            \\\${fillerBadge}
+                                            \${fillerBadge}
                                         </div>
                                         <div class="space-y-1 mt-1 text-slate-600 leading-relaxed">
                                             <span class="font-bold text-slate-700 block">💬 贅字表現分析：</span>
-                                            \\\${item.filler_words_analysis}
+                                            \${item.filler_words_analysis}
                                         </div>
                                         <div class="space-y-1 pt-1.5 text-slate-600 leading-relaxed border-t border-dashed border-slate-200/80">
                                             <span class="font-bold text-slate-700 block">📢 音色共鳴與咬字：</span>
-                                            \\\${item.vocal_resonance}
+                                            \${item.vocal_resonance}
                                         </div>
                                     </div>
                                 </div>
@@ -1303,19 +1278,19 @@ function generateSelfContainedHtml() {
                                     <div class="space-y-2.5 text-xs">
                                         <div class="space-y-1 text-slate-600 leading-relaxed">
                                             <span class="font-bold text-slate-700 block">🎧 錄音環境與背景：</span>
-                                            \\\${item.acoustic_summary}
+                                            \${item.acoustic_summary}
                                         </div>
                                         <div class="grid grid-cols-3 gap-2 py-1 text-[11px] font-bold text-slate-600 border-y border-dashed border-slate-200/80 my-2">
-                                            <div class="text-center bg-slate-100 rounded py-0.5">💥 爆音: \\\${item.acoustic_issues_popping}</div>
-                                            <div class="text-center bg-slate-100 rounded py-0.5">✂️ 破音: \\\${item.acoustic_issues_clipping}</div>
-                                            <div class="text-center bg-slate-100 rounded py-0.5">🔇 底噪: \\\${item.acoustic_issues_noise}</div>
+                                            <div class="text-center bg-slate-100 rounded py-0.5">💥 爆音: \${item.acoustic_issues_popping}</div>
+                                            <div class="text-center bg-slate-100 rounded py-0.5">✂️ 破音: \${item.acoustic_issues_clipping}</div>
+                                            <div class="text-center bg-slate-100 rounded py-0.5">🔇 底噪: \${item.acoustic_issues_noise}</div>
                                         </div>
                                         <div class="space-y-1 pt-0.5 text-slate-600 leading-relaxed">
                                             <span class="font-bold text-slate-700 block flex items-center justify-between">
                                                 <span>⭐ 評審推薦金聽片段：</span>
-                                                <span class="font-mono font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded text-[10px]">\\\${item.golden_segment_time}</span>
+                                                <span class="font-mono font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded text-[10px]">\${item.golden_segment_time}</span>
                                             </span>
-                                            \\\${item.golden_segment_reason}
+                                            \${item.golden_segment_reason}
                                         </div>
                                     </div>
                                 </div>
@@ -1327,7 +1302,7 @@ function generateSelfContainedHtml() {
             }
 // Handle initial hash routing after markdown and mermaid are fully ready
             const initialHash = window.location.hash.slice(1);
-            if (['plan', 'eligibility', 'demo', 'track-a', 'track-b', 'track-c', 'timeline', 'deploy'].includes(initialHash)) {
+            if (['plan', 'eligibility', 'demo', 'track-c', 'timeline', 'deploy'].includes(initialHash)) {
                 switchTab(initialHash);
             }
         });
@@ -1335,7 +1310,7 @@ function generateSelfContainedHtml() {
         // Listen for history back/forward hash changes
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.slice(1);
-            if (['plan', 'eligibility', 'demo', 'track-a', 'track-b', 'track-c', 'timeline', 'deploy'].includes(hash)) {
+            if (['plan', 'eligibility', 'demo', 'track-c', 'timeline', 'deploy'].includes(hash)) {
                 switchTab(hash);
             }
         });

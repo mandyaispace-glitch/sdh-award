@@ -5,33 +5,33 @@
     "totalPrograms": 79,
     "eligiblePrograms": 49,
     "ineligiblePrograms": 30,
-    "totalEpisodes": 1755,
-    "archivedDatesCount": 5
+    "totalEpisodes": 1762,
+    "archivedDatesCount": 6
   },
   "programs": [
     {
       "partnerName": "郝旭烈/郝聲音",
       "podcastName": "郝聲音",
-      "episodesCount": 176,
+      "episodesCount": 177,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-18"
+      "lastBuildDate": "2026-06-19"
     },
     {
       "partnerName": "五吉郎",
       "podcastName": "五吉郎",
-      "episodesCount": 121,
+      "episodesCount": 122,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-11"
+      "lastBuildDate": "2026-06-20"
     },
     {
       "partnerName": "精算媽咪的家計簿｜珊迪兔",
       "podcastName": "精算媽咪的家計簿",
-      "episodesCount": 76,
+      "episodesCount": 77,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-18"
+      "lastBuildDate": "2026-06-19"
     },
     {
       "partnerName": "不敗教主-陳重銘",
@@ -98,6 +98,14 @@
       "lastBuildDate": "2026-06-17"
     },
     {
+      "partnerName": "梁哲維",
+      "podcastName": "OHMYBOOK｜哲維說書",
+      "episodesCount": 43,
+      "eligible": true,
+      "reason": "合格",
+      "lastBuildDate": "2026-06-19"
+    },
+    {
       "partnerName": "宋家小館｜Becky",
       "podcastName": "宋家小館",
       "episodesCount": 42,
@@ -106,20 +114,20 @@
       "lastBuildDate": "2026-06-16"
     },
     {
-      "partnerName": "梁哲維",
-      "podcastName": "OHMYBOOK｜哲維說書",
-      "episodesCount": 42,
-      "eligible": true,
-      "reason": "合格",
-      "lastBuildDate": "2026-06-10"
-    },
-    {
       "partnerName": "尼可這樣說",
       "podcastName": "尼可這樣說",
       "episodesCount": 39,
       "eligible": true,
       "reason": "合格",
       "lastBuildDate": "2026-06-17"
+    },
+    {
+      "partnerName": "美股夢想家",
+      "podcastName": "夢想家說股事",
+      "episodesCount": 38,
+      "eligible": true,
+      "reason": "合格",
+      "lastBuildDate": "2026-06-20"
     },
     {
       "partnerName": "我的動齡限量版",
@@ -138,20 +146,12 @@
       "lastBuildDate": "2026-06-17"
     },
     {
-      "partnerName": "美股夢想家",
-      "podcastName": "夢想家說股事",
-      "episodesCount": 37,
-      "eligible": true,
-      "reason": "合格",
-      "lastBuildDate": "2026-06-18"
-    },
-    {
       "partnerName": "GK爸爸",
       "podcastName": "GK爸爸原創故事繪本",
-      "episodesCount": 33,
+      "episodesCount": 34,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-12"
+      "lastBuildDate": "2026-06-19"
     },
     {
       "partnerName": "30節約男子",
@@ -314,20 +314,20 @@
       "lastBuildDate": "2026-06-10"
     },
     {
+      "partnerName": "姐姐不想懂事了｜莉安君怡 / 姊姊不想懂事了",
+      "podcastName": "《姐姐不想懂事了》 | Soft Rebellion",
+      "episodesCount": 19,
+      "eligible": true,
+      "reason": "合格",
+      "lastBuildDate": "2026-06-19"
+    },
+    {
       "partnerName": "品牌女子A娜",
       "podcastName": "你也想紅嗎",
       "episodesCount": 19,
       "eligible": true,
       "reason": "合格",
       "lastBuildDate": "2026-05-18"
-    },
-    {
-      "partnerName": "姐姐不想懂事了｜莉安君怡 / 姊姊不想懂事了",
-      "podcastName": "《姐姐不想懂事了》 | Soft Rebellion",
-      "episodesCount": 18,
-      "eligible": true,
-      "reason": "合格",
-      "lastBuildDate": "2026-06-16"
     },
     {
       "partnerName": "治療師瑪奇",
@@ -647,7 +647,8 @@
     "2026-06-15",
     "2026-06-16",
     "2026-06-17",
-    "2026-06-19"
+    "2026-06-19",
+    "2026-06-20"
   ],
   "leaderboard": [
     {
@@ -655,68 +656,72 @@
       "podcastName": "哇賽心理學",
       "applePodcastUrl": "https://podcasts.apple.com/tw/podcast/%E5%93%87%E8%B3%BD%E5%BF%83%E7%90%86%E5%AD%B8/id1500162537",
       "rssUrl": "https://feed.firstory.me/rss/user/ck7t2fz77qu7g0873ln5hz5cl",
-      "daysOnChart": 5,
-      "avgRank": 29,
+      "daysOnChart": 6,
+      "avgRank": 30.9,
       "bestRank": 24,
       "history": {
         "2026-06-14": 30,
         "2026-06-15": 24,
         "2026-06-16": 26,
         "2026-06-17": 32,
-        "2026-06-19": 33
+        "2026-06-19": 33,
+        "2026-06-20": 38
       },
-      "details": "06-14(#30), 06-15(#24), 06-16(#26), 06-17(#32), 06-19(#33)"
+      "details": "06-14(#30), 06-15(#24), 06-16(#26), 06-17(#32), 06-19(#33), 06-19(#33), 06-20(#38)"
     },
     {
       "partnerName": "瓦基閱讀前哨站",
       "podcastName": "下一本讀什麼？",
       "applePodcastUrl": "https://podcasts.apple.com/tw/podcast/%E4%B8%8B%E4%B8%80%E6%9C%AC%E8%AE%80%E4%BB%80%E9%BA%BC/id1532820533?uo=4",
       "rssUrl": "https://feed.firstory.me/rss/user/cl39lz2ky01co01ugaba7gr9y",
-      "daysOnChart": 5,
-      "avgRank": 29.4,
+      "daysOnChart": 6,
+      "avgRank": 31.6,
       "bestRank": 23,
       "history": {
         "2026-06-14": 31,
         "2026-06-15": 26,
         "2026-06-16": 27,
         "2026-06-17": 23,
-        "2026-06-19": 40
+        "2026-06-19": 40,
+        "2026-06-20": 34
       },
-      "details": "06-14(#31), 06-15(#26), 06-16(#27), 06-17(#23), 06-19(#40)"
+      "details": "06-14(#31), 06-15(#26), 06-16(#27), 06-17(#23), 06-19(#40), 06-19(#40), 06-20(#34)"
     },
     {
       "partnerName": "GK爸爸",
       "podcastName": "GK爸爸原創故事繪本",
       "applePodcastUrl": "https://podcasts.apple.com/tw/podcast/gk%E7%88%B8%E7%88%B8%E5%8E%9F%E5%89%B5%E6%95%85%E4%BA%8B%E7%B9%AA%E6%9C%AC/id1525978220?uo=4",
       "rssUrl": "https://feed.firstory.me/rss/user/cke9o73prwmij0839gmffmzhj",
-      "daysOnChart": 5,
-      "avgRank": 48.6,
-      "bestRank": 37,
+      "daysOnChart": 6,
+      "avgRank": 46.9,
+      "bestRank": 36,
       "history": {
         "2026-06-14": 43,
         "2026-06-15": 37,
         "2026-06-16": 57,
         "2026-06-17": 57,
-        "2026-06-19": 49
+        "2026-06-19": 49,
+        "2026-06-20": 36
       },
-      "details": "06-14(#43), 06-15(#37), 06-16(#57), 06-17(#57), 06-19(#49)"
+      "details": "06-14(#43), 06-15(#37), 06-16(#57), 06-17(#57), 06-19(#49), 06-19(#49), 06-20(#36)"
     },
     {
       "partnerName": "郝旭烈/郝聲音",
       "podcastName": "郝聲音",
       "applePodcastUrl": "https://podcasts.apple.com/tw/podcast/%E9%83%9D%E8%81%B2%E9%9F%B3/id1533782597",
       "rssUrl": "https://feed.firstory.me/rss/user/ckfnpunqe136d08003p6lzdmn",
-      "daysOnChart": 5,
-      "avgRank": 51.4,
+      "daysOnChart": 6,
+      "avgRank": 56.6,
       "bestRank": 41,
       "history": {
         "2026-06-14": 47,
         "2026-06-15": 46,
         "2026-06-16": 41,
         "2026-06-17": 56,
-        "2026-06-19": 67
+        "2026-06-19": 67,
+        "2026-06-20": 72
       },
-      "details": "06-14(#47), 06-15(#46), 06-16(#41), 06-17(#56), 06-19(#67)"
+      "details": "06-14(#47), 06-15(#46), 06-16(#41), 06-17(#56), 06-19(#67), 06-19(#67), 06-20(#72)"
     },
     {
       "partnerName": "別人的工作最有趣｜Fiona",
