@@ -299,7 +299,7 @@ async function main() {
     // 4. Determine batch execution (limit to stay within free quota)
     // We will process all episodes in selectedEpisodes that are not cached.
     // If you want to limit the trial size to 3 episodes, set LIMIT_TRIAL = true.
-    const LIMIT_TRIAL = true;
+    const LIMIT_TRIAL = false;
     const TRIAL_LIMIT_COUNT = 3; // 限制測試跑 3 集
     
     let pendingEpisodes = selectedEpisodes.filter(ep => !trackBCache[ep.title]);

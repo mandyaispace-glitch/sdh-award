@@ -135,7 +135,7 @@ flowchart TD
 
 <!-- tab-split -->
 
-# 📌 專案執行現況與 Demo 成果彙整 (2026-06-14 節點)
+# 🔍 合作夥伴資格審查與單集池收錄成果
 
 目前本系統的「Demo 概念驗證」與「自動化數據採集」已成功上線，各模組進度如下：
 
@@ -232,6 +232,12 @@ flowchart TD
 | 79 | Cynthia Huang黃馨儀 | 媽媽好神經病 | 2021-10-31 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (2026年發片不足。最後更新時間：2021-10-31) |
 
 <!-- ELIGIBILITY_END -->
+
+<!-- tab-split -->
+
+# 📌 專案各軌道執行現況與防盲驗證機制
+
+目前本系統除了第一輪資格審查外，其餘各評估軌道與技術架構之建置狀態如下：
 
 ### 2. 軌道 B 聲音物理測試環境 (完成 ✅)
 *   **執行腳本**：[track_b_run.js](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/track_b_run.js)

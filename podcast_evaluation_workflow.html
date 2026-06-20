@@ -165,10 +165,18 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
-        #poc-overall-summary {
+        #poc-overall-summary, #poc-overall-summary-a, #poc-overall-summary-b {
             color: #eff6ff !important;
         }
-        
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .scrollbar-none {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
     </style>
 </head>
 <body class="min-h-screen py-10 px-4 sm:px-6 lg:px-8 bg-[#f0efed]">
@@ -185,22 +193,31 @@
         </header>
 
         <!-- Tab Navigation -->
-        <div class="flex space-x-2 p-1.5 bg-slate-200/50 backdrop-blur-md rounded-xl mb-6 max-w-2xl shadow-inner border border-slate-200/30">
-            <a id="tab-btn-plan" href="#plan" class="flex-1 py-2.5 text-center text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10" onclick="switchTab('plan'); return false;">
+        <div class="flex overflow-x-auto whitespace-nowrap scrollbar-none space-x-2 p-1.5 bg-slate-200/50 backdrop-blur-md rounded-xl mb-6 shadow-inner border border-slate-200/30">
+            <a id="tab-btn-plan" href="#plan" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10" onclick="switchTab('plan'); return false;">
                 📄 評選工作流規劃
             </a>
-            <a id="tab-btn-status" href="#status" class="flex-1 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('status'); return false;">
+            <a id="tab-btn-status" href="#status" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('status'); return false;">
                 📌 專案執行現況
             </a>
+            <a id="tab-btn-eligibility" href="#eligibility" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('eligibility'); return false;">
+                🔍 資格審查詳情
+            </a>
+            <a id="tab-btn-track-a" href="#track-a" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-a'); return false;">
+                🏆 軌道 A 文本獎
+            </a>
+            <a id="tab-btn-track-b" href="#track-b" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-b'); return false;">
+                🎙️ 軌道 B 聲音獎
+            </a>
             
-            <a id="tab-btn-track-c" href="#track-c" class="flex-1 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-c'); return false;">
+            <a id="tab-btn-track-c" href="#track-c" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-c'); return false;">
                 📊 軌道 C 社群聲量
             </a>
             
-            <a id="tab-btn-timeline" href="#timeline" class="flex-1 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('timeline'); return false;">
+            <a id="tab-btn-timeline" href="#timeline" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('timeline'); return false;">
                 ⏳ 專案進程時間軸
             </a>
-            <a id="tab-btn-deploy" href="#deploy" class="flex-1 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('deploy'); return false;">
+            <a id="tab-btn-deploy" href="#deploy" class="flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('deploy'); return false;">
                 💾 系統部署與移轉
             </a>
         </div>
@@ -217,9 +234,29 @@
                 </div>
             </div>
             
-            <div id="content-status" class="prose max-w-none hidden">
+                        <div id="content-status" class="prose max-w-none hidden">
+                <!-- POC Sample Episodes Section -->
+                <div id="poc-dashboard" class="not-prose mb-10 hidden pt-4">
+                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-blue-600 pl-2">
+                        🎯 決審隨機抽樣 POC 單集清單 (每檔各 3 集)
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-4">
+                        為進行決審 POC 模擬評選，系統自合格單集池中隨機抽出以下 9 個單集。這些單集的轉寫內容將作為軌道 A 文本獎與軌道 B 聲音獎的評比依據。
+                    </p>
+                    <!-- Episodes list grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" id="poc-episodes-list">
+                        <!-- Episode lists dynamically injected -->
+                    </div>
+                </div>
+                
+                <!-- Status Markdown content will render here -->
+                <div id="status-markdown-content"></div>
+            </div>
+
+            <!-- Eligibility Tab Content -->
+            <div id="content-eligibility" class="prose max-w-none hidden">
                 <!-- Status metrics & charts will be dynamically prepended here -->
-                <div id="status-dashboard" class="not-prose mb-8">
+                <div id="eligibility-dashboard" class="not-prose mb-8">
                     <!-- Metrics cards -->
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                         <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100 shadow-sm flex flex-col justify-between">
@@ -275,42 +312,81 @@
                             </div>
                         </div>
                     </div>
-                    
-
                 </div>
                 
-                <!-- POC Results Section -->
-                <div id="poc-dashboard" class="not-prose mb-10 hidden border-t border-slate-200 pt-8">
+                <!-- Eligibility Markdown content will render here -->
+                <div id="eligibility-markdown-content"></div>
+            </div>
+
+            <!-- Track A Tab Content -->
+            <div id="content-track-a" class="prose max-w-none hidden space-y-6">
+                <div class="not-prose">
                     <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-blue-600 pl-2">
-                        🏆 決審相對 PK 評選結果 (3集隨機抽樣 POC)
+                        🏆 決審相對 PK 評選結果 — 軌道 A 文本獎
                     </h3>
-                    
-                    <!-- Episodes list grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" id="poc-episodes-list">
-                        <!-- Episode lists dynamically injected -->
-                    </div>
                     
                     <!-- Overall Summary Card -->
                     <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 rounded-2xl text-white shadow-md mb-6 space-y-2">
                         <h4 class="text-sm font-extrabold flex items-center text-white">
-                            <span class="text-lg mr-2">🔮</span> 評審團決審綜合總評 (多集綜合)
+                            <span class="text-lg mr-2">🔮</span> 評審團文本評選綜合總評
                         </h4>
-                        <p id="poc-overall-summary" class="text-xs text-blue-50 leading-relaxed font-medium" style="color: #eff6ff !important;">
+                        <p id="poc-overall-summary-a" class="text-xs text-blue-50 leading-relaxed font-medium" style="color: #eff6ff !important;">
                             <!-- Injected summary -->
                         </p>
                     </div>
                     
-                    <!-- Awards container -->
-                    <div class="space-y-6" id="poc-awards-container">
-                        <!-- Award details dynamically injected -->
+                    <!-- Track A Awards container -->
+                    <div class="space-y-6" id="poc-awards-container-track-a">
+                        <!-- Injected Track A awards -->
                     </div>
                 </div>
-                
-                <!-- Status Markdown content will render here -->
-                <div id="status-markdown-content"></div>
             </div>
-            
-            <div id="content-timeline" class="prose max-w-none hidden">
+
+            <!-- Track B Tab Content -->
+            <div id="content-track-b" class="prose max-w-none hidden space-y-6">
+                <div class="not-prose">
+                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-indigo-600 pl-2">
+                        🎙️ 決審相對 PK 評選結果 — 軌道 B 聲音及氣氛獎
+                    </h3>
+                    
+                    <!-- Overall Summary Card -->
+                    <div class="bg-gradient-to-r from-indigo-600 to-purple-700 p-6 rounded-2xl text-white shadow-md mb-6 space-y-2">
+                        <h4 class="text-sm font-extrabold flex items-center text-white">
+                            <span class="text-lg mr-2">🔮</span> 評審團聲音評選綜合總評
+                        </h4>
+                        <p id="poc-overall-summary-b" class="text-xs text-blue-50 leading-relaxed font-medium" style="color: #eff6ff !important;">
+                            <!-- Injected summary -->
+                        </p>
+                    </div>
+
+                    <!-- Voice Diagnostics Comparison Chart -->
+                    <div id="voice-analysis-chart-card" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center mb-6 hidden">
+                        <h3 class="text-sm font-extrabold text-slate-700 mb-2 self-start border-l-4 border-indigo-500 pl-2">
+                            聲音物理評估對比 (平均語速 vs 贅字頻率)
+                        </h3>
+                        <p class="text-xs text-slate-500 mb-4 self-start">
+                            呈現 9 個抽樣單集的平均語速（WPM，柱狀圖，對應左軸）與贅字頻率等級（低/中/高，折線圖，對應右軸，點位越高代表口條越流暢、贅字越少）。
+                        </p>
+                        <div class="w-full h-[320px] flex items-center justify-center">
+                            <canvas id="voiceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Track B Awards container -->
+                    <div class="space-y-6 mb-8" id="poc-awards-container-track-b">
+                        <!-- Injected Track B awards -->
+                    </div>
+
+                    <!-- Voice Diagnostics Details Grid (9 episodes) -->
+                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-emerald-600 pl-2">
+                        🔍 聲音物理評估詳情 (9集 POC 深入分析)
+                    </h3>
+                    <div class="grid grid-cols-1 gap-4" id="voice-diagnostics-list">
+                        <!-- Dynamic list of voice diagnostics for all 9 episodes -->
+                    </div>
+                </div>
+            </div>
+<div id="content-timeline" class="prose max-w-none hidden">
                 <!-- Timeline Markdown renders here -->
             </div>
             
@@ -509,7 +585,7 @@ flowchart TD
 
 <!-- tab-split -->
 
-# 📌 專案執行現況與 Demo 成果彙整 (2026-06-14 節點)
+# 🔍 合作夥伴資格審查與單集池收錄成果
 
 目前本系統的「Demo 概念驗證」與「自動化數據採集」已成功上線，各模組進度如下：
 
@@ -606,6 +682,12 @@ flowchart TD
 | 79 | Cynthia Huang黃馨儀 | 媽媽好神經病 | 2021-10-31 | **0** | ❌ <span class='text-red-500 font-bold'>資格不符</span> | 資格不符 (2026年發片不足。最後更新時間：2021-10-31) |
 
 <!-- ELIGIBILITY_END -->
+
+<!-- tab-split -->
+
+# 📌 專案各軌道執行現況與防盲驗證機制
+
+目前本系統除了第一輪資格審查外，其餘各評估軌道與技術架構之建置狀態如下：
 
 ### 2. 軌道 B 聲音物理測試環境 (完成 ✅)
 *   **執行腳本**：[track_b_run.js](file:///C:/Users/manma/OneDrive/Documents/Antigrivity/SDH%20Award/track_b_run.js)
@@ -855,6 +937,7 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
         window.eligibilityStats = {"summary":{"totalKols":79,"hasPodcastCount":71,"totalPrograms":79,"eligiblePrograms":49,"ineligiblePrograms":30,"totalEpisodes":1755,"archivedDatesCount":5},"programs":[{"partnerName":"郝旭烈/郝聲音","podcastName":"郝聲音","episodesCount":176,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-18"},{"partnerName":"五吉郎","podcastName":"五吉郎","episodesCount":121,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-11"},{"partnerName":"精算媽咪的家計簿｜珊迪兔","podcastName":"精算媽咪的家計簿","episodesCount":76,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-18"},{"partnerName":"不敗教主-陳重銘","podcastName":"不敗教主陳重銘","episodesCount":70,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-18"},{"partnerName":"布姐陪你聰明工作創意生活","podcastName":"布姐的沙發","episodesCount":64,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-18"},{"partnerName":"瓦基閱讀前哨站","podcastName":"下一本讀什麼？","episodesCount":61,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-18"},{"partnerName":"蕭邦","podcastName":"蕭邦相談室","episodesCount":52,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-18"},{"partnerName":"Dr Selena","podcastName":"小資變有錢｜Dr.Selena生活理財王","episodesCount":50,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-17"},{"partnerName":"林程揚｜Hank大叔 / 維琪的幸福叮嚀","podcastName":"能量黑客","episodesCount":48,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-17"},{"partnerName":"胡咪老師","podcastName":"分手的99個理由","episodesCount":48,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-17"},{"partnerName":"Vito大叔","podcastName":"粉紅地獄辛辣麵","episodesCount":47,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-17"},{"partnerName":"宋家小館｜Becky","podcastName":"宋家小館","episodesCount":42,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-16"},{"partnerName":"梁哲維","podcastName":"OHMYBOOK｜哲維說書","episodesCount":42,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-10"},{"partnerName":"尼可這樣說","podcastName":"尼可這樣說","episodesCount":39,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-17"},{"partnerName":"我的動齡限量版","podcastName":"我的動齡限量版","episodesCount":37,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-18"},{"partnerName":"哇賽心理學_蔡宇哲","podcastName":"哇賽心理學","episodesCount":37,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-17"},{"partnerName":"美股夢想家","podcastName":"夢想家說股事","episodesCount":37,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-18"},{"partnerName":"GK爸爸","podcastName":"GK爸爸原創故事繪本","episodesCount":33,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-12"},{"partnerName":"30節約男子","podcastName":"財富餐車不打烊","episodesCount":30,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-14"},{"partnerName":"美股航海王","podcastName":"航海王的富人學","episodesCount":29,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-18"},{"partnerName":"美業幹什麼｜蔡佩陵","podcastName":"美業幹什麼","episodesCount":29,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-14"},{"partnerName":"無所不試無樂不作","podcastName":"無所不試 無樂不作","episodesCount":29,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-14"},{"partnerName":"加班當爸媽．櫻桃可可CherryCoco","podcastName":"加班當爸媽｜櫻桃可可CherryCoco","episodesCount":26,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-17"},{"partnerName":"聲音表達講師林依柔","podcastName":"說話人聲","episodesCount":26,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-14"},{"partnerName":"丁菱娟","podcastName":"丁菱娟的邊走邊想","episodesCount":25,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-18"},{"partnerName":"莫菲穿搭","podcastName":"【莫轉台】-試穿新人生","episodesCount":25,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-13"},{"partnerName":"楊月娥（楊肉爐）","podcastName":"楊肉盧","episodesCount":25,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-16"},{"partnerName":"蘇絢慧分享空間","podcastName":"蘇心時光","episodesCount":25,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-18"},{"partnerName":"山姆書書","podcastName":"山姆書書","episodesCount":24,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-15"},{"partnerName":"主播/主持人朱楚文","podcastName":"科技領航家","episodesCount":24,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-16"},{"partnerName":"別人的工作最有趣｜Fiona","podcastName":"別人的工作最有趣","episodesCount":24,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-17"},{"partnerName":"玩命之徒｜林尚諾大師兄","podcastName":"玩命之徒","episodesCount":24,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-14"},{"partnerName":"閱讀聊樂key","podcastName":"閱讀聊樂KEY","episodesCount":24,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-16"},{"partnerName":"爛泥媽媽的重生日記（Jill)","podcastName":"爛泥Jill式優雅","episodesCount":24,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-15"},{"partnerName":"人生啊！小歐","podcastName":"人生啊｜陪你一起看懂人生","episodesCount":23,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-17"},{"partnerName":"張忘形","podcastName":"人類行為研究社","episodesCount":23,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-16"},{"partnerName":"Fire人生大學｜道哥","podcastName":"FIRE 人生大學","episodesCount":21,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-17"},{"partnerName":"小思大維｜雪柔","podcastName":"小思大維","episodesCount":19,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-10"},{"partnerName":"品牌女子A娜","podcastName":"你也想紅嗎","episodesCount":19,"eligible":true,"reason":"合格","lastBuildDate":"2026-05-18"},{"partnerName":"姐姐不想懂事了｜莉安君怡 / 姊姊不想懂事了","podcastName":"《姐姐不想懂事了》 | Soft Rebellion","episodesCount":18,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-16"},{"partnerName":"治療師瑪奇","podcastName":"教出你的路","episodesCount":18,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-17"},{"partnerName":"孫治華","podcastName":"人生挖挖WoW-企業人生策略學","episodesCount":18,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-18"},{"partnerName":"聰明主婦的生活投資學","podcastName":"聰明生活投資學","episodesCount":17,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-10"},{"partnerName":"文森說書","podcastName":"文森說書","episodesCount":16,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-08"},{"partnerName":"孫子玲","podcastName":"子玲的親子聊心屋-媽咪的自我成長&親子教養","episodesCount":16,"eligible":true,"reason":"合格","lastBuildDate":"2026-05-24"},{"partnerName":"王琄","podcastName":"琄蜜莉的異想世界","episodesCount":14,"eligible":true,"reason":"合格","lastBuildDate":"2026-04-21"},{"partnerName":"佐依Zoey","podcastName":"佐編茶水間","episodesCount":14,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-03"},{"partnerName":"斜槓空姐cindy","podcastName":"錢進頭等艙","episodesCount":14,"eligible":true,"reason":"合格","lastBuildDate":"2026-05-17"},{"partnerName":"潘思璇ＣＰ","podcastName":"CP有主見","episodesCount":12,"eligible":true,"reason":"合格","lastBuildDate":"2026-06-18"},{"partnerName":"即薑抵達｜薑咪","podcastName":"即薑抵達","episodesCount":11,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2026-06-16)","lastBuildDate":"2026-06-16"},{"partnerName":"小河馬媽媽","podcastName":"來晚無添加河粉吧！","episodesCount":9,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2026-05-07)","lastBuildDate":"2026-05-07"},{"partnerName":"曼蒂歐逆-轉型之路","podcastName":"任性歐逆機智生活","episodesCount":9,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2026-05-08)","lastBuildDate":"2026-05-08"},{"partnerName":"鄧惠文","podcastName":"鄧惠文 不想說","episodesCount":9,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2026-04-21)","lastBuildDate":"2026-04-21"},{"partnerName":"慢活夫妻Dewi&George","podcastName":"慢活夫妻－專業美股投資與理財","episodesCount":8,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2026-05-28)","lastBuildDate":"2026-05-28"},{"partnerName":"崔咪","podcastName":"一不小心太漂亮","episodesCount":7,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2026-06-14)","lastBuildDate":"2026-06-14"},{"partnerName":"微光中的貓| Claire Hsiao","podcastName":"《 微光中的北極星 》人生策略、自我成長、內在力量","episodesCount":7,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2026-06-11)","lastBuildDate":"2026-06-11"},{"partnerName":"育兒專機｜犬媽 / 犬兒媽咪の育兒手帳","podcastName":"育兒專機","episodesCount":4,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2026-06-02)","lastBuildDate":"2026-06-02"},{"partnerName":"廣播主持人_楊凱涵","podcastName":"請多包涵 / BaoHan Talk","episodesCount":4,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2026-02-25)","lastBuildDate":"2026-02-25"},{"partnerName":"林慧","podcastName":"做自己很難嗎？","episodesCount":2,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2026-04-07)","lastBuildDate":"2026-04-07"},{"partnerName":"喬王的投資理財筆記","podcastName":"斜槓 槓槓槓","episodesCount":2,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2026-05-17)","lastBuildDate":"2026-05-17"},{"partnerName":"樂筆","podcastName":"歡迎光臨","episodesCount":2,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2026-05-19)","lastBuildDate":"2026-05-19"},{"partnerName":"下半場陪談師＿張嘉茹老師","podcastName":"下半場人生陪談師","episodesCount":0,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2025-10-09)","lastBuildDate":"2025-10-09"},{"partnerName":"布萊恩老師","podcastName":"無","episodesCount":0,"eligible":false,"reason":"資格不符 (無 Podcast 節目)","lastBuildDate":"無"},{"partnerName":"幼兒情緒教育學院-萬叔的心café","podcastName":"無","episodesCount":0,"eligible":false,"reason":"資格不符 (無 Podcast 節目)","lastBuildDate":"無"},{"partnerName":"全遠距工作的行銷人|Coco","podcastName":"無","episodesCount":0,"eligible":false,"reason":"資格不符 (無 Podcast 節目)","lastBuildDate":"無"},{"partnerName":"李柏鋒的擴大機","podcastName":"鋒富理財學","episodesCount":0,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2021-07-19)","lastBuildDate":"2021-07-19"},{"partnerName":"阿駿日常","podcastName":"無","episodesCount":0,"eligible":false,"reason":"資格不符 (無 Podcast 節目)","lastBuildDate":"無"},{"partnerName":"迷途艾比","podcastName":"迷途星球","episodesCount":0,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2025-04-22)","lastBuildDate":"2025-04-22"},{"partnerName":"高言值表達力教練｜竺宥璋｜小竺","podcastName":"這下言重了","episodesCount":0,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2024-08-30)","lastBuildDate":"2024-08-30"},{"partnerName":"張書書","podcastName":"無","episodesCount":0,"eligible":false,"reason":"資格不符 (無 Podcast 節目)","lastBuildDate":"無"},{"partnerName":"莊舒涵（卡姊）","podcastName":"我不是病人，我是卡姊！","episodesCount":0,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2025-09-21)","lastBuildDate":"2025-09-21"},{"partnerName":"雷浩斯價值投資網","podcastName":"無","episodesCount":0,"eligible":false,"reason":"資格不符 (無 Podcast 節目)","lastBuildDate":"無"},{"partnerName":"瑪那熊諮商心理師","podcastName":"瑪那熊聊愛情","episodesCount":0,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2021-10-06)","lastBuildDate":"2021-10-06"},{"partnerName":"趙函穎的營養健康週報","podcastName":"趙函穎的營養健康報報","episodesCount":0,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2025-03-18)","lastBuildDate":"2025-03-18"},{"partnerName":"劉亦酉","podcastName":"無","episodesCount":0,"eligible":false,"reason":"資格不符 (無 Podcast 節目)","lastBuildDate":"無"},{"partnerName":"謎卡Mika Lin","podcastName":"米米說","episodesCount":0,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2025-09-14)","lastBuildDate":"2025-09-14"},{"partnerName":"蘋果老師","podcastName":"網紅，紅什麼","episodesCount":0,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2025-12-29)","lastBuildDate":"2025-12-29"},{"partnerName":"Coco｜全遠距工作的行銷人","podcastName":"無","episodesCount":0,"eligible":false,"reason":"資格不符 (無 Podcast 節目)","lastBuildDate":"無"},{"partnerName":"Cynthia Huang黃馨儀","podcastName":"媽媽好神經病","episodesCount":0,"eligible":false,"reason":"資格不符 (2026年發片不足。最後更新時間：2021-10-31)","lastBuildDate":"2021-10-31"}],"dates":["2026-06-14","2026-06-15","2026-06-16","2026-06-17","2026-06-19"],"leaderboard":[{"partnerName":"哇賽心理學_蔡宇哲","podcastName":"哇賽心理學","applePodcastUrl":"https://podcasts.apple.com/tw/podcast/%E5%93%87%E8%B3%BD%E5%BF%83%E7%90%86%E5%AD%B8/id1500162537","rssUrl":"https://feed.firstory.me/rss/user/ck7t2fz77qu7g0873ln5hz5cl","daysOnChart":5,"avgRank":29,"bestRank":24,"history":{"2026-06-14":30,"2026-06-15":24,"2026-06-16":26,"2026-06-17":32,"2026-06-19":33},"details":"06-14(#30), 06-15(#24), 06-16(#26), 06-17(#32), 06-19(#33)"},{"partnerName":"瓦基閱讀前哨站","podcastName":"下一本讀什麼？","applePodcastUrl":"https://podcasts.apple.com/tw/podcast/%E4%B8%8B%E4%B8%80%E6%9C%AC%E8%AE%80%E4%BB%80%E9%BA%BC/id1532820533?uo=4","rssUrl":"https://feed.firstory.me/rss/user/cl39lz2ky01co01ugaba7gr9y","daysOnChart":5,"avgRank":29.4,"bestRank":23,"history":{"2026-06-14":31,"2026-06-15":26,"2026-06-16":27,"2026-06-17":23,"2026-06-19":40},"details":"06-14(#31), 06-15(#26), 06-16(#27), 06-17(#23), 06-19(#40)"},{"partnerName":"GK爸爸","podcastName":"GK爸爸原創故事繪本","applePodcastUrl":"https://podcasts.apple.com/tw/podcast/gk%E7%88%B8%E7%88%B8%E5%8E%9F%E5%89%B5%E6%95%85%E4%BA%8B%E7%B9%AA%E6%9C%AC/id1525978220?uo=4","rssUrl":"https://feed.firstory.me/rss/user/cke9o73prwmij0839gmffmzhj","daysOnChart":5,"avgRank":48.6,"bestRank":37,"history":{"2026-06-14":43,"2026-06-15":37,"2026-06-16":57,"2026-06-17":57,"2026-06-19":49},"details":"06-14(#43), 06-15(#37), 06-16(#57), 06-17(#57), 06-19(#49)"},{"partnerName":"郝旭烈/郝聲音","podcastName":"郝聲音","applePodcastUrl":"https://podcasts.apple.com/tw/podcast/%E9%83%9D%E8%81%B2%E9%9F%B3/id1533782597","rssUrl":"https://feed.firstory.me/rss/user/ckfnpunqe136d08003p6lzdmn","daysOnChart":5,"avgRank":51.4,"bestRank":41,"history":{"2026-06-14":47,"2026-06-15":46,"2026-06-16":41,"2026-06-17":56,"2026-06-19":67},"details":"06-14(#47), 06-15(#46), 06-16(#41), 06-17(#56), 06-19(#67)"},{"partnerName":"別人的工作最有趣｜Fiona","podcastName":"別人的工作最有趣","applePodcastUrl":"https://podcasts.apple.com/tw/podcast/%E5%88%A5%E4%BA%BA%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%9C%80%E6%9C%89%E8%B6%A3/id1626274583","rssUrl":"https://feeds.soundon.fm/podcasts/d9d66aa1-b352-43f8-8324-064d3248538e.xml","daysOnChart":2,"avgRank":88.5,"bestRank":79,"history":{"2026-06-14":79,"2026-06-15":98},"details":"06-14(#79), 06-15(#98)"},{"partnerName":"文森說書","podcastName":"文森說書","applePodcastUrl":"https://podcasts.apple.com/tw/podcast/%E6%96%87%E6%A3%AE%E8%AA%AA%E6%9B%B8/id1513786617?uo=4","rssUrl":"https://rss.buzzsprout.com/1096139.rss","daysOnChart":2,"avgRank":92,"bestRank":91,"history":{"2026-06-14":91,"2026-06-15":93},"details":"06-14(#91), 06-15(#93)"}]};
         window.pocResults = {"awards":{"content_structure":{"award_name":"最佳內容架構獎","ranking":[{"rank":1,"partnerName":"五吉郎","score":8.5,"reason":"節目 GD229 開頭明確點出主題，並以三個重點架構內容；GD221 亦有清晰的開場與重點劃分；EP169 則有明確的來賓介紹與主題鋪陳。整體邏輯清晰，轉折自然。","compliance":"符合"},{"rank":2,"partnerName":"哇賽心理學_蔡宇哲","score":8,"reason":"節目內容架構清晰，多以主題探討為主，開頭能引導聽眾進入情境。但部分單集結尾較為平淡，未有明確的總結或重點整理。","compliance":"符合"},{"rank":3,"partnerName":"郝旭烈/郝聲音","score":7.5,"reason":"單集 1 開頭有明確的節目介紹與本集主題預告，但內容較為鬆散，聊天性質較重，段落轉折不夠清晰。單集 2 與 3 亦有類似情況，結尾總結力道較弱。","compliance":"符合"}],"comparative_analysis":"五吉郎節目在內容架構上表現最為突出，能有效利用開場引導聽眾，並以清晰的重點進行論述。哇賽心理學節目架構完整，但結尾總結力道稍嫌不足。郝聲音節目則較偏向聊天性質，內容架構的嚴謹度有待加強。"},"best_duo_hosts":{"award_name":"最佳默契獎","ranking":[{"rank":1,"partnerName":"哇賽心理學_蔡宇哲","score":null,"reason":"單人主持節目，不適用此獎項。","compliance":"不適用"},{"rank":2,"partnerName":"五吉郎","score":null,"reason":"單人主持節目，不適用此獎項。","compliance":"不適用"},{"rank":3,"partnerName":"郝旭烈/郝聲音","score":null,"reason":"單人主持節目，不適用此獎項。","compliance":"不適用"}],"comparative_analysis":"評估之三檔節目皆為單人主持（搭配來賓）之節目，由於最佳默契獎定義需為雙人或多人共同主持之節目（非與來賓之互動），故本獎項於本次評選中皆判定為不適用。"},"episode_planning":{"award_name":"最神單元企劃獎","ranking":[{"rank":1,"partnerName":"五吉郎","score":9.5,"reason":"企劃主題（不敢拒絕、情緒反應、跨境電商）切入點新穎且具備高度的市場差異化，內容深入淺出，提供實用方法與案例，訪談深度佳。","compliance":"符合"},{"rank":2,"partnerName":"哇賽心理學_蔡宇哲","score":9,"reason":"企劃主題（金錢性格、多巴胺陷阱、創傷療癒）具備深度與實用性，能引發聽眾共鳴與思考，訪談問題具引導性，能激發來賓分享獨特觀點。","compliance":"符合"},{"rank":3,"partnerName":"郝旭烈/郝聲音","score":7.5,"reason":"企劃主題（設計師生涯、財務腦與業務力、隱性內耗）具備一定的深度，但選題切入角度較為傳統，實用價值與��度有提升空間，訪談深度較為表面。","compliance":"符合"}],"comparative_analysis":"五吉郎節目在單元企劃的創意與市場差異化上表現最佳，主題貼近聽眾需求且具備實操性。哇賽心理學節目企劃內容亦有深度，但五吉郎在議題的新穎度上略勝一籌。郝聲音節目企劃內容較為常見，深度與創意有待加強。"},"best_male_host":{"award_name":"最佳男播音員獎","ranking":[{"rank":1,"partnerName":"五吉郎","score":9,"reason":"主持人安迪口條流暢，贅字率低，語速穩定，音量平穩，具備良好的共鳴與情感渲染力，能有效引導聽眾進入主題。","compliance":"符合"},{"rank":2,"partnerName":"郝旭烈/郝聲音","score":8.5,"reason":"主持人郝哥口條尚稱流暢，但偶有贅字（如「那個」、「就是」），語速穩定，音量平穩，具備一定的親和力與情感表達。","compliance":"符合"},{"rank":3,"partnerName":"哇賽心理學_蔡宇哲","score":8,"reason":"主持人宇澤口條流暢，贅字率低，語速穩定，音量平穩，表達清晰，但情感渲染力與共鳴感較為平淡。","compliance":"符合"}],"comparative_analysis":"五吉郎主持人安迪在口條流暢度、語速穩定性及情感表達上表現最佳。郝聲音主持人郝哥表現亦佳，但偶有贅字。哇賽心理學主持人宇澤口條清晰，但情感渲染力稍弱。"},"best_female_host":{"award_name":"最佳女播音員獎","ranking":[{"rank":1,"partnerName":"哇賽心理學_蔡宇哲","score":9,"reason":"主持人宇澤（雖然節目名稱為哇賽心理學，但主持人為宇澤，為男性，此獎項應為 null）口條流暢，贅字率低，語速穩定，音量平穩，表達清晰，但情感渲染力與共鳴感較為平淡。","compliance":"不適用"},{"rank":2,"partnerName":"郝旭烈/郝聲音","score":null,"reason":"節目無女主持人，不適用此獎項。","compliance":"不適用"},{"rank":3,"partnerName":"五吉郎","score":null,"reason":"節目無女主持人，不適用此獎項。","compliance":"不適用"}],"comparative_analysis":"此獎項不適用於任何一檔節目，因為所有節目均無女性主持人。"},"best_cta":{"award_name":"聽完馬上獎（極致推坑王）","ranking":[{"rank":1,"partnerName":"五吉郎","score":9.5,"reason":"節目 GD229 結尾有明確的行動挑戰（練習對自己誠實），並鼓勵聽眾加入社群；GD221 亦有行動挑戰（記錄情緒反應問題），並鼓勵聽眾加入社群。推坑力道強且具體。","compliance":"符合"},{"rank":2,"partnerName":"哇賽心理學_蔡宇哲","score":8,"reason":"節目結尾常有對聽眾的鼓勵與引導，例如鼓勵自我覺察、練習與反思，但較少明確的行動呼籲（如訂閱、分享）。","compliance":"符合"},{"rank":3,"partnerName":"郝旭烈/郝聲音","score":6.5,"reason":"單集結尾均缺少明確的行動呼籲（如訂閱、追蹤、社群互動），僅有節目結束的道別，推坑力道較弱。","compliance":"不符合(原因：單集結尾均缺少呼籲訂閱與社群互動行動)"}],"comparative_analysis":"五吉郎節目在行動呼籲與推坑力道上表現最佳，提供具體行動挑戰並引導聽眾參與社群。哇賽心理學節目雖有鼓勵聽眾反思，但缺乏明確的行動指引。郝聲音節目則在 CTA 方面明顯不足。"},"niche_market":{"award_name":"只有你在獎（稀有藍海守護者）","ranking":[{"rank":1,"partnerName":"哇賽心理學_蔡宇哲","score":9.5,"reason":"探討的議題（金錢性格、多巴胺陷阱、創傷療癒）具備高度的稀有性與深度，切入角度獨特，論述完整，成功守護了這些領域的知識火苗。","compliance":"符合"},{"rank":2,"partnerName":"五吉郎","score":7.5,"reason":"企劃主題如「不敢拒絕的心理盲點」、「情緒反應與回應」等，雖非市場獨有，但切入點與探討深度具備一定的差異化，屬於較為細緻的心理議題。","compliance":"符合"},{"rank":3,"partnerName":"郝旭烈/郝聲音","score":7,"reason":"企劃主題如設計師生涯、業務力、內耗等，雖有其市場，但切入角度與探討深度相對較為常見，較難稱得上是稀有藍海議題。","compliance":"符合"}],"comparative_analysis":"哇賽心理學節目在議題的稀有度與深度上表現最為突出，成功開拓了心理學領域的藍海。五吉郎節目在心理議題的探討上亦有獨到之處。郝聲音��目則在議題選擇上較為大眾化，稀有性稍顯不足。"},"self_exploration":{"award_name":"自我探索獎","ranking":[{"rank":1,"partnerName":"五吉郎","score":9.5,"reason":"節目內容深入探討不敢拒絕、情緒管理、跨境電商的選擇與執行，引導聽眾反思自我價值、人際界線與職涯發展，心靈啟發力強。","compliance":"符合"},{"rank":2,"partnerName":"哇賽心理學_蔡宇哲","score":9,"reason":"節目主題涵蓋金錢觀、內耗成因、創傷療癒，引導聽眾深入探索自我內在、原生家庭的影響，並提供覺察與轉化的方法，啟發性高。","compliance":"符合"},{"rank":3,"partnerName":"郝旭烈/郝聲音","score":8,"reason":"節目內容涉及設計生涯、業務力、內耗等主題，能引導聽眾思考個人成長與職涯發展，但深度與心靈啟發力相較於其他兩者略顯不足。","compliance":"符合"}],"comparative_analysis":"五吉郎節目在自我探索的引導上最為出色，內容貼近生活且具備強大的啟發性。哇賽心理學節目亦深入探討自我成長議題，但五吉郎在方法論的實操性上略勝一籌。郝聲音節目在自我探索的引導上仍有進步空間。"},"best_long_form":{"award_name":"講不完大獎","ranking":[{"rank":1,"partnerName":"郝旭烈/郝聲音","score":9,"reason":"單集 1 與單集 2 時長均超過 60 分鐘，內容豐富，聊天流暢，雖有部分閒聊，但整體資訊密度尚可，能維持聽眾的興趣。","compliance":"符合"},{"rank":2,"partnerName":"五吉郎","score":4,"reason":"抽樣單集時長均未達 60 分鐘（約 7 分鐘），不符合獎項定義。","compliance":"不符合(原因：時長小於60分鐘)"},{"rank":3,"partnerName":"哇賽心理學_蔡宇哲","score":4,"reason":"抽樣單集時長均未達 60 分鐘（約 30-40 分鐘），不符合獎項定義。","compliance":"不符合(原因：時長小於60分鐘)"}],"comparative_analysis":"郝聲音節目是唯一符合長篇內容時長門檻的節目，且內容能維持一定的流暢度。五吉郎與哇賽心理學節目時長均未達標，因此在此獎項上無法與郝聲音競爭。"},"best_short_form":{"award_name":"泡麵沒熟獎","ranking":[{"rank":1,"partnerName":"五吉郎","score":9,"reason":"節目 GD229 與 GD221 時長約 7 分鐘，符合 10-15 分鐘的黃金短篇定義，內容精煉，切入重點迅速，傳播效率高。","compliance":"符合"},{"rank":2,"partnerName":"哇賽心理學_蔡宇哲","score":7,"reason":"節目 EP148 時長約 30 分鐘，EP193 與 EP194 時長約 30-40 分鐘，均超過 15 分鐘���限制，不符合短篇定義，但內容相對精煉。","compliance":"不符合(原因：時長大於15分鐘)"},{"rank":3,"partnerName":"郝旭烈/郝聲音","score":5,"reason":"單集時長約 20-25 分鐘，超過 15 分鐘的限制，不符合短篇定義，內容亦有聊天性質，傳播效率有待提升。","compliance":"不符合(原因：時長大於15分鐘)"}],"comparative_analysis":"五吉郎節目在時長控制上最符合短篇內容的定義，內容精煉且傳播效率高。哇賽心理學與郝聲音節目時長均超出限制，但哇賽心理學的內容相對較為精煉，因此排名優於郝聲音。"},"atmosphere":{"award_name":"醒醒再獎 / 年度療癒獎 / 深夜輕輕獎 (意向)","ranking":[{"rank":1,"partnerName":"五吉郎","score":9.5,"reason":"節目 GD229 與 GD221 的主持人安迪，語調溫和、語速適中，談話內容具啟發性與引導性，能讓聽眾感到被��解與支持，營造出療癒、陪伴的氛圍。","compliance":"符合"},{"rank":2,"partnerName":"郝旭烈/郝聲音","score":8.5,"reason":"主持人郝哥的語調溫暖，談話風格輕鬆，偶爾穿插幽默，能營造出一定的陪伴感與親和力，適合在需要放鬆時收聽。","compliance":"符合"},{"rank":3,"partnerName":"哇賽心理學_蔡宇哲","score":7,"reason":"主持人宇澤的語調平穩，談話風格偏向知識性與分析性，雖然內容有深度，但較缺乏溫暖的陪伴感或療癒氛圍，較適合需要學習的聽眾。","compliance":"符合"}],"comparative_analysis":"五吉郎節目在營造溫暖、療癒的氛圍上表現最佳，主持人能有效引導聽眾進行自我探索。郝聲音節目風格輕鬆，具備陪伴感。哇賽心理學節目則更側重於知識傳遞，氛圍上較為理性。"}},"overall_summary":"五吉郎節目以其創新的企劃、清晰的內容架構、良好的主持人默契及強大的行動呼籲，在多個文本相關獎項中脫穎而出，尤其在自我探索與氛圍營造上表現突出。哇賽心理學節目則以其深入的心理學探討、稀有議題的開拓及對自我探索的引導，展現了高度的專業性與啟發性。郝聲音節目在長篇內容的製作上具備優勢，主持人風格溫暖，但在內容架構、企劃創意及行動呼籲方面，相較於前兩者仍有進步空間。"};
         window.selectedEpisodes = [{"partnerName":"郝旭烈/郝聲音","podcastName":"郝聲音","title":"郝聲音：（上）設計師KiKi，從繪畫到設計的熱愛之路，到引領他人感受設計之美的「走讀」行旅～","mp3Url":"https://m.cdn.firstory.me/track/ckfnpunqe136d08003p6lzdmn/cmjmjix6p01xv01rtgsxphsyh/https%3A%2F%2Ffile.cdn.firstory.me%2FRecord%2Fckfnpunqe136d08003p6lzdmn%2Fcmjmjix6p01xw01rt6tejbcdr.mp3?v=1766733548838","recommended_segments":[{"time_range":"00:06 - 03:06","title":"開場介紹與設計啟蒙之路","reason":"主持人開場介紹來賓Kiki，並點出她20年的設計生涯，引發聽眾好奇。接著深入探討Kiki從國中時期接觸畫畫，到高中選擇廣告設計科，再到大學鑽研室內設計的歷程。這段內容清晰展現了Kiki對設計的熱愛與早期啟蒙，同時也帶出了「設計」這個廣泛概念的演變，對於評估內容架構與主持人引導能力有幫助。"},{"time_range":"08:15 - 11:15","title":"實習經驗與跨界學習","reason":"此段落聚焦於Kiki大學時期透過學校鼓勵，在大三、大四積極尋找業界實習機會的經驗。她分享了自己主動聯繫法國設計師並以學習為重的心態，即使語言不通也努力溝通的過程。這段論述展現了Kiki的積極主動性、學習能力與跨文化溝通的潛力，對於評估來賓的個人特質、學習態度及主持人挖掘來賓亮點的能力非常有幫助。"},{"time_range":"20:19 - 21:18","title":"預告下集主題與人生選擇的啟示","reason":"這段是節目的結尾，主持人預告了下一集將深入探討「走讀」這個主題，並將其與Kiki的人生設計歷程連結，強調「讀萬卷書行萬里路」的重要性。主持人也再次點出人生選擇的多樣性，並為Kiki的設計領域做了總結。這段內容具備清晰的結尾總結和對下一集的行動呼籲（CTA），能有效評估節目的延續性與聽眾的期待感。"}]},{"partnerName":"郝旭烈/郝聲音","podcastName":"郝聲音","title":"郝聲音：（下）終於跟MJ林明樟老師合體！用「財務腦」打通「業務力」，讓商業與人生獲利生生不息！","mp3Url":"https://m.cdn.firstory.me/track/ckfnpunqe136d08003p6lzdmn/cmk15rthx0g6701rh2zfv0mn6/https%3A%2F%2Ffile.cdn.firstory.me%2FRecord%2Fckfnpunqe136d08003p6lzdmn%2Fcmk15rthx0g6801rh93g6eexw.mp3?v=1767617449848","recommended_segments":[{"time_range":"01:25 - 04:25","title":"破題核心痛點與銷售飛輪概念導入","reason":"此片段開宗明義點出聽眾（或聽眾所屬公司）可能面臨的痛點，即與國際市場相比的營收規模差異（歐元 vs 台幣），並引導出「團體戰」、「系統戰」的重要性。接著，講師MJ老師開始闡述「銷售飛輪」的核心概念，強調「不要只靠自己」，以及建立系統以應對業務人員離職或生病等風險。這部分能有效抓住聽眾的注意力，並為後續的內容架構打下基礎，展現了節目開場的引導能力與對聽眾痛點的精準掌握。"},{"time_range":"08:10 - 11:10","title":"無上限獎金與團隊獎金的設計，展現系統化激勵","reason":"此片段是MJ老師分享其公司如何透過具體制度來留住人才並激勵成長的精彩論述。他詳細說明了「無上限獎金」的設計如何激發業務人員的潛力，並透過「團隊獎金」和「360度考評」來促進團隊合作與公平性。這部分知識含金量高，展現了講師在人才管理和激勵制度上的獨到見解與實務經驗，同時也體現了主持人與來賓之間流暢的互動與接話能力，是評估節目內容深度與講師專業度的絕佳範例。"},{"time_range":"26:27 - 27:27","title":"AI時代下的業務價值與課程總結行動呼籲","reason":"此片段是節目的結尾部分，MJ老師總結了AI時代下業務能力的核心價值在於「人味」與「人際互動」，並強調「做人做事道理」的重要性，呼應了主持人先前提到的Golden Rule。隨後，主持人進行了課程的總結與行動呼籲 (CTA)，不僅推薦了「超級業務力」��「超級數字力」兩堂課程，更宣布了限時優惠與專屬折扣碼，鼓勵聽眾學習與成長。這部分清晰地傳達了課程的價值與學習動機，並提供了具體的行動指引，是評估節目推坑力與結尾規劃的關鍵點。"}]},{"partnerName":"郝旭烈/郝聲音","podcastName":"郝聲音","title":"郝聲音：（下） 蘇絢慧老師好書分享，『隱性內耗』：看不見的傷，如何消磨你的能量？","mp3Url":"https://m.cdn.firstory.me/track/ckfnpunqe136d08003p6lzdmn/cmnymv7pv0pbt01w7h18e075n/https%3A%2F%2Ffile.cdn.firstory.me%2FRecord%2Fckfnpunqe136d08003p6lzdmn%2Fcmnymv7pv0pbu01w7bjetfqkp.mp3?v=1776171892985","recommended_segments":[{"time_range":"00:20 - 03:20","title":"開場鋪陳與童年創傷的連結","reason":"此片段開場即點出「隱性內耗」的核心概念，並由主持人引導來賓深入探討內耗的成因，特別連結到童年時期的「傷」與「生存模式」。來賓的論述清晰，從家庭排行、父母期待到環境中的指責與批判，逐步解析內耗如何從小埋下種子，並透過具體情境（如擔心被質疑、腦袋一直轉）讓聽眾感同身受。此段落能有效吸引聽眾，確立節目主題與痛點，展現內容的深度與啟發性，適合評估內容架構與開場吸引力。"},{"time_range":"08:20 - 11:20","title":"解析比較心態與自我肯定的重要性","reason":"此片段是節目論述的精華。主持人與來賓深入探討社會教育體制與職場文化如何加劇比較心態，並將「別人的好」視為「自己的失」。來賓提出「成績不是自己的事」的觀點，並強調回歸認識自己、發揮自身特長的重要性。這段對話充滿智慧與啟發，不僅點出聽眾普遍面臨的困境，更提供了具體的思考方向，展現了知識含金量與觀點的獨特性，適合評估內容深度、來賓的專業度與主持人的引導能力。"},{"time_range":"22:28 - 23:37","title":"總結行動呼籲與推廣書籍","reason":"此片段是節目的結尾總結與行動呼籲。主持人再次強調「隱性內耗」這本書的重要性，並提出具體的行動建議，如「先把書翻開，做個簡單的測試」、「看見自己、也試著看見別人」。同時，也呼籲聽眾要好好照顧自己、鼓勵自己，並將這份能量傳遞給他人。這段內容清晰有力，直接引導聽眾採取行動，並再次推廣書籍，展現了節目的商業價值與聽眾互動性，適合評估推坑力與節目結尾的完整性。"}]},{"partnerName":"五吉郎","podcastName":"五吉郎","title":"GD229｜明明不想去卻說「好」？揭開你不敢拒絕的心理盲點與精神內耗！","mp3Url":"https://rss.soundon.fm/rssf/02c89234-f841-43a7-ad28-cb9eef7aa54f/feedurl/4928fb12-faac-4c88-a1dc-6ceaf902ba63/rssFileVip.mp3?timestamp=1776198215938","recommended_segments":[{"time_range":"00:23 - 03:23","title":"開場情境帶入與核心痛點解析","reason":"主持人以貼近聽眾生活的情境（不喜歡的聚會、額外的專案）開場，精準點出「明明不想去卻說好」的核心痛點，並立即引導聽眾思考「為什麼總是這麼軟弱，不懂得拒絕」。接著，節目迅速切入書本主題「跟你有關的事，先對自己誠實」，並條列出三個核心重點，包含「把別人期望看得比自己重」、「委屈求全只換來表面關係」以及「誠實是人際關係裡最棒的藝術」。這段內容結構��晰，能快速抓住聽眾的注意力，並展現了節目對聽眾心理狀態的深刻理解，對於評估節目的「內容架構」、「開場吸引力」及「推坑力」非常有幫助。"},{"time_range":"01:33 - 04:33","title":"核心觀點拆解與實踐心法引導","reason":"此片段延續了節目對「不敢拒絕」心理的深入剖析，主持人將書中內容轉化為三個易於理解的重點，例如「你把別人的期望看得比自己還要重」、「委屈求全只會換來表面的關係」以及「誠實是人際關係裡最棒的藝術」。主持人不僅點出問題的根源，更引用書中的金句「誠實是關係的藝術」，闡述了誠實如何能建立更真實、更親密的關係。隨後，節目進入實踐層面，提供了「開口前先問自己的靈魂拷問」等具體的心法，展現了節目的知識含金量與實用性，對於評估「知識傳遞」、「論述深度」及「聽眾學習價值」極具參考價值。"},{"time_range":"05:43 - 06:43","title":"行動呼籲與價值昇華","reason":"這段是節目的結尾部分，主��人明確提出了本週的「行動挑戰」：在面對他人期待時，練習「先對自己誠實，再照顧對方的處境」，並鼓勵聽眾嘗試用「溫和且堅定的回應」來表達真實想法，即使是小事（如拒絕某家餐廳）也能帶來「心口如一的暢快感」。最後，主持人昇華了主題，強調「對自己誠實是你愛自己最高級的方式，也是你建立健康人際關係的唯一途徑」，並鼓勵聽眾加入聽眾社群。這段內容清晰的行動呼籲 (CTA) 和對聽眾價值觀的引導，對於評估節目的「行動號召力」、「聽眾參與度」及「節目價值傳遞」至關重要。"}]},{"partnerName":"五吉郎","podcastName":"五吉郎","title":"GD221｜別再被情緒牽著鼻子走！開口前停頓 3 秒鐘，瞬間改寫你的人生劇本","mp3Url":"https://rss.soundon.fm/rssf/02c89234-f841-43a7-ad28-cb9eef7aa54f/feedurl/f79e9312-9c4c-4c4f-a2c3-ed45e2120b88/rssFileVip.mp3?timestamp=1775577722155"},{"partnerName":"五吉郎","podcastName":"五吉郎","title":"EP169｜蝦皮內捲太絕望？夜校打雜工逆襲：我如何在亞馬遜高門檻戰場穩賺美金！（Feat. AZ-Helper 創辦人 Jonathan 里長伯）","mp3Url":"https://rss.soundon.fm/rssf/02c89234-f841-43a7-ad28-cb9eef7aa54f/feedurl/2e004a7d-7804-4f01-a8e8-4acbdc0d1180/rssFileVip.mp3?timestamp=1780596092821","recommended_segments":[{"time_range":"00:23 - 01:23","title":"開場痛點與來賓背景鋪陳","reason":"主持人Andy開宗明義點出電商市場的「痛點」，例如高昂的平台抽成、物流成本和廣告費用，直接切入聽眾可能面臨的困境。接著介紹來賓Jonathan的背景，從夜校打雜工到亞馬遜跨境電商創業家，形成強烈的對比與故事性，能有效吸引聽眾的興趣，並為後續的內容鋪陳打下基礎。此段落展現了內容的吸引力與故事性，有助於評估『內容架構』與『推坑力』指標。"},{"time_range":"04:24 - 07:24","title":"童年啟蒙與電商初體驗","reason":"這段落是來賓Jonathan分享他八歲時如何透過eBay接觸電商的經歷。從母親提供的賺零用錢管道（讀書或打工），到他如何主動研究eBay平台，模仿他人賣卡片並獲得第一筆訂單的過程，充滿了趣味性和啟發性。這段故事不僅展現了來賓的早期特質，也提供了早期電商的真實樣貌，具有知識含金量和故事性。此段落有助於評估『知識含金量』與『故事性』指標。"},{"time_range":"03:32:00 - 03:35:00","title":"社群互動與價值傳遞","reason":"雖然這段落的內容（主持人與來賓的對話）在逐字稿中顯得重複且缺乏實質內容（大量「哇」的驚嘆），但若能從中提煉出節目最後的社群互動或價值傳遞的關鍵訊息，例如來賓分享的社群經營經驗或對聽眾的鼓勵，將是評估『社群引導』與『行動呼籲』的重點。假設這段時間點是節目結尾，主持人或來賓有提出具體的社群連結或下一步行動建議，則此段落將是評估『行動呼籲』與『社��引導』指標的關鍵。"}]},{"partnerName":"哇賽心理學_蔡宇哲","podcastName":"哇賽心理學","title":"掌握你的金錢性格，打造幸福家庭理財ft.精算媽咪珊迪兔｜哇賽心觀點ep194","mp3Url":"https://m.cdn.firstory.me/track/ck7t2fz77qu7g0873ln5hz5cl/cmp3qg0j5058d01tt3zfb6zuk/https%3A%2F%2Ffile.cdn.firstory.me%2FRecord%2Fck7t2fz77qu7g0873ln5hz5cl%2Fcmp3qg0j5058e01tt2pv4bg3s.mp3?v=1780468765762"},{"partnerName":"哇賽心理學_蔡宇哲","podcastName":"哇賽心理學","title":"多巴胺陷阱！戒不掉的不是癮，是深層的焦慮ft.蘇琮祺心理師｜哇賽心觀點ep193","mp3Url":"https://m.cdn.firstory.me/track/ck7t2fz77qu7g0873ln5hz5cl/cmorxas8004xk01va89hs9olt/https%3A%2F%2Ffile.cdn.firstory.me%2FRecord%2Fck7t2fz77qu7g0873ln5hz5cl%2Fcmorxas8004xl01vadd7ubr8f.mp3?v=1777942952132","recommended_segments":[{"time_range":"00:00 - 03:00","title":"開場引導與核心痛點切入","reason":"主持人以生活化的例子（煙癮、酒癮、甜食、手機成癮）開場，迅速點出聽眾可能面臨的成癮問題，並拋出「為何會成癮？」、「成癮一定是壞事嗎？」等引人思考的問題，成功抓住聽眾的注意力，並為後續的討論奠定基礎。此段落展現了良好的內容架構與開場設計，能有效吸引聽眾進入主題。"},{"time_range":"05:48 - 08:48","title":"成癮三特性解析與生活化舉例","reason":"來賓精準地解析了成癮的三大特性：耐受性、戒斷性與強迫性，並透過「越用越多」、「不用會痛苦」、「不自覺拿出來」等生動的比喻和演講現場的觀察，讓聽眾能輕易理解抽象的心理學概念。這段論述含金量高，且接話流暢，展現了來賓的專業知識與主持人的引導能力，對於評估內容的知識性與溝通力非常有幫助。"},{"time_range":"32:04 - 35:04","title":"總結與行動呼籲","reason":"在最後的片段中，主持人與來賓進行了總結，並針對聽眾提出了具體的行動呼籲（CTA），例如「覺察自己」、「不要把習慣變成癮」。雖然逐字稿中未明確標示「最後三分鐘」，但根據時間軸推斷，此段落的結尾總結與引導方向，能有效幫助聽眾將節目內容轉化為實際行動，展現了節目的實用性與推坑力。"}]},{"partnerName":"哇賽心理學_蔡宇哲","podcastName":"哇賽心理學","title":"療癒創傷，溫柔擁抱完整的自己ft.留佩萱博士｜哇賽療心室ep148","mp3Url":"https://m.cdn.firstory.me/track/ck7t2fz77qu7g0873ln5hz5cl/cmkxnr41h08rv01uv2yombmkq/https%3A%2F%2Ffile.cdn.firstory.me%2FRecord%2Fck7t2fz77qu7g0873ln5hz5cl%2Fcmkxnr41h08rw01uvg64mdnfe.mp3?v=1769582591401","recommended_segments":[{"time_range":"00:08 - 03:08","title":"開場引導與核心概念介紹","reason":"此片段由主持人娜娜開場，點出「為什麼我們會這樣？有為什麼這麼難改變跟停下來這些行為？」的核心問題，並引述Gabur Maté醫師與Richard Schwartz博士的觀點，為節目定調。接著邀請到廖佩萱博士，並簡述了兩位大師的理論（慈悲探詢與內在家庭系統），為後續的深入探討打下基礎。此段落展現了節目的主題明確性、主持人引導能力以及對聽眾痛點的切入，有助於評估內容架構與推坑力。"},{"time_range":"02:11 - 05:11","title":"IFS理論的精準解析與生活化比喻","reason":"此片段是廖佩萱博士對內在家庭系統（IFS）理論進行精準且結構化的介紹。她以電影《腦筋急轉彎》為比喻，生動地解釋了IFS中「parts」的概念，並區分了「exiles」（被放逐者）和「保護者」的角色。透過具體的小時候被批評的例子，深入淺出地說明了內在保護機制的形成，讓聽眾能理解抽象的心理學概念。這段論述知識含金量高，且比喻貼切，展現了來賓的專業深度與溝通技巧，有助於評估知識含金量與溝通表達。"},{"time_range":"32:04 - 35:04","title":"總結與行動呼籲：擁抱完整的自己","reason":"此片段是節目的結尾部分。主持人娜娜總結了本集節目討論的核心，強調「痛苦不是因為我們有問題，而是我們的內在一直很努力的想要保護我們」，並鼓勵聽眾溫柔擁抱完整的自己。廖佩萱博士也分享了她對此觀點的體悟，並鼓勵聽眾從理解內在的各個部分開始。這段結尾總結���節目的核心訊息，並帶有溫柔的行動呼籲，鼓勵聽眾實踐自我療癒，有助於評估節目的總結能力與行動呼籲的影響力。"}]}];
+        window.trackBResults = {"郝聲音：（上）設計師KiKi，從繪畫到設計的熱愛之路，到引領他人感受設計之美的「走讀」行旅～":{"partnerName":"郝旭烈/郝聲音","podcastName":"郝聲音","title":"郝聲音：（上）設計師KiKi，從繪畫到設計的熱愛之路，到引領他人感受設計之美的「走讀」行旅～","speech_rate_wpm":265,"filler_words_level":"高","filler_words_analysis":"男主持人常在句首使用「那」和「就是」作為轉折或連接詞，頻率較高。女主持人則較常使用「嗯」、「然後」和「其實」，頻率中等，但整體而言，兩位主持人的贅字頻率偏高。","vocal_resonance":"男主持人（好哥）中低音共鳴飽滿，聲音厚實且富有磁性，語調變化豐富，充滿活力。女主持人（Kiki）高音域圓潤，聲音清晰溫和，帶有親和力，語氣真誠，無刺耳感。","acoustic_quality_level":"優","acoustic_issues_popping":"無","acoustic_issues_clipping":"無","acoustic_issues_noise":"環境安靜，幾乎無底噪","acoustic_summary":"整體錄音品質優良，音量平穩，沒有突兀爆音與噴麥現象，背景噪音極低，聽感舒適。","golden_segment_time":"03:36 - 03:47","golden_segment_reason":"此段落女主持人Kiki分享她從小就對設計有著強烈的內心呼喚，語氣中透露出真誠與堅定。男主持人適時的提問與感嘆「好幸福喔」也為這段對話增添了情感深度，展現了主講人早期的志向與熱情。","analyzed_at":"2026-06-20T12:51:53.770Z"},"郝聲音：（下）終於跟MJ林明樟老師合體！用「財務腦」打通「業務力」，讓商業與人生獲利生生不息！":{"partnerName":"郝旭烈/郝聲音","podcastName":"郝聲音","title":"郝聲音：（下）終於跟MJ林明樟老師合體！用「財務腦」打通「業務力」，讓商業與人生獲利生生不息！","speech_rate_wpm":250,"filler_words_level":"中","filler_words_analysis":"兩位主講人皆常在句首使用「那」、「然後」或「就是」作為語氣詞或轉折詞，頻率中等，但不會過於頻繁而影響聽感。","vocal_resonance":"兩位男主持人聲音共鳴感佳，中低音厚實且清晰，語調自然流暢，情感表達豐富，無機器人唸稿感，整體聽感親和且具說服力。","acoustic_quality_level":"優","acoustic_issues_popping":"無","acoustic_issues_clipping":"無","acoustic_issues_noise":"環境安靜，幾乎無底噪，錄音背景非常乾淨。","acoustic_summary":"整體錄音品質優良，音量平穩一致，沒有突兀爆音與噴麥現象，背景噪音極低，提供清晰舒適的聆聽體���。","golden_segment_time":"02:28 - 03:46","golden_segment_reason":"此段落由MJ老師分享個人生病導致公司薪資停發，以及離職後公司仍能良好運作的親身經歷，引導出「系統」的重要性。他以生動的語氣和具體的「1x1x1」乘法概念，深入淺出地解釋了系統運作的關鍵，情感真摯且極具說服力，是理解課程核心理念的精彩片段。","analyzed_at":"2026-06-20T12:52:38.345Z"},"郝聲音：（下） 蘇絢慧老師好書分享，『隱性內耗』：看不見的傷，如何消磨你的能量？":{"partnerName":"郝旭烈/郝聲音","podcastName":"郝聲音","title":"郝聲音：（下） 蘇絢慧老師好書分享，『隱性內耗』：看不見的傷，如何消磨你的能量？","speech_rate_wpm":205,"filler_words_level":"中","filler_words_analysis":"主講人（徐瑄惠老師）和主持人（好哥）皆常在句首使用「然後」進行轉折，或使用「就是」、「那」等詞，頻率中等。","vocal_resonance":"男主持人（好哥）聲音中低音共鳴厚實，語調情感豐富且具親和力。女主持人（徐瑄惠老師）聲音圓潤清晰，高音域不刺耳，語氣溫和具陪伴感。","acoustic_quality_level":"優","acoustic_issues_popping":"無","acoustic_issues_clipping":"無","acoustic_issues_noise":"環境安靜，幾乎無底噪","acoustic_summary":"整體錄音品質優良，音量平穩，沒有突兀爆音與噴麥現象，背景噪音極低。","golden_segment_time":"01:59 - 03:45","golden_segment_reason":"此段落深入探討童年環境如何形塑個人對自我價值的認知，以及如何導致內耗與自我質疑。主講人語氣真摯，情感起伏自然，內容具啟發性，是理解內耗成因的關鍵點。","analyzed_at":"2026-06-20T12:53:14.710Z"},"GD229｜明明不想去卻說「好」？揭開你不敢拒絕的心理盲點與精神內耗！":{"partnerName":"五吉郎","podcastName":"五吉郎","title":"GD229｜明明不想去卻說「好」？揭開你不敢拒絕的心理盲點與精神內耗！","speech_rate_wpm":205,"filler_words_level":"中","filler_words_analysis":"主講人常在句尾或轉折處使用「啊」作為語氣助詞，例如「我們常常以為啊」、「這麼累啊」、「更可怕的是啊」。此外，也會使用「那」作為語句開頭的轉折詞，頻率中等。","vocal_resonance":"男主持人聲音溫暖、厚實，中低音共鳴感強，語調自然流暢，情感表達豐富，沒有機器人唸稿感，聽起來非常親和且具說服力，完全不刺耳。","acoustic_quality_level":"優","acoustic_issues_popping":"無","acoustic_issues_clipping":"無","acoustic_issues_noise":"環境安靜，幾乎無底噪","acoustic_summary":"整體錄音品質優良，音量平穩，沒有突兀爆音與噴麥現象���背景音樂的淡入淡出處理得宜，不干擾人聲。","golden_segment_time":"01:28 - 03:52","golden_segment_reason":"此段落是節目的核心，主講人從提出問題「為什麼我們總是習慣先說好，卻讓自己過得這麼累啊？」開始，接著深入剖析三個核心重點，語氣真摯且音調波動起伏有致，情感表達豐富，極具聲音說服力，能有效引導聽眾思考並產生共鳴。","analyzed_at":"2026-06-20T13:12:14.179Z"},"GD221｜別再被情緒牽著鼻子走！開口前停頓 3 秒鐘，瞬間改寫你的人生劇本":{"partnerName":"五吉郎","podcastName":"五吉郎","title":"GD221｜別再被情緒牽著鼻子走！開口前停頓 3 秒鐘，瞬間改寫你的人生劇本","speech_rate_wpm":197,"filler_words_level":"中","filler_words_analysis":"主講人常在句首或轉折處使用「那」和「就是」，例如「那書中引用了...」、「就是幫助大腦建立...」，頻率中等，但整體不影響理解。","vocal_resonance":"男主持人聲音中低音厚實，共鳴感強，語調情感豐富且富有親和力，沒有機器人唸稿感，聽感舒適。","acoustic_quality_level":"優","acoustic_issues_popping":"無","acoustic_issues_clipping":"無","acoustic_issues_noise":"環境安靜，幾乎無底噪，錄音非常乾淨。","acoustic_summary":"整體錄音品質優良，音量平穩，沒有突兀爆音與噴麥現象，背景噪音控制得很好，聲音清晰。","golden_segment_time":"01:33 - 03:25","golden_segment_reason":"此段落清晰地闡述了「反應」與「回應」的核心概念，並透過生動的詐騙電話情境和天后王菲的經典案例，具體說明兩者差異。主講人語氣真摯且音調波動起伏有致，極具聲音說服力，能有效引導聽眾思考。","analyzed_at":"2026-06-20T13:12:47.923Z"},"EP169｜蝦皮內捲太絕望？夜校打雜工逆襲：我如何在亞馬遜高門檻戰場穩賺美金！（Feat. AZ-Helper 創辦人 Jonathan 里長伯）":{"partnerName":"五吉郎","podcastName":"五吉郎","title":"EP169｜蝦皮內捲太絕望？夜校打雜工逆襲：我如何在亞馬遜高門檻戰場穩賺美金！（Feat. AZ-Helper 創辦人 Jonathan 里長伯）","speech_rate_wpm":205,"filler_words_level":"中","filler_words_analysis":"主講人與來賓皆常在句首使用「然後」作為轉折詞，以及「就是」作為語氣連接詞，頻率中等。","vocal_resonance":"男主持人聲音沉穩，中低音共鳴感佳，語調專業且富有親和力。來賓聲音清晰，語氣真摯且充滿熱情，無刺耳感。","acoustic_quality_level":"優","acoustic_issues_popping":"無","acoustic_issues_clipping":"無","acoustic_issues_noise":"環境安靜，幾乎無底噪","acoustic_summary":"整體錄音品質優良，音量平穩，沒有突兀爆音與噴麥現象，背景噪音極低。","golden_segment_time":"04:29 - 05:00","golden_segment_reason":"此段落揭露主講人八歲時接觸電商的獨特經歷，其母親以創意方式引導他賺取零用錢，語氣生動且充滿情感，極具吸引力。","analyzed_at":"2026-06-20T13:13:48.215Z"},"掌握你的金錢性格，打造幸福家庭理財ft.精算媽咪珊迪兔｜哇賽心觀點ep194":{"partnerName":"哇賽心理學_蔡宇哲","podcastName":"哇賽心理學","title":"掌握你的金錢性格，打造幸福家庭理財ft.精算媽咪珊迪兔｜哇賽心觀點ep194","speech_rate_wpm":245,"filler_words_level":"中","filler_words_analysis":"主講人與來賓皆有使用「就是」、「其實」作為語氣詞或轉折詞，來賓常使用「然後」連接語句，但整體頻率尚可接受，不致影響聽感。","vocal_resonance":"男主持人聲音低沉厚實，共鳴感佳，語調變化自然，富有親和力。女主持人聲音清晰明亮，高音域圓潤不刺耳，帶有溫馨陪伴感，表達流暢。","acoustic_quality_level":"優","acoustic_issues_popping":"無","acoustic_issues_clipping":"無","acoustic_issues_noise":"環境安靜，幾乎無底噪","acoustic_summary":"整體錄音品質優良，音量平穩，沒有突兀爆音與噴麥現象，背景噪音極低，提供清晰舒適的聽覺���驗。","golden_segment_time":"02:07 - 03:44","golden_segment_reason":"此段落來賓生動地分享了原生家庭中父母截然不同的金錢觀（父親的創業擴張與母親的節儉務實），以及這些經歷如何塑造了她個人的金錢觀。她真誠地反思了「好」與「不好」的定義，並強調找到自己最舒適的理財方式，內容具深度且引人共鳴，情感表達豐富，是極具說服力的黃金聽點。","analyzed_at":"2026-06-20T13:14:32.297Z"},"多巴胺陷阱！戒不掉的不是癮，是深層的焦慮ft.蘇琮祺心理師｜哇賽心觀點ep193":{"partnerName":"哇賽心理學_蔡宇哲","podcastName":"哇賽心理學","title":"多巴胺陷阱！戒不掉的不是癮，是深層的焦慮ft.蘇琮祺心理師｜哇賽心觀點ep193","speech_rate_wpm":195,"filler_words_level":"中","filler_words_analysis":"主講人常在句首使用「然後」和「那」作為轉折詞，頻率中等，但整體對話流暢度不受影響。","vocal_resonance":"男主持人（宇澤）聲音溫暖、清晰，中低音共鳴感強，語調自然且富有情感，沒有機器人唸稿感。來賓（蘇崇其）的聲音也專業且清晰，兩位主持人的聲音都具親和力，無刺耳感。","acoustic_quality_level":"優","acoustic_issues_popping":"無","acoustic_issues_clipping":"無","acoustic_issues_noise":"環境安靜，幾乎無底噪","acoustic_summary":"整體錄音品質優良，音量平穩，沒有突兀爆音與噴麥現象，背景噪音極低，提供清晰舒適的聽覺體驗���","golden_segment_time":"02:07 - 03:49","golden_segment_reason":"此段落深入探討了「食物成癮」與「進食成癮」的區別，並進一步闡述了成癮與壞習慣之間的模糊界線，是節目核心概念的精彩呈現。主講人與來賓的對話充滿洞察力，語氣真摯且音調波動起伏有致，極具聲音說服力。","analyzed_at":"2026-06-20T13:15:23.756Z"},"療癒創傷，溫柔擁抱完整的自己ft.留佩萱博士｜哇賽療心室ep148":{"partnerName":"哇賽心理學_蔡宇哲","podcastName":"哇賽心理學","title":"療癒創傷，溫柔擁抱完整的自己ft.留佩萱博士｜哇賽療心室ep148","speech_rate_wpm":260,"filler_words_level":"中","filler_words_analysis":"主講人與來賓皆常使用「就是」、「那」、「其實」等口頭禪，其中「就是」的出現頻率高，整體贅字頻率中等。","vocal_resonance":"女主持人聲音高音域圓潤，語調溫和且富有親和力，無刺耳感，傳達溫馨陪伴感。來賓聲音清晰有力，表達流暢，具說服力。","acoustic_quality_level":"優","acoustic_issues_popping":"無","acoustic_issues_clipping":"無","acoustic_issues_noise":"環境安靜，幾乎無底噪","acoustic_summary":"整體錄音品質優良，音量平穩，沒有突兀爆音與噴麥現象。","golden_segment_time":"03:41 - 04:09","golden_segment_reason":"此段落來賓以具體案例解釋IFS核心概念，說明童年受批評如何導致內化問題並形成保護機制。語氣真摯且清晰，情感起伏自然，有助於聽眾理解複雜的心理學概念。","analyzed_at":"2026-06-20T13:16:15.224Z"}};
     </script>
 
     <script>
@@ -884,6 +967,9 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
             
             const planBtn = document.getElementById('tab-btn-plan');
             const statusBtn = document.getElementById('tab-btn-status');
+            const eligibilityBtn = document.getElementById('tab-btn-eligibility');
+            const trackABtn = document.getElementById('tab-btn-track-a');
+            const trackBBtn = document.getElementById('tab-btn-track-b');
             const trackCBtn = document.getElementById('tab-btn-track-c');
             const timelineBtn = document.getElementById('tab-btn-timeline');
             const deployBtn = document.getElementById('tab-btn-deploy');
@@ -891,21 +977,30 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
             const mainGlassCard = document.getElementById('main-glass-card');
             const planContent = document.getElementById('content-plan');
             const statusContent = document.getElementById('content-status');
+            const eligibilityContent = document.getElementById('content-eligibility');
+            const trackAContent = document.getElementById('content-track-a');
+            const trackBContent = document.getElementById('content-track-b');
             const trackCContent = document.getElementById('content-track-c');
             const timelineContent = document.getElementById('content-timeline');
             const deployContent = document.getElementById('content-deploy');
 
-            const activeBtnClass = "flex-1 py-2.5 text-center text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
-            const inactiveBtnClass = "flex-1 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
+            const activeBtnClass = "flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
+            const inactiveBtnClass = "flex-shrink-0 px-4 py-2.5 text-center text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
 
             planBtn.className = inactiveBtnClass;
             statusBtn.className = inactiveBtnClass;
+            if (eligibilityBtn) eligibilityBtn.className = inactiveBtnClass;
+            if (trackABtn) trackABtn.className = inactiveBtnClass;
+            if (trackBBtn) trackBBtn.className = inactiveBtnClass;
             if (trackCBtn) trackCBtn.className = inactiveBtnClass;
             timelineBtn.className = inactiveBtnClass;
             deployBtn.className = inactiveBtnClass;
 
             planContent.classList.add('hidden');
             statusContent.classList.add('hidden');
+            if (eligibilityContent) eligibilityContent.classList.add('hidden');
+            if (trackAContent) trackAContent.classList.add('hidden');
+            if (trackBContent) trackBContent.classList.add('hidden');
             if (trackCContent) trackCContent.classList.add('hidden');
             timelineContent.classList.add('hidden');
             deployContent.classList.add('hidden');
@@ -919,7 +1014,20 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
                 statusBtn.className = activeBtnClass;
                 mainGlassCard.classList.remove('hidden');
                 statusContent.classList.remove('hidden');
+            } else if (tabId === 'eligibility' && eligibilityContent) {
+                eligibilityBtn.className = activeBtnClass;
+                mainGlassCard.classList.remove('hidden');
+                eligibilityContent.classList.remove('hidden');
                 renderCharts(); // Render Chart.js charts on show
+            } else if (tabId === 'track-a' && trackAContent) {
+                trackABtn.className = activeBtnClass;
+                mainGlassCard.classList.remove('hidden');
+                trackAContent.classList.remove('hidden');
+            } else if (tabId === 'track-b' && trackBContent) {
+                trackBBtn.className = activeBtnClass;
+                mainGlassCard.classList.remove('hidden');
+                trackBContent.classList.remove('hidden');
+                renderCharts(); // Render voice Chart on show
             } else if (tabId === 'track-c' && trackCContent) {
                 trackCBtn.className = activeBtnClass;
                 trackCContent.classList.remove('hidden');
@@ -939,6 +1047,142 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
         let pieChartInstance = null;
         let barChartInstance = null;
         let lineChartInstance = null;
+        let voiceChartInstance = null;
+
+        function renderVoiceChart() {
+            const voiceCanvas = document.getElementById('voiceChart');
+            if (!voiceCanvas || voiceCanvas.offsetParent === null) return;
+
+            const trackB = window.trackBResults || {};
+            const items = Object.values(trackB);
+            if (items.length === 0) return;
+
+            // Unhide the voice analysis chart card
+            const voiceCard = document.getElementById('voice-analysis-chart-card');
+            if (voiceCard) voiceCard.classList.remove('hidden');
+
+            if (voiceChartInstance) voiceChartInstance.destroy();
+            const voiceCtx = voiceCanvas.getContext('2d');
+
+            // Sort items by partnerName to group them
+            items.sort((a, b) => a.partnerName.localeCompare(b.partnerName, 'zh-Hant'));
+
+            const labels = items.map(item => {
+                const shortTitle = item.title.length > 15 ? item.title.slice(0, 15) + '...' : item.title;
+                return `${item.partnerName}\n(${shortTitle})`;
+            });
+
+            const wpmData = items.map(item => item.speech_rate_wpm);
+            const levelMap = { '低': 3, '中': 2, '高': 1 };
+            const fillerData = items.map(item => levelMap[item.filler_words_level] || 2);
+
+            voiceChartInstance = new Chart(voiceCtx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '平均語速 (WPM)',
+                            data: wpmData,
+                            backgroundColor: 'rgba(99, 102, 241, 0.8)', // Semi-transparent Indigo
+                            borderColor: '#4f46e5',
+                            borderWidth: 1.5,
+                            yAxisID: 'y',
+                            order: 2,
+                            borderRadius: 6
+                        },
+                        {
+                            label: '贅字頻率等級',
+                            data: fillerData,
+                            type: 'line',
+                            borderColor: '#f59e0b', // Amber
+                            backgroundColor: '#f59e0b',
+                            borderWidth: 3,
+                            pointRadius: 6,
+                            pointHoverRadius: 8,
+                            yAxisID: 'y1',
+                            order: 1,
+                            tension: 0.2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            min: 150,
+                            max: 300,
+                            title: {
+                                display: true,
+                                text: '平均語速 (字/分)',
+                                font: { family: 'Noto Sans TC', size: 11, weight: 'bold' }
+                            },
+                            grid: { color: '#f1f5f9' },
+                            ticks: {
+                                font: { family: 'Noto Sans TC', size: 10 }
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            min: 0.5,
+                            max: 3.5,
+                            grid: { drawOnChartArea: false },
+                            title: {
+                                display: true,
+                                text: '贅字頻率 (低表示贅字少/口條好)',
+                                font: { family: 'Noto Sans TC', size: 11, weight: 'bold' }
+                            },
+                            ticks: {
+                                stepSize: 1,
+                                callback: function(value) {
+                                    const labelsMap = { 3: '低 (優)', 2: '中', 1: '高 (多)' };
+                                    return labelsMap[value] || '';
+                                },
+                                font: { family: 'Noto Sans TC', size: 10 }
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                font: { family: 'Noto Sans TC', size: 9 },
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: { family: 'Noto Sans TC', size: 11, weight: 'bold' }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.datasetIndex === 0) {
+                                        label += context.raw + ' WPM';
+                                    } else {
+                                        const valMap = { 3: '低 (贅字少，口條好)', 2: '中 (贅字頻率一般)', 1: '高 (贅字較多)' };
+                                        label += valMap[context.raw] || context.raw;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
         function renderCharts() {
             const stats = window.eligibilityStats;
@@ -1164,24 +1408,37 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
                     }
                 }
             }
+
+            // Render Track B Tab Chart (Voice Chart) only when visible in DOM
+            const voiceCanvas = document.getElementById('voiceChart');
+            if (voiceCanvas && voiceCanvas.offsetParent !== null) {
+                renderVoiceChart();
+            }
         }
         document.addEventListener('DOMContentLoaded', async () => {
             const rawMarkdown = document.getElementById('markdown-source').value;
             const parts = rawMarkdown.split('<!-- tab-split -->');
             const planMd = parts[0] || '';
-            const statusMd = parts[1] || '';
-            const timelineMd = parts[2] || '';
-            const deployMd = parts[3] || '';
+            const eligibilityMd = parts[1] || '';
+            const statusMd = parts[2] || '';
+            const timelineMd = parts[3] || '';
+            const deployMd = parts[4] || '';
             
             // Render Plan Markdown
             const planHtml = marked.parse(planMd);
             const planContainer = document.getElementById('content-plan');
             planContainer.innerHTML = planHtml;
 
+            // Render Eligibility Markdown
+            const eligibilityHtml = marked.parse(eligibilityMd);
+            const eligibilityContainer = document.getElementById('content-eligibility');
+            const eligibilityContentDiv = document.getElementById('eligibility-markdown-content');
+            if (eligibilityContentDiv) eligibilityContentDiv.innerHTML = eligibilityHtml;
+
             // Render Status Markdown
             const statusHtml = marked.parse(statusMd);
             const statusContentDiv = document.getElementById('status-markdown-content');
-            statusContentDiv.innerHTML = statusHtml;
+            if (statusContentDiv) statusContentDiv.innerHTML = statusHtml;
 
             // Render Timeline Markdown
             const timelineHtml = marked.parse(timelineMd);
@@ -1194,7 +1451,7 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
             deployContainer.innerHTML = deployHtml;
 
             // Find and convert Mermaid blocks in all containers
-            [planContainer, document.getElementById('content-status'), timelineContainer, deployContainer].forEach(container => {
+            [planContainer, eligibilityContainer, document.getElementById('content-status'), timelineContainer, deployContainer].forEach(container => {
                 const codeBlocks = container.querySelectorAll('pre code');
                 codeBlocks.forEach(codeBlock => {
                     if (codeBlock.classList.contains('language-mermaid')) {
@@ -1231,7 +1488,7 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
                         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
                             <div>
                                 <div class="text-sm font-bold text-slate-800 border-b pb-2 mb-3 flex justify-between items-center">
-                                    <span>🎙️ ${partner}</span>
+                                    <span>🎙️ \${partner}</span>
                                     <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">3集隨機抽樣</span>
                                 </div>
                                 <ul class="space-y-3 text-xs text-slate-600">
@@ -1243,9 +1500,9 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
                             ep.recommended_segments.forEach(seg => {
                                 segsHtml += `
                                     <div class="py-0.5">
-                                        <span class="font-mono font-bold text-emerald-700 bg-emerald-50 px-1 rounded mr-1">${seg.time_range}</span>
-                                        <span class="font-semibold text-slate-700">${seg.title}</span>
-                                        <span class="text-slate-500">— ${seg.reason}</span>
+                                        <span class="font-mono font-bold text-emerald-700 bg-emerald-50 px-1 rounded mr-1">\${seg.time_range}</span>
+                                        <span class="font-semibold text-slate-700">\${seg.title}</span>
+                                        <span class="text-slate-500">— \${seg.reason}</span>
                                     </div>
                                 `;
                             });
@@ -1254,9 +1511,9 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
                         epListHtml += `
                                     <li class="border-b border-slate-100 last:border-0 pb-2 mb-2 last:pb-0 last:mb-0">
                                         <div class="font-semibold text-slate-800 leading-relaxed">
-                                            <span class="font-bold text-blue-600">${idx+1}.</span> ${ep.title}
+                                            <span class="font-bold text-blue-600">\${idx+1}.</span> \${ep.title}
                                         </div>
-                                        ${segsHtml}
+                                        \${segsHtml}
                                     </li>
                         `;
                     });
@@ -1268,8 +1525,13 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
                 });
                 document.getElementById('poc-episodes-list').innerHTML = epListHtml;
                 
-                // 2. Render Awards Table
-                let awardsHtml = '';
+                // 2. Render Awards Table (Split by Track A / Track B)
+                let awardsHtmlTrackA = '';
+                let awardsHtmlTrackB = '';
+                
+                const trackAKeys = ["content_structure", "episode_planning", "best_cta", "niche_market", "self_exploration", "best_long_form", "best_short_form"];
+                const trackBKeys = ["best_duo_hosts", "best_male_host", "best_female_host", "atmosphere"];
+
                 const awardsKeys = Object.keys(pocResults.awards);
                 awardsKeys.forEach(key => {
                     const aw = pocResults.awards[key];
@@ -1279,7 +1541,7 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
                     aw.ranking.forEach(r => {
                         const medal = r.rank === 1 ? '🥇 金獎' : r.rank === 2 ? '🥈 銀獎' : '🥉 銅獎';
                         const medalColor = r.rank === 1 ? 'text-amber-500' : r.rank === 2 ? 'text-slate-400' : 'text-amber-700';
-                        const scoreText = r.score !== null ? `${r.score} 分` : 'N/A';
+                        const scoreText = r.score !== null ? `\${r.score} 分` : 'N/A';
                         
                         const isCompliant = r.compliance === '符合';
                         const isNa = r.compliance === '不適用' || r.compliance === 'N/A';
@@ -1288,22 +1550,22 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
                         
                         partnerRows += `
                             <tr class="hover:bg-slate-50/50">
-                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold ${medalColor}">${medal}</td>
-                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-semibold text-slate-800">${r.partnerName}</td>
-                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold text-blue-600">${scoreText}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold \${medalColor}">\${medal}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-semibold text-slate-800">\${r.partnerName}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold text-blue-600">\${scoreText}</td>
                                 <td class="px-3 py-2.5 whitespace-nowrap text-xs">
-                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${badgeClass}">${badgeText}</span>
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold \${badgeClass}">\${badgeText}</span>
                                 </td>
-                                <td class="px-3 py-2.5 text-xs text-slate-600 leading-relaxed">${r.reason}</td>
+                                <td class="px-3 py-2.5 text-xs text-slate-600 leading-relaxed">\${r.reason}</td>
                             </tr>
                         `;
                     });
                     
-                    awardsHtml += `
+                    const singleAwardHtml = `
                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
                             <div class="flex justify-between items-center border-b pb-3">
                                 <h4 class="text-sm font-extrabold text-slate-800 flex items-center">
-                                    <span class="text-lg mr-2">🏅</span> ${aw.award_name}
+                                    <span class="text-lg mr-2">🏅</span> \${aw.award_name}
                                 </h4>
                             </div>
                             <div class="overflow-x-auto">
@@ -1318,25 +1580,145 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-100 bg-white">
-                                        ${partnerRows}
+                                        \${partnerRows}
                                     </tbody>
                                 </table>
                             </div>
                             <div class="bg-blue-50/40 p-3.5 rounded-xl border border-blue-100/50 text-xs text-slate-700 leading-relaxed">
-                                <span class="font-bold text-blue-800">🔍 橫向 PK 對手對比：</span>${aw.comparative_analysis}
+                                <span class="font-bold text-blue-800">🔍 橫向 PK 對手對比：</span>\${aw.comparative_analysis}
+                            </div>
+                        </div>
+                    `;
+
+                    if (trackAKeys.includes(key)) {
+                        awardsHtmlTrackA += singleAwardHtml;
+                    } else if (trackBKeys.includes(key)) {
+                        awardsHtmlTrackB += singleAwardHtml;
+                    }
+                });
+
+                document.getElementById('poc-awards-container-track-a').innerHTML = awardsHtmlTrackA;
+                document.getElementById('poc-awards-container-track-b').innerHTML = awardsHtmlTrackB;
+                
+                // 3. Render Overall Summary
+                document.getElementById('poc-overall-summary-a').textContent = pocResults.overall_summary;
+                document.getElementById('poc-overall-summary-b').textContent = pocResults.overall_summary;
+            }
+
+            // Render Voice Diagnostics Details list (9 episodes)
+            const trackBData = window.trackBResults || {};
+            const voiceDiagContainer = document.getElementById('voice-diagnostics-list');
+            if (voiceDiagContainer && Object.keys(trackBData).length > 0) {
+                let voiceDiagHtml = '';
+                const items = Object.values(trackBData);
+                // Sort by partnerName, then by title
+                items.sort((a, b) => {
+                    const compPartner = a.partnerName.localeCompare(b.partnerName, 'zh-Hant');
+                    if (compPartner !== 0) return compPartner;
+                    return a.title.localeCompare(b.title, 'zh-Hant');
+                });
+
+                items.forEach((item, idx) => {
+                    // Styling for filler words level
+                    let fillerBadge = '';
+                    if (item.filler_words_level === '低') {
+                        fillerBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">低 (優，贅字極少)</span>';
+                    } else if (item.filler_words_level === '中') {
+                        fillerBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700">中 (一般)</span>';
+                    } else {
+                        fillerBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-700">高 (贅字多)</span>';
+                    }
+
+                    // Styling for speech rate wpm
+                    let wpmBadge = '';
+                    if (item.speech_rate_wpm >= 200 && item.speech_rate_wpm <= 240) {
+                        wpmBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">' + item.speech_rate_wpm + ' WPM (適中)</span>';
+                    } else if (item.speech_rate_wpm > 240) {
+                        wpmBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">' + item.speech_rate_wpm + ' WPM (偏快)</span>';
+                    } else {
+                        wpmBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700">' + item.speech_rate_wpm + ' WPM (較慢)</span>';
+                    }
+
+                    // Acoustic quality badge
+                    const acBadgeClass = item.acoustic_quality_level === '優' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700';
+                    const acBadgeText = '🔊 收音: ' + item.acoustic_quality_level;
+
+                    voiceDiagHtml += `
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 hover:border-slate-300 transition-all duration-200">
+                            <!-- Header -->
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b pb-3 space-y-2 sm:space-y-0">
+                                <div class="flex items-center space-x-2.5">
+                                    <span class="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg font-bold border border-slate-200/50">#\${idx+1}</span>
+                                    <span class="text-xs font-bold bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-lg border border-indigo-100/50">🎙️ \${item.partnerName} (\${item.podcastName})</span>
+                                </div>
+                                <span class="self-start sm:self-auto px-2.5 py-1 rounded-full text-xs font-bold \${acBadgeClass}">\${acBadgeText}</span>
+                            </div>
+                            
+                            <!-- Episode Title -->
+                            <h4 class="text-sm font-extrabold text-slate-800 leading-relaxed">
+                                \${item.title}
+                            </h4>
+                            
+                            <!-- 2-Column Detail Grid -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                                <!-- Column 1: Voice Physical Properties -->
+                                <div class="space-y-3.5 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                                    <div class="text-xs font-bold text-indigo-900 border-b border-indigo-100/50 pb-1.5 flex items-center">
+                                        <span class="mr-1.5">🎙️</span> 口條與發聲物理分析
+                                    </div>
+                                    <div class="space-y-2.5 text-xs">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-slate-500 font-medium">平均語速:</span>
+                                            \${wpmBadge}
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-slate-500 font-medium">贅字贅詞頻率:</span>
+                                            \${fillerBadge}
+                                        </div>
+                                        <div class="space-y-1 mt-1 text-slate-600 leading-relaxed">
+                                            <span class="font-bold text-slate-700 block">💬 贅字表現分析：</span>
+                                            \${item.filler_words_analysis}
+                                        </div>
+                                        <div class="space-y-1 pt-1.5 text-slate-600 leading-relaxed border-t border-dashed border-slate-200/80">
+                                            <span class="font-bold text-slate-700 block">📢 音色共鳴與咬字：</span>
+                                            \${item.vocal_resonance}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Column 2: Acoustic Quality & Golden Segment -->
+                                <div class="space-y-3.5 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                                    <div class="text-xs font-bold text-emerald-900 border-b border-emerald-100/50 pb-1.5 flex items-center">
+                                        <span class="mr-1.5">🔊</span> 收音環境與金聽片段
+                                    </div>
+                                    <div class="space-y-2.5 text-xs">
+                                        <div class="space-y-1 text-slate-600 leading-relaxed">
+                                            <span class="font-bold text-slate-700 block">🎧 錄音環境與背景：</span>
+                                            \${item.acoustic_summary}
+                                        </div>
+                                        <div class="grid grid-cols-3 gap-2 py-1 text-[11px] font-bold text-slate-600 border-y border-dashed border-slate-200/80 my-2">
+                                            <div class="text-center bg-slate-100 rounded py-0.5">💥 爆音: \${item.acoustic_issues_popping}</div>
+                                            <div class="text-center bg-slate-100 rounded py-0.5">✂️ 破音: \${item.acoustic_issues_clipping}</div>
+                                            <div class="text-center bg-slate-100 rounded py-0.5">🔇 底噪: \${item.acoustic_issues_noise}</div>
+                                        </div>
+                                        <div class="space-y-1 pt-0.5 text-slate-600 leading-relaxed">
+                                            <span class="font-bold text-slate-700 block flex items-center justify-between">
+                                                <span>⭐ 評審推薦金聽片段：</span>
+                                                <span class="font-mono font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded text-[10px]">\${item.golden_segment_time}</span>
+                                            </span>
+                                            \${item.golden_segment_reason}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     `;
                 });
-                document.getElementById('poc-awards-container').innerHTML = awardsHtml;
-                
-                // 3. Render Overall Summary
-                document.getElementById('poc-overall-summary').textContent = pocResults.overall_summary;
+                voiceDiagContainer.innerHTML = voiceDiagHtml;
             }
-            
-            // Handle initial hash routing after markdown and mermaid are fully ready
+// Handle initial hash routing after markdown and mermaid are fully ready
             const initialHash = window.location.hash.slice(1);
-            if (['plan', 'status', 'track-c', 'timeline', 'deploy'].includes(initialHash)) {
+            if (['plan', 'status', 'eligibility', 'track-a', 'track-b', 'track-c', 'timeline', 'deploy'].includes(initialHash)) {
                 switchTab(initialHash);
             }
         });
@@ -1344,7 +1726,7 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
         // Listen for history back/forward hash changes
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.slice(1);
-            if (['plan', 'status', 'track-c', 'timeline', 'deploy'].includes(hash)) {
+            if (['plan', 'status', 'eligibility', 'track-a', 'track-b', 'track-c', 'timeline', 'deploy'].includes(hash)) {
                 switchTab(hash);
             }
         });
