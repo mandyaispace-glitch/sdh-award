@@ -870,16 +870,25 @@ flowchart TD
     npm install
     ```
 
-### 3. 環境變數設定
-在專案根目錄下建立 `.env` 檔案，寫入客戶專屬的 Gemini API Key：
-```env
-GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
-```
+### 3. 環境變數設定 (支援免費多金鑰輪替)
+在專案根目錄下建立 `.env` 檔案，寫入客戶專屬的 Gemini API Key。為了應對免費版 API Key 每日 20 次請求的額度限制，系統已升級支援 **「多金鑰自動輪替 (Key Rotation)」**：
+*   **付費版金鑰 (Pay-as-you-go)**：寫入單一 Key 即可（無每日上限限制）：
+    ```env
+    GEMINI_API_KEY=AIzaSyYourPaidKeyHere
+    ```
+*   **免費版金鑰 (Free Tier)**：可寫入多個以**逗號**分隔的免費金鑰。執行時若某個 Key 達到每日 20 次上限 (429 Resource Exhausted)，腳本會自動切換至下一個 Key 繼續重試與分析：
+    ```env
+    GEMINI_API_KEY=AIzaSyFreeKey1,AIzaSyFreeKey2,AIzaSyFreeKey3
+    ```
 
 ### 4. 日常執行指令
 *   **建立單集合格池**：`node build_episode_pool.js`
+*   **執行聲音物理特徵評鑑 (Track B)**：
+    *   *測試模式（僅評鑑 36 集）*：`node batch_track_b.js`
+    *   *全量模式（評鑑 147 集）*：`node batch_track_b.js --full`
+    *   *(註：腳本內置「斷點續跑」機制，如因配額耗盡中斷，隨時可重新執行以繼續評鑑剩餘單集，先前結果均已安全儲存。)*
 *   **執行決審橫向相對 PK**：`node poc_run.js`
-*   **產出網頁規劃書報告**：`node generate_html.js`
+*   **產出網頁規劃書與儀表板報告**：`node generate_html.js`
 
 ---
 
