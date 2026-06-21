@@ -1239,6 +1239,31 @@ function generateSelfContainedHtml() {
                     const acBadgeClass = item.acoustic_quality_level === '優' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700';
                     const acBadgeText = '🔊 收音: ' + item.acoustic_quality_level;
 
+                    let segmentsHtml = '';
+                    if (item.recommended_segments && item.recommended_segments.length > 0) {
+                        item.recommended_segments.forEach((seg, sIdx) => {
+                            segmentsHtml += \`
+                                <div class="space-y-1.5 pt-2.5 first:pt-0 \${sIdx > 0 ? 'border-t border-dashed border-slate-200 mt-2.5' : ''}">
+                                    <span class="font-bold text-slate-700 block flex items-center justify-between">
+                                        <span>🎧 推薦段落 \${sIdx + 1}：\${seg.title || '精彩精華'}</span>
+                                        <span class="font-mono font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded text-[10px]">\${seg.time_range}</span>
+                                    </span>
+                                    <p class="text-slate-600 text-xs leading-relaxed m-0">\${seg.reason}</p>
+                                </div>
+                            \`;
+                        });
+                    } else {
+                        segmentsHtml = \`
+                            <div class="space-y-1">
+                                <span class="font-bold text-slate-700 block flex items-center justify-between">
+                                    <span>⭐ 評審推薦金聽片段：</span>
+                                    <span class="font-mono font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded text-[10px]">\${item.golden_segment_time || 'N/A'}</span>
+                                </span>
+                                <p class="text-slate-600 text-xs leading-relaxed m-0">\${item.golden_segment_reason || 'N/A'}</p>
+                            </div>
+                        \`;
+                    }
+
                     voiceDiagHtml += \`
                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 hover:border-slate-300 transition-all duration-200">
                             <!-- Header -->
@@ -1297,12 +1322,8 @@ function generateSelfContainedHtml() {
                                             <div class="text-center bg-slate-100 rounded py-0.5">✂️ 破音: \${item.acoustic_issues_clipping}</div>
                                             <div class="text-center bg-slate-100 rounded py-0.5">🔇 底噪: \${item.acoustic_issues_noise}</div>
                                         </div>
-                                        <div class="space-y-1 pt-0.5 text-slate-600 leading-relaxed">
-                                            <span class="font-bold text-slate-700 block flex items-center justify-between">
-                                                <span>⭐ 評審推薦金聽片段：</span>
-                                                <span class="font-mono font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded text-[10px]">\${item.golden_segment_time}</span>
-                                            </span>
-                                            \${item.golden_segment_reason}
+                                        <div class="space-y-2 pt-0.5 text-slate-600 leading-relaxed">
+                                            \${segmentsHtml}
                                         </div>
                                     </div>
                                 </div>

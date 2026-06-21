@@ -83,6 +83,52 @@ async function deleteGeminiFile(fileUri, apiKey) {
     });
 }
 
+// 4b. Helper to list and clean all temp files from Gemini Files API
+async function cleanAllGeminiFiles(apiKey) {
+    console.log("🧹 正在清理 Gemini 雲端殘留檔案...");
+    const url = `https://generativelanguage.googleapis.com/v1beta/files?key=${apiKey}`;
+    return new Promise((resolve) => {
+        const urlObj = new URL(url);
+        https.get({
+            hostname: urlObj.hostname,
+            path: urlObj.pathname + urlObj.search,
+            method: 'GET'
+        }, (res) => {
+            let data = '';
+            res.on('data', (chunk) => { data += chunk; });
+            res.on('end', async () => {
+                if (res.statusCode === 200) {
+                    try {
+                        const parsed = JSON.parse(data);
+                        if (parsed.files && parsed.files.length > 0) {
+                            let count = 0;
+                            for (const file of parsed.files) {
+                                // Match temp_audio filenames
+                                if (file.displayName && (file.displayName.startsWith('temp_audio') || file.name.startsWith('files/temp_audio'))) {
+                                    console.log(` -> 刪除殘留檔案: ${file.name} (${file.displayName})`);
+                                    await deleteGeminiFile(file.name, apiKey);
+                                    count++;
+                                }
+                            }
+                            console.log(`🧹 清理完成，共刪除 ${count} 個殘留檔案。`);
+                        } else {
+                            console.log("🧹 未發現殘留檔案。");
+                        }
+                    } catch (e) {
+                        console.error("🧹 解析檔案清單出錯:", e.message);
+                    }
+                } else {
+                    console.error("🧹 無法獲取檔案清單，狀態碼:", res.statusCode);
+                }
+                resolve();
+            });
+        }).on('error', (err) => {
+            console.error("🧹 獲取檔案清單連線出錯:", err.message);
+            resolve();
+        });
+    });
+}
+
 // 5. Upload file to Gemini Files API
 async function uploadAudioToGemini(filePath, apiKey) {
     const stats = fs.statSync(filePath);
@@ -197,7 +243,7 @@ async function queryVoiceAnalysis(fileUri, apiKey) {
     const headers = { 'Content-Type': 'application/json' };
     
     const prompt = `
-你是一位專業的金鐘獎廣播與 Podcast 聲音評審。請評估這段音檔「前 5 分鐘」的說話物理特徵與錄音品質，並針對下列各點進行深度打分與回覆：
+你是一位專業的金鐘獎廣播與 Podcast 聲音評審。請聆聽並評估這檔節目完整單集的說話物理特徵與錄音品質，並針對下列各點進行深度打分與回覆：
 
 1. 語速 (Speech Rate)：估算主講人說話的平均語速（每分鐘約多少字，例如 195 字/分）。
 2. 贅字分析 (Filler Words)：評定贅字頻率等級（低、中、高），並具體說明常出現的口頭禪或贅字（如「呃」、「然後」、「就是」、「那」的出現頻率與習慣）。
@@ -206,7 +252,7 @@ async function queryVoiceAnalysis(fileUri, apiKey) {
    - 噴麥 (popping)
    - 突兀爆音 (clipping)
    - 背景雜音或環境噪音 (noise/hiss)
-5. 推薦黃金聽點 (Recommended Listen Segment)：在音檔中抓出一段最精彩、語調情感起伏最豐富的黃金片段，寫出時間軸範圍（例如 "02:15 - 04:30"）以及具體的推薦原因。
+5. 推薦黃金片段 (Recommended Listen Segments)：請在整集音檔中，尋找並挑選出【3個最精彩的黃金片段】。這 3 個片段應該包含開場吸引人處、核心論述精華、或是情感高潮/幽默互動等不同面向。每個片段都必須標註具體的時間軸範圍、自訂的片段標題以及詳細的推薦理由。
 
 請務必以繁體中文且標準的 JSON 格式輸出（不要輸出 markdown 標記包裝，直接輸出純 JSON 字串）：
 {
@@ -221,10 +267,23 @@ async function queryVoiceAnalysis(fileUri, apiKey) {
     "noise": "環境安靜，幾乎無底噪"
   },
   "acoustic_summary": "整體錄音品質優良，音量平穩，沒有突兀爆音與噴麥現象。",
-  "golden_segment": {
-    "time_range": "01:20 - 03:45",
-    "reason": "此段落探討核心痛點，主講人語氣真摯且音調波動起伏有致，極具聲音說服力。"
-  }
+  "recommended_segments": [
+    {
+      "time_range": "00:00 - 02:30",
+      "title": "破題精采開場",
+      "reason": "主持人用極具渲染力的故事破題，迅速抓住聽眾注意力，語速節奏掌握得宜。"
+    },
+    {
+      "time_range": "15:40 - 18:20",
+      "title": "核心觀點深度剖析",
+      "reason": "此段落探討核心痛點，主講人語氣真摯且音調波動起伏有致，語調情感飽滿，極具聲音說服力。"
+    },
+    {
+      "time_range": "28:15 - 31:00",
+      "title": "溫暖結語與聽眾互動",
+      "reason": "結尾處聲音共鳴極佳，溫馨且具陪伴感，展現與聽眾深厚的連結感。"
+    }
+  ]
 }
 `;
 
@@ -273,16 +332,23 @@ async function main() {
         console.error("❌ 找不到 GEMINI_API_KEY，請在 .env 檔案中配置。");
         return;
     }
+
+    // Parse command line arguments
+    const args = process.argv.slice(2);
+    const isFullRun = args.includes('--full');
     
-    // 2. Load Selected Episodes for POC
-    const selectionPath = path.join(__dirname, 'selected_episodes_for_poc.json');
+    // 2. Load Selected Episodes
+    let selectionPath = path.join(__dirname, 'selected_episodes_full.json');
     if (!fs.existsSync(selectionPath)) {
-        console.error(`❌ 找不到隨機抽樣清單 ${selectionPath}，請先執行抽樣或評選腳本。`);
+        selectionPath = path.join(__dirname, 'selected_episodes_for_poc.json');
+    }
+    if (!fs.existsSync(selectionPath)) {
+        console.error(`❌ 找不到抽樣單集清單 ${selectionPath}`);
         return;
     }
     
     const selectedEpisodes = JSON.parse(fs.readFileSync(selectionPath, 'utf-8'));
-    console.log(`成功加載隨機抽樣清單，共 ${selectedEpisodes.length} 個單集。`);
+    console.log(`成功加載單集清單 (${path.basename(selectionPath)})，共 ${selectedEpisodes.length} 個單集。`);
     
     // 3. Load or initialize Track B Cache
     const cachePath = path.join(__dirname, 'track_b_results.json');
@@ -295,19 +361,28 @@ async function main() {
             console.error(" ⚠️ 快取讀取失敗，將重新評估:", e.message);
         }
     }
+
+    // Clean any leftover files from Gemini Files API before starting
+    await cleanAllGeminiFiles(apiKey);
     
     // 4. Determine batch execution (limit to stay within free quota)
-    // We will process all episodes in selectedEpisodes that are not cached.
-    // If you want to limit the trial size to 3 episodes, set LIMIT_TRIAL = true.
-    const LIMIT_TRIAL = false;
-    const TRIAL_LIMIT_COUNT = 3; // 限制測試跑 3 集
+    // We will process all episodes in selectedEpisodes that are not cached or don't have recommended_segments.
+    const LIMIT_TRIAL = !isFullRun;
+    const TRIAL_LIMIT_COUNT = 36; // 限制測試跑 36 集 (12 檔節目)
     
-    let pendingEpisodes = selectedEpisodes.filter(ep => !trackBCache[ep.title]);
-    console.log(`剩餘待分析單集數量: ${pendingEpisodes.length}`);
+    let pendingEpisodes = selectedEpisodes.filter(ep => {
+        const cached = trackBCache[ep.title];
+        // Re-process if not cached, or if it doesn't have the new recommended_segments format
+        return !cached || !cached.recommended_segments || cached.recommended_segments.length === 0;
+    });
+    console.log(`待分析/升級單集數量: ${pendingEpisodes.length}`);
     
     if (LIMIT_TRIAL && pendingEpisodes.length > TRIAL_LIMIT_COUNT) {
-        console.log(`💡 開啟「安全限制測試模式」，本次執行將僅評估 ${TRIAL_LIMIT_COUNT} 個單集以節省當日額度。`);
+        console.log(`💡 模式：限制測試模式 (Trial Mode)。本次執行將僅評估 ${TRIAL_LIMIT_COUNT} 個單集。`);
+        console.log(`💡 提示：若要跑完所有 147 集，請執行 node batch_track_b.js --full`);
         pendingEpisodes = pendingEpisodes.slice(0, TRIAL_LIMIT_COUNT);
+    } else if (!LIMIT_TRIAL) {
+        console.log(`🚀 模式：全量分析模式 (Full Mode)。將依序處理所有 ${pendingEpisodes.length} 個待分析單集。`);
     }
     
     const tempDir = path.join(__dirname, 'temp_audio_b');
@@ -356,8 +431,11 @@ async function main() {
                 acoustic_issues_clipping: result.acoustic_issues?.clipping || "無",
                 acoustic_issues_noise: result.acoustic_issues?.noise || "無",
                 acoustic_summary: result.acoustic_summary,
-                golden_segment_time: result.golden_segment?.time_range || "N/A",
-                golden_segment_reason: result.golden_segment?.reason || "N/A",
+                // Fallback for older dashboard UI compatibility
+                golden_segment_time: result.recommended_segments?.[0]?.time_range || "N/A",
+                golden_segment_reason: result.recommended_segments?.[0]?.reason || "N/A",
+                // Upgraded golden segments
+                recommended_segments: result.recommended_segments || [],
                 analyzed_at: new Date().toISOString()
             };
             
@@ -388,8 +466,13 @@ async function main() {
     
     // Clean up temp directory
     if (fs.existsSync(tempDir)) {
-        fs.rmdirSync(tempDir);
+        try {
+            fs.rmdirSync(tempDir);
+        } catch (e) {}
     }
+
+    // Run clean up at the end too
+    await cleanAllGeminiFiles(apiKey);
     
     console.log(`\n=================== 聲音診斷階段完成 ===================`);
     console.log(`本輪共分析了 ${processedCount} 個新單集。`);
@@ -409,29 +492,45 @@ async function main() {
             }
         }
         
-        // Prepare rows for Excel from all cached items (POC list items first for clarity)
+        // Prepare rows for Excel from all cached items sorted by partnerName then title
         const excelRows = [];
-        selectedEpisodes.forEach(ep => {
-            const cacheItem = trackBCache[ep.title];
-            if (cacheItem) {
-                excelRows.push({
-                    "合作夥伴": cacheItem.partnerName,
-                    "節目名稱": cacheItem.podcastName,
-                    "單集標題": cacheItem.title,
-                    "語速 (字/分)": cacheItem.speech_rate_wpm,
-                    "贅字等級": cacheItem.filler_words_level,
-                    "贅字分析": cacheItem.filler_words_analysis,
-                    "聲音共鳴特質": cacheItem.vocal_resonance,
-                    "錄音品質等級": cacheItem.acoustic_quality_level,
-                    "製播缺陷-噴麥": cacheItem.acoustic_issues_popping,
-                    "製播缺陷-爆音": cacheItem.acoustic_issues_clipping,
-                    "製播缺陷-環境底噪": cacheItem.acoustic_issues_noise,
-                    "音質整體說明": cacheItem.acoustic_summary,
-                    "推薦黃金聽點區間": cacheItem.golden_segment_time,
-                    "黃金聽點推薦理由": cacheItem.golden_segment_reason,
-                    "評估時間": cacheItem.analyzed_at
-                });
-            }
+        const cacheItems = Object.values(trackBCache);
+        cacheItems.sort((a, b) => {
+            const compPartner = a.partnerName.localeCompare(b.partnerName, 'zh-Hant');
+            if (compPartner !== 0) return compPartner;
+            return a.title.localeCompare(b.title, 'zh-Hant');
+        });
+
+        cacheItems.forEach(cacheItem => {
+            const seg1 = cacheItem.recommended_segments?.[0] || {};
+            const seg2 = cacheItem.recommended_segments?.[1] || {};
+            const seg3 = cacheItem.recommended_segments?.[2] || {};
+            excelRows.push({
+                "合作夥伴": cacheItem.partnerName,
+                "節目名稱": cacheItem.podcastName,
+                "單集標題": cacheItem.title,
+                "語速 (字/分)": cacheItem.speech_rate_wpm,
+                "贅字等級": cacheItem.filler_words_level,
+                "贅字分析": cacheItem.filler_words_analysis,
+                "聲音共鳴特質": cacheItem.vocal_resonance,
+                "錄音品質等級": cacheItem.acoustic_quality_level,
+                "製播缺陷-噴麥": cacheItem.acoustic_issues_popping,
+                "製播缺陷-爆音": cacheItem.acoustic_issues_clipping,
+                "製播缺陷-環境底噪": cacheItem.acoustic_issues_noise,
+                "音質整體說明": cacheItem.acoustic_summary,
+                "推薦黃金聽點區間": cacheItem.golden_segment_time || seg1.time_range || "N/A",
+                "黃金聽點推薦理由": cacheItem.golden_segment_reason || seg1.reason || "N/A",
+                "推薦片段一標題": seg1.title || "N/A",
+                "推薦片段一區間": seg1.time_range || "N/A",
+                "推薦片段一理由": seg1.reason || "N/A",
+                "推薦片段二標題": seg2.title || "N/A",
+                "推薦片段二區間": seg2.time_range || "N/A",
+                "推薦片段二理由": seg2.reason || "N/A",
+                "推薦片段三標題": seg3.title || "N/A",
+                "推薦片段三區間": seg3.time_range || "N/A",
+                "推薦片段三理由": seg3.reason || "N/A",
+                "評估時間": cacheItem.analyzed_at
+            });
         });
         
         const wsNew = XLSX.utils.json_to_sheet(excelRows);
