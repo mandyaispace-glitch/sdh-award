@@ -10,22 +10,30 @@ function downloadFile(url, destPath) {
         https.get(url, (response) => {
             if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
                 // Redirect
-                return downloadFile(response.headers.location, destPath).then(resolve).catch(reject);
+                file.close(() => {
+                    fs.unlink(destPath, () => {});
+                    downloadFile(response.headers.location, destPath).then(resolve).catch(reject);
+                });
+                return;
             }
             if (response.statusCode !== 200) {
-                file.close();
-                fs.unlink(destPath, () => {});
-                return reject(new Error(`下載失敗，狀態碼: ${response.statusCode}`));
+                file.close(() => {
+                    fs.unlink(destPath, () => {});
+                    reject(new Error(`下載失敗，狀態碼: ${response.statusCode}`));
+                });
+                return;
             }
             response.pipe(file);
             file.on('finish', () => {
-                file.close();
-                resolve();
+                file.close(() => {
+                    resolve();
+                });
             });
         }).on('error', (err) => {
-            file.close();
-            fs.unlink(destPath, () => {});
-            reject(err);
+            file.close(() => {
+                fs.unlink(destPath, () => {});
+                reject(err);
+            });
         });
     });
 }
@@ -42,15 +50,16 @@ function downloadFileWithRetry(url, destPath, retries = 3) {
     });
 }
 
-// 3. Helper for HTTP POST requests
-function postRequest(url, headers, body) {
+// 3. Helper for HTTP POST requests with timeout
+function postRequest(url, headers, body, timeoutMs = 180000) { // 3 minutes timeout
     return new Promise((resolve, reject) => {
         const urlObj = new URL(url);
         const options = {
             hostname: urlObj.hostname,
             path: urlObj.pathname + urlObj.search,
             method: 'POST',
-            headers: headers
+            headers: headers,
+            timeout: timeoutMs
         };
         const req = https.request(options, (res) => {
             let data = '';
@@ -58,6 +67,10 @@ function postRequest(url, headers, body) {
             res.on('end', () => { resolve({ statusCode: res.statusCode, body: data }); });
         });
         req.on('error', (err) => { reject(err); });
+        req.on('timeout', () => {
+            req.destroy();
+            reject(new Error(`請求超時 (${timeoutMs}ms)`));
+        });
         if (body) {
             req.write(Buffer.isBuffer(body) || typeof body === 'string' ? body : JSON.stringify(body));
         }
@@ -236,7 +249,7 @@ async function waitForFileActive(fileUri, apiKey) {
 }
 
 // 8. Analyze audio voice features using Gemini 2.5 Flash
-async function queryVoiceAnalysis(fileUri, apiKey) {
+async function queryVoiceAnalysisRaw(fileUri, apiKey) {
     console.log(" -> 正在呼叫 Gemini 2.5 Flash 進行聲音特徵診斷與物理分析...");
     
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
@@ -314,6 +327,21 @@ async function queryVoiceAnalysis(fileUri, apiKey) {
     }
     
     return JSON.parse(responseText.trim());
+}
+
+async function queryVoiceAnalysis(fileUri, apiKey, retries = 3) {
+    for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+            return await queryVoiceAnalysisRaw(fileUri, apiKey);
+        } catch (err) {
+            const isQuota = err.message.includes('429') || err.message.includes('quota') || err.message.includes('QUOTA') || err.message.includes('limit');
+            if (isQuota || attempt === retries) {
+                throw err;
+            }
+            console.warn(` ⚠️ 聲音分析失敗 (${err.message})，正在進行第 ${attempt} 次重試...`);
+            await new Promise(resolve => setTimeout(resolve, 10000));
+        }
+    }
 }
 
 async function main() {
@@ -397,8 +425,10 @@ async function main() {
     
     let processedCount = 0;
     let keyIndex = 0;
+    let stopAll = false;
     
     for (let i = 0; i < pendingEpisodes.length; i++) {
+        if (stopAll) break;
         const ep = pendingEpisodes[i];
         console.log(`\n-------------------------------------------------------------`);
         console.log(`⏳ 正在處理 [${i + 1}/${pendingEpisodes.length}]: ${ep.partnerName} - ${ep.title}`);
@@ -469,9 +499,12 @@ async function main() {
                         }
                         continue;
                     } else {
-                        console.error(` ❌ 所有 API Keys 均已用罄。`);
-                        if (fs.existsSync(tempFilePath)) fs.unlinkSync(tempFilePath);
-                        throw err; // Terminate loop
+                        console.error(` ❌ 所有 API Keys 均已用罄。將提前結束並寫入已評估之數據至 Excel。`);
+                        if (fs.existsSync(tempFilePath)) {
+                            try { fs.unlinkSync(tempFilePath); } catch(e) {}
+                        }
+                        stopAll = true;
+                        break;
                     }
                 } else {
                     console.error(` ❌ 處理該單集出錯 (非配額錯誤):`, err.message);
@@ -489,7 +522,11 @@ async function main() {
         
         // Clean up local temp file after finishing or skipping the episode
         if (fs.existsSync(tempFilePath)) {
-            fs.unlinkSync(tempFilePath);
+            try {
+                fs.unlinkSync(tempFilePath);
+            } catch (e) {
+                console.warn(` ⚠️ 無法刪除本地暫存檔 ${tempFilePath}: ${e.message}`);
+            }
         }
         
         // Anti-rate-limit throttling

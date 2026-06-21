@@ -304,6 +304,9 @@ function generateSelfContainedHtml() {
                     <a id="tab-btn-eligibility" href="#eligibility" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('eligibility'); return false;">
                         🔍 資格審查
                     </a>
+                    <a id="tab-btn-track-b" href="#track-b" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-b'); return false;">
+                        🎙️ B軌聲音物理
+                    </a>
                     ${hasTrackC ? `
                     <a id="tab-btn-track-c" href="#track-c" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-c'); return false;">
                         📊 C軌聲量
@@ -486,6 +489,38 @@ function generateSelfContainedHtml() {
                 <div id="eligibility-markdown-content"></div>
             </div>
 
+            <div id="content-track-b" class="prose max-w-none hidden">
+                <div class="not-prose space-y-6 pt-4">
+                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-indigo-600 pl-2">
+                        🎙️ B軌聲音物理評鑑 (全量實測結果)
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-4">
+                        本頁面展示所有經過 B軌聲音物理評估之合格節目的聲音特徵走勢與深入診斷（含贅字率、語速、錄音品質及推薦之 3 段黃金聽點）。
+                    </p>
+
+                    <!-- Voice Diagnostics Comparison Chart (Full) -->
+                    <div id="voice-analysis-chart-card-full" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center mb-6 hidden">
+                        <h3 class="text-sm font-extrabold text-slate-700 mb-2 self-start border-l-4 border-indigo-500 pl-2">
+                            聲音物理評估對比 - 全量實測 (平均語速 vs 贅字頻率)
+                        </h3>
+                        <p class="text-xs text-slate-500 mb-4 self-start">
+                            呈現所有評估單集的平均語速（WPM，柱狀圖，對應左軸）與贅字頻率等級（低/中/高，折線圖，對應右軸，點位越高代表贅字越少、口條越流暢）。
+                        </p>
+                        <div class="w-full h-[320px] flex items-center justify-center">
+                            <canvas id="voiceChartFull"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Voice Diagnostics Details Grid (Full) -->
+                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-emerald-600 pl-2">
+                        🔍 聲音物理評估詳情 (全量實測深入分析)
+                    </h3>
+                    <div class="grid grid-cols-1 gap-4" id="voice-diagnostics-list-full">
+                        <!-- Dynamic list of voice diagnostics for all processed episodes -->
+                    </div>
+                </div>
+            </div>
+
 <div id="content-timeline" class="prose max-w-none hidden">
                 <!-- Timeline Markdown renders here -->
             </div>
@@ -586,6 +621,7 @@ function generateSelfContainedHtml() {
             const planBtn = document.getElementById('tab-btn-plan');
             const eligibilityBtn = document.getElementById('tab-btn-eligibility');
             const demoBtn = document.getElementById('tab-btn-demo');
+            const trackBBtn = document.getElementById('tab-btn-track-b');
             const trackCBtn = document.getElementById('tab-btn-track-c');
             const timelineBtn = document.getElementById('tab-btn-timeline');
             const deployBtn = document.getElementById('tab-btn-deploy');
@@ -594,6 +630,7 @@ function generateSelfContainedHtml() {
             const planContent = document.getElementById('content-plan');
             const eligibilityContent = document.getElementById('content-eligibility');
             const demoContent = document.getElementById('content-demo');
+            const trackBContent = document.getElementById('content-track-b');
             const trackCContent = document.getElementById('content-track-c');
             const timelineContent = document.getElementById('content-timeline');
             const deployContent = document.getElementById('content-deploy');
@@ -604,6 +641,7 @@ function generateSelfContainedHtml() {
             planBtn.className = inactiveBtnClass;
             if (eligibilityBtn) eligibilityBtn.className = inactiveBtnClass;
             if (demoBtn) demoBtn.className = inactiveBtnClass;
+            if (trackBBtn) trackBBtn.className = inactiveBtnClass;
             if (trackCBtn) trackCBtn.className = inactiveBtnClass;
             timelineBtn.className = inactiveBtnClass;
             deployBtn.className = inactiveBtnClass;
@@ -611,6 +649,7 @@ function generateSelfContainedHtml() {
             planContent.classList.add('hidden');
             if (eligibilityContent) eligibilityContent.classList.add('hidden');
             if (demoContent) demoContent.classList.add('hidden');
+            if (trackBContent) trackBContent.classList.add('hidden');
             if (trackCContent) trackCContent.classList.add('hidden');
             timelineContent.classList.add('hidden');
             deployContent.classList.add('hidden');
@@ -625,6 +664,11 @@ function generateSelfContainedHtml() {
                 mainGlassCard.classList.remove('hidden');
                 eligibilityContent.classList.remove('hidden');
                 renderCharts(); // Render Chart.js charts on show
+            } else if (tabId === 'track-b' && trackBContent) {
+                trackBBtn.className = activeBtnClass;
+                mainGlassCard.classList.remove('hidden');
+                trackBContent.classList.remove('hidden');
+                renderCharts(); // Render voice Chart on show
             } else if (tabId === 'demo' && demoContent) {
                 demoBtn.className = activeBtnClass;
                 mainGlassCard.classList.remove('hidden');
@@ -650,13 +694,26 @@ function generateSelfContainedHtml() {
         let barChartInstance = null;
         let lineChartInstance = null;
         let voiceChartInstance = null;
+        let voiceChartFullInstance = null;
+
+        const pocTitles = [
+            "郝聲音：（上）設計師KiKi，從繪畫到設計的熱愛之路，到引領他人感受設計之美的「走讀」行旅～",
+            "郝聲音：（下）終於跟MJ林明樟老師合體！用「財務腦」打通「業務力」，讓商業與人生獲利生生不息！",
+            "郝聲音：（下） 蘇絢慧老師好書分享，『隱性內耗』：看不見的傷，如何消磨你的能量？",
+            "GD229｜明明不想去卻說「好」？揭開你不敢拒絕的心理盲點與精神內耗！",
+            "GD221｜別再被情緒牽著鼻子走！開口前停頓 3 秒鐘，瞬間改寫你的人生劇本",
+            "EP169｜蝦皮內捲太絕望？夜校打雜工逆襲：我如何在亞馬遜高門檻戰場穩賺美金！（Feat. AZ-Helper 創辦人 Jonathan 里長伯）",
+            "掌握你的金錢性格，打造幸福家庭理財ft.精算媽咪珊迪兔｜哇賽心觀點ep194",
+            "多巴胺陷阱！戒不掉的不是癮，是深層的焦慮ft.蘇琮祺心理師｜哇賽心觀點ep193",
+            "療癒創傷，溫柔擁抱完整的自己ft.留佩萱博士｜哇賽療心室ep148"
+        ];
 
         function renderVoiceChart() {
             const voiceCanvas = document.getElementById('voiceChart');
             if (!voiceCanvas || voiceCanvas.offsetParent === null) return;
 
             const trackB = window.trackBResults || {};
-            const items = Object.values(trackB);
+            const items = Object.values(trackB).filter(item => pocTitles.includes(item.title));
             if (items.length === 0) return;
 
             // Unhide the voice analysis chart card
@@ -786,6 +843,277 @@ function generateSelfContainedHtml() {
             });
         }
 
+        function renderVoiceChartFull() {
+            const voiceCanvasFull = document.getElementById('voiceChartFull');
+            if (!voiceCanvasFull || voiceCanvasFull.offsetParent === null) return;
+
+            const trackB = window.trackBResults || {};
+            const items = Object.values(trackB);
+            if (items.length === 0) return;
+
+            // Unhide the voice analysis chart card full
+            const voiceCardFull = document.getElementById('voice-analysis-chart-card-full');
+            if (voiceCardFull) voiceCardFull.classList.remove('hidden');
+
+            if (voiceChartFullInstance) voiceChartFullInstance.destroy();
+            const voiceCtxFull = voiceCanvasFull.getContext('2d');
+
+            // Sort items by partnerName to group them
+            items.sort((a, b) => a.partnerName.localeCompare(b.partnerName, 'zh-Hant'));
+
+            const labels = items.map(item => {
+                const shortTitle = item.title.length > 15 ? item.title.slice(0, 15) + '...' : item.title;
+                return \`\[item.partnerName}\\n(\${shortTitle})\`;
+            });
+
+            const wpmData = items.map(item => item.speech_rate_wpm);
+            const levelMap = { '低': 3, '中': 2, '高': 1 };
+            const fillerData = items.map(item => levelMap[item.filler_words_level] || 2);
+
+            voiceChartFullInstance = new Chart(voiceCtxFull, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '平均語速 (WPM)',
+                            data: wpmData,
+                            backgroundColor: 'rgba(59, 130, 246, 0.8)', // Sky Blue
+                            borderColor: '#2563eb',
+                            borderWidth: 1.5,
+                            yAxisID: 'y',
+                            order: 2,
+                            borderRadius: 6
+                        },
+                        {
+                            label: '贅字頻率等級',
+                            data: fillerData,
+                            type: 'line',
+                            borderColor: '#10b981', // Emerald Green
+                            backgroundColor: '#10b981',
+                            borderWidth: 3,
+                            pointRadius: 6,
+                            pointHoverRadius: 8,
+                            yAxisID: 'y1',
+                            order: 1,
+                            tension: 0.2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            min: 150,
+                            max: 300,
+                            title: {
+                                display: true,
+                                text: '平均語速 (字/分)',
+                                font: { family: 'Noto Sans TC', size: 11, weight: 'bold' }
+                            },
+                            grid: { color: '#f1f5f9' },
+                            ticks: {
+                                font: { family: 'Noto Sans TC', size: 10 }
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            min: 0.5,
+                            max: 3.5,
+                            grid: { drawOnChartArea: false },
+                            title: {
+                                display: true,
+                                text: '贅字頻率 (低表示贅字少/口條好)',
+                                font: { family: 'Noto Sans TC', size: 11, weight: 'bold' }
+                            },
+                            ticks: {
+                                stepSize: 1,
+                                callback: function(value) {
+                                    const labelsMap = { 3: '低 (優)', 2: '中', 1: '高 (多)' };
+                                    return labelsMap[value] || '';
+                                },
+                                font: { family: 'Noto Sans TC', size: 10 }
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                font: { family: 'Noto Sans TC', size: 9 },
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: { family: 'Noto Sans TC', size: 11, weight: 'bold' }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.datasetIndex === 0) {
+                                        label += context.raw + ' WPM';
+                                    } else {
+                                        const valMap = { 3: '低 (贅字少，口條好)', 2: '中 (贅字頻率一般)', 1: '高 (贅字較多)' };
+                                        label += valMap[context.raw] || context.raw;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderVoiceDiagList(containerId, items) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+            if (items.length === 0) {
+                container.innerHTML = '<div class="text-center py-6 text-slate-400 text-xs">無評估數據</div>';
+                return;
+            }
+
+            // Sort by partnerName, then by title
+            items.sort((a, b) => {
+                const compPartner = a.partnerName.localeCompare(b.partnerName, 'zh-Hant');
+                if (compPartner !== 0) return compPartner;
+                return a.title.localeCompare(b.title, 'zh-Hant');
+            });
+
+            let html = '';
+            items.forEach((item, idx) => {
+                // Styling for filler words level
+                let fillerBadge = '';
+                if (item.filler_words_level === '低') {
+                    fillerBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">低 (優，贅字極少)</span>';
+                } else if (item.filler_words_level === '中') {
+                    fillerBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700">中 (一般)</span>';
+                } else {
+                    fillerBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-700">高 (贅字多)</span>';
+                }
+
+                // Styling for speech rate wpm
+                let wpmBadge = '';
+                if (item.speech_rate_wpm >= 200 && item.speech_rate_wpm <= 240) {
+                    wpmBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">' + item.speech_rate_wpm + ' WPM (適中)</span>';
+                } else if (item.speech_rate_wpm > 240) {
+                    wpmBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">' + item.speech_rate_wpm + ' WPM (偏快)</span>';
+                } else {
+                    wpmBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700">' + item.speech_rate_wpm + ' WPM (較慢)</span>';
+                }
+
+                // Acoustic quality badge
+                const acBadgeClass = item.acoustic_quality_level === '優' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700';
+                const acBadgeText = '🔊 收音: ' + item.acoustic_quality_level;
+
+                let segmentsHtml = '';
+                if (item.recommended_segments && item.recommended_segments.length > 0) {
+                    item.recommended_segments.forEach((seg, sIdx) => {
+                        segmentsHtml += \`
+                            <div class="space-y-1.5 pt-2.5 first:pt-0 \${sIdx > 0 ? 'border-t border-dashed border-slate-200 mt-2.5' : ''}">
+                                <span class="font-bold text-slate-700 block flex items-center justify-between">
+                                    <span>🎧 推薦段落 \${sIdx + 1}：\${seg.title || '精彩精華'}</span>
+                                    <span class="font-mono font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded text-[10px]">\${seg.time_range}</span>
+                                </span>
+                                <p class="text-slate-600 text-xs leading-relaxed m-0">\${seg.reason}</p>
+                            </div>
+                        \`;
+                    });
+                } else {
+                    segmentsHtml = \`
+                        <div class="space-y-1">
+                            <span class="font-bold text-slate-700 block flex items-center justify-between">
+                                <span>⭐ 評審推薦金聽片段：</span>
+                                <span class="font-mono font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded text-[10px]">\${item.golden_segment_time || 'N/A'}</span>
+                            </span>
+                            <p class="text-slate-600 text-xs leading-relaxed m-0">\${item.golden_segment_reason || 'N/A'}</p>
+                        </div>
+                    \`;
+                }
+
+                html += \`
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 hover:border-slate-300 transition-all duration-200">
+                        <!-- Header -->
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b pb-3 space-y-2 sm:space-y-0">
+                            <div class="flex items-center space-x-2.5">
+                                <span class="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg font-bold border border-slate-200/50">#\${idx+1}</span>
+                                <span class="text-xs font-bold bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-lg border border-indigo-100/50">🎙️ \${item.partnerName} (\${item.podcastName})</span>
+                            </div>
+                            <span class="self-start sm:self-auto px-2.5 py-1 rounded-full text-xs font-bold \${acBadgeClass}">\${acBadgeText}</span>
+                        </div>
+                        
+                        <!-- Episode Title -->
+                        <h4 class="text-sm font-extrabold text-slate-800 leading-relaxed">
+                            \${item.title}
+                        </h4>
+                        
+                        <!-- 2-Column Detail Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                            <!-- Column 1: Voice Physical Properties -->
+                            <div class="space-y-3.5 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                                <div class="text-xs font-bold text-indigo-900 border-b border-indigo-100/50 pb-1.5 flex items-center">
+                                    <span class="mr-1.5">🎙️</span> 口條與發聲物理分析
+                                </div>
+                                <div class="space-y-2.5 text-xs">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-slate-500 font-medium">平均語速:</span>
+                                        \${wpmBadge}
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-slate-500 font-medium">贅字贅詞頻率:</span>
+                                        \${fillerBadge}
+                                    </div>
+                                    <div class="space-y-1 mt-1 text-slate-600 leading-relaxed">
+                                        <span class="font-bold text-slate-700 block">💬 贅字表現分析：</span>
+                                        \${item.filler_words_analysis}
+                                    </div>
+                                    <div class="space-y-1 pt-1.5 text-slate-600 leading-relaxed border-t border-dashed border-slate-200/80">
+                                        <span class="font-bold text-slate-700 block">📢 音色共鳴與咬字：</span>
+                                        \${item.vocal_resonance}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Column 2: Acoustic Quality & Golden Segment -->
+                            <div class="space-y-3.5 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                                <div class="text-xs font-bold text-emerald-900 border-b border-emerald-100/50 pb-1.5 flex items-center">
+                                    <span class="mr-1.5">🔊</span> 收音環境與金聽片段
+                                </div>
+                                <div class="space-y-2.5 text-xs">
+                                    <div class="space-y-1 text-slate-600 leading-relaxed">
+                                        <span class="font-bold text-slate-700 block">🎧 錄音環境與背景：</span>
+                                        \${item.acoustic_summary}
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2 py-1 text-[11px] font-bold text-slate-600 border-y border-dashed border-slate-200/80 my-2">
+                                        <div class="text-center bg-slate-100 rounded py-0.5">💥 爆音: \${item.acoustic_issues_popping}</div>
+                                        <div class="text-center bg-slate-100 rounded py-0.5">✂️ 破音: \${item.acoustic_issues_clipping}</div>
+                                        <div class="text-center bg-slate-100 rounded py-0.5">🔇 底噪: \${item.acoustic_issues_noise}</div>
+                                    </div>
+                                    <div class="space-y-2 pt-0.5 text-slate-600 leading-relaxed">
+                                        \${segmentsHtml}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                \`;
+            });
+            container.innerHTML = html;
+        }
         function renderCharts() {
             const stats = window.eligibilityStats;
             if (!stats || !stats.summary || stats.summary.totalPrograms === 0) return;
@@ -1016,6 +1344,10 @@ function generateSelfContainedHtml() {
             if (voiceCanvas && voiceCanvas.offsetParent !== null) {
                 renderVoiceChart();
             }
+            const voiceCanvasFull = document.getElementById('voiceChartFull');
+            if (voiceCanvasFull && voiceCanvasFull.offsetParent !== null) {
+                renderVoiceChartFull();
+            }
         }
         document.addEventListener('DOMContentLoaded', async () => {
             const rawMarkdown = document.getElementById('markdown-source').value;
@@ -1205,137 +1537,19 @@ function generateSelfContainedHtml() {
             const trackBData = window.trackBResults || {};
             const voiceDiagContainer = document.getElementById('voice-diagnostics-list');
             if (voiceDiagContainer && Object.keys(trackBData).length > 0) {
-                let voiceDiagHtml = '';
-                const items = Object.values(trackBData);
-                // Sort by partnerName, then by title
-                items.sort((a, b) => {
-                    const compPartner = a.partnerName.localeCompare(b.partnerName, 'zh-Hant');
-                    if (compPartner !== 0) return compPartner;
-                    return a.title.localeCompare(b.title, 'zh-Hant');
-                });
-
-                items.forEach((item, idx) => {
-                    // Styling for filler words level
-                    let fillerBadge = '';
-                    if (item.filler_words_level === '低') {
-                        fillerBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">低 (優，贅字極少)</span>';
-                    } else if (item.filler_words_level === '中') {
-                        fillerBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700">中 (一般)</span>';
-                    } else {
-                        fillerBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-700">高 (贅字多)</span>';
-                    }
-
-                    // Styling for speech rate wpm
-                    let wpmBadge = '';
-                    if (item.speech_rate_wpm >= 200 && item.speech_rate_wpm <= 240) {
-                        wpmBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">' + item.speech_rate_wpm + ' WPM (適中)</span>';
-                    } else if (item.speech_rate_wpm > 240) {
-                        wpmBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">' + item.speech_rate_wpm + ' WPM (偏快)</span>';
-                    } else {
-                        wpmBadge = '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700">' + item.speech_rate_wpm + ' WPM (較慢)</span>';
-                    }
-
-                    // Acoustic quality badge
-                    const acBadgeClass = item.acoustic_quality_level === '優' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700';
-                    const acBadgeText = '🔊 收音: ' + item.acoustic_quality_level;
-
-                    let segmentsHtml = '';
-                    if (item.recommended_segments && item.recommended_segments.length > 0) {
-                        item.recommended_segments.forEach((seg, sIdx) => {
-                            segmentsHtml += \`
-                                <div class="space-y-1.5 pt-2.5 first:pt-0 \${sIdx > 0 ? 'border-t border-dashed border-slate-200 mt-2.5' : ''}">
-                                    <span class="font-bold text-slate-700 block flex items-center justify-between">
-                                        <span>🎧 推薦段落 \${sIdx + 1}：\${seg.title || '精彩精華'}</span>
-                                        <span class="font-mono font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded text-[10px]">\${seg.time_range}</span>
-                                    </span>
-                                    <p class="text-slate-600 text-xs leading-relaxed m-0">\${seg.reason}</p>
-                                </div>
-                            \`;
-                        });
-                    } else {
-                        segmentsHtml = \`
-                            <div class="space-y-1">
-                                <span class="font-bold text-slate-700 block flex items-center justify-between">
-                                    <span>⭐ 評審推薦金聽片段：</span>
-                                    <span class="font-mono font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded text-[10px]">\${item.golden_segment_time || 'N/A'}</span>
-                                </span>
-                                <p class="text-slate-600 text-xs leading-relaxed m-0">\${item.golden_segment_reason || 'N/A'}</p>
-                            </div>
-                        \`;
-                    }
-
-                    voiceDiagHtml += \`
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 hover:border-slate-300 transition-all duration-200">
-                            <!-- Header -->
-                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b pb-3 space-y-2 sm:space-y-0">
-                                <div class="flex items-center space-x-2.5">
-                                    <span class="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg font-bold border border-slate-200/50">#\${idx+1}</span>
-                                    <span class="text-xs font-bold bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-lg border border-indigo-100/50">🎙️ \${item.partnerName} (\${item.podcastName})</span>
-                                </div>
-                                <span class="self-start sm:self-auto px-2.5 py-1 rounded-full text-xs font-bold \${acBadgeClass}">\${acBadgeText}</span>
-                            </div>
-                            
-                            <!-- Episode Title -->
-                            <h4 class="text-sm font-extrabold text-slate-800 leading-relaxed">
-                                \${item.title}
-                            </h4>
-                            
-                            <!-- 2-Column Detail Grid -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
-                                <!-- Column 1: Voice Physical Properties -->
-                                <div class="space-y-3.5 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
-                                    <div class="text-xs font-bold text-indigo-900 border-b border-indigo-100/50 pb-1.5 flex items-center">
-                                        <span class="mr-1.5">🎙️</span> 口條與發聲物理分析
-                                    </div>
-                                    <div class="space-y-2.5 text-xs">
-                                        <div class="flex items-center justify-between">
-                                            <span class="text-slate-500 font-medium">平均語速:</span>
-                                            \${wpmBadge}
-                                        </div>
-                                        <div class="flex items-center justify-between">
-                                            <span class="text-slate-500 font-medium">贅字贅詞頻率:</span>
-                                            \${fillerBadge}
-                                        </div>
-                                        <div class="space-y-1 mt-1 text-slate-600 leading-relaxed">
-                                            <span class="font-bold text-slate-700 block">💬 贅字表現分析：</span>
-                                            \${item.filler_words_analysis}
-                                        </div>
-                                        <div class="space-y-1 pt-1.5 text-slate-600 leading-relaxed border-t border-dashed border-slate-200/80">
-                                            <span class="font-bold text-slate-700 block">📢 音色共鳴與咬字：</span>
-                                            \${item.vocal_resonance}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Column 2: Acoustic Quality & Golden Segment -->
-                                <div class="space-y-3.5 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
-                                    <div class="text-xs font-bold text-emerald-900 border-b border-emerald-100/50 pb-1.5 flex items-center">
-                                        <span class="mr-1.5">🔊</span> 收音環境與金聽片段
-                                    </div>
-                                    <div class="space-y-2.5 text-xs">
-                                        <div class="space-y-1 text-slate-600 leading-relaxed">
-                                            <span class="font-bold text-slate-700 block">🎧 錄音環境與背景：</span>
-                                            \${item.acoustic_summary}
-                                        </div>
-                                        <div class="grid grid-cols-3 gap-2 py-1 text-[11px] font-bold text-slate-600 border-y border-dashed border-slate-200/80 my-2">
-                                            <div class="text-center bg-slate-100 rounded py-0.5">💥 爆音: \${item.acoustic_issues_popping}</div>
-                                            <div class="text-center bg-slate-100 rounded py-0.5">✂️ 破音: \${item.acoustic_issues_clipping}</div>
-                                            <div class="text-center bg-slate-100 rounded py-0.5">🔇 底噪: \${item.acoustic_issues_noise}</div>
-                                        </div>
-                                        <div class="space-y-2 pt-0.5 text-slate-600 leading-relaxed">
-                                            \${segmentsHtml}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    \`;
-                });
-                voiceDiagContainer.innerHTML = voiceDiagHtml;
+                const pocDiagItems = Object.values(trackBData).filter(item => pocTitles.includes(item.title));
+                renderVoiceDiagList('voice-diagnostics-list', pocDiagItems);
             }
-// Handle initial hash routing after markdown and mermaid are fully ready
+
+            // Render Voice Diagnostics Details list (Full)
+            const voiceDiagContainerFull = document.getElementById('voice-diagnostics-list-full');
+            if (voiceDiagContainerFull && Object.keys(trackBData).length > 0) {
+                renderVoiceDiagList('voice-diagnostics-list-full', Object.values(trackBData));
+            }
+
+            // Handle initial hash routing after markdown and mermaid are fully ready
             const initialHash = window.location.hash.slice(1);
-            if (['plan', 'eligibility', 'demo', 'track-c', 'timeline', 'deploy'].includes(initialHash)) {
+            if (['plan', 'eligibility', 'track-b', 'demo', 'track-c', 'timeline', 'deploy'].includes(initialHash)) {
                 switchTab(initialHash);
             }
         });
@@ -1343,7 +1557,7 @@ function generateSelfContainedHtml() {
         // Listen for history back/forward hash changes
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.slice(1);
-            if (['plan', 'eligibility', 'demo', 'track-c', 'timeline', 'deploy'].includes(hash)) {
+            if (['plan', 'eligibility', 'track-b', 'demo', 'track-c', 'timeline', 'deploy'].includes(hash)) {
                 switchTab(hash);
             }
         });
