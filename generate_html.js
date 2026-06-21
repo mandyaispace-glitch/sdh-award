@@ -273,9 +273,9 @@ function generateSelfContainedHtml() {
         </header>
 
         <!-- Grouped Tab Navigation -->
-        <div class="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0 mb-6 bg-slate-100/60 p-4 rounded-2xl border border-slate-200/50 backdrop-blur-md">
+        <div class="flex flex-col lg:flex-row lg:space-x-6 space-y-4 lg:space-y-0 mb-6 bg-slate-100/60 p-4 rounded-2xl border border-slate-200/50 backdrop-blur-md">
             <!-- Group 1: 管理與進度 -->
-            <div class="flex-1 flex flex-col space-y-2">
+            <div class="flex-[3] flex flex-col space-y-2">
                 <span class="text-[10px] font-black text-slate-400 uppercase tracking-wider pl-1.5 flex items-center space-x-1">
                     <span>🛠️ 管理與進度</span>
                 </span>
@@ -293,10 +293,10 @@ function generateSelfContainedHtml() {
             </div>
             
             <!-- Vertical divider line on desktop -->
-            <div class="hidden md:block w-px bg-slate-200/80 my-2"></div>
+            <div class="hidden lg:block w-px bg-slate-200/80 my-2"></div>
 
             <!-- Group 2: 評選成果決選參考 -->
-            <div class="flex-1 flex flex-col space-y-2">
+            <div class="flex-[2] flex flex-col space-y-2">
                 <span class="text-[10px] font-black text-indigo-400 uppercase tracking-wider pl-1.5 flex items-center space-x-1">
                     <span>🎯 評選成果區 (決選參考)</span>
                 </span>
@@ -304,14 +304,26 @@ function generateSelfContainedHtml() {
                     <a id="tab-btn-eligibility" href="#eligibility" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('eligibility'); return false;">
                         🔍 資格審查
                     </a>
-                    <a id="tab-btn-demo" href="#demo" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('demo'); return false;">
-                        🎯 Demo 成果
-                    </a>
                     ${hasTrackC ? `
                     <a id="tab-btn-track-c" href="#track-c" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('track-c'); return false;">
                         📊 C軌聲量
                     </a>
                     ` : ''}
+                </div>
+            </div>
+
+            <!-- Vertical divider line on desktop -->
+            <div class="hidden lg:block w-px bg-slate-200/80 my-2"></div>
+
+            <!-- Group 3: POC 模擬區 (Demo) -->
+            <div class="flex-[1.5] flex flex-col space-y-2">
+                <span class="text-[10px] font-black text-rose-400 uppercase tracking-wider pl-1.5 flex items-center space-x-1">
+                    <span>🧪 POC 模擬區 (Demo)</span>
+                </span>
+                <div class="flex flex-wrap gap-1.5 p-1 bg-slate-200/40 rounded-xl border border-slate-200/20">
+                    <a id="tab-btn-demo" href="#demo" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('demo'); return false;">
+                        🎯 Demo 成果
+                    </a>
                 </div>
             </div>
         </div>
