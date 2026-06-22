@@ -1482,12 +1482,6 @@ function generateSelfContainedHtml() {
                                 </div>
                             </div>
                             
-                            <!-- YT / IG / Apple Stats Row -->
-                            <div class="flex flex-wrap gap-2 text-[10px] font-bold text-slate-600 pb-2 border-b border-dashed border-slate-100">
-                                <span class="bg-red-50 text-red-700 px-2 py-0.5 rounded border border-red-100/50 flex items-center">📺 YT: \${item.youtubeSubscribers ? item.youtubeSubscribers.toLocaleString() + ' 訂閱' : '未設定/無數據'}</span>
-                                <span class="bg-pink-50 text-pink-700 px-2 py-0.5 rounded border border-pink-100/50 flex items-center">📸 IG: \${item.instagramFollowers ? item.instagramFollowers.toLocaleString() + ' 粉絲' : '無/未登錄'}</span>
-                            </div>
-                            
                             <!-- Reviews list -->
                             <div class="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
                                 \${reviewsListHtml}
