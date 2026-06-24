@@ -3,27 +3,27 @@
     "totalKols": 79,
     "hasPodcastCount": 71,
     "totalPrograms": 79,
-    "eligiblePrograms": 49,
-    "ineligiblePrograms": 30,
-    "totalEpisodes": 1779,
-    "archivedDatesCount": 8
+    "eligiblePrograms": 50,
+    "ineligiblePrograms": 29,
+    "totalEpisodes": 1818,
+    "archivedDatesCount": 10
   },
   "programs": [
     {
       "partnerName": "郝旭烈/郝聲音",
       "podcastName": "郝聲音",
-      "episodesCount": 179,
+      "episodesCount": 181,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-21"
+      "lastBuildDate": "2026-06-23"
     },
     {
       "partnerName": "五吉郎",
       "podcastName": "五吉郎",
-      "episodesCount": 123,
+      "episodesCount": 125,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-21"
+      "lastBuildDate": "2026-06-24"
     },
     {
       "partnerName": "精算媽咪的家計簿｜珊迪兔",
@@ -36,26 +36,26 @@
     {
       "partnerName": "不敗教主-陳重銘",
       "podcastName": "不敗教主陳重銘",
-      "episodesCount": 71,
+      "episodesCount": 72,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-21"
+      "lastBuildDate": "2026-06-23"
     },
     {
       "partnerName": "布姐陪你聰明工作創意生活",
       "podcastName": "布姐的沙發",
-      "episodesCount": 65,
+      "episodesCount": 67,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-21"
+      "lastBuildDate": "2026-06-23"
     },
     {
       "partnerName": "瓦基閱讀前哨站",
       "podcastName": "下一本讀什麼？",
-      "episodesCount": 62,
+      "episodesCount": 63,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-21"
+      "lastBuildDate": "2026-06-22"
     },
     {
       "partnerName": "蕭邦",
@@ -68,34 +68,34 @@
     {
       "partnerName": "Dr Selena",
       "podcastName": "小資變有錢｜Dr.Selena生活理財王",
-      "episodesCount": 51,
+      "episodesCount": 52,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-20"
-    },
-    {
-      "partnerName": "林程揚｜Hank大叔 / 維琪的幸福叮嚀",
-      "podcastName": "能量黑客",
-      "episodesCount": 48,
-      "eligible": true,
-      "reason": "合格",
-      "lastBuildDate": "2026-06-17"
+      "lastBuildDate": "2026-06-23"
     },
     {
       "partnerName": "胡咪老師",
       "podcastName": "分手的99個理由",
-      "episodesCount": 48,
+      "episodesCount": 50,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-17"
+      "lastBuildDate": "2026-06-23"
+    },
+    {
+      "partnerName": "林程揚｜Hank大叔 / 維琪的幸福叮嚀",
+      "podcastName": "能量黑客",
+      "episodesCount": 49,
+      "eligible": true,
+      "reason": "合格",
+      "lastBuildDate": "2026-06-22"
     },
     {
       "partnerName": "Vito大叔",
       "podcastName": "粉紅地獄辛辣麵",
-      "episodesCount": 47,
+      "episodesCount": 48,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-17"
+      "lastBuildDate": "2026-06-22"
     },
     {
       "partnerName": "梁哲維",
@@ -108,10 +108,10 @@
     {
       "partnerName": "宋家小館｜Becky",
       "podcastName": "宋家小館",
-      "episodesCount": 42,
+      "episodesCount": 43,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-16"
+      "lastBuildDate": "2026-06-23"
     },
     {
       "partnerName": "尼可這樣說",
@@ -122,6 +122,14 @@
       "lastBuildDate": "2026-06-21"
     },
     {
+      "partnerName": "美股夢想家",
+      "podcastName": "夢想家說股事",
+      "episodesCount": 39,
+      "eligible": true,
+      "reason": "合格",
+      "lastBuildDate": "2026-06-22"
+    },
+    {
       "partnerName": "我的動齡限量版",
       "podcastName": "我的動齡限量版",
       "episodesCount": 38,
@@ -130,20 +138,12 @@
       "lastBuildDate": "2026-06-22"
     },
     {
-      "partnerName": "美股夢想家",
-      "podcastName": "夢想家說股事",
+      "partnerName": "哇賽心理學_蔡宇哲",
+      "podcastName": "哇賽心理學",
       "episodesCount": 38,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-20"
-    },
-    {
-      "partnerName": "哇賽心理學_蔡宇哲",
-      "podcastName": "哇賽心理學",
-      "episodesCount": 37,
-      "eligible": true,
-      "reason": "合格",
-      "lastBuildDate": "2026-06-17"
+      "lastBuildDate": "2026-06-22"
     },
     {
       "partnerName": "GK爸爸",
@@ -210,12 +210,36 @@
       "lastBuildDate": "2026-06-21"
     },
     {
+      "partnerName": "楊月娥（楊肉爐）",
+      "podcastName": "楊肉盧",
+      "episodesCount": 26,
+      "eligible": true,
+      "reason": "合格",
+      "lastBuildDate": "2026-06-23"
+    },
+    {
       "partnerName": "丁菱娟",
       "podcastName": "丁菱娟的邊走邊想",
       "episodesCount": 25,
       "eligible": true,
       "reason": "合格",
       "lastBuildDate": "2026-06-18"
+    },
+    {
+      "partnerName": "山姆書書",
+      "podcastName": "山姆書書",
+      "episodesCount": 25,
+      "eligible": true,
+      "reason": "合格",
+      "lastBuildDate": "2026-06-23"
+    },
+    {
+      "partnerName": "主播/主持人朱楚文",
+      "podcastName": "科技領航家",
+      "episodesCount": 25,
+      "eligible": true,
+      "reason": "合格",
+      "lastBuildDate": "2026-06-23"
     },
     {
       "partnerName": "玩命之徒｜林尚諾大師兄",
@@ -226,14 +250,6 @@
       "lastBuildDate": "2026-06-21"
     },
     {
-      "partnerName": "楊月娥（楊肉爐）",
-      "podcastName": "楊肉盧",
-      "episodesCount": 25,
-      "eligible": true,
-      "reason": "合格",
-      "lastBuildDate": "2026-06-16"
-    },
-    {
       "partnerName": "蘇絢慧分享空間",
       "podcastName": "蘇心時光",
       "episodesCount": 25,
@@ -242,20 +258,12 @@
       "lastBuildDate": "2026-06-18"
     },
     {
-      "partnerName": "山姆書書",
-      "podcastName": "山姆書書",
-      "episodesCount": 24,
+      "partnerName": "爛泥媽媽的重生日記（Jill)",
+      "podcastName": "爛泥Jill式優雅",
+      "episodesCount": 25,
       "eligible": true,
       "reason": "合格",
-      "lastBuildDate": "2026-06-15"
-    },
-    {
-      "partnerName": "主播/主持人朱楚文",
-      "podcastName": "科技領航家",
-      "episodesCount": 24,
-      "eligible": true,
-      "reason": "合格",
-      "lastBuildDate": "2026-06-16"
+      "lastBuildDate": "2026-06-22"
     },
     {
       "partnerName": "別人的工作最有趣｜Fiona",
@@ -266,6 +274,14 @@
       "lastBuildDate": "2026-06-17"
     },
     {
+      "partnerName": "張忘形",
+      "podcastName": "人類行為研究社",
+      "episodesCount": 24,
+      "eligible": true,
+      "reason": "合格",
+      "lastBuildDate": "2026-06-23"
+    },
+    {
       "partnerName": "閱讀聊樂key",
       "podcastName": "閱讀聊樂KEY",
       "episodesCount": 24,
@@ -274,28 +290,12 @@
       "lastBuildDate": "2026-06-16"
     },
     {
-      "partnerName": "爛泥媽媽的重生日記（Jill)",
-      "podcastName": "爛泥Jill式優雅",
-      "episodesCount": 24,
-      "eligible": true,
-      "reason": "合格",
-      "lastBuildDate": "2026-06-15"
-    },
-    {
       "partnerName": "人生啊！小歐",
       "podcastName": "人生啊｜陪你一起看懂人生",
       "episodesCount": 23,
       "eligible": true,
       "reason": "合格",
       "lastBuildDate": "2026-06-17"
-    },
-    {
-      "partnerName": "張忘形",
-      "podcastName": "人類行為研究社",
-      "episodesCount": 23,
-      "eligible": true,
-      "reason": "合格",
-      "lastBuildDate": "2026-06-16"
     },
     {
       "partnerName": "Fire人生大學｜道哥",
@@ -346,20 +346,28 @@
       "lastBuildDate": "2026-06-18"
     },
     {
+      "partnerName": "下半場人生事務有限公司",
+      "podcastName": "下半場人生陪談師",
+      "episodesCount": 17,
+      "eligible": true,
+      "reason": "合格",
+      "lastBuildDate": "2026-06-18"
+    },
+    {
+      "partnerName": "文森說書",
+      "podcastName": "文森說書",
+      "episodesCount": 17,
+      "eligible": true,
+      "reason": "合格",
+      "lastBuildDate": "2026-06-23"
+    },
+    {
       "partnerName": "聰明主婦的生活投資學",
       "podcastName": "聰明生活投資學",
       "episodesCount": 17,
       "eligible": true,
       "reason": "合格",
       "lastBuildDate": "2026-06-10"
-    },
-    {
-      "partnerName": "文森說書",
-      "podcastName": "文森說書",
-      "episodesCount": 16,
-      "eligible": true,
-      "reason": "合格",
-      "lastBuildDate": "2026-06-08"
     },
     {
       "partnerName": "孫子玲",
@@ -496,14 +504,6 @@
       "eligible": false,
       "reason": "資格不符 (2026年發片不足。最後更新時間：2026-05-19)",
       "lastBuildDate": "2026-05-19"
-    },
-    {
-      "partnerName": "下半場陪談師＿張嘉茹老師",
-      "podcastName": "下半場人生陪談師",
-      "episodesCount": 0,
-      "eligible": false,
-      "reason": "資格不符 (2026年發片不足。最後更新時間：2025-10-09)",
-      "lastBuildDate": "2025-10-09"
     },
     {
       "partnerName": "布萊恩老師",
@@ -650,7 +650,9 @@
     "2026-06-19",
     "2026-06-20",
     "2026-06-21",
-    "2026-06-22"
+    "2026-06-22",
+    "2026-06-23",
+    "2026-06-24"
   ],
   "leaderboard": [
     {
@@ -658,8 +660,8 @@
       "podcastName": "下一本讀什麼？",
       "applePodcastUrl": "https://podcasts.apple.com/tw/podcast/%E4%B8%8B%E4%B8%80%E6%9C%AC%E8%AE%80%E4%BB%80%E9%BA%BC/id1532820533?uo=4",
       "rssUrl": "https://feed.firstory.me/rss/user/cl39lz2ky01co01ugaba7gr9y",
-      "daysOnChart": 8,
-      "avgRank": 29.9,
+      "daysOnChart": 10,
+      "avgRank": 29.1,
       "bestRank": 23,
       "history": {
         "2026-06-14": 31,
@@ -669,17 +671,19 @@
         "2026-06-19": 40,
         "2026-06-20": 34,
         "2026-06-21": 25,
-        "2026-06-22": 23
+        "2026-06-22": 23,
+        "2026-06-23": 28,
+        "2026-06-24": 23
       },
-      "details": "06-14(#31), 06-15(#26), 06-16(#27), 06-17(#23), 06-19(#40), 06-19(#40), 06-20(#34), 06-21(#25), 06-22(#23)"
+      "details": "06-14(#31), 06-15(#26), 06-16(#27), 06-17(#23), 06-19(#40), 06-19(#40), 06-20(#34), 06-21(#25), 06-22(#23), 06-23(#28), 06-24(#23)"
     },
     {
       "partnerName": "哇賽心理學_蔡宇哲",
       "podcastName": "哇賽心理學",
       "applePodcastUrl": "https://podcasts.apple.com/tw/podcast/%E5%93%87%E8%B3%BD%E5%BF%83%E7%90%86%E5%AD%B8/id1500162537",
       "rssUrl": "https://feed.firstory.me/rss/user/ck7t2fz77qu7g0873ln5hz5cl",
-      "daysOnChart": 8,
-      "avgRank": 32.9,
+      "daysOnChart": 10,
+      "avgRank": 34.5,
       "bestRank": 24,
       "history": {
         "2026-06-14": 30,
@@ -689,17 +693,19 @@
         "2026-06-19": 33,
         "2026-06-20": 38,
         "2026-06-21": 40,
-        "2026-06-22": 40
+        "2026-06-22": 40,
+        "2026-06-23": 47,
+        "2026-06-24": 36
       },
-      "details": "06-14(#30), 06-15(#24), 06-16(#26), 06-17(#32), 06-19(#33), 06-19(#33), 06-20(#38), 06-21(#40), 06-22(#40)"
+      "details": "06-14(#30), 06-15(#24), 06-16(#26), 06-17(#32), 06-19(#33), 06-19(#33), 06-20(#38), 06-21(#40), 06-22(#40), 06-23(#47), 06-24(#36)"
     },
     {
       "partnerName": "GK爸爸",
       "podcastName": "GK爸爸原創故事繪本",
       "applePodcastUrl": "https://podcasts.apple.com/tw/podcast/gk%E7%88%B8%E7%88%B8%E5%8E%9F%E5%89%B5%E6%95%85%E4%BA%8B%E7%B9%AA%E6%9C%AC/id1525978220?uo=4",
       "rssUrl": "https://feed.firstory.me/rss/user/cke9o73prwmij0839gmffmzhj",
-      "daysOnChart": 8,
-      "avgRank": 44.7,
+      "daysOnChart": 10,
+      "avgRank": 48.7,
       "bestRank": 36,
       "history": {
         "2026-06-14": 43,
@@ -709,17 +715,19 @@
         "2026-06-19": 49,
         "2026-06-20": 36,
         "2026-06-21": 37,
-        "2026-06-22": 37
+        "2026-06-22": 37,
+        "2026-06-23": 58,
+        "2026-06-24": 76
       },
-      "details": "06-14(#43), 06-15(#37), 06-16(#57), 06-17(#57), 06-19(#49), 06-19(#49), 06-20(#36), 06-21(#37), 06-22(#37)"
+      "details": "06-14(#43), 06-15(#37), 06-16(#57), 06-17(#57), 06-19(#49), 06-19(#49), 06-20(#36), 06-21(#37), 06-22(#37), 06-23(#58), 06-24(#76)"
     },
     {
       "partnerName": "郝旭烈/郝聲音",
       "podcastName": "郝聲音",
       "applePodcastUrl": "https://podcasts.apple.com/tw/podcast/%E9%83%9D%E8%81%B2%E9%9F%B3/id1533782597",
       "rssUrl": "https://feed.firstory.me/rss/user/ckfnpunqe136d08003p6lzdmn",
-      "daysOnChart": 8,
-      "avgRank": 56.9,
+      "daysOnChart": 10,
+      "avgRank": 58.1,
       "bestRank": 41,
       "history": {
         "2026-06-14": 47,
@@ -729,9 +737,11 @@
         "2026-06-19": 67,
         "2026-06-20": 72,
         "2026-06-21": 61,
-        "2026-06-22": 55
+        "2026-06-22": 55,
+        "2026-06-23": 65,
+        "2026-06-24": 62
       },
-      "details": "06-14(#47), 06-15(#46), 06-16(#41), 06-17(#56), 06-19(#67), 06-19(#67), 06-20(#72), 06-21(#61), 06-22(#55)"
+      "details": "06-14(#47), 06-15(#46), 06-16(#41), 06-17(#56), 06-19(#67), 06-19(#67), 06-20(#72), 06-21(#61), 06-22(#55), 06-23(#65), 06-24(#62)"
     },
     {
       "partnerName": "別人的工作最有趣｜Fiona",
