@@ -183,10 +183,26 @@ async function main() {
     // Run Track C (Data & Social Volume)
     // C-Track is run per unique podcast program, not per episode.
     console.log("\n[分身三：數據收集官] ⏳ 正在抓取 Apple / YouTube / IG 社群數據...");
+    const listPath = path.join(__dirname, 'kol_programs_list.json');
+    let kolList = [];
+    if (fs.existsSync(listPath)) {
+        try {
+            kolList = JSON.parse(fs.readFileSync(listPath, 'utf-8'));
+        } catch (e) {
+            console.error(" ⚠️ 讀取 kol_programs_list.json 失敗:", e.message);
+        }
+    }
+    
     const uniquePodcastsMap = new Map();
     selectedEpisodes.forEach(ep => {
         if (ep.partnerName && !uniquePodcastsMap.has(ep.partnerName)) {
-            uniquePodcastsMap.set(ep.partnerName, ep);
+            const kolMeta = kolList.find(k => k.partnerName === ep.partnerName);
+            uniquePodcastsMap.set(ep.partnerName, {
+                partnerName: ep.partnerName,
+                podcastName: ep.podcastName,
+                applePodcastUrl: kolMeta ? kolMeta.applePodcastUrl : '',
+                rssUrl: kolMeta ? kolMeta.rssUrl : ''
+            });
         }
     });
     const uniquePodcasts = Array.from(uniquePodcastsMap.values());
