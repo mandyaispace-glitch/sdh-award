@@ -20,7 +20,7 @@ function fetchUrl(url) {
 
 async function archiveDailyTop100() {
     const url = "https://itunes.apple.com/tw/rss/toppodcasts/limit=100/json";
-    const dateToday = new Date().toISOString().split('T')[0];
+    const dateToday = new Date().toLocaleDateString('zh-TW', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
     
     console.log(`[${dateToday}] 正在抓取 Apple Podcasts 當前完整百大榜單...`);
     
