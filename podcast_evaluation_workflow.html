@@ -983,15 +983,22 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
 
 ---
 
-## 📅 Windows 工作排程器設定 (針對每日自動排行 logger)
-若客戶主機需要每日自動記錄 Apple Podcast 百大榜單（`daily_ranking_logger.js`），可使用 Windows 內建的「工作排程器」設定每日定時執行：
-1.  開啟 **工作排程器 (Task Scheduler)** -> 建立基本工作。
-2.  觸發程序設定為 **「每日」**，時間設為早上 **10:00**。
-3.  動作選擇 **「啟動程式」**：
-    *   **程式或指令碼**：`node`
-    *   **新增引數**：`daily_ranking_logger.js`
-    *   **開始位置** (最重要)：輸入本專案的 **絕對路徑** (例如 `C:\SDH_Award\`)
-4.  儲存即可。系統將每日靜默背景執行，完全不干擾日常辦公。
+## ☁️ 方案三：GitHub Actions + Vercel 雲端自動化與密碼防護部署 (推薦，零人工維護)
+
+本方案為目前本專案正式採用的生產部署架構，結合了雲端自動化流水線與強大的資安防護：
+
+### 1. ☁️ Vercel 靜態網站託管與密碼鎖
+* **預設路由對應**：根目錄已配置 `vercel.json` 進行重寫（Rewrite），任何對首頁 `/` 的請求將自動由 Vercel 映射至編譯好的 `podcast_evaluation_workflow.html` 儀表板，無需修改核心代碼或檔名。
+* **安全存取保護**：在 Vercel 後台的 `Settings` -> `Deployment Protection` 中啟用 `Password Protection`，並設定項目密碼。未經授權人員打開網址必須先輸入密碼才能觀看數據，徹底防止內部敏感評分外洩。
+
+### 2. ⏰ GitHub Actions 每日自動抓取與更新 (無人值守)
+* **排程工作流**：在 `.github/workflows/daily_sync.yml` 中配置了 GitHub Actions 任務，固定於**每日早上 10:00 (台灣時間)** 自動在 GitHub 雲端環境喚醒。
+* **流水線執行步驟**：
+  1. 自動拉取最新的專案代碼與數據。
+  2. 執行 `node daily_ranking_logger.js` 採集最新的 Apple Podcasts 百大榜單排行。
+  3. 執行 `node sync_rankings_and_sheets.js` 重新計算霸榜天數、在榜率與平均名次，更新 Excel 並重新編譯 HTML 網頁。
+  4. 自動將更新後的數據 `git commit` 並 `git push` 回儲存庫。
+* **Vercel 秒級發佈**：Vercel 會自動感應到 GitHub Actions 的提交並拉取最新代碼，全球 CDN 網址會在幾秒內自動更新為最新數據，達到 100% 自動化的日常追蹤。
 
 ---
 
