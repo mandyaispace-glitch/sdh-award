@@ -3,9 +3,9 @@
     "totalKols": 79,
     "hasPodcastCount": 71,
     "totalPrograms": 79,
-    "eligiblePrograms": 50,
-    "ineligiblePrograms": 29,
-    "totalEpisodes": 1862,
+    "eligiblePrograms": 51,
+    "ineligiblePrograms": 28,
+    "totalEpisodes": 1888,
     "archivedDatesCount": 16
   },
   "programs": [
@@ -224,6 +224,14 @@
       "eligible": true,
       "reason": "合格",
       "lastBuildDate": "2026-06-29"
+    },
+    {
+      "partnerName": "主播/主持人朱楚文",
+      "podcastName": "科技領航家",
+      "episodesCount": 26,
+      "eligible": true,
+      "reason": "合格",
+      "lastBuildDate": "2026-06-30"
     },
     {
       "partnerName": "玩命之徒｜林尚諾大師兄",
@@ -504,14 +512,6 @@
       "eligible": false,
       "reason": "資格不符 (2026年發片不足。最後更新時間：2026-06-28)",
       "lastBuildDate": "2026-06-28"
-    },
-    {
-      "partnerName": "主播/主持人朱楚文",
-      "podcastName": "科技領航家",
-      "episodesCount": 0,
-      "eligible": false,
-      "reason": "抓取失敗 (HTTP status 403)",
-      "lastBuildDate": "抓取失敗"
     },
     {
       "partnerName": "布萊恩老師",

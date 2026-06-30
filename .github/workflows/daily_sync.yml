@@ -31,6 +31,10 @@ jobs:
         run: |
           node daily_ranking_logger.js
 
+      - name: Run Apple Reviews Scraper
+        run: |
+          node track_c_run.js
+
       - name: Run Data Sync and Dashboard Build
         run: |
           node sync_rankings_and_sheets.js
@@ -41,7 +45,7 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           
           # Add all updated files
-          git add daily_top100_archive.csv Meta.AI/snapshots/ eligible_episodes_pool.xlsx podcast_evaluation_workflow.html eligibility_stats.json eligibility_report.md podcast_evaluation_workflow.md
+          git add daily_top100_archive.csv Meta.AI/snapshots/ eligible_episodes_pool.xlsx podcast_evaluation_workflow.html eligibility_stats.json eligibility_report.md podcast_evaluation_workflow.md track_c_results.json track_c_leaderboard.md
           
           # Commit only if there are changes
           if ! git diff --cached --quiet; then
