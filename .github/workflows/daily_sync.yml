@@ -1,0 +1,52 @@
+name: Daily Podcast Data Sync
+
+on:
+  schedule:
+    # Run every day at 02:00 UTC (10:00 AM Taiwan Time)
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allows manual trigger from the GitHub Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  sync-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: |
+          npm ci || npm install
+
+      - name: Run Daily Ranking Logger
+        run: |
+          node daily_ranking_logger.js
+
+      - name: Run Data Sync and Dashboard Build
+        run: |
+          node sync_rankings_and_sheets.js
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # Add all updated files
+          git add daily_top100_archive.csv Meta.AI/snapshots/ eligible_episodes_pool.xlsx podcast_evaluation_workflow.html eligibility_stats.json eligibility_report.md podcast_evaluation_workflow.md
+          
+          # Commit only if there are changes
+          if ! git diff --cached --quiet; then
+            git commit -m "Automated daily sync: Update rankings and dashboard to $(date +'%Y-%m-%d')"
+            git push
+          else
+            echo "No data changes today."
+          fi
