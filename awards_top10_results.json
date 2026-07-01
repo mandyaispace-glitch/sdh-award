@@ -1,0 +1,1543 @@
+{
+  "awards": {
+    "content_structure": {
+      "award_name": "最佳內容架構獎",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "best_duo_hosts": {
+      "award_name": "最佳默契獎",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "單人主持節目，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "單人主持節目，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "單人主持節目，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "單人主持節目，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "單人主持節目，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "單人主持節目，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "單人主持節目，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "單人主持節目，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "單人主持節目，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "episode_planning": {
+      "award_name": "最神單元企劃獎",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "best_male_host": {
+      "award_name": "最佳男播音員獎",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "節目無男主持人，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "節目無男主持人，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "節目無男主持人，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "節目無男主持人，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "節目無男主持人，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "best_female_host": {
+      "award_name": "最佳女播音員獎",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "節目無女主持人，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "節目無女主持人，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "節目無女主持人，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "節目無女主持人，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "節目無女主持人，不適用此獎項。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "best_cta": {
+      "award_name": "聽完馬上獎 (不然現在獎/推坑王獎)",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "niche_market": {
+      "award_name": "只有你在獎 (稀有保護動物/化腐朽為神奇)",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "atmosphere_night": {
+      "award_name": "深夜輕輕獎 (暖心陪伴/悄悄話)",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "atmosphere_morning": {
+      "award_name": "醒醒再獎 (激勵人心/起床氣消散)",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "atmosphere_healing": {
+      "award_name": "年度療癒獎 (療癒/歡樂/獎廢話金牌)",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "self_exploration": {
+      "award_name": "自我探索獎",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "best_long_form": {
+      "award_name": "天亮了還在獎 (Alex都上101了你還沒講完)",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "best_short_form": {
+      "award_name": "到底有沒有獎 (泡麵沒熟獎)",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "please_continue": {
+      "award_name": "請你繼續獎 (年度大獎/我要跟老師獎)",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "30節約男子",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 2,
+          "partnerName": "丁菱娟",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "下半場人生事務有限公司",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 4,
+          "partnerName": "不敗教主-陳重銘",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "五吉郎",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 7,
+          "partnerName": "尼可這樣說",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 8,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 9,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        },
+        {
+          "rank": 10,
+          "partnerName": "宋家小館｜Becky",
+          "score": null,
+          "reason": "暫無該集數之評審打分。",
+          "compliance": "不適用",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。"
+    },
+    "欸我跟你獎": {
+      "award_name": "欸我跟你獎 / 等等！這個真的不分享不行 / AI評選最高分",
+      "ranking": [],
+      "comparative_analysis": "結合文字軌道 A 的 AI 評鑑平均總分，以及軌道 C 的社群討論轉傳熱度，由 Meta.AI 輔助評選出社群影響力最高之 Top 10 作品。"
+    },
+    "站著不走獎": {
+      "award_name": "站著不走獎",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": 17,
+          "reason": "於評選區間（統計 17 天）中，共佔據 Apple Podcasts 百大排行榜達 17 天，平均上榜排名為第 #25 名。",
+          "compliance": "符合",
+          "segments": [
+            {
+              "episodeTitle": "EP.591 《財富自由心理學》專訪作者：破解財富焦慮的 6 個洞察",
+              "timeRange": "00:00 - 00:05",
+              "title": "節目開場",
+              "reason": "主持人瓦基以親切的語氣簡潔介紹節目，語速適中，迅速吸引聽眾進入節目氛圍。"
+            },
+            {
+              "episodeTitle": "EP.591 《財富自由心理學》專訪作者：破解財富焦慮的 6 個洞察",
+              "timeRange": "02:58 - 04:20",
+              "title": "《財富自由心理學》書名由來與合作契機",
+              "reason": "好哥生動地講述了與蔡宇哲老師合作的緣起，以及書名「財富自由心理學」的誕生過程，展現了兩位講者之間的有趣互動與思維碰撞，引人入勝。"
+            },
+            {
+              "episodeTitle": "EP.591 《財富自由心理學》專訪作者：破解財富焦慮的 6 個洞察",
+              "timeRange": "09:57 - 10:23",
+              "title": "自由的公式：能力減去慾望",
+              "reason": "好哥提出了「自由 = 能力 - 慾望」的公式，並用具體例子解釋，讓抽象的自由概念變得具體可行，這段內容對於理解財富自由的核心精神非常關鍵且實用。"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "partnerName": "哇賽心理學_蔡宇哲",
+          "score": 17,
+          "reason": "於評選區間（統計 17 天）中，共佔據 Apple Podcasts 百大排行榜達 17 天，平均上榜排名為第 #35.5 名。",
+          "compliance": "符合",
+          "segments": [
+            {
+              "episodeTitle": "累到想消失？偏心自己，找回角色外的自我ft.徐慧玲｜哇賽療心室ep152",
+              "timeRange": "00:08 - 00:41",
+              "title": "節目開場：你是否也「偏心自己」？",
+              "reason": "主持人以「偏心自己」這個核心概念開場，引導聽眾思考在家庭、工作、人際關係中，是否習慣性地先考慮他人需求而忽略自己，並點出許多人因此感到疲憊的現狀，為節目奠定引人入勝的基調。"
+            },
+            {
+              "episodeTitle": "累到想消失？偏心自己，找回角色外的自我ft.徐慧玲｜哇賽療心室ep152",
+              "timeRange": "03:01 - 05:17",
+              "title": "多重身份下的掙扎與情緒轉移",
+              "reason": "來賓深入分享在年輕時就進入婚姻、成為雙寶媽並與先生共同創業後，如何面對外界的傳統期待、自我價值感低落，以及因壓力而將負面情緒不自覺地轉移到家人身上的掙扎。這段內容真實呈現了許多女性在多重角色下的內心衝突與成長。"
+            },
+            {
+              "episodeTitle": "累到想消失？偏心自己，找回角色外的自我ft.徐慧玲｜哇賽療心室ep152",
+              "timeRange": "01:40 - 02:00",
+              "title": "追尋熱情，找回自我價值與家庭和諧",
+              "reason": "來賓分享透過追星（看演唱會）這個看似「不務正業」的熱情，意外地找回了自我價值，並改善了家庭關係和個人心態。這段內容充滿正能量，展現了「偏心自己」如何帶來積極的連鎖反應，具啟發性。"
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "partnerName": "郝旭烈/郝聲音",
+          "score": 17,
+          "reason": "於評選區間（統計 17 天）中，共佔據 Apple Podcasts 百大排行榜達 17 天，平均上榜排名為第 #50.9 名。",
+          "compliance": "符合",
+          "segments": [
+            {
+              "episodeTitle": "郝聲音：（下）有魚的「已讀Podcast」，如何從閱讀的喜悅，成長到自媒體分享的幸福",
+              "timeRange": "00:07 - 00:24",
+              "title": "Podcast與自媒體的開場提問",
+              "reason": "主持人開場點出本集主題，並直接向來賓提出核心問題，引導聽眾思考Podcast與自媒體的發展與挑戰，迅速抓住聽眾注意力。"
+            },
+            {
+              "episodeTitle": "郝聲音：（下）有魚的「已讀Podcast」，如何從閱讀的喜悅，成長到自媒體分享的幸福",
+              "timeRange": "05:13 - 06:02",
+              "title": "Threads平台「內容為王」的獨特魅力",
+              "reason": "來賓深入分析Threads平台「內容為王」的特性，透過生動的案例（只有一個粉絲卻爆紅的貼文）說明其對素人創作者的友善與潛力，展現獨到見解，引人入勝。"
+            },
+            {
+              "episodeTitle": "郝聲音：（下）有魚的「已讀Podcast」，如何從閱讀的喜悅，成長到自媒體分享的幸福",
+              "timeRange": "19:15 - 21:11",
+              "title": "知識內化與費曼學習法的實踐",
+              "reason": "兩位主持人探討知識分享中「引用權威」與「個人自信」的關係，並引導至費曼學習法，強調將知識內化並應用於自身問題解決的重要性，為聽眾提供實用的學習心態與方法，具啟發性。"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "partnerName": "GK爸爸",
+          "score": 17,
+          "reason": "於評選區間（統計 17 天）中，共佔據 Apple Podcasts 百大排行榜達 17 天，平均上榜排名為第 #62.7 名。",
+          "compliance": "符合",
+          "segments": [
+            {
+              "episodeTitle": "《QQ俠大冒險2：前進宇宙》第二章 迷你太空船",
+              "timeRange": "00:15 - 01:25",
+              "title": "GK爸爸的互動開場與故事預告",
+              "reason": "此片段展現了主持人GK爸爸活潑的開場風格，不僅介紹了本集故事內容，還巧妙地融入了與聽眾的互動環節（九九乘法），並預告了周邊商品，充分展現了節目的親和力與豐富性。"
+            },
+            {
+              "episodeTitle": "《QQ俠大冒險2：前進宇宙》第二章 迷你太空船",
+              "timeRange": "01:45 - 02:30",
+              "title": "外星人洪洪洪的憤怒與流星飛彈",
+              "reason": "此片段是故事中的高潮之一，生動描繪了外星人洪洪洪因被惹怒而發動「流星飛彈」攻擊的緊張場景。主持人透過多變的聲線和豐富的音效，將角色情緒與戰鬥氛圍呈現得淋漓盡致，極具戲劇張力。"
+            },
+            {
+              "episodeTitle": "《QQ俠大冒險2：前進宇宙》第二章 迷你太空船",
+              "timeRange": "05:47 - 07:07",
+              "title": "媽媽的溫柔引導與情緒管理",
+              "reason": "此片段展現了洪媽媽高情商的親子互動。她以極具同理心和溫柔的語氣，引導洪洪洪認識並處理自己的委屈情緒，透過深呼吸等方式幫助他冷靜下來，傳達了重��的情緒教育訊息，充滿溫馨與啟發性。"
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "partnerName": "文森說書",
+          "score": 9,
+          "reason": "於評選區間（統計 17 天）中，共佔據 Apple Podcasts 百大排行榜達 9 天，平均上榜排名為第 #68.1 名。",
+          "compliance": "符合",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "別人的工作最有趣｜Fiona",
+          "score": 2,
+          "reason": "於評選區間（統計 17 天）中，共佔據 Apple Podcasts 百大排行榜達 2 天，平均上榜排名為第 #88.5 名。",
+          "compliance": "符合",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "依據 daily_top100_archive.csv 歷史備份，計算合格節目在統計天數內（共 17 天），霸占 Apple Podcasts 百大排行榜天數最多之 Top 10 作品。"
+    },
+    "聽眾都要跟你獎": {
+      "award_name": "聽眾都要跟你獎",
+      "ranking": [
+        {
+          "rank": 1,
+          "partnerName": "GK爸爸",
+          "score": 50,
+          "reason": "大數據抓取 Apple Podcasts 公開留言與評分累計達 50 則，平均評等為 3.9 顆星，展現出極強的聽眾黏著度。",
+          "compliance": "符合",
+          "segments": [
+            {
+              "episodeTitle": "《QQ俠大冒險2：前進宇宙》第二章 迷你太空船",
+              "timeRange": "00:15 - 01:25",
+              "title": "GK爸爸的互動開場與故事預告",
+              "reason": "此片段展現了主持人GK爸爸活潑的開場風格，不僅介紹了本集故事內容，還巧妙地融入了與聽眾的互動環節（九九乘法），並預告了周邊商品，充分展現了節目的親和力與豐富性。"
+            },
+            {
+              "episodeTitle": "《QQ俠大冒險2：前進宇宙》第二章 迷你太空船",
+              "timeRange": "01:45 - 02:30",
+              "title": "外星人洪洪洪的憤怒與流星飛彈",
+              "reason": "此片段是故事中的高潮之一，生動描繪了外星人洪洪洪因被惹怒而發動「流星飛彈」攻擊的緊張場景。主持人透過多變的聲線和豐富的音效，將角色情緒與戰鬥氛圍呈現得淋漓盡致，極具戲劇張力。"
+            },
+            {
+              "episodeTitle": "《QQ俠大冒險2：前進宇宙》第二章 迷你太空船",
+              "timeRange": "05:47 - 07:07",
+              "title": "媽媽的溫柔引導與情緒管理",
+              "reason": "此片段展現了洪媽媽高情商的親子互動。她以極具同理心和溫柔的語氣，引導洪洪洪認識並處理自己的委屈情緒，透過深呼吸等方式幫助他冷靜下來，傳達了重��的情緒教育訊息，充滿溫馨與啟發性。"
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "partnerName": "小思大維｜雪柔",
+          "score": 15,
+          "reason": "大數據抓取 Apple Podcasts 公開留言與評分累計達 15 則，平均評等為 5 顆星，展現出極強的聽眾黏著度。",
+          "compliance": "符合",
+          "segments": []
+        },
+        {
+          "rank": 3,
+          "partnerName": "瓦基閱讀前哨站",
+          "score": 12,
+          "reason": "大數據抓取 Apple Podcasts 公開留言與評分累計達 12 則，平均評等為 4.8 顆星，展現出極強的聽眾黏著度。",
+          "compliance": "符合",
+          "segments": [
+            {
+              "episodeTitle": "EP.591 《財富自由心理學》專訪作者：破解財富焦慮的 6 個洞察",
+              "timeRange": "00:00 - 00:05",
+              "title": "節目開場",
+              "reason": "主持人瓦基以親切的語氣簡潔介紹節目，語速適中，迅速吸引聽眾進入節目氛圍。"
+            },
+            {
+              "episodeTitle": "EP.591 《財富自由心理學》專訪作者：破解財富焦慮的 6 個洞察",
+              "timeRange": "02:58 - 04:20",
+              "title": "《財富自由心理學》書名由來與合作契機",
+              "reason": "好哥生動地講述了與蔡宇哲老師合作的緣起，以及書名「財富自由心理學」的誕生過程，展現了兩位講者之間的有趣互動與思維碰撞，引人入勝。"
+            },
+            {
+              "episodeTitle": "EP.591 《財富自由心理學》專訪作者：破解財富焦慮的 6 個洞察",
+              "timeRange": "09:57 - 10:23",
+              "title": "自由的公式：能力減去慾望",
+              "reason": "好哥提出了「自由 = 能力 - 慾望」的公式，並用具體例子解釋，讓抽象的自由概念變得具體可行，這段內容對於理解財富自由的核心精神非常關鍵且實用。"
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "partnerName": "Fire人生大學｜道哥",
+          "score": 10,
+          "reason": "大數據抓取 Apple Podcasts 公開留言與評分累計達 10 則，平均評等為 4.8 顆星，展現出極強的聽眾黏著度。",
+          "compliance": "符合",
+          "segments": []
+        },
+        {
+          "rank": 5,
+          "partnerName": "文森說書",
+          "score": 10,
+          "reason": "大數據抓取 Apple Podcasts 公開留言與評分累計達 10 則，平均評等為 4.8 顆星，展現出極強的聽眾黏著度。",
+          "compliance": "符合",
+          "segments": []
+        },
+        {
+          "rank": 6,
+          "partnerName": "哇賽心理學_蔡宇哲",
+          "score": 9,
+          "reason": "大數據抓取 Apple Podcasts 公開留言與評分累計達 9 則，平均評等為 4.7 顆星，展現出極強的聽眾黏著度。",
+          "compliance": "符合",
+          "segments": [
+            {
+              "episodeTitle": "累到想消失？偏心自己，找回角色外的自我ft.徐慧玲｜哇賽療心室ep152",
+              "timeRange": "00:08 - 00:41",
+              "title": "節目開場：你是否也「偏心自己」？",
+              "reason": "主持人以「偏心自己」這個核心概念開場，引導聽眾思考在家庭、工作、人際關係中，是否習慣性地先考慮他人需求而忽略自己，並點出許多人因此感到疲憊的現狀，為節目奠定引人入勝的基調。"
+            },
+            {
+              "episodeTitle": "累到想消失？偏心自己，找回角色外的自我ft.徐慧玲｜哇賽療心室ep152",
+              "timeRange": "03:01 - 05:17",
+              "title": "多重身份下的掙扎與情緒轉移",
+              "reason": "來賓深入分享在年輕時就進入婚姻、成為雙寶媽並與先生共同創業後，如何面對外界的傳統期待、自我價值感低落，以及因壓力而將負面情緒不自覺地轉移到家人身上的掙扎。這段內容真實呈現了許多女性在多重角色下的內心衝突與成長。"
+            },
+            {
+              "episodeTitle": "累到想消失？偏心自己，找回角色外的自我ft.徐慧玲｜哇賽療心室ep152",
+              "timeRange": "01:40 - 02:00",
+              "title": "追尋熱情，找回自我價值與家庭和諧",
+              "reason": "來賓分享透過追星（看演唱會）這個看似「不務正業」的熱情，意外地找回了自我價值，並改善了家庭關係和個人心態。這段內容充滿正能量，展現了「偏心自己」如何帶來積極的連鎖反應，具啟發性。"
+            }
+          ]
+        },
+        {
+          "rank": 7,
+          "partnerName": "郝旭烈/郝聲音",
+          "score": 6,
+          "reason": "大數據抓取 Apple Podcasts 公開留言與評分累計達 6 則，平均評等為 4.3 顆星，展現出極強的聽眾黏著度。",
+          "compliance": "符合",
+          "segments": [
+            {
+              "episodeTitle": "郝聲音：（下）有魚的「已讀Podcast」，如何從閱讀的喜悅，成長到自媒體分享的幸福",
+              "timeRange": "00:07 - 00:24",
+              "title": "Podcast與自媒體的開場提問",
+              "reason": "主持人開場點出本集主題，並直接向來賓提出核心問題，引導聽眾思考Podcast與自媒體的發展與挑戰，迅速抓住聽眾注意力。"
+            },
+            {
+              "episodeTitle": "郝聲音：（下）有魚的「已讀Podcast」，如何從閱讀的喜悅，成長到自媒體分享的幸福",
+              "timeRange": "05:13 - 06:02",
+              "title": "Threads平台「內容為王」的獨特魅力",
+              "reason": "來賓深入分析Threads平台「內容為王」的特性，透過生動的案例（只有一個粉絲卻爆紅的貼文）說明其對素人創作者的友善與潛力，展現獨到見解，引人入勝。"
+            },
+            {
+              "episodeTitle": "郝聲音：（下）有魚的「已讀Podcast」，如何從閱讀的喜悅，成長到自媒體分享的幸福",
+              "timeRange": "19:15 - 21:11",
+              "title": "知識內化與費曼學習法的實踐",
+              "reason": "兩位主持人探討知識分享中「引用權威」與「個人自信」的關係，並引導至費曼學習法，強調將知識內化並應用於自身問題解決的重要性，為聽眾提供實用的學習心態與方法，具啟發性。"
+            }
+          ]
+        },
+        {
+          "rank": 8,
+          "partnerName": "Dr Selena",
+          "score": 5,
+          "reason": "大數據抓取 Apple Podcasts 公開留言與評分累計達 5 則，平均評等為 5 顆星，展現出極強的聽眾黏著度。",
+          "compliance": "符合",
+          "segments": [
+            {
+              "episodeTitle": "小資族如何成功打造第二條收入曲線：冒牌生的社群品牌經營策略免費教學！",
+              "timeRange": "00:55 - 01:26",
+              "title": "嘉賓介紹與節目主題",
+              "reason": "主持人熱情介紹嘉賓「冒牌生」及其在社群經營上的專長，並點出本集節目將探討如何透過社群媒體創造主動與被動收入，有效引導聽眾進入主題，為節目奠定良好開場。"
+            },
+            {
+              "episodeTitle": "小資族如何成功打造第二條收入曲線：冒牌生的社群品牌經營策略免費教學！",
+              "timeRange": "01:40:45 - 01:48:00",
+              "title": "成功案例：從洗頭店找到社群藍海",
+              "reason": "冒牌生分享一位學生透過分享洗頭店心得，成功累積大量粉絲的案例。此段落具體展現了如何將個人興趣與在地特色結合，創造獨特且受歡迎的內容，為聽眾提供實用的社群經營啟發，極具參考價值。"
+            },
+            {
+              "episodeTitle": "小資族如何成功打造第二條收入曲線：冒牌生的社群品牌經營策略免費教學！",
+              "timeRange": "02:21:00 - 02:26:00",
+              "title": "享受創作過程的智慧",
+              "reason": "冒牌生引用《享受吧！一個人的旅行》作者的經歷，闡述了享受創作過程本身的重要性，而非過度追求外在的成就與評價。這段對話深刻且富有哲理，鼓勵聽眾回歸初心，從熱愛的事物中獲得真正的快樂與滿足，��有啟發性。"
+            }
+          ]
+        },
+        {
+          "rank": 9,
+          "partnerName": "布姐陪你聰明工作創意生活",
+          "score": 3,
+          "reason": "大數據抓取 Apple Podcasts 公開留言與評分累計達 3 則，平均評等為 5 顆星，展現出極強的聽眾黏著度。",
+          "compliance": "符合",
+          "segments": [
+            {
+              "episodeTitle": "EP455｜困難抉擇的關鍵心法：如何做出不後悔的選擇",
+              "timeRange": "00:00 - 00:57",
+              "title": "浴室驚魂記：選擇的開端",
+              "reason": "節目開場以一個生動且帶有戲劇性的個人故事破題，講述孩子對洗澡的恐懼以及主持人自身的無力感，迅速抓住聽眾注意力。這段不僅展現了主講人的敘事能力，也為後續關於人生選擇的討論奠定了情感基礎，語速與語氣的掌握恰到好處。"
+            },
+            {
+              "episodeTitle": "EP455｜困難抉擇的關鍵心法：如何做出不後悔的選擇",
+              "timeRange": "08:59 - 09:59",
+              "title": "決策分析：優缺點與優先順序",
+              "reason": "此段落清晰地闡述了主講人面對重大人生決策（回台灣或留在美國）時的分析方法。她詳細說明如何列出選項的優缺點、找出個人優先順序，並思考替代方案。這是一個極具實用性的核心論述，以條理分明的方式呈現，對聽眾具有很高的參考價值。"
+            },
+            {
+              "episodeTitle": "EP455｜困難抉擇的關鍵心法：如何做出不後悔的選擇",
+              "timeRange": "01:42:50 - 01:45:55",
+              "title": "人生終點的提問：你會後悔嗎？",
+              "reason": "這是一個情感真摯且發人深省的片段。主講人分享了她在做選擇時，會問自己一個深刻的問題：「我在死前會不會因為沒做這件事而後悔？」這個提問觸及了決策的深層意義，引導聽眾思考選擇的長期影響，語氣充滿了反思與誠懇，極具感染力。"
+            }
+          ]
+        },
+        {
+          "rank": 10,
+          "partnerName": "人生啊！小歐",
+          "score": 3,
+          "reason": "大數據抓取 Apple Podcasts 公開留言與評分累計達 3 則，平均評等為 5 顆星，展現出極強的聽眾黏著度。",
+          "compliance": "符合",
+          "segments": []
+        }
+      ],
+      "comparative_analysis": "統計自 Apple Podcasts 台灣區公開聽眾評論（包含僅評等 rating 但無留言者），篩選出累積留言數最多且評等星等最高之 Top 10 作品。"
+    }
+  }
+}

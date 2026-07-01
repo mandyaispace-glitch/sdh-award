@@ -91,7 +91,7 @@ async function main() {
     // 3. Determine pending episodes for Track B
     let pendingEpisodes = selectedEpisodes.filter(ep => {
         const cached = trackBCache[ep.title];
-        return !cached || !cached.recommended_segments || cached.recommended_segments.length === 0;
+        return !cached || !cached.recommended_segments || cached.recommended_segments.length === 0 || !cached.award_scores || Object.keys(cached.award_scores).length === 0;
     });
     console.log(`[隊長 AI] 待分析/升級單集數量: ${pendingEpisodes.length}`);
     
@@ -145,6 +145,7 @@ async function main() {
                     golden_segment_time: result.recommended_segments?.[0]?.time_range || "N/A",
                     golden_segment_reason: result.recommended_segments?.[0]?.reason || "N/A",
                     recommended_segments: result.recommended_segments || [],
+                    award_scores: result.award_scores || {},
                     analyzed_at: new Date().toISOString()
                 };
                 

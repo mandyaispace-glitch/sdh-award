@@ -36,10 +36,19 @@ function generateSelfContainedHtml() {
         }
     }
     
-    // Load POC results
+    // Load POC results or Top 10 results
     let pocResults = null;
+    const awardsResultsPath = path.join(__dirname, 'awards_top10_results.json');
     const pocResultsPath = path.join(__dirname, 'poc_results.json');
-    if (fs.existsSync(pocResultsPath)) {
+    if (fs.existsSync(awardsResultsPath)) {
+        try {
+            pocResults = JSON.parse(fs.readFileSync(awardsResultsPath, 'utf-8'));
+            console.log("成功加載 Top 10 決審評分結果。");
+        } catch (e) {
+            console.error("讀取 awards_top10_results.json 失敗：", e.message);
+        }
+    }
+    if (!pocResults && fs.existsSync(pocResultsPath)) {
         try {
             pocResults = JSON.parse(fs.readFileSync(pocResultsPath, 'utf-8'));
             console.log("成功加載 POC 評分結果。");
@@ -1632,8 +1641,8 @@ function generateSelfContainedHtml() {
                 let awardsHtmlTrackA = '';
                 let awardsHtmlTrackB = '';
                 
-                const trackAKeys = ["content_structure", "episode_planning", "best_cta", "niche_market", "self_exploration", "best_long_form", "best_short_form"];
-                const trackBKeys = ["best_duo_hosts", "best_male_host", "best_female_host", "atmosphere"];
+                const trackAKeys = ["content_structure", "episode_planning", "best_cta", "niche_market", "self_exploration", "best_long_form", "best_short_form", "欸我跟你獎"];
+                const trackBKeys = ["best_duo_hosts", "best_male_host", "best_female_host", "atmosphere", "atmosphere_night", "atmosphere_morning", "atmosphere_healing", "please_continue", "站著不走獎", "聽眾都要跟你獎"];
 
                 const awardsKeys = Object.keys(pocResults.awards);
                 awardsKeys.forEach(key => {
@@ -1641,15 +1650,34 @@ function generateSelfContainedHtml() {
                     
                     // Get rows for the 3 partners in this award
                     let partnerRows = '';
-                    aw.ranking.forEach(r => {
-                        const medal = r.rank === 1 ? '🥇 金獎' : r.rank === 2 ? '🥈 銀獎' : '🥉 銅獎';
-                        const medalColor = r.rank === 1 ? 'text-amber-500' : r.rank === 2 ? 'text-slate-400' : 'text-amber-700';
-                        const scoreText = r.score !== null ? \`\${r.score} 分\` : 'N/A';
+                                        aw.ranking.forEach(r => {
+                        const medal = r.rank === 1 ? '🥇 第 1 名' : r.rank === 2 ? '🥈 第 2 名' : r.rank === 3 ? '🥉 第 3 名' : '第 ' + r.rank + ' 名';
+                        const medalColor = r.rank === 1 ? 'text-amber-500 font-bold' : r.rank === 2 ? 'text-slate-400 font-bold' : r.rank === 3 ? 'text-amber-700 font-bold' : 'text-slate-500';
+                        
+                        let scoreText = 'N/A';
+                        if (r.score !== null) {
+                            if (key === '站著不走獎') {
+                                scoreText = r.score + ' 天';
+                            } else if (key === '聽眾都要跟你獎') {
+                                scoreText = r.score + ' 則';
+                            } else {
+                                scoreText = r.score + ' 分';
+                            }
+                        }
                         
                         const isCompliant = r.compliance === '符合';
                         const isNa = r.compliance === '不適用' || r.compliance === 'N/A';
                         const badgeClass = isCompliant ? 'bg-emerald-100 text-emerald-700' : isNa ? 'bg-slate-100 text-slate-500' : 'bg-rose-100 text-rose-700';
                         const badgeText = r.compliance || '符合';
+                        
+                        let segmentsText = '';
+                        if (r.segments && r.segments.length > 0) {
+                            segmentsText = '<div class="mt-1.5 space-y-1">';
+                            r.segments.forEach(seg => {
+                                segmentsText += '<div class="text-[10px] text-slate-500"><span class="font-bold text-blue-600">[試聽: ' + seg.timeRange + ']</span> ' + seg.title + '</div>';
+                            });
+                            segmentsText += '</div>';
+                        }
                         
                         partnerRows += \`
                             <tr class="hover:bg-slate-50/50">
@@ -1659,7 +1687,10 @@ function generateSelfContainedHtml() {
                                 <td class="px-3 py-2.5 whitespace-nowrap text-xs">
                                     <span class="px-2 py-0.5 rounded-full text-[10px] font-bold \${badgeClass}">\${badgeText}</span>
                                 </td>
-                                <td class="px-3 py-2.5 text-xs text-slate-600 leading-relaxed">\${r.reason}</td>
+                                <td class="px-3 py-2.5 text-xs text-slate-600 leading-relaxed">
+                                    <div>\${r.reason}</div>
+                                    \${segmentsText}
+                                </td>
                             </tr>
                         \`;
                     });
@@ -1704,8 +1735,12 @@ function generateSelfContainedHtml() {
                 document.getElementById('poc-awards-container-track-b').innerHTML = awardsHtmlTrackB;
                 
                 // 3. Render Overall Summary
-                document.getElementById('poc-overall-summary-a').textContent = pocResults.overall_summary;
-                document.getElementById('poc-overall-summary-b').textContent = pocResults.overall_summary;
+                if (document.getElementById('poc-overall-summary-a')) {
+                    document.getElementById('poc-overall-summary-a').textContent = pocResults.overall_summary || "大數據初選排行與聲音診斷評比已就緒。";
+                }
+                if (document.getElementById('poc-overall-summary-b')) {
+                    document.getElementById('poc-overall-summary-b').textContent = pocResults.overall_summary || "大數據初選排行與聲音診斷評比已就緒。";
+                }
             }
 
             // Render Voice Diagnostics Details list (9 episodes)
