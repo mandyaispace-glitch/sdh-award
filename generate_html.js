@@ -585,10 +585,10 @@ function generateSelfContainedHtml() {
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 pb-2 border-b border-slate-100">
                     <div>
                         <h3 class="text-sm font-extrabold text-slate-700 border-l-4 border-emerald-500 pl-2 flex items-center">
-                            💬 Apple Podcasts 聽眾留言與評價數據 (近6個月)
+                            🏆 第 17 獎：【聽眾都要跟你獎】(公開資料最多留言數)
                         </h3>
                         <p class="text-xs text-slate-500 mt-1">
-                            統計自 Apple Podcasts 台灣區公開聽眾評論，展示各節目的互動熱度、評價星等與聽眾真實回饋。
+                            統計自 Apple Podcasts 台灣區公開聽眾評論，包含評等（Rating）與文字留言，展示各節目的互動熱度與聽眾真實回饋。
                         </p>
                     </div>
                 </div>
