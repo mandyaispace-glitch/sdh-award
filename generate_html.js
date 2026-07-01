@@ -49,14 +49,16 @@ function generateSelfContainedHtml() {
     }
     
     // Load Selected Episodes
-    let selectedEpisodes = null;
-    const selectedEpisodesPath = path.join(__dirname, 'selected_episodes_for_poc.json');
+    let selectedEpisodesPath = path.join(__dirname, 'selected_episodes_full.json');
+    if (!fs.existsSync(selectedEpisodesPath)) {
+        selectedEpisodesPath = path.join(__dirname, 'selected_episodes_for_poc.json');
+    }
     if (fs.existsSync(selectedEpisodesPath)) {
         try {
             selectedEpisodes = JSON.parse(fs.readFileSync(selectedEpisodesPath, 'utf-8'));
-            console.log(`成功加載 POC 抽樣單集清單。`);
+            console.log(`成功加載抽樣單集清單 (${path.basename(selectedEpisodesPath)})。`);
         } catch (e) {
-            console.error("讀取 selected_episodes_for_poc.json 失敗：", e.message);
+            console.error(`讀取 ${path.basename(selectedEpisodesPath)} 失敗：`, e.message);
         }
     }
 
