@@ -526,21 +526,18 @@ async function main() {
                 if (isQuotaError) {
                     console.warn(` ⚠️ 當前第 ${keyIndex + 1} 個 API Key 額度已用罄或被限制 (429)。`);
                     keyIndex++;
+                    if (fileUri) {
+                        await deleteGeminiFile(fileUri, currentApiKey).catch(() => {});
+                        fileUri = null;
+                    }
                     if (keyIndex < apiKeys.length) {
                         console.log(` 🔄 正在自動切換至第 ${keyIndex + 1} 個 API Key 重試本單集...`);
-                        // clean up remote file if uploaded under old key (ignore failure due to quota)
-                        if (fileUri) {
-                            await deleteGeminiFile(fileUri, currentApiKey).catch(() => {});
-                            fileUri = null;
-                        }
                         continue;
                     } else {
-                        console.error(` ❌ 所有 API Keys 均已用罄。將提前結束並寫入已評估之數據至 Excel。`);
-                        if (fs.existsSync(tempFilePath)) {
-                            try { fs.unlinkSync(tempFilePath); } catch(e) {}
-                        }
-                        stopAll = true;
-                        break;
+                        console.warn(` ⚠️ 提示：所有 API Keys 目前均被限流 (429)。將暫停 65 秒等待限流窗口重置，隨後重新輪替重試...`);
+                        await new Promise(resolve => setTimeout(resolve, 65000));
+                        keyIndex = 0;
+                        continue;
                     }
                 } else {
                     console.error(` ❌ 處理該單集出錯 (非配額錯誤):`, err.message);

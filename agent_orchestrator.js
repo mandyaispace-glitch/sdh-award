@@ -158,9 +158,9 @@ async function main() {
                     console.warn(` ⚠️ 金鑰第 ${keyIndex + 1} 組額度耗盡 (429)。自動切換至下一組...`);
                     keyIndex++;
                     if (keyIndex >= geminiApiKeys.length) {
-                        console.error(` ❌ 錯誤：所有金鑰額度均已用罄。暫停聲音診斷。`);
-                        stopAll = true;
-                        break;
+                        console.warn(` ⚠️ 提示：所有金鑰目前均被限流 (429)。將暫停 65 秒等待限流窗口重置，隨後重新輪替重試...`);
+                        await new Promise(resolve => setTimeout(resolve, 65000));
+                        keyIndex = 0;
                     }
                 } else {
                     console.error(` ❌ 診斷失敗 (非額度錯誤):`, err.message);
