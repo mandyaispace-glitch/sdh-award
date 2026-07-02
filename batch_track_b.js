@@ -491,7 +491,25 @@ async function main() {
                 await waitForFileActive(fileUri, currentApiKey);
                 
                 // Step D: Query Gemini 2.5 Flash for physical diagnostics
-                const result = await queryVoiceAnalysis(fileUri, currentApiKey);
+                let result = null;
+                let querySuccess = false;
+                let queryRetries = 0;
+                
+                while (!querySuccess) {
+                    try {
+                        result = await queryVoiceAnalysis(fileUri, currentApiKey);
+                        querySuccess = true;
+                    } catch (queryErr) {
+                        const isQuotaError = queryErr.message.includes('429') || queryErr.message.includes('quota') || queryErr.message.includes('QUOTA') || queryErr.message.includes('limit');
+                        if (isQuotaError && queryRetries < 3) {
+                            queryRetries++;
+                            console.warn(`      ⚠️ 查詢限流 (429/TPM)，將暫停 65 秒後進行第 ${queryRetries} 次重試...`);
+                            await new Promise(resolve => setTimeout(resolve, 65000));
+                        } else {
+                            throw queryErr;
+                        }
+                    }
+                }
                 console.log(` -> 分析成功！語速: ${result.speech_rate_wpm}字/分 | 贅字率: ${result.filler_words_level} | 錄音品質: ${result.acoustic_quality_level}`);
                 
                 // Save to Cache

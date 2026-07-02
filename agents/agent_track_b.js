@@ -382,7 +382,25 @@ async function runVoiceAnalysisForEpisode(episode, apiKey, tempDir) {
         
         // Step 4: Run voice physical analysis
         console.log(`   -> 正在進行物理聲音診斷...`);
-        const result = await queryVoiceAnalysis(fileUri, apiKey);
+        let result = null;
+        let querySuccess = false;
+        let queryRetries = 0;
+        
+        while (!querySuccess) {
+            try {
+                result = await queryVoiceAnalysis(fileUri, apiKey);
+                querySuccess = true;
+            } catch (queryErr) {
+                const isQuotaError = queryErr.message.includes('429') || queryErr.message.includes('quota') || queryErr.message.includes('QUOTA') || queryErr.message.includes('limit');
+                if (isQuotaError && queryRetries < 3) {
+                    queryRetries++;
+                    console.warn(`      ⚠️ 查詢限流 (429/TPM)，將暫停 65 秒後進行第 ${queryRetries} 次重試...`);
+                    await new Promise(resolve => setTimeout(resolve, 65000));
+                } else {
+                    throw queryErr;
+                }
+            }
+        }
         
         // Clean up immediately from Gemini cloud
         await deleteGeminiFile(fileUri, apiKey).catch(() => {});
