@@ -320,14 +320,25 @@ async function main() {
     // 7. Calculate Award 17: 【聽眾都要跟你獎】 (Public Interaction Master)
     // Sort by reviewsCount descending from C-Track Cache
     const award17Rankings = [];
+    const award17RecentRankings = [];
+    
     trackCCache.forEach(kol => {
         const reviewsCount = kol.reviewsCount || 0;
+        const reviewsCount6Months = kol.reviewsCount6Months || 0;
         const avgRating = kol.averageRating || 0;
+        
         award17Rankings.push({
             partnerName: kol.partnerName,
             reviewsCount: reviewsCount,
             avgRating: avgRating,
-            reason: `大數據抓取 Apple Podcasts 公開留言與評分累計達 ${reviewsCount} 則，平均評等為 ${avgRating} 顆星，展現出極強的聽眾黏著度。`
+            reason: `大數據抓取 Apple Podcasts 公開留言與評分累計達 ${reviewsCount} 則，平均評等為 ${avgRating} 顆星，展現出極強的歷史聽眾累積與品牌長效黏著度。`
+        });
+        
+        award17RecentRankings.push({
+            partnerName: kol.partnerName,
+            reviewsCount6Months: reviewsCount6Months,
+            avgRating: avgRating,
+            reason: `大數據抓取 Apple Podcasts 近半年（2026上半年）內新增留言達 ${reviewsCount6Months} 則，平均評等為 ${avgRating} 顆星，展現出極為活躍的近期聽眾互動與社群熱度。`
         });
     });
 
@@ -338,17 +349,37 @@ async function main() {
         return b.avgRating - a.avgRating;
     });
 
+    award17RecentRankings.sort((a, b) => {
+        if (b.reviewsCount6Months !== a.reviewsCount6Months) {
+            return b.reviewsCount6Months - a.reviewsCount6Months;
+        }
+        return b.avgRating - a.avgRating;
+    });
+
     finalAwardsResults["聽眾都要跟你獎"] = {
-        award_name: "聽眾都要跟你獎",
+        award_name: "聽眾都要跟你獎 (加總累積評論數)",
         ranking: award17Rankings.slice(0, 10).map((r, idx) => ({
             rank: idx + 1,
             partnerName: r.partnerName,
-            score: r.reviewsCount, // Show review count as score
+            score: r.reviewsCount,
             reason: r.reason,
             compliance: "符合",
             segments: partnerSegments[r.partnerName]?.slice(0, 3) || []
         })),
-        comparative_analysis: `統計自 Apple Podcasts 台灣區公開聽眾評論（包含僅評等 rating 但無留言者），篩選出累積留言數最多且評等星等最高之 Top 10 作品。`
+        comparative_analysis: `統計自 Apple Podcasts 台灣區公開聽眾評論，篩選出累積留言數最多且評等星等最高之 Top 10 作品。`
+    };
+
+    finalAwardsResults["聽眾都要跟你獎_近半年"] = {
+        award_name: "聽眾都要跟你獎 (近半年有評論數)",
+        ranking: award17RecentRankings.slice(0, 10).map((r, idx) => ({
+            rank: idx + 1,
+            partnerName: r.partnerName,
+            score: r.reviewsCount6Months,
+            reason: r.reason,
+            compliance: "符合",
+            segments: partnerSegments[r.partnerName]?.slice(0, 3) || []
+        })),
+        comparative_analysis: `統計自 Apple Podcasts 台灣區近半年（2026上半年）內新增之聽眾評論，篩選出近期互動最熱烈且好評度最高之 Top 10 作品。`
     };
 
     // 8. Write to awards_top10_results.json

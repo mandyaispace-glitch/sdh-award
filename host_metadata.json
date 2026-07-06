@@ -59,21 +59,24 @@
     "has_male_host": true,
     "has_female_host": true,
     "is_duo_or_multiple_hosts": true,
-    "hosts": "Hank大叔 / Vicki維琪",
+    "hosts": "Hank大叔 (林程揚) / Vicky老師 (維琪)",
+    "podcastName": "能量黑客",
     "description": "男女雙主持"
   },
   "胡咪老師": {
-    "has_male_host": false,
+    "has_male_host": true,
     "has_female_host": true,
-    "is_duo_or_multiple_hosts": false,
-    "hosts": "胡咪老師",
-    "description": "單人女主持"
+    "is_duo_or_multiple_hosts": true,
+    "hosts": "胡咪老師 / Vito大叔",
+    "podcastName": "分手的99個理由",
+    "description": "男女雙主持"
   },
   "Vito大叔": {
     "has_male_host": true,
     "has_female_host": true,
     "is_duo_or_multiple_hosts": true,
-    "hosts": "Vito大叔 / 麥姐",
+    "hosts": "Vito大叔 / 品希女神",
+    "podcastName": "粉紅地獄辛辣麵",
     "description": "男女雙主持"
   },
   "宋家小館｜Becky": {
@@ -109,7 +112,7 @@
     "has_female_host": true,
     "is_duo_or_multiple_hosts": false,
     "hosts": "蔡宇哲 / 娜娜 (分集單人主持)",
-    "description": "男女主持 (分集單獨主持)"
+    "description": "男女主持 (分集單獨主持，不符雙人默契獎)"
   },
   "美股夢想家": {
     "has_male_host": true,
@@ -341,5 +344,13 @@
     "is_duo_or_multiple_hosts": false,
     "hosts": "潘思璇",
     "description": "單人女主持"
+  },
+  "曼蒂歐逆-轉型之路": {
+    "has_male_host": false,
+    "has_female_host": true,
+    "is_duo_or_multiple_hosts": true,
+    "hosts": "曼蒂歐逆 / 神燈教母Ivy",
+    "podcastName": "任性歐逆機智生活",
+    "description": "雙女主持"
   }
 }

@@ -47,6 +47,12 @@ async function main() {
     const isTestRun = args.includes('--test');
     const isFullRun = args.includes('--full');
     
+    let limitValue = null;
+    const limitIdx = args.indexOf('--limit');
+    if (limitIdx !== -1 && args[limitIdx + 1]) {
+        limitValue = parseInt(args[limitIdx + 1]);
+    }
+    
     // 1. Load Episode Pool
     let selectionPath = path.join(__dirname, 'selected_episodes_full.json');
     if (!fs.existsSync(selectionPath)) {
@@ -98,6 +104,9 @@ async function main() {
     if (isTestRun) {
         console.log("💡 模式：單集測試模式 (Test Mode)。僅執行 1 集進行全功能鏈路驗證。");
         pendingEpisodes = pendingEpisodes.slice(0, 1);
+    } else if (limitValue !== null) {
+        console.log(`🚀 模式：限制數量模式。僅分析前 ${limitValue} 個單集。`);
+        pendingEpisodes = pendingEpisodes.slice(0, limitValue);
     } else if (!isFullRun && pendingEpisodes.length > 5) {
         console.log("💡 模式：限制測試模式 (Trial Mode)。僅分析 5 集。若要跑全量，請帶上參數 --full");
         pendingEpisodes = pendingEpisodes.slice(0, 5);

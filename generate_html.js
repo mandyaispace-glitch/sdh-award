@@ -324,6 +324,9 @@ function generateSelfContainedHtml() {
                     <span>🎯 評選成果區 (決選參考)</span>
                 </span>
                 <div class="flex flex-wrap gap-1.5 p-1 bg-slate-200/40 rounded-xl border border-slate-200/20">
+                    <a id="tab-btn-awards-top10" href="#awards-top10" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('awards-top10'); return false;">
+                        🏆 AI 決選 Top 10
+                    </a>
                     <a id="tab-btn-eligibility" href="#eligibility" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('eligibility'); return false;">
                         🔍 資格審查
                     </a>
@@ -366,7 +369,51 @@ function generateSelfContainedHtml() {
                 </div>
             </div>
             
-                        <div id="content-demo" class="prose max-w-none hidden">
+                        <!-- AI 決選 Top 10 Tab Content -->
+            <div id="content-awards-top10" class="prose max-w-none hidden">
+                <div class="not-prose pt-4">
+                    <h3 class="text-base font-extrabold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">
+                        🏆 2026「鬧鐘獎」AI 評選 Top 10 決審名冊
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-6">
+                        本表單呈現 AI 代理團隊針對合格的 51 檔合作夥伴進行主觀打分與客觀大數據分析後的 17 個獎項 Top 10 排序。大會真人評審可針對此名單，點擊查看推薦黃金 3 分鐘片段進行最終決審裁決。
+                    </p>
+                    
+                    <!-- Overall Summary Card -->
+                    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 rounded-2xl text-white shadow-md mb-8 space-y-2">
+                        <h4 class="text-sm font-extrabold flex items-center text-white">
+                            <span class="text-lg mr-2">🔮</span> 評審團評選綜合總評
+                        </h4>
+                        <p class="poc-overall-summary-a text-xs text-blue-50 leading-relaxed font-medium" style="color: #eff6ff !important;">
+                            <!-- Injected summary -->
+                        </p>
+                    </div>
+
+                    <div class="space-y-12">
+                        <!-- Track A Awards -->
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-700 bg-slate-100/80 px-3 py-2 rounded-lg mb-4 flex items-center">
+                                <span class="mr-2">📝</span> 軌道 A：內容與企劃類獎項 (共 8 項)
+                            </h4>
+                            <div class="space-y-6" id="poc-awards-container-track-a">
+                                <!-- Injected Track A awards -->
+                            </div>
+                        </div>
+                        
+                        <!-- Track B Awards -->
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-700 bg-slate-100/80 px-3 py-2 rounded-lg mb-4 flex items-center">
+                                <span class="mr-2">🎙️</span> 軌道 B：聲線與互動類獎項 (共 9 項)
+                            </h4>
+                            <div class="space-y-6" id="poc-awards-container-track-b">
+                                <!-- Injected Track B awards -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content-demo" class="prose max-w-none hidden">
                 <!-- POC Sample Episodes Section -->
                 <div id="poc-dashboard" class="not-prose mb-10 hidden pt-4">
                     <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-blue-600 pl-2">
@@ -397,10 +444,7 @@ function generateSelfContainedHtml() {
                         </p>
                     </div>
                     
-                    <!-- Track A Awards container -->
-                    <div class="space-y-6" id="poc-awards-container-track-a">
-                        <!-- Injected Track A awards -->
-                    </div>
+
                 </div>
 
                 <!-- Track B POC Results inside Demo Tab -->
@@ -432,10 +476,7 @@ function generateSelfContainedHtml() {
                         </div>
                     </div>
 
-                    <!-- Track B Awards container -->
-                    <div class="space-y-6 mb-8" id="poc-awards-container-track-b">
-                        <!-- Injected Track B awards -->
-                    </div>
+
 
                     <!-- Voice Diagnostics Details Grid (9 episodes) -->
                     <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-emerald-600 pl-2">
@@ -670,6 +711,7 @@ function generateSelfContainedHtml() {
             const deployBtn = document.getElementById('tab-btn-deploy');
             
             const mainGlassCard = document.getElementById('main-glass-card');
+            const awardsTop10Btn = document.getElementById('tab-btn-awards-top10');
             const planContent = document.getElementById('content-plan');
             const eligibilityContent = document.getElementById('content-eligibility');
             const demoContent = document.getElementById('content-demo');
@@ -677,6 +719,7 @@ function generateSelfContainedHtml() {
             const trackCContent = document.getElementById('content-track-c');
             const timelineContent = document.getElementById('content-timeline');
             const deployContent = document.getElementById('content-deploy');
+            const awardsTop10Content = document.getElementById('content-awards-top10');
 
             const activeBtnClass = "flex-1 py-2 text-center text-[11px] sm:text-xs font-bold rounded-lg transition-all duration-200 bg-white text-blue-600 shadow-sm border border-slate-200/10";
             const inactiveBtnClass = "flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50";
@@ -686,6 +729,7 @@ function generateSelfContainedHtml() {
             if (demoBtn) demoBtn.className = inactiveBtnClass;
             if (trackBBtn) trackBBtn.className = inactiveBtnClass;
             if (trackCBtn) trackCBtn.className = inactiveBtnClass;
+            if (awardsTop10Btn) awardsTop10Btn.className = inactiveBtnClass;
             timelineBtn.className = inactiveBtnClass;
             deployBtn.className = inactiveBtnClass;
 
@@ -694,6 +738,7 @@ function generateSelfContainedHtml() {
             if (demoContent) demoContent.classList.add('hidden');
             if (trackBContent) trackBContent.classList.add('hidden');
             if (trackCContent) trackCContent.classList.add('hidden');
+            if (awardsTop10Content) awardsTop10Content.classList.add('hidden');
             timelineContent.classList.add('hidden');
             deployContent.classList.add('hidden');
             mainGlassCard.classList.add('hidden');
@@ -702,6 +747,11 @@ function generateSelfContainedHtml() {
                 planBtn.className = activeBtnClass;
                 mainGlassCard.classList.remove('hidden');
                 planContent.classList.remove('hidden');
+            } else if (tabId === 'awards-top10' && awardsTop10Content) {
+                if (awardsTop10Btn) awardsTop10Btn.className = activeBtnClass;
+                mainGlassCard.classList.remove('hidden');
+                awardsTop10Content.classList.remove('hidden');
+                renderCharts();
             } else if (tabId === 'eligibility' && eligibilityContent) {
                 eligibilityBtn.className = activeBtnClass;
                 mainGlassCard.classList.remove('hidden');
@@ -1642,7 +1692,7 @@ function generateSelfContainedHtml() {
                 let awardsHtmlTrackB = '';
                 
                 const trackAKeys = ["content_structure", "episode_planning", "best_cta", "niche_market", "self_exploration", "best_long_form", "best_short_form", "欸我跟你獎"];
-                const trackBKeys = ["best_duo_hosts", "best_male_host", "best_female_host", "atmosphere", "atmosphere_night", "atmosphere_morning", "atmosphere_healing", "please_continue", "站著不走獎", "聽眾都要跟你獎"];
+                const trackBKeys = ["best_duo_hosts", "best_male_host", "best_female_host", "atmosphere", "atmosphere_night", "atmosphere_morning", "atmosphere_healing", "please_continue", "站著不走獎", "聽眾都要跟你獎", "聽眾都要跟你獎_近半年"];
 
                 const awardsKeys = Object.keys(pocResults.awards);
                 awardsKeys.forEach(key => {
@@ -1658,7 +1708,7 @@ function generateSelfContainedHtml() {
                         if (r.score !== null) {
                             if (key === '站著不走獎') {
                                 scoreText = r.score + ' 天';
-                            } else if (key === '聽眾都要跟你獎') {
+                            } else if (key === '聽眾都要跟你獎' || key === '聽眾都要跟你獎_近半年') {
                                 scoreText = r.score + ' 則';
                             } else {
                                 scoreText = r.score + ' 分';
@@ -1735,6 +1785,9 @@ function generateSelfContainedHtml() {
                 document.getElementById('poc-awards-container-track-b').innerHTML = awardsHtmlTrackB;
                 
                 // 3. Render Overall Summary
+                document.querySelectorAll('.poc-overall-summary-a').forEach(el => {
+                    el.textContent = pocResults.overall_summary || "大數據初選排行與聲音診斷評比已就緒。";
+                });
                 if (document.getElementById('poc-overall-summary-a')) {
                     document.getElementById('poc-overall-summary-a').textContent = pocResults.overall_summary || "大數據初選排行與聲音診斷評比已就緒。";
                 }
@@ -1759,7 +1812,7 @@ function generateSelfContainedHtml() {
 
             // Handle initial hash routing after markdown and mermaid are fully ready
             const initialHash = window.location.hash.slice(1);
-            if (['plan', 'eligibility', 'track-b', 'demo', 'track-c', 'timeline', 'deploy'].includes(initialHash)) {
+            if (['plan', 'eligibility', 'track-b', 'demo', 'track-c', 'timeline', 'deploy', 'awards-top10'].includes(initialHash)) {
                 switchTab(initialHash);
             }
         });
@@ -1767,7 +1820,7 @@ function generateSelfContainedHtml() {
         // Listen for history back/forward hash changes
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.slice(1);
-            if (['plan', 'eligibility', 'track-b', 'demo', 'track-c', 'timeline', 'deploy'].includes(hash)) {
+            if (['plan', 'eligibility', 'track-b', 'demo', 'track-c', 'timeline', 'deploy', 'awards-top10'].includes(hash)) {
                 switchTab(hash);
             }
         });
