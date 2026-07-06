@@ -114,6 +114,113 @@
     ]
   },
   {
+    "partnerName": "山姆書書",
+    "podcastName": "山姆書書",
+    "appleId": "1630531870",
+    "reviewsCount": 14,
+    "averageRating": 4.6,
+    "reviews": [
+      {
+        "author": "Haabbiii",
+        "rating": 5,
+        "title": "很喜歡你的內容",
+        "content": "我是22歲剛出社會的新鮮人，非常喜歡你的內容及談吐，也很喜歡你開頭的日常！書籍都是我想看的！",
+        "date": "2026-03-29"
+      },
+      {
+        "author": "中肯老實人",
+        "rating": 5,
+        "title": "堅持做下去啊",
+        "content": "我會繼續聽",
+        "date": "2026-03-24"
+      },
+      {
+        "author": "高雄Alice",
+        "rating": 5,
+        "title": "輕鬆，愜意",
+        "content": "一開始忘了是聽到哪本書了，結果卻先是被幹話（年代共鳴）及分享生活所吸引😂，就開始從第一本聽到現在，\n中間幾集還說要取消幹話及分享生活！！但最後幸好還是留下來了，個人覺得這是一個賣點欸～不能沒有啊……..\n我是自由接case的居家清潔二寶媽，您的說書陪我度過很多工作時光及做家事的沈悶時刻，還因為您的說書而去買了「我真的錯了」這本書，真的幫助我買到真正想要讀的書\n希望你不要被流量所影響持續繼續做下去～我們這些老粉會持續支持的！加油，山姆書書讚讚讚！",
+        "date": "2026-03-16"
+      },
+      {
+        "author": "Golden19821230",
+        "rating": 5,
+        "title": "好聽，優秀",
+        "content": "其實，我目前唯一剩下的聽書節目，就只剩下山姆叔叔，加油！\n冷笑話，很有梗，好笑👍",
+        "date": "2026-03-04"
+      },
+      {
+        "author": "Chen楚茵",
+        "rating": 5,
+        "title": "已入坑",
+        "content": "第一次給評論～上班無聊 點了好幾個說書來聽 這個最合我胃口",
+        "date": "2026-02-19"
+      },
+      {
+        "author": "Ken Patrick 0918",
+        "rating": 1,
+        "title": "喜歡講黃色笑話",
+        "content": "會在知識性的內容中講些性暗示或擦邊球的黃色笑話（什麼下面鼓鼓的一大包、洋人的玩具？），聽了很尷尬，明明就是不錯的內容，為何要講黃色笑話拉低品質呢？",
+        "date": "2026-02-18"
+      },
+      {
+        "author": "Franky 樺",
+        "rating": 5,
+        "title": "給你加加油！",
+        "content": "感謝你的說書，輕鬆有趣，還能有收穫，加了閒聊，也是很好啊！繼續加油喔！",
+        "date": "2026-02-12"
+      },
+      {
+        "author": "Steven7199",
+        "rating": 5,
+        "title": "2026 繼續支持山姆書書",
+        "content": "風趣，重點明確，\n讓我快速收穫了許多重點\n謝謝書書～",
+        "date": "2026-02-03"
+      },
+      {
+        "author": "天使48",
+        "rating": 5,
+        "title": "喜歡山姆哥哥說書",
+        "content": "口條很有邏輯，風趣幽默，內容含金量很高，跟瓦基、艾爾文一樣厲害👍\n會喜歡你的聽眾就是會喜歡你，不會被你吸引的聽眾就是不會來聽。",
+        "date": "2026-02-02"
+      },
+      {
+        "author": "如果這是天意",
+        "rating": 5,
+        "title": "帥哥",
+        "content": "我是喜歡聽你分享日常的\n也喜歡穿插個冷笑話\n謝謝你分享書\n聽到很多有趣的書單 讓一段時間沒看書的我又開始拿起書來看了\n感覺很棒\n祝你頻道越來越好 開心順心",
+        "date": "2026-01-26"
+      },
+      {
+        "author": "台中Hedy",
+        "rating": 5,
+        "title": "感謝",
+        "content": "感謝你分享書籍內容！",
+        "date": "2026-01-15"
+      },
+      {
+        "author": "走走看看👀",
+        "rating": 4,
+        "title": "靠北太常出現",
+        "content": "少一點不雅話，這節目就100分了",
+        "date": "2026-01-06"
+      },
+      {
+        "author": "天冷心很暖",
+        "rating": 5,
+        "title": "真心推薦",
+        "content": "喜歡山姆書書的說書方式，穿插幽默，是優質好節目，會ㄧ直持續期待每集的推出👍",
+        "date": "2025-12-31"
+      },
+      {
+        "author": "小玲子_1116",
+        "rating": 5,
+        "title": "值得追蹤頻道",
+        "content": "很用心在經營",
+        "date": "2025-12-23"
+      }
+    ]
+  },
+  {
     "partnerName": "Dr Selena",
     "podcastName": "小資變有錢｜Dr.Selena生活理財王",
     "appleId": "1626035937",
@@ -165,48 +272,101 @@
     ]
   },
   {
-    "partnerName": "姐姐不想懂事了｜莉安君怡 / 姊姊不想懂事了",
-    "podcastName": "姐姐不想懂事了",
-    "appleId": "1837928642",
-    "reviewsCount": 2,
+    "partnerName": "崔咪",
+    "podcastName": "一不小心太漂亮",
+    "appleId": "1743546553",
+    "reviewsCount": 5,
     "averageRating": 5,
     "reviews": [
       {
-        "author": "Harvey  Lin",
+        "author": "姍姍3__3",
         "rating": 5,
-        "title": "EP28集狠厲害",
-        "content": "X世代是爸媽，女性有很多束縛，性別角色清楚，但不太質疑。\n\nY世代女性意識抬頭，女強人變多，男人標籤變多，男女都在轉型期，最容易過勞、焦慮的一代。\n\nZ世代的男性地位優勢被削弱，男人不太敢碰女人。演算法推男人太壞，女選男變很謹慎。",
-        "date": "2026-04-17"
+        "title": "喜歡",
+        "content": "每集都好精彩❤️",
+        "date": "2026-02-16"
       },
       {
-        "author": "Ria Zheng",
+        "author": "蓉李欣",
         "rating": 5,
-        "title": "好喜歡思佳那集！！",
-        "content": "完全符合節目的標題⋯ 扛的太多，情緒真的會一瞬間宣洩出來，真的就會覺得「我不想再那麼懂事了」\n\n聽完很有共感很有力量，希望我們都可以好好的💪",
-        "date": "2026-02-01"
+        "title": "真的很感人",
+        "content": "很融入社會層面的電影，看到一些場景真的是感同身受",
+        "date": "2026-02-16"
+      },
+      {
+        "author": "W&C❣️",
+        "rating": 5,
+        "title": "聽到哭",
+        "content": "陽光女子合唱團這一集聽到哭，感觸很深，也許我們人這輩子都有犯錯過，但有時候我們都太糾結在過去，卻忽略身邊一直愛著我們的人\n二刷完陽光女子合唱團後，我才鼓起勇氣答應了追我的男孩子的告白，本來想等他任務結束才要答應他，二刷完後我哭著打給他說，我不想等任務結束，我想要現在就答應你，我願意跟你在一起☺️因為我想要珍惜當下所擁有的幸福❤️！",
+        "date": "2026-02-16"
+      },
+      {
+        "author": "筱雯rachel",
+        "rating": 5,
+        "title": "真的很催淚",
+        "content": "好聽，電影哭爆好看",
+        "date": "2026-02-14"
+      },
+      {
+        "author": "CC77Lynn",
+        "rating": 5,
+        "title": "謝謝崔咪正向力量",
+        "content": "馬到成功！",
+        "date": "2026-02-14"
       }
     ]
   },
   {
-    "partnerName": "小河馬媽媽",
-    "podcastName": "來晚無添加河粉吧！",
-    "appleId": "1692523518",
+    "partnerName": "五吉郎",
+    "podcastName": "五吉郎",
+    "appleId": "1640942537",
     "reviewsCount": 2,
+    "averageRating": 4.5,
+    "reviews": [
+      {
+        "author": "冰箱是箱子還是櫃子",
+        "rating": 4,
+        "title": "吸氣聲",
+        "content": "上句跟下句之間的換氣聲太大了，聽了小躁",
+        "date": "2026-04-17"
+      },
+      {
+        "author": "5VY5",
+        "rating": 5,
+        "title": "音源問題反饋",
+        "content": "EP133 回音超大聲",
+        "date": "2026-02-18"
+      }
+    ]
+  },
+  {
+    "partnerName": "玩命之徒｜林尚諾大師兄",
+    "podcastName": "玩命之徒",
+    "appleId": "1526430681",
+    "reviewsCount": 1,
     "averageRating": 3,
     "reviews": [
       {
-        "author": "flyxHqcqgqösodjvssj",
-        "rating": 1,
-        "title": "追蹤許久超級失望",
-        "content": "網路霸凌別人是不對的",
-        "date": "2026-03-07"
-      },
+        "author": "毛茸茸888",
+        "rating": 3,
+        "title": "土地公是餓鬼道是從哪部經典讀來的？",
+        "content": "要慎選來賓",
+        "date": "2026-05-03"
+      }
+    ]
+  },
+  {
+    "partnerName": "潘思璇ＣＰ",
+    "podcastName": "CP有主見",
+    "appleId": "1719147550",
+    "reviewsCount": 1,
+    "averageRating": 5,
+    "reviews": [
       {
-        "author": "23457）",
+        "author": "社群／網紅行銷公關Selina",
         "rating": 5,
-        "title": "講話可以慢一點會更好",
-        "content": "很多訪談都很好，講話可以慢一點，會更想仔細的聽下去",
-        "date": "2026-01-14"
+        "title": "必聽推薦！",
+        "content": "身為在企業行銷與接案之間努力前進的上班族，每次聽《CP有主見》都很有收穫。CP總能用清晰又務實的角度，解析個人品牌、職涯發展與商業思維，讓人不只是獲得靈感，更能真正應用在工作與人生規劃上。 \n\n很喜歡CP分享的內容總是理性、直接又有高度，幫助我在轉職與發展第二收入的過程中，建立更清楚的判斷標準與信心。 \n\n想請問 CP：對於仍有正職、但希望用多年企業行銷經驗發展顧問與接案收入的人，您認為最值得優先投入的三件事是什麼？ \n\n謝謝 CP 持續分享這麼多有價值的觀點，祝福節目越來越成功！",
+        "date": "2026-05-12"
       }
     ]
   },
@@ -219,17 +379,17 @@
     "reviews": []
   },
   {
-    "partnerName": "山姆書書",
-    "podcastName": "山姆書書",
-    "appleId": "1630531870",
+    "partnerName": "宋家小館｜Becky",
+    "podcastName": "宋家小館",
+    "appleId": "1721336862",
     "reviewsCount": 0,
     "averageRating": 0,
     "reviews": []
   },
   {
-    "partnerName": "宋家小館｜Becky",
-    "podcastName": "宋家小館",
-    "appleId": "1721336862",
+    "partnerName": "姐姐不想懂事了｜莉安君怡 / 姊姊不想懂事了",
+    "podcastName": "姐姐不想懂事了",
+    "appleId": "1837928642",
     "reviewsCount": 0,
     "averageRating": 0,
     "reviews": []
@@ -275,14 +435,6 @@
     "reviews": []
   },
   {
-    "partnerName": "五吉郎",
-    "podcastName": "五吉郎",
-    "appleId": "1640942537",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
     "partnerName": "斜槓空姐cindy",
     "podcastName": "錢進頭等艙",
     "appleId": "1522267699",
@@ -310,14 +462,6 @@
     "partnerName": "Vito大叔",
     "podcastName": "粉紅地獄辛辣麵",
     "appleId": "1588077436",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
-    "partnerName": "玩命之徒｜林尚諾大師兄",
-    "podcastName": "玩命之徒",
-    "appleId": "1526430681",
     "reviewsCount": 0,
     "averageRating": 0,
     "reviews": []
@@ -563,14 +707,6 @@
     "reviews": []
   },
   {
-    "partnerName": "潘思璇ＣＰ",
-    "podcastName": "CP有主見",
-    "appleId": "1719147550",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
     "partnerName": "Fire人生大學｜道哥",
     "podcastName": "FIRE 人生大學",
     "appleId": "1765837689",
@@ -691,14 +827,6 @@
     "reviews": []
   },
   {
-    "partnerName": "崔咪",
-    "podcastName": "一不小心太漂亮",
-    "appleId": "1743546553",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
     "partnerName": "趙函穎的營養健康週報",
     "podcastName": "趙函穎的營養健康報報",
     "appleId": "1704815000",
@@ -718,6 +846,14 @@
     "partnerName": "孫治華",
     "podcastName": "人生挖挖WoW-企業人生策略學",
     "appleId": "1800646759",
+    "reviewsCount": 0,
+    "averageRating": 0,
+    "reviews": []
+  },
+  {
+    "partnerName": "小河馬媽媽",
+    "podcastName": "來晚無添加河粉吧！",
+    "appleId": "1692523518",
     "reviewsCount": 0,
     "averageRating": 0,
     "reviews": []
