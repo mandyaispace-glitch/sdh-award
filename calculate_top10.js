@@ -47,6 +47,19 @@ async function main() {
         return partnerName;
     };
 
+    // Helper to get custom duo display name mapping
+    const getDuoDisplayName = (partnerName) => {
+        const mapping = {
+            "胡咪老師": "分手的99個理由 (胡咪, Vito)",
+            "Vito大叔": "粉紅地獄辛辣麵 (品希, Vito)",
+            "林程揚｜Hank大叔 / 維琪的幸福叮嚀": "能量黑客 (Hank/Vicky)",
+            "加班當爸媽．櫻桃可可CherryCoco": "加班當爸媽 (櫻桃可可CherryCoco)",
+            "姐姐不想懂事了｜莉安君怡 / 姊姊不想懂事了": "姐姐不想懂事了｜莉安君怡",
+            "曼蒂歐逆-轉型之路": "任性歐逆機智生活 (曼蒂歐逆, 神燈教母Ivy)"
+        };
+        return mapping[partnerName];
+    };
+
     // 2. Aggregate B-Track AI scores by partner name
     const partnerScores = {}; // partnerName -> { awardKey -> [scores] }
     const partnerSegments = {}; // partnerName -> [all segments from 3 episodes]
@@ -254,15 +267,20 @@ async function main() {
         });
 
         // Assign ranks to Top 10
-        const top10 = rankings.slice(0, 10).map((r, idx) => ({
-            rank: idx + 1,
-            partnerName: r.partnerName,
-            podcastName: getPodcastNameForPartner(r.partnerName),
-            score: r.score,
-            reason: r.reason,
-            compliance: r.compliance,
-            segments: r.segments
-        }));
+        const top10 = rankings.slice(0, 10).map((r, idx) => {
+            const pName = getPodcastNameForPartner(r.partnerName);
+            const duoDisp = getDuoDisplayName(r.partnerName);
+            return {
+                rank: idx + 1,
+                partnerName: r.partnerName,
+                podcastName: pName,
+                displayName: duoDisp || (pName ? `${pName} (${r.partnerName})` : r.partnerName),
+                score: r.score,
+                reason: r.reason,
+                compliance: r.compliance,
+                segments: r.segments
+            };
+        });
 
         finalAwardsResults[awardKey] = {
             award_name: awardName,
@@ -304,15 +322,20 @@ async function main() {
     award15Rankings.sort((a, b) => b.combinedMetric - a.combinedMetric);
     finalAwardsResults["欸我跟你獎"] = {
         award_name: "欸我跟你獎 / 等等！這個真的不分享不行 / AI評選最高分",
-        ranking: award15Rankings.slice(0, 10).map((r, idx) => ({
-            rank: idx + 1,
-            partnerName: r.partnerName,
-            podcastName: getPodcastNameForPartner(r.partnerName),
-            score: r.score,
-            reason: r.reason,
-            compliance: "符合",
-            segments: partnerSegments[r.partnerName]?.slice(0, 3) || []
-        })),
+        ranking: award15Rankings.slice(0, 10).map((r, idx) => {
+            const pName = getPodcastNameForPartner(r.partnerName);
+            const duoDisp = getDuoDisplayName(r.partnerName);
+            return {
+                rank: idx + 1,
+                partnerName: r.partnerName,
+                podcastName: pName,
+                displayName: duoDisp || (pName ? `${pName} (${r.partnerName})` : r.partnerName),
+                score: r.score,
+                reason: r.reason,
+                compliance: "符合",
+                segments: partnerSegments[r.partnerName]?.slice(0, 3) || []
+            };
+        }),
         comparative_analysis: `結合文字軌道 A 的 AI 評鑑平均總分，以及軌道 C 的社群討論轉傳熱度，由 Meta.AI 輔助評選出社群影響力最高之 Top 10 作品。`
     };
 
@@ -376,15 +399,20 @@ async function main() {
 
     finalAwardsResults["站著不走獎"] = {
         award_name: "站著不走獎",
-        ranking: award16Rankings.slice(0, 10).map((r, idx) => ({
-            rank: idx + 1,
-            partnerName: r.partnerName,
-            podcastName: getPodcastNameForPartner(r.partnerName),
-            score: r.daysOnChart, // Show days as score
-            reason: r.reason,
-            compliance: "符合",
-            segments: partnerSegments[r.partnerName]?.slice(0, 3) || []
-        })),
+        ranking: award16Rankings.slice(0, 10).map((r, idx) => {
+            const pName = getPodcastNameForPartner(r.partnerName);
+            const duoDisp = getDuoDisplayName(r.partnerName);
+            return {
+                rank: idx + 1,
+                partnerName: r.partnerName,
+                podcastName: pName,
+                displayName: duoDisp || (pName ? `${pName} (${r.partnerName})` : r.partnerName),
+                score: r.daysOnChart, // Show days as score
+                reason: r.reason,
+                compliance: "符合",
+                segments: partnerSegments[r.partnerName]?.slice(0, 3) || []
+            };
+        }),
         comparative_analysis: `依據 daily_top100_archive.csv 歷史備份，計算合格節目在統計天數內（共 ${datesLength} 天），霸占 Apple Podcasts 百大排行榜天數最多之 Top 10 作品。`
     };
 
@@ -429,29 +457,39 @@ async function main() {
 
     finalAwardsResults["聽眾都要跟你獎"] = {
         award_name: "聽眾都要跟你獎 (加總累積評論數)",
-        ranking: award17Rankings.slice(0, 10).map((r, idx) => ({
-            rank: idx + 1,
-            partnerName: r.partnerName,
-            podcastName: getPodcastNameForPartner(r.partnerName),
-            score: r.reviewsCount,
-            reason: r.reason,
-            compliance: "符合",
-            segments: partnerSegments[r.partnerName]?.slice(0, 3) || []
-        })),
+        ranking: award17Rankings.slice(0, 10).map((r, idx) => {
+            const pName = getPodcastNameForPartner(r.partnerName);
+            const duoDisp = getDuoDisplayName(r.partnerName);
+            return {
+                rank: idx + 1,
+                partnerName: r.partnerName,
+                podcastName: pName,
+                displayName: duoDisp || (pName ? `${pName} (${r.partnerName})` : r.partnerName),
+                score: r.reviewsCount,
+                reason: r.reason,
+                compliance: "符合",
+                segments: partnerSegments[r.partnerName]?.slice(0, 3) || []
+            };
+        }),
         comparative_analysis: `統計自 Apple Podcasts 台灣區公開聽眾評論，篩選出累積留言數最多且評等星等最高之 Top 10 作品。`
     };
 
     finalAwardsResults["聽眾都要跟你獎_近半年"] = {
         award_name: "聽眾都要跟你獎 (近半年有評論數)",
-        ranking: award17RecentRankings.slice(0, 10).map((r, idx) => ({
-            rank: idx + 1,
-            partnerName: r.partnerName,
-            podcastName: getPodcastNameForPartner(r.partnerName),
-            score: r.reviewsCount6Months,
-            reason: r.reason,
-            compliance: "符合",
-            segments: partnerSegments[r.partnerName]?.slice(0, 3) || []
-        })),
+        ranking: award17RecentRankings.slice(0, 10).map((r, idx) => {
+            const pName = getPodcastNameForPartner(r.partnerName);
+            const duoDisp = getDuoDisplayName(r.partnerName);
+            return {
+                rank: idx + 1,
+                partnerName: r.partnerName,
+                podcastName: pName,
+                displayName: duoDisp || (pName ? `${pName} (${r.partnerName})` : r.partnerName),
+                score: r.reviewsCount6Months,
+                reason: r.reason,
+                compliance: "符合",
+                segments: partnerSegments[r.partnerName]?.slice(0, 3) || []
+            };
+        }),
         comparative_analysis: `統計自 Apple Podcasts 台灣區近半年（2026上半年）內新增之聽眾評論，篩選出近期互動最熱烈且好評度最高之 Top 10 作品。`
     };
 

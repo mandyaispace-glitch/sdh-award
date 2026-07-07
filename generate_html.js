@@ -1748,7 +1748,7 @@ function generateSelfContainedHtml() {
                         partnerRows += \`
                             <tr class="hover:bg-slate-50/50">
                                 <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold \${medalColor}">\${medal}</td>
-                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-semibold text-slate-800">\${getPodcastName(r.partnerName)}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-semibold text-slate-800">\${r.displayName || getPodcastName(r.partnerName)}</td>
                                 <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold text-blue-600">\${scoreText}</td>
                                 <td class="px-3 py-2.5 whitespace-nowrap text-xs">
                                     <span class="px-2 py-0.5 rounded-full text-[10px] font-bold \${badgeClass}">\${badgeText}</span>
