@@ -109,10 +109,10 @@
   },
   "哇賽心理學_蔡宇哲": {
     "has_male_host": true,
-    "has_female_host": true,
+    "has_female_host": false,
     "is_duo_or_multiple_hosts": false,
-    "hosts": "蔡宇哲 / 娜娜 (分集單人主持)",
-    "description": "男女主持 (分集單獨主持，不符雙人默契獎)"
+    "hosts": "蔡宇哲 (娜娜分集單人主持，以蔡宇哲男主持申報)",
+    "description": "單人男主持 (分集單獨主持，以蔡宇哲申報男播音)"
   },
   "美股夢想家": {
     "has_male_host": true,

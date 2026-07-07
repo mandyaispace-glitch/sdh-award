@@ -113,19 +113,25 @@ async function main() {
             let reason = "符合評選資格";
 
             if (awardKey === "best_male_host") {
-                if (!meta.has_male_host) {
+                if (meta.is_duo_or_multiple_hosts) {
+                    eligible = false;
+                    reason = "雙人/多人主持節目，歸屬於最佳默契獎，不適用單人男播音獎項。";
+                } else if (!meta.has_male_host) {
                     eligible = false;
                     reason = "節目無男主持人，不適用此獎項。";
                 }
             } else if (awardKey === "best_female_host") {
-                if (!meta.has_female_host) {
+                if (meta.is_duo_or_multiple_hosts) {
+                    eligible = false;
+                    reason = "雙人/多人主持節目，歸屬於最佳默契獎，不適用單人女播音獎項。";
+                } else if (!meta.has_female_host) {
                     eligible = false;
                     reason = "節目無女主持人，不適用此獎項。";
                 }
             } else if (awardKey === "best_duo_hosts") {
                 if (!meta.is_duo_or_multiple_hosts) {
                     eligible = false;
-                    reason = "單人主持節目，不適用此獎項。";
+                    reason = "單人主持節目，歸屬於單人男/女播音獎，不適用此雙人默契獎項。";
                 }
             }
 
