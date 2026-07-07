@@ -138,7 +138,58 @@ async function main() {
             }
 
             if (eligible) {
-                const avgScore = scoresList.reduce((a, b) => a + b, 0) / scoresList.length;
+                const baseScore = scoresList.reduce((a, b) => a + b, 0) / scoresList.length;
+                
+                // Calibrate based on audio features
+                const partnerEps = Object.values(trackBCache).filter(e => e.partnerName === partner);
+                let wpmBonus = 0;
+                let fillerBonus = 0;
+                let acousticBonus = 0;
+                
+                if (partnerEps.length > 0) {
+                    const avgWpm = partnerEps.reduce((sum, e) => sum + (e.speech_rate_wpm || 200), 0) / partnerEps.length;
+                    if (avgWpm >= 180 && avgWpm <= 220) {
+                        wpmBonus = 0.15; // Golden range bonus
+                    } else if (avgWpm > 250 || avgWpm < 150) {
+                        wpmBonus = -0.15; // Penalty
+                    }
+                    
+                    const fillerLevels = partnerEps.map(e => e.filler_words_level || "中");
+                    const lowFillers = fillerLevels.filter(lvl => lvl === "低").length;
+                    const highFillers = fillerLevels.filter(lvl => lvl === "高").length;
+                    fillerBonus = (lowFillers * 0.1) - (highFillers * 0.1);
+                    
+                    const acousticLevels = partnerEps.map(e => e.acoustic_quality_level || "中");
+                    const excellentAc = acousticLevels.filter(lvl => lvl === "優").length;
+                    const poorAc = acousticLevels.filter(lvl => lvl === "差").length;
+                    acousticBonus = (excellentAc * 0.1) - (poorAc * 0.2);
+                }
+                
+                // Calibrate based on Track C social rating
+                let socialBonus = 0;
+                const normalizedPartner = normalizeName(partner);
+                const cData = Object.values(trackCCache).find(c => normalizeName(c.partnerName) === normalizedPartner || normalizeName(c.podcastName) === normalizedPartner);
+                if (cData) {
+                    const avgRating = parseFloat(cData.averageRating) || 0;
+                    const reviewCount = parseInt(cData.reviewCount) || 0;
+                    if (avgRating > 0) {
+                        socialBonus += (avgRating - 4.5) * 0.1;
+                    }
+                    if (reviewCount > 0) {
+                        socialBonus += Math.min(0.2, Math.log10(reviewCount) * 0.05);
+                    }
+                }
+                
+                // Deterministic tie-breaker
+                let charSum = 0;
+                for (let i = 0; i < partner.length; i++) {
+                    charSum += partner.charCodeAt(i);
+                }
+                const tieBreaker = (charSum % 100) * 0.001; // Up to 0.099
+                
+                let finalScore = baseScore + wpmBonus + fillerBonus + acousticBonus + socialBonus + tieBreaker;
+                finalScore = Math.max(1.0, Math.min(10.0, finalScore));
+
                 const comments = partnerComments[partner][awardKey] || [];
                 
                 // Find segment matching this award
@@ -158,7 +209,7 @@ async function main() {
 
                 rankings.push({
                     partnerName: partner,
-                    score: Math.round(avgScore * 100) / 100,
+                    score: Math.round(finalScore * 100) / 100,
                     reason: comments.join(" | "),
                     compliance: "符合",
                     segments: matchingSegments.slice(0, 3)
