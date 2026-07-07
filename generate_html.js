@@ -678,6 +678,22 @@ function generateSelfContainedHtml() {
     </script>
 
     <script>
+        // Build partnerName -> podcastName map dynamically from selectedEpisodes and eligibilityStats
+        window.partnerToPodcastMap = {};
+        if (window.selectedEpisodes) {
+            window.selectedEpisodes.forEach(ep => {
+                window.partnerToPodcastMap[ep.partnerName] = ep.podcastName || ep.showName || ep.partnerName;
+            });
+        }
+        if (window.eligibilityStats && window.eligibilityStats.programs) {
+            window.eligibilityStats.programs.forEach(p => {
+                window.partnerToPodcastMap[p.partnerName] = p.podcastName || p.partnerName;
+            });
+        }
+        function getPodcastName(partnerName) {
+            return window.partnerToPodcastMap[partnerName] || partnerName;
+        }
+
         // Configure marked.js
         marked.setOptions({
             breaks: true,
@@ -821,7 +837,7 @@ function generateSelfContainedHtml() {
 
             const labels = items.map(item => {
                 const shortTitle = item.title.length > 15 ? item.title.slice(0, 15) + '...' : item.title;
-                return \`\${item.partnerName}\\n(\${shortTitle})\`;
+                return \`\${item.podcastName || getPodcastName(item.partnerName)}\\n(\${shortTitle})\`;
             });
 
             const wpmData = items.map(item => item.speech_rate_wpm);
@@ -956,7 +972,7 @@ function generateSelfContainedHtml() {
 
             const labels = items.map(item => {
                 const shortTitle = item.title.length > 15 ? item.title.slice(0, 15) + '...' : item.title;
-                return \`\[item.partnerName}\\n(\${shortTitle})\`;
+                return \`\${item.podcastName || getPodcastName(item.partnerName)}\\n(\${shortTitle})\`;
             });
 
             const wpmData = items.map(item => item.speech_rate_wpm);
@@ -1258,7 +1274,7 @@ function generateSelfContainedHtml() {
                     barChartInstance = new Chart(barCtx, {
                         type: 'bar',
                         data: {
-                            labels: topPrograms.map(p => p.partnerName),
+                            labels: topPrograms.map(p => p.podcastName || getPodcastName(p.partnerName)),
                             datasets: [{
                                 label: '發片集數',
                                 data: topPrograms.map(p => p.episodesCount),
@@ -1332,7 +1348,7 @@ function generateSelfContainedHtml() {
                     });
 
                     return {
-                        label: item.partnerName,
+                        label: item.podcastName || getPodcastName(item.partnerName),
                         data: dataPoints,
                         borderColor: lineColors[idx % lineColors.length],
                         backgroundColor: lineColors[idx % lineColors.length],
@@ -1528,9 +1544,9 @@ function generateSelfContainedHtml() {
                                 <div>
                                     <div class="flex items-center space-x-1.5">
                                         <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold">#\${idx+1}</span>
-                                        <h4 class="text-xs sm:text-sm font-extrabold text-slate-800">\${item.partnerName}</h4>
+                                        <h4 class="text-xs sm:text-sm font-extrabold text-slate-800">\${item.podcastName}</h4>
                                     </div>
-                                    <p class="text-[11px] text-slate-500 mt-1 font-medium">\${item.podcastName}</p>
+                                    <p class="text-[11px] text-slate-500 mt-1 font-medium">\${item.partnerName}</p>
                                 </div>
                                 <div class="text-left sm:text-right shrink-0">
                                     <div class="flex items-center space-x-1 text-xs justify-start sm:justify-end">
@@ -1650,7 +1666,7 @@ function generateSelfContainedHtml() {
                         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
                             <div>
                                 <div class="text-sm font-bold text-slate-800 border-b pb-2 mb-3 flex justify-between items-center">
-                                    <span>🎙️ \${partner}</span>
+                                    <span>🎙️ \${getPodcastName(partner)}</span>
                                     <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">3集隨機抽樣</span>
                                 </div>
                                 <ul class="space-y-3 text-xs text-slate-600">
@@ -1732,7 +1748,7 @@ function generateSelfContainedHtml() {
                         partnerRows += \`
                             <tr class="hover:bg-slate-50/50">
                                 <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold \${medalColor}">\${medal}</td>
-                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-semibold text-slate-800">\${r.partnerName}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-semibold text-slate-800">\${getPodcastName(r.partnerName)}</td>
                                 <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold text-blue-600">\${scoreText}</td>
                                 <td class="px-3 py-2.5 whitespace-nowrap text-xs">
                                     <span class="px-2 py-0.5 rounded-full text-[10px] font-bold \${badgeClass}">\${badgeText}</span>
