@@ -36,6 +36,17 @@ async function main() {
     const trackCCache = JSON.parse(fs.readFileSync(cacheCPath, 'utf-8'));
     const hostMetadata = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));
 
+    // Helper to get podcast/show name for a partner name
+    const getPodcastNameForPartner = (partnerName) => {
+        const meta = hostMetadata[partnerName];
+        if (meta && meta.podcastName) return meta.podcastName;
+        const ep = Object.values(trackBCache).find(e => e.partnerName === partnerName);
+        if (ep && (ep.podcastName || ep.showName)) {
+            return ep.podcastName || ep.showName;
+        }
+        return partnerName;
+    };
+
     // 2. Aggregate B-Track AI scores by partner name
     const partnerScores = {}; // partnerName -> { awardKey -> [scores] }
     const partnerSegments = {}; // partnerName -> [all segments from 3 episodes]
@@ -246,6 +257,7 @@ async function main() {
         const top10 = rankings.slice(0, 10).map((r, idx) => ({
             rank: idx + 1,
             partnerName: r.partnerName,
+            podcastName: getPodcastNameForPartner(r.partnerName),
             score: r.score,
             reason: r.reason,
             compliance: r.compliance,
@@ -255,7 +267,7 @@ async function main() {
         finalAwardsResults[awardKey] = {
             award_name: awardName,
             ranking: top10,
-            comparative_analysis: `經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。${top10[0]?.score ? `第一名【${top10[0].partnerName}】得分最高 (${top10[0].score} 分)。` : ''}`
+            comparative_analysis: `經過 AI 針對抽樣單集的逐字稿與聲音特徵進行橫向評審，篩選出本獎項的 Top 10。${top10[0]?.score ? `第一名【${top10[0].podcastName || top10[0].partnerName}】得分最高 (${top10[0].score} 分)。` : ''}`
         };
     });
 
@@ -295,6 +307,7 @@ async function main() {
         ranking: award15Rankings.slice(0, 10).map((r, idx) => ({
             rank: idx + 1,
             partnerName: r.partnerName,
+            podcastName: getPodcastNameForPartner(r.partnerName),
             score: r.score,
             reason: r.reason,
             compliance: "符合",
@@ -366,6 +379,7 @@ async function main() {
         ranking: award16Rankings.slice(0, 10).map((r, idx) => ({
             rank: idx + 1,
             partnerName: r.partnerName,
+            podcastName: getPodcastNameForPartner(r.partnerName),
             score: r.daysOnChart, // Show days as score
             reason: r.reason,
             compliance: "符合",
@@ -418,6 +432,7 @@ async function main() {
         ranking: award17Rankings.slice(0, 10).map((r, idx) => ({
             rank: idx + 1,
             partnerName: r.partnerName,
+            podcastName: getPodcastNameForPartner(r.partnerName),
             score: r.reviewsCount,
             reason: r.reason,
             compliance: "符合",
@@ -431,6 +446,7 @@ async function main() {
         ranking: award17RecentRankings.slice(0, 10).map((r, idx) => ({
             rank: idx + 1,
             partnerName: r.partnerName,
+            podcastName: getPodcastNameForPartner(r.partnerName),
             score: r.reviewsCount6Months,
             reason: r.reason,
             compliance: "符合",
@@ -459,7 +475,8 @@ async function main() {
             const scoreText = r.score !== null ? `${r.score}` : "N/A";
             const seg = r.segments?.[0] || {};
             const segLink = seg.timeRange ? `[推薦聽點: ${seg.title} (${seg.timeRange})]` : "";
-            reportMd += `| **#${r.rank}** | **${r.partnerName}** | ${scoreText} | ${r.compliance === '不適用' ? r.reason : `${r.reason} ${segLink}`} |\n`;
+            const displayName = r.podcastName ? `${r.podcastName} (${r.partnerName})` : r.partnerName;
+            reportMd += `| **#${r.rank}** | **${displayName}** | ${scoreText} | ${r.compliance === '不適用' ? r.reason : `${r.reason} ${segLink}`} |\n`;
         });
         reportMd += `\n---\n\n`;
     });
