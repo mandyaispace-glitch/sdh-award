@@ -1,12 +1,45 @@
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+const dns = require('dns');
+try {
+    dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (e) {
+    console.warn("無法設定自定義 DNS 伺服器:", e.message);
+}
+
+function customLookup(hostname, options, callback) {
+    if (typeof options === 'function') {
+        callback = options;
+        options = {};
+    }
+    const isAll = options && options.all;
+    dns.resolve4(hostname, (err, addresses) => {
+        if (err || !addresses || addresses.length === 0) {
+            dns.lookup(hostname, options, callback);
+        } else {
+            if (isAll) {
+                const results = addresses.map(addr => ({ address: addr, family: 4 }));
+                callback(null, results);
+            } else {
+                callback(null, addresses[0], 4);
+            }
+        }
+    });
+}
 
 // 1. Helper to fetch/download binary file
 function downloadFile(url, destPath) {
     return new Promise((resolve, reject) => {
         const file = fs.createWriteStream(destPath);
-        https.get(url, (response) => {
+        const urlObj = new URL(url);
+        const requestOptions = {
+            hostname: urlObj.hostname,
+            path: urlObj.pathname + urlObj.search,
+            lookup: customLookup
+        };
+        
+        https.get(requestOptions, (response) => {
             if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
                 // Redirect
                 file.close(() => {
@@ -214,10 +247,13 @@ async function getFileState(fileUri, apiKey) {
     });
 }
 
-// 7. Wait for file to become active
+// 7. Wait for file to become active (optimized polling to save RPM)
 async function waitForFileActive(fileUri, apiKey) {
     console.log("   -> 等待雲端音訊檔案 ACTIVE (轉檔中)...");
-    let retries = 30;
+    // Initial delay since files never become active instantly
+    await new Promise(resolve => setTimeout(resolve, 15000));
+    
+    let retries = 15; // 15 * 15s = 225s total wait time (more than enough)
     while (retries > 0) {
         const fileInfo = await getFileState(fileUri, apiKey);
         const state = fileInfo.state;
@@ -226,27 +262,27 @@ async function waitForFileActive(fileUri, apiKey) {
         } else if (state === 'FAILED') {
             throw new Error("Gemini 處理音訊檔案失敗。");
         }
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        await new Promise(resolve => setTimeout(resolve, 15000));
         retries--;
     }
     throw new Error("等待檔案 ACTIVE 超時。");
 }
 
-// 8. Analyze audio voice features using Gemini 2.5 Flash
+// 8. Analyze audio voice features using Gemini 2.0 Flash
 async function queryVoiceAnalysisRaw(fileUri, apiKey) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
     const headers = { 'Content-Type': 'application/json' };
     
     const prompt = `
-你是一位專業的聲音與節目評審。請聆聽並評估這檔節目單集的說話物理特徵與錄音品質，並針對下列各點進行打分與回覆：
+    你是一位專業的聲音與節目評審。請聆聽並評估這檔節目單集的說話物理特徵與錄音品質，並針對下列各點進行打分與回覆：
 
-1. 語速 (Speech Rate)：估算主講人說話的平均語速（每分鐘約多少字，例如 195 字/分）。
-2. 贅字分析 (Filler Words)：評定贅字頻率等級（低、中、高），並具體說明常出現的口頭禪或贅字（如「呃」、「然後」、「就是」、「那」的出現頻率與習慣）。
-3. 聲音共鳴特質 (Vocal Resonance)：評定主講人聲音的親和力與共鳴感。特別針對男主持人檢測「中低音共鳴與厚實度」；女主持人檢測「高音域圓潤度與溫馨陪伴感」，並說明是否刺耳。
-4. 錄音品質等級 (Acoustic Quality Level)：判定錄音品質（優、中、差），並檢測是否有以下物理缺陷：
-   - 噴麥 (popping)
-   - 突兀爆音 (clipping)
-   - 背景雜音或環境噪音 (noise/hiss)
+    1. 語速 (Speech Rate)：估算主持人的平均語速（每分鐘約多少字，例如 195 字/分）。【特別重要】此估算應僅針對「主持人」（或主講人），必須排除受訪者（來賓）說話的語速。
+    2. 贅字分析 (Filler Words)：評定贅字頻率等級（低、中、高），並具體說明常出現的口頭禪或贅字（如「呃」、「然後」、「就是」、「那」的出現頻率與習慣）。【特別重要】此評估應僅針對「主持人」（或主講人），必須忽略受訪者（來賓）說話中的贅字與口頭禪。
+    3. 聲音共鳴特質 (Vocal Resonance)：評定主講人聲音的親和力與共鳴感。特別針對男主持人檢測「中低音共鳴與厚實度」；女主持人檢測「高音域圓潤度與溫馨陪伴感」，並說明是否刺耳。
+    4. 錄音品質等級 (Acoustic Quality Level)：判定錄音品質（優、中、差），並檢測是否有以下物理缺陷：
+       - 噴麥 (popping)
+       - 突兀爆音 (clipping)
+       - 背景雜音或環境噪音 (noise/hiss)
 5. 推薦黃金片段 (Recommended Listen Segments)：請在整集音檔中，尋找並挑選出【3個最精彩且符合不同大賽獎項評估維度的黃金片段】。片段長度建議在 1.5 到 3 分鐘之間：
    - 【第一個片段（內容與企劃）】：挑選來賓與主持人聊出最精采的觀點、乾貨火花、或具備深度思考與利基選題的區間。用於評選【最神單元企劃】與【自我探索獎】。
    - 【第二個片段（主持控場與互動）】：專門挑選能展現「主持人主持與控場功力」的片段。例如：主持人如何精彩接話/提問？當話題歪掉時主持人如何溫柔且順暢地拉回核心？如果是雙人主持，展現了怎樣流暢且自然的默契接話或笑聲？用於評選【最佳內容架構獎】與【最佳默契獎】。
