@@ -1,16 +1,154 @@
 [
   {
-    "partnerName": "迷途艾比",
-    "podcastName": "迷途星球",
-    "appleId": "1597967789",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
     "partnerName": "山姆書書",
     "podcastName": "山姆書書",
     "appleId": "1630531870",
+    "reviewsCount": 14,
+    "averageRating": 4.6,
+    "reviews": [
+      {
+        "author": "Haabbiii",
+        "rating": 5,
+        "title": "很喜歡你的內容",
+        "content": "我是22歲剛出社會的新鮮人，非常喜歡你的內容及談吐，也很喜歡你開頭的日常！書籍都是我想看的！",
+        "date": "2026-03-29"
+      },
+      {
+        "author": "中肯老實人",
+        "rating": 5,
+        "title": "堅持做下去啊",
+        "content": "我會繼續聽",
+        "date": "2026-03-24"
+      },
+      {
+        "author": "高雄Alice",
+        "rating": 5,
+        "title": "輕鬆，愜意",
+        "content": "一開始忘了是聽到哪本書了，結果卻先是被幹話（年代共鳴）及分享生活所吸引😂，就開始從第一本聽到現在，\n中間幾集還說要取消幹話及分享生活！！但最後幸好還是留下來了，個人覺得這是一個賣點欸～不能沒有啊……..\n我是自由接case的居家清潔二寶媽，您的說書陪我度過很多工作時光及做家事的沈悶時刻，還因為您的說書而去買了「我真的錯了」這本書，真的幫助我買到真正想要讀的書\n希望你不要被流量所影響持續繼續做下去～我們這些老粉會持續支持的！加油，山姆書書讚讚讚！",
+        "date": "2026-03-16"
+      },
+      {
+        "author": "Golden19821230",
+        "rating": 5,
+        "title": "好聽，優秀",
+        "content": "其實，我目前唯一剩下的聽書節目，就只剩下山姆叔叔，加油！\n冷笑話，很有梗，好笑👍",
+        "date": "2026-03-04"
+      },
+      {
+        "author": "Chen楚茵",
+        "rating": 5,
+        "title": "已入坑",
+        "content": "第一次給評論～上班無聊 點了好幾個說書來聽 這個最合我胃口",
+        "date": "2026-02-19"
+      },
+      {
+        "author": "Ken Patrick 0918",
+        "rating": 1,
+        "title": "喜歡講黃色笑話",
+        "content": "會在知識性的內容中講些性暗示或擦邊球的黃色笑話（什麼下面鼓鼓的一大包、洋人的玩具？），聽了很尷尬，明明就是不錯的內容，為何要講黃色笑話拉低品質呢？",
+        "date": "2026-02-18"
+      },
+      {
+        "author": "Franky 樺",
+        "rating": 5,
+        "title": "給你加加油！",
+        "content": "感謝你的說書，輕鬆有趣，還能有收穫，加了閒聊，也是很好啊！繼續加油喔！",
+        "date": "2026-02-12"
+      },
+      {
+        "author": "Steven7199",
+        "rating": 5,
+        "title": "2026 繼續支持山姆書書",
+        "content": "風趣，重點明確，\n讓我快速收穫了許多重點\n謝謝書書～",
+        "date": "2026-02-03"
+      },
+      {
+        "author": "天使48",
+        "rating": 5,
+        "title": "喜歡山姆哥哥說書",
+        "content": "口條很有邏輯，風趣幽默，內容含金量很高，跟瓦基、艾爾文一樣厲害👍\n會喜歡你的聽眾就是會喜歡你，不會被你吸引的聽眾就是不會來聽。",
+        "date": "2026-02-02"
+      },
+      {
+        "author": "如果這是天意",
+        "rating": 5,
+        "title": "帥哥",
+        "content": "我是喜歡聽你分享日常的\n也喜歡穿插個冷笑話\n謝謝你分享書\n聽到很多有趣的書單 讓一段時間沒看書的我又開始拿起書來看了\n感覺很棒\n祝你頻道越來越好 開心順心",
+        "date": "2026-01-26"
+      },
+      {
+        "author": "台中Hedy",
+        "rating": 5,
+        "title": "感謝",
+        "content": "感謝你分享書籍內容！",
+        "date": "2026-01-15"
+      },
+      {
+        "author": "走走看看👀",
+        "rating": 4,
+        "title": "靠北太常出現",
+        "content": "少一點不雅話，這節目就100分了",
+        "date": "2026-01-06"
+      },
+      {
+        "author": "天冷心很暖",
+        "rating": 5,
+        "title": "真心推薦",
+        "content": "喜歡山姆書書的說書方式，穿插幽默，是優質好節目，會ㄧ直持續期待每集的推出👍",
+        "date": "2025-12-31"
+      },
+      {
+        "author": "小玲子_1116",
+        "rating": 5,
+        "title": "值得追蹤頻道",
+        "content": "很用心在經營",
+        "date": "2025-12-23"
+      }
+    ]
+  },
+  {
+    "partnerName": "小河馬媽媽",
+    "podcastName": "來晚無添加河粉吧！",
+    "appleId": "1692523518",
+    "reviewsCount": 2,
+    "averageRating": 3,
+    "reviews": [
+      {
+        "author": "flyxHqcqgqösodjvssj",
+        "rating": 1,
+        "title": "追蹤許久超級失望",
+        "content": "網路霸凌別人是不對的",
+        "date": "2026-03-07"
+      },
+      {
+        "author": "23457）",
+        "rating": 5,
+        "title": "講話可以慢一點會更好",
+        "content": "很多訪談都很好，講話可以慢一點，會更想仔細的聽下去",
+        "date": "2026-01-14"
+      }
+    ]
+  },
+  {
+    "partnerName": "慢活夫妻Dewi&George",
+    "podcastName": "慢活夫妻－專業美股投資與理財",
+    "appleId": "1520711973",
+    "reviewsCount": 1,
+    "averageRating": 5,
+    "reviews": [
+      {
+        "author": "nkkn9999",
+        "rating": 5,
+        "title": "分享買房原因",
+        "content": "方便分享當初買這間投資房的原因嗎？以及區域價位。",
+        "date": "2026-03-22"
+      }
+    ]
+  },
+  {
+    "partnerName": "迷途艾比",
+    "podcastName": "迷途星球",
+    "appleId": "1597967789",
     "reviewsCount": 0,
     "averageRating": 0,
     "reviews": []
@@ -360,14 +498,6 @@
     "reviews": []
   },
   {
-    "partnerName": "慢活夫妻Dewi&George",
-    "podcastName": "慢活夫妻－專業美股投資與理財",
-    "appleId": "1520711973",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
     "partnerName": "潘思璇ＣＰ",
     "podcastName": "CP有主見",
     "appleId": "1719147550",
@@ -531,14 +661,6 @@
     "partnerName": "孫治華",
     "podcastName": "人生挖挖WoW-企業人生策略學",
     "appleId": "1800646759",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
-    "partnerName": "小河馬媽媽",
-    "podcastName": "來晚無添加河粉吧！",
-    "appleId": "1692523518",
     "reviewsCount": 0,
     "averageRating": 0,
     "reviews": []
