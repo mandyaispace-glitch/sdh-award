@@ -1,35 +1,5 @@
 [
   {
-    "partnerName": "布姐陪你聰明工作創意生活",
-    "podcastName": "布姐的沙發",
-    "appleId": "1571405666",
-    "reviewsCount": 3,
-    "averageRating": 5,
-    "reviews": [
-      {
-        "author": "kiamtan",
-        "rating": 5,
-        "title": "布姐好",
-        "content": "布姐好",
-        "date": "2026-05-12"
-      },
-      {
-        "author": "mimidadajessielee",
-        "rating": 5,
-        "title": "輕鬆又實用",
-        "content": "每一集都很好聽\n陪伴一起中年的轉型生活(*☻-☻*)",
-        "date": "2026-04-02"
-      },
-      {
-        "author": "weichenanita",
-        "rating": 5,
-        "title": "超感謝布姐的節目",
-        "content": "還有昨天聽完\n\n我要大聲堅定的說：\n\n布姐的節目\n對我的人生極其重要‼️\n\n是「正向加強」\n\n因為布姐我的思考有很多結🪢都慢慢打開⋯\n\n沒有即時反饋\n是因為身為媽媽&工作因素\n\n時間分配問題(極限)\n\n加上女兒在身邊（她現在去補習了🤩）\n\n我就強迫自己遠離手機📱\n\n才沒有即時表達\n對布姐的感謝🙏💗",
-        "date": "2026-03-28"
-      }
-    ]
-  },
-  {
     "partnerName": "迷途艾比",
     "podcastName": "迷途星球",
     "appleId": "1597967789",
@@ -489,6 +459,14 @@
     "partnerName": "丁菱娟",
     "podcastName": "丁菱娟的邊走邊想",
     "appleId": "1864552953",
+    "reviewsCount": 0,
+    "averageRating": 0,
+    "reviews": []
+  },
+  {
+    "partnerName": "布姐陪你聰明工作創意生活",
+    "podcastName": "布姐的沙發",
+    "appleId": "1571405666",
     "reviewsCount": 0,
     "averageRating": 0,
     "reviews": []
