@@ -1,31 +1,249 @@
 [
   {
-    "partnerName": "人生啊！小歐",
-    "podcastName": "人生啊｜陪你一起看懂人生",
-    "appleId": "1669156618",
-    "reviewsCount": 3,
+    "partnerName": "美股航海王",
+    "podcastName": "航海王的富人學",
+    "appleId": "1726458489",
+    "reviewsCount": 13,
+    "averageRating": 4.7,
+    "reviews": [
+      {
+        "author": "沈淑",
+        "rating": 5,
+        "title": "實體的重量說得太對了",
+        "content": "謝謝船長總是能把船員們帶在正軌上，思維對了一切才有意義，您真的是太棒了🌟🌟🌟🌟🌟",
+        "date": "2026-05-27"
+      },
+      {
+        "author": "Nephrite Shen",
+        "rating": 5,
+        "title": "持續收聽好節目，感謝船長無私分享！",
+        "content": "利用空檔聽取富人學節目已逾月餘，目前聽到54集，打破年齡藩籬的優質節目，已推薦給我的家人和小孩吸收財商觀念和理財規劃，值得本人五星推推推的好頻道，希望大家能踴躍收藏起來",
+        "date": "2026-03-03"
+      },
+      {
+        "author": "柚柚醬",
+        "rating": 5,
+        "title": "謝謝船長",
+        "content": "最近工作太忙，太久沒來聽富人學，最近終於有空檔可以停下來、慢下來聽聽船長說話（？）言之有物的內容在休息之餘還可以充實自己，真的是一舉兩得，經驗值好像又增加了，謝謝船長的優質節目，祝船長、大樹跟聽眾們身體健康，新年快樂。",
+        "date": "2026-02-10"
+      },
+      {
+        "author": "Webb as God",
+        "rating": 1,
+        "title": "104集的開頭評論",
+        "content": "沒必要強聊自己沒興趣、但又想蹭熱度的話題。太牽強反倒失去個人魅力",
+        "date": "2026-01-28"
+      },
+      {
+        "author": "imchien",
+        "rating": 5,
+        "title": "推薦",
+        "content": "有許多觀念及心法分享，增長自己的知識與見聞",
+        "date": "2026-01-23"
+      },
+      {
+        "author": "CHINGMONO",
+        "rating": 5,
+        "title": "學習新知識",
+        "content": "聽到了很多不錯的理念",
+        "date": "2026-01-18"
+      },
+      {
+        "author": "熊熊貝爾哥哥",
+        "rating": 5,
+        "title": "改寫DNA的優質頻道",
+        "content": "船長讓你免於社會鐵拳的洗禮，用血淚與肝換來的寶貴經驗和人生哲學。\n適合闔家收聽的好頻道！",
+        "date": "2026-01-14"
+      },
+      {
+        "author": "Huiyun!",
+        "rating": 5,
+        "title": "謝謝富人學",
+        "content": "謝謝船長帶我們去富人的世界",
+        "date": "2026-01-06"
+      },
+      {
+        "author": "Humbertitan",
+        "rating": 5,
+        "title": "沒有的Privilege 或許是一種天缺",
+        "content": "套用優勢那篇的註解「劣勢開局，不代表輸掉結局」\n這個觀念非常完整的在「與成功有約」的第一個思維習慣「主動積極」被闡述，是富人思維最關鍵的起點\n謝謝船長用簡單直覺的語言傳達",
+        "date": "2025-12-30"
+      },
+      {
+        "author": "Via1177",
+        "rating": 5,
+        "title": "正向能量的節目",
+        "content": "船長很正能量，超值得學習",
+        "date": "2025-12-26"
+      },
+      {
+        "author": "qaz2555",
+        "rating": 5,
+        "title": "很重要的傳達",
+        "content": "謝謝船長傳達這件很重要的事\n記住余家昶英雄\n不是負面的低端狗",
+        "date": "2025-12-24"
+      },
+      {
+        "author": "JJCCHuu",
+        "rating": 5,
+        "title": "因瓦基入坑",
+        "content": "感覺風趣有料的播客",
+        "date": "2025-12-23"
+      },
+      {
+        "author": "黃山安妮",
+        "rating": 5,
+        "title": "很喜歡船長口齒清晰邏輯清楚說話流暢",
+        "content": "我聽podcast已經有5-6年時間，船長的內容是少數我收聽的節目裡頭，主持人可以適切提供提問人比較好的選擇（因為經過很多其他節目，主持人大多不會給明確的建議）\n\n我很喜歡主持人的投資跟聲音，也會一集一集往回聽！\n\n謝謝主持人提供這樣優質的節目",
+        "date": "2025-12-18"
+      }
+    ]
+  },
+  {
+    "partnerName": "Fire人生大學｜道哥",
+    "podcastName": "FIRE 人生大學",
+    "appleId": "1765837689",
+    "reviewsCount": 10,
+    "averageRating": 4.8,
+    "reviews": [
+      {
+        "author": "淋浴秀",
+        "rating": 5,
+        "title": "不知不覺聽完好幾集",
+        "content": "推薦給大家",
+        "date": "2026-04-26"
+      },
+      {
+        "author": "柔轉運勢",
+        "rating": 4,
+        "title": "🥳",
+        "content": "好聽的聲線 搭配上邏輯清晰 活潑生動的方式 讓知識深入淺出的進入腦子🧠 真的是天下之幸事啊～～～😎😎😎",
+        "date": "2026-04-25"
+      },
+      {
+        "author": "Jon ceo",
+        "rating": 5,
+        "title": "里長伯路過 必須給5星好評",
+        "content": "每一集都是滿滿乾貨",
+        "date": "2026-04-25"
+      },
+      {
+        "author": "0894ed顏誠",
+        "rating": 5,
+        "title": "近期最愛的podcast",
+        "content": "我是一位希望能在50歲退休的消防員。感謝道哥的podcast, 讓我在fire的路上能更知道自己需要的是什麼！在一次偶然的機會聽到了道哥的節目（致富心態系列），讓我重新審視自己的初衷，對於財富管理也多了更多清晰的畫面。",
+        "date": "2026-04-13"
+      },
+      {
+        "author": "薇琪徐",
+        "rating": 5,
+        "title": "感動於道哥真心的分享",
+        "content": "我自己也是一個從事15年以上保險的從業人員，聽到道哥真誠的分享，理解道哥從追逐金錢到追逐意義感的過程，希望你的自媒體第二人生很順利也蓬勃的發展",
+        "date": "2026-04-10"
+      },
+      {
+        "author": "Muajee",
+        "rating": 5,
+        "title": "我也好想過fire人生",
+        "content": "非常感謝道哥開啟了我的投資第一步，因過往的投資觀念跟經驗不是很好，我一直到40歲才開始長期投資，希望不會太晚！慶幸訂閱這個頻道，聽到一些能簡單實踐的方式，期待能夠早日退休，過著有安全感的生活",
+        "date": "2026-03-30"
+      },
+      {
+        "author": "Judy Lin 😊",
+        "rating": 5,
+        "title": "謝謝道哥",
+        "content": "近期聽了多集您的Podcast  \n今天聽你說 \"致富覺察\" 第8集  \n內容很棒  說明的很清楚  這8集 我會再重複多聽幾次\n因為我是從最舊的集數開始聽您的節目   就是新舊集數一起聽  吸收到很多的財商/理財觀念  謝謝道哥！",
+        "date": "2026-03-24"
+      },
+      {
+        "author": "fxa0001",
+        "rating": 4,
+        "title": "建議不要一直說 就 就是",
+        "content": "如上",
+        "date": "2026-02-17"
+      },
+      {
+        "author": "ttttttsao",
+        "rating": 5,
+        "title": "美股新手，39集必聽！",
+        "content": "39集根本把美股小白投資必需知道的方法（ETF的標的）跟完整原因都講完了，超讚的寶藏節目",
+        "date": "2026-01-26"
+      },
+      {
+        "author": "kahdkendnke",
+        "rating": 5,
+        "title": "收穫滿滿",
+        "content": "感謝道哥無私的分享您的觀點\n受益良多🙏",
+        "date": "2026-01-14"
+      }
+    ]
+  },
+  {
+    "partnerName": "姐姐不想懂事了｜莉安君怡 / 姊姊不想懂事了",
+    "podcastName": "姐姐不想懂事了",
+    "appleId": "1837928642",
+    "reviewsCount": 2,
     "averageRating": 5,
     "reviews": [
       {
-        "author": "WT Shen",
+        "author": "Harvey  Lin",
         "rating": 5,
-        "title": "有乾貨也有溫暖",
-        "content": "主持人的表達很好～常常會說出我的內心深處的心聲",
-        "date": "2026-06-22"
+        "title": "EP28集狠厲害",
+        "content": "X世代是爸媽，女性有很多束縛，性別角色清楚，但不太質疑。\n\nY世代女性意識抬頭，女強人變多，男人標籤變多，男女都在轉型期，最容易過勞、焦慮的一代。\n\nZ世代的男性地位優勢被削弱，男人不太敢碰女人。演算法推男人太壞，女選男變很謹慎。",
+        "date": "2026-04-17"
       },
       {
-        "author": "sasax100",
+        "author": "Ria Zheng",
         "rating": 5,
-        "title": "放下過度承擔覺得很受用",
-        "content": "一直思考人際關係讓人心累的地方，大家似乎都在職場上演戲的感覺，自己即使直白的說出 ，但在人際關係上還是很敏銳觀察，時常讓自己疲憊，一直找課題分離的方法。 \n後續讓自己好好的面對內在去覺察，以及讓自己把重心放在自己身上。",
-        "date": "2026-05-30"
+        "title": "好喜歡思佳那集！！",
+        "content": "完全符合節目的標題⋯ 扛的太多，情緒真的會一瞬間宣洩出來，真的就會覺得「我不想再那麼懂事了」\n\n聽完很有共感很有力量，希望我們都可以好好的💪",
+        "date": "2026-02-01"
+      }
+    ]
+  },
+  {
+    "partnerName": "佐依Zoey",
+    "podcastName": "佐編茶水間",
+    "appleId": "1399974297",
+    "reviewsCount": 2,
+    "averageRating": 5,
+    "reviews": [
+      {
+        "author": "一個人唱KTV",
+        "rating": 5,
+        "title": "#263 #338",
+        "content": "#263勇敢的zoey，謝謝你陪伴我們好多年，我們也支持與陪伴你\n#338 好舒服的一集",
+        "date": "2026-03-23"
       },
       {
-        "author": "小歐本人",
+        "author": "阿莉絲比辣",
         "rating": 5,
-        "title": "Hi 我是小歐！",
-        "content": "拍謝，由於上架日期設定錯誤，原訂週三 PM5.上架的最新一集內容，已正式上架。",
-        "date": "2026-05-06"
+        "title": "擺脫當下被困住的心情與狀態",
+        "content": "想要跟Zoey說一聲遲來的感謝與鼓勵！\n\n我是一路從2020年就開始聽佐邊茶水間，那時全世界停止運轉，我雖毅然決然選擇辭職，心中難免產生自我懷疑。但一聽到Zoey溫暖的聲音和鼓勵人心的話語，就深深愛上這個節目。時隔6年，依晞記得第一次聽節目時抬頭仰望的陽光，使我全身充滿能量。\n\n2026年2月22日放了個年假，大家都不太願意面對明天要回到工作崗位的藍色心情，我也嘗試用運動搭配podcast調整心情。很幸運聽到Zoey停更後回歸的336集，當一直抓不到跳繩節奏的我心浮氣躁，卻也思考著Zoey口中的無常究竟為何？當下我抬頭仰望天空，驚訝發現為什麼在充滿光害的城市中仍看到幾顆閃爍光亮的星星，而看到的卻不是當下的她。前半年換了自己喜歡的職業，卻也面對很多新挑戰，當下經歷各種抑鬱、暴躁，但現在往回看，似乎自己也在體驗痛苦的過程中慢慢感受到寬闊和輕盈。\n\n想謝謝Zoey這六年超越時空、任何狀態陪伴我成長！因為兩次滿血回歸的感覺都太棒了，所以忍不住浮出水面洋洋灑灑的分享心情與感謝。也祝福Zoey在旅居和未來的生活都能充滿愛、意義與自由！",
+        "date": "2026-02-23"
+      }
+    ]
+  },
+  {
+    "partnerName": "潘思璇ＣＰ",
+    "podcastName": "CP有主見",
+    "appleId": "1719147550",
+    "reviewsCount": 2,
+    "averageRating": 5,
+    "reviews": [
+      {
+        "author": "Samantha 1313",
+        "rating": 5,
+        "title": "太喜歡了！！！必推～",
+        "content": "2026年繼續跟隨妳一起豐盛",
+        "date": "2026-07-06"
+      },
+      {
+        "author": "社群／網紅行銷公關Selina",
+        "rating": 5,
+        "title": "必聽推薦！",
+        "content": "身為在企業行銷與接案之間努力前進的上班族，每次聽《CP有主見》都很有收穫。CP總能用清晰又務實的角度，解析個人品牌、職涯發展與商業思維，讓人不只是獲得靈感，更能真正應用在工作與人生規劃上。 \n\n很喜歡CP分享的內容總是理性、直接又有高度，幫助我在轉職與發展第二收入的過程中，建立更清楚的判斷標準與信心。 \n\n想請問 CP：對於仍有正職、但希望用多年企業行銷經驗發展顧問與接案收入的人，您認為最值得優先投入的三件事是什麼？ \n\n謝謝 CP 持續分享這麼多有價值的觀點，祝福節目越來越成功！",
+        "date": "2026-05-12"
       }
     ]
   },
@@ -58,38 +276,6 @@
         "title": "我是新聽眾",
         "content": "聽到犯罪浮世繪過來的聽眾 🙋🏻，第一次聽覺得忘形講話很有溫度 平易近人，但還是想建議Ep43真的有太多贅字了。我覺得、我現在、現在就是說、就是、我不知道 。等等的的贅詞多到我沒辦法好好聽完全部，就這部分如果可以修正的話就更好了。",
         "date": "2026-01-17"
-      }
-    ]
-  },
-  {
-    "partnerName": "慢活夫妻Dewi&George",
-    "podcastName": "慢活夫妻－專業美股投資與理財",
-    "appleId": "1520711973",
-    "reviewsCount": 1,
-    "averageRating": 5,
-    "reviews": [
-      {
-        "author": "nkkn9999",
-        "rating": 5,
-        "title": "分享買房原因",
-        "content": "方便分享當初買這間投資房的原因嗎？以及區域價位。",
-        "date": "2026-03-22"
-      }
-    ]
-  },
-  {
-    "partnerName": "美股夢想家",
-    "podcastName": "夢想家說股事",
-    "appleId": "1585270910",
-    "reviewsCount": 1,
-    "averageRating": 1,
-    "reviews": [
-      {
-        "author": "雪納瑞MONEY",
-        "rating": 1,
-        "title": "一直在賣app，聽了讓人反感！",
-        "content": "😭😭😭",
-        "date": "2026-04-18"
       }
     ]
   },
@@ -134,14 +320,6 @@
     "reviews": []
   },
   {
-    "partnerName": "姐姐不想懂事了｜莉安君怡 / 姊姊不想懂事了",
-    "podcastName": "姐姐不想懂事了",
-    "appleId": "1837928642",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
     "partnerName": "曼蒂歐逆-轉型之路",
     "podcastName": "任性歐逆機智生活",
     "appleId": "1719757743",
@@ -161,6 +339,14 @@
     "partnerName": "爛泥媽媽的重生日記（Jill)",
     "podcastName": "爛泥Jill式優雅",
     "appleId": "1822120421",
+    "reviewsCount": 0,
+    "averageRating": 0,
+    "reviews": []
+  },
+  {
+    "partnerName": "人生啊！小歐",
+    "podcastName": "人生啊｜陪你一起看懂人生",
+    "appleId": "1669156618",
     "reviewsCount": 0,
     "averageRating": 0,
     "reviews": []
@@ -265,14 +451,6 @@
     "partnerName": "瓦基閱讀前哨站",
     "podcastName": "下一本讀什麼？",
     "appleId": "1532820533",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
-    "partnerName": "佐依Zoey",
-    "podcastName": "佐編茶水間",
-    "appleId": "1399974297",
     "reviewsCount": 0,
     "averageRating": 0,
     "reviews": []
@@ -430,14 +608,6 @@
     "reviews": []
   },
   {
-    "partnerName": "美股航海王",
-    "podcastName": "航海王的富人學",
-    "appleId": "1726458489",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
     "partnerName": "喬王的投資理財筆記",
     "podcastName": "斜槓 槓槓槓",
     "appleId": "1522239777",
@@ -446,17 +616,9 @@
     "reviews": []
   },
   {
-    "partnerName": "潘思璇ＣＰ",
-    "podcastName": "CP有主見",
-    "appleId": "1719147550",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
-    "partnerName": "Fire人生大學｜道哥",
-    "podcastName": "FIRE 人生大學",
-    "appleId": "1765837689",
+    "partnerName": "慢活夫妻Dewi&George",
+    "podcastName": "慢活夫妻－專業美股投資與理財",
+    "appleId": "1520711973",
     "reviewsCount": 0,
     "averageRating": 0,
     "reviews": []
@@ -481,6 +643,14 @@
     "partnerName": "李柏鋒的擴大機",
     "podcastName": "鋒富理財學",
     "appleId": "1570396032",
+    "reviewsCount": 0,
+    "averageRating": 0,
+    "reviews": []
+  },
+  {
+    "partnerName": "美股夢想家",
+    "podcastName": "夢想家說股事",
+    "appleId": "1585270910",
     "reviewsCount": 0,
     "averageRating": 0,
     "reviews": []
