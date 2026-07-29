@@ -1,5 +1,148 @@
 [
   {
+    "partnerName": "Dr Selena",
+    "podcastName": "小資變有錢｜Dr.Selena生活理財王",
+    "appleId": "1626035937",
+    "reviewsCount": 7,
+    "averageRating": 4.4,
+    "reviews": [
+      {
+        "author": "我們的朋友都在我",
+        "rating": 1,
+        "title": "50分鐘的節目聽了45分鐘廣告",
+        "content": "都100張台積電了還要花9/10的時間割韭菜會不會太扯🙄",
+        "date": "2026-07-05"
+      },
+      {
+        "author": "moana chi",
+        "rating": 5,
+        "title": "請問老師是否能再開放延長懶人存股app優惠時間",
+        "content": "真的很心動，但太晚下載，已經沒優惠價了。😭😭😭",
+        "date": "2026-07-01"
+      },
+      {
+        "author": "歷來歷來",
+        "rating": 5,
+        "title": "富旭哥讚👍",
+        "content": "很好的分享",
+        "date": "2026-06-28"
+      },
+      {
+        "author": "YＡP",
+        "rating": 5,
+        "title": "痾..不敗教主",
+        "content": "可以不要再有不敗教主嗎？ 光聽就反胃",
+        "date": "2026-04-24"
+      },
+      {
+        "author": "Yyinzhi",
+        "rating": 5,
+        "title": "很棒的podcast ✨",
+        "content": "昨天聽了兩集馬上被圈粉✨\n老師分享的內容很實用適合通勤聽",
+        "date": "2026-04-09"
+      },
+      {
+        "author": "2330小股東",
+        "rating": 5,
+        "title": "投資從小開始",
+        "content": "感謝陳老師這一集的分享，投資真的是要從小開始，時間會帶給你獲利的果實，給孩子投資的腦袋比什麼都重要",
+        "date": "2026-02-22"
+      },
+      {
+        "author": "阿哲我",
+        "rating": 5,
+        "title": "新加坡股市的看法",
+        "content": "老師好\n最近開始聽此podcast\n覺得對理財知識很有成長\n老師能做一集對於新加坡股市的看法的一集\n謝謝🙏",
+        "date": "2025-12-26"
+      }
+    ]
+  },
+  {
+    "partnerName": "布姐陪你聰明工作創意生活",
+    "podcastName": "布姐的沙發",
+    "appleId": "1571405666",
+    "reviewsCount": 3,
+    "averageRating": 5,
+    "reviews": [
+      {
+        "author": "kiamtan",
+        "rating": 5,
+        "title": "布姐好",
+        "content": "布姐好",
+        "date": "2026-05-12"
+      },
+      {
+        "author": "mimidadajessielee",
+        "rating": 5,
+        "title": "輕鬆又實用",
+        "content": "每一集都很好聽\n陪伴一起中年的轉型生活(*☻-☻*)",
+        "date": "2026-04-02"
+      },
+      {
+        "author": "weichenanita",
+        "rating": 5,
+        "title": "超感謝布姐的節目",
+        "content": "還有昨天聽完\n\n我要大聲堅定的說：\n\n布姐的節目\n對我的人生極其重要‼️\n\n是「正向加強」\n\n因為布姐我的思考有很多結🪢都慢慢打開⋯\n\n沒有即時反饋\n是因為身為媽媽&工作因素\n\n時間分配問題(極限)\n\n加上女兒在身邊（她現在去補習了🤩）\n\n我就強迫自己遠離手機📱\n\n才沒有即時表達\n對布姐的感謝🙏💗",
+        "date": "2026-03-28"
+      }
+    ]
+  },
+  {
+    "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
+    "podcastName": "加班當爸媽｜櫻桃可可CherryCoco",
+    "appleId": "1520423194",
+    "reviewsCount": 2,
+    "averageRating": 5,
+    "reviews": [
+      {
+        "author": "Mogol1123",
+        "rating": 5,
+        "title": "用心經營的頻道！值得用心品嚐",
+        "content": "讓爸媽在親子關係中找到平衡！很適合爸媽們收聽🩷",
+        "date": "2026-07-14"
+      },
+      {
+        "author": "Ashely Yuki",
+        "rating": 5,
+        "title": "洞察社會議題 提供深度反思",
+        "content": "很喜歡CherryCoco深入淺出的採訪, 每集精實的主題，瞬間帶我進入採訪對象的真實生活裡，提供我深度的反思、讓我之後自己或朋友遇到類似情況時，能參考節目中所聽到這些有建設性的解決方法，獲益良多。",
+        "date": "2026-05-02"
+      }
+    ]
+  },
+  {
+    "partnerName": "治療師瑪奇",
+    "podcastName": "教出你的路",
+    "appleId": "1807085418",
+    "reviewsCount": 1,
+    "averageRating": 5,
+    "reviews": [
+      {
+        "author": "垃圾ShopBack🤬",
+        "rating": 5,
+        "title": "喜歡聽妳真誠的分享",
+        "content": "雖然我不是專業工作者，但一直很嚮往像瑪奇一樣的彈性工作與生活，只是我沒有那麼多的創作能量可以產出，我也努力找出自己的路～一起加油",
+        "date": "2026-02-03"
+      }
+    ]
+  },
+  {
+    "partnerName": "美股夢想家",
+    "podcastName": "夢想家說股事",
+    "appleId": "1585270910",
+    "reviewsCount": 1,
+    "averageRating": 1,
+    "reviews": [
+      {
+        "author": "雪納瑞MONEY",
+        "rating": 1,
+        "title": "一直在賣app，聽了讓人反感！",
+        "content": "😭😭😭",
+        "date": "2026-04-18"
+      }
+    ]
+  },
+  {
     "partnerName": "迷途艾比",
     "podcastName": "迷途星球",
     "appleId": "1597967789",
@@ -232,14 +375,6 @@
     "reviews": []
   },
   {
-    "partnerName": "治療師瑪奇",
-    "podcastName": "教出你的路",
-    "appleId": "1807085418",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
     "partnerName": "美業幹什麼｜蔡佩陵",
     "podcastName": "美業幹什麼",
     "appleId": "1822200991",
@@ -315,14 +450,6 @@
     "partnerName": "閱讀聊樂key",
     "podcastName": "閱讀聊樂KEY",
     "appleId": "1650123413",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
-    "partnerName": "Dr Selena",
-    "podcastName": "小資變有錢｜Dr.Selena生活理財王",
-    "appleId": "1626035937",
     "reviewsCount": 0,
     "averageRating": 0,
     "reviews": []
@@ -408,14 +535,6 @@
     "reviews": []
   },
   {
-    "partnerName": "美股夢想家",
-    "podcastName": "夢想家說股事",
-    "appleId": "1585270910",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
     "partnerName": "精算媽咪的家計簿｜珊迪兔",
     "podcastName": "精算媽咪的家計簿",
     "appleId": "1501644109",
@@ -464,14 +583,6 @@
     "reviews": []
   },
   {
-    "partnerName": "布姐陪你聰明工作創意生活",
-    "podcastName": "布姐的沙發",
-    "appleId": "1571405666",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
     "partnerName": "郝旭烈/郝聲音",
     "podcastName": "郝聲音",
     "appleId": "1533782597",
@@ -483,14 +594,6 @@
     "partnerName": "小思大維｜雪柔",
     "podcastName": "小思大維",
     "appleId": "1780788374",
-    "reviewsCount": 0,
-    "averageRating": 0,
-    "reviews": []
-  },
-  {
-    "partnerName": "加班當爸媽．櫻桃可可CherryCoco",
-    "podcastName": "加班當爸媽｜櫻桃可可CherryCoco",
-    "appleId": "1520423194",
     "reviewsCount": 0,
     "averageRating": 0,
     "reviews": []
