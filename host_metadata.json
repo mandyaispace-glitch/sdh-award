@@ -152,7 +152,7 @@
   "無所不試無樂不作": {
     "has_male_host": false,
     "has_female_host": true,
-    "is_duo_or_multiple_hosts": false,
+    "is_duo_or_multiple_hosts": true,
     "hosts": "Catherine",
     "description": "單人女主持"
   },
@@ -187,7 +187,7 @@
   "楊月娥（楊肉爐）": {
     "has_male_host": false,
     "has_female_host": true,
-    "is_duo_or_multiple_hosts": false,
+    "is_duo_or_multiple_hosts": true,
     "hosts": "楊月娥",
     "description": "單人女主持"
   },

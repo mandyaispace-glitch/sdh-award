@@ -489,7 +489,13 @@ async function main() {
     };
 
     // 8. Write to awards_top10_results.json
+    
+    Object.keys(finalAwardsResults).forEach(k => {
+        finalAwardsResults[k].ranking = finalAwardsResults[k].ranking.filter(r => r.compliance === "符合" && r.score !== null);
+        finalAwardsResults[k].ranking.forEach((r, idx) => r.rank = idx + 1);
+    });
     fs.writeFileSync(outputPath, JSON.stringify({ awards: finalAwardsResults }, null, 2), 'utf-8');
+
     console.log(`\n🎉 Top 10 決審名單編譯完成！`);
     console.log(`- 輸出結果已存檔至: ${outputPath}`);
 
