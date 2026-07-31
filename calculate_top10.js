@@ -195,29 +195,32 @@ async function main() {
                     acousticBonus = (excellentAc * 0.1) - (poorAc * 0.2);
                 }
                 
-                // Calibrate based on Track C social rating
+                // --- 1st Tie-Breaker: Standard Deviation (品質穩定度) ---
+                let variance = 0;
+                scoresList.forEach(s => { variance += Math.pow(s - baseScore, 2); });
+                variance /= scoresList.length;
+                const stdDev = Math.sqrt(variance);
+                // 變異程度越高，扣分越多 (每 1 單位的標準差扣 0.05 分)
+                const stabilityPenalty = -(stdDev * 0.05);
+                
+                // --- 2nd Tie-Breaker: Track C Social Rating (聽眾共鳴) ---
                 let socialBonus = 0;
                 const normalizedPartner = normalizeName(partner);
                 const cData = Object.values(trackCCache).find(c => normalizeName(c.partnerName) === normalizedPartner || normalizeName(c.podcastName) === normalizedPartner);
                 if (cData) {
                     const avgRating = parseFloat(cData.averageRating) || 0;
                     const reviewCount = parseInt(cData.reviewCount) || 0;
+                    
+                    // 極小的權重，確保只在同分時發揮作用
                     if (avgRating > 0) {
-                        socialBonus += (avgRating - 4.5) * 0.1;
+                        socialBonus += (avgRating * 0.001); 
                     }
                     if (reviewCount > 0) {
-                        socialBonus += Math.min(0.2, Math.log10(reviewCount) * 0.05);
+                        socialBonus += (Math.log10(reviewCount + 1) * 0.0001);
                     }
                 }
                 
-                // Deterministic tie-breaker
-                let charSum = 0;
-                for (let i = 0; i < partner.length; i++) {
-                    charSum += partner.charCodeAt(i);
-                }
-                const tieBreaker = (charSum % 100) * 0.001; // Up to 0.099
-                
-                let finalScore = baseScore + wpmBonus + fillerBonus + acousticBonus + socialBonus + tieBreaker;
+                let finalScore = baseScore + wpmBonus + fillerBonus + acousticBonus + stabilityPenalty + socialBonus;
                 finalScore = Math.max(1.0, Math.min(10.0, finalScore));
 
                 const comments = partnerComments[partner][awardKey] || [];
@@ -239,7 +242,7 @@ async function main() {
 
                 rankings.push({
                     partnerName: partner,
-                    score: Math.round(finalScore * 100) / 100,
+                    score: Math.round(finalScore * 10000) / 10000,
                     reason: comments.join(" | "),
                     compliance: "符合",
                     segments: matchingSegments.slice(0, 3)
@@ -511,7 +514,7 @@ async function main() {
         reportMd += `| :--- | :--- | :--- | :--- |\n`;
         
         aw.ranking.forEach(r => {
-            const scoreText = r.score !== null ? `${r.score}` : "N/A";
+            const scoreText = r.score !== null ? `${r.score.toFixed(4)}` : "N/A";
             const seg = r.segments?.[0] || {};
             const segLink = seg.timeRange ? `[推薦聽點: ${seg.title} (${seg.timeRange})]` : "";
             const displayName = r.podcastName ? `${r.podcastName} (${r.partnerName})` : r.partnerName;

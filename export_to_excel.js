@@ -45,6 +45,38 @@ ws['!cols'] = wscols;
 XLSX.utils.book_append_sheet(wb, ws, "評選決審 Top 10");
 
 // 輸出 Excel 檔案
+
+// 讀取評選定義
+let definitionsRows = [];
+try {
+    const defText = fs.readFileSync('award_definitions.md', 'utf8');
+    const lines = defText.split('\n');
+    let currentAward = "";
+    let currentDesc = "";
+    
+    for (let line of lines) {
+        if (line.startsWith('### ')) {
+            if (currentAward) {
+                definitionsRows.push({"大會獎項": currentAward, "評選定義與細則 (AI 評審指標)": currentDesc.trim()});
+            }
+            currentAward = line.replace('### ', '').trim();
+            currentDesc = "";
+        } else if (currentAward && line.trim() !== '') {
+            currentDesc += line + "\n";
+        }
+    }
+    if (currentAward) {
+        definitionsRows.push({"大會獎項": currentAward, "評選定義與細則 (AI 評審指標)": currentDesc.trim()});
+    }
+} catch (e) {
+    console.error("無法讀取 award_definitions.md", e);
+}
+
+// 將評選定義轉為 Worksheet
+const wsDef = XLSX.utils.json_to_sheet(definitionsRows);
+wsDef['!cols'] = [{wch: 40}, {wch: 150}];
+XLSX.utils.book_append_sheet(wb, wsDef, "評選定義與細則");
+
 const outputPath = 'Awards_Top10_Results.xlsx';
 XLSX.writeFile(wb, outputPath);
 
