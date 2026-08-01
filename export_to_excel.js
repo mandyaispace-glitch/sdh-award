@@ -13,13 +13,19 @@ for (const [awardKey, awardObj] of Object.entries(data.awards)) {
     const ranking = awardObj.ranking;
     
     ranking.forEach(r => {
+        let segStr = "";
+        const seg = r.segments?.[0];
+        if (seg && seg.timeRange) {
+            segStr = `【${seg.title}】\n時間: ${seg.timeRange}\n單集: ${seg.episodeTitle || '該節目'}\n理由: ${seg.reason || ''}`;
+        }
         excelData.push({
             "獎項 (Award)": awardName,
             "名次 (Rank)": r.rank,
             "節目名稱 (Podcast)": r.podcastName || "",
             "主持人/夥伴 (Partner)": r.partnerName || "",
             "AI評分/綜合指標 (Score)": r.score,
-            "評選理由 (Reason)": r.reason
+            "評選理由 (Reason)": r.reason,
+            "最推薦聆聽片段 (Recommended Segment)": segStr
         });
     });
 }
@@ -37,7 +43,8 @@ const wscols = [
     {wch: 30}, // 節目名稱
     {wch: 25}, // 主持人
     {wch: 20}, // 分數
-    {wch: 100} // 理由
+    {wch: 80}, // 理由
+    {wch: 70}  // 推薦片段
 ];
 ws['!cols'] = wscols;
 

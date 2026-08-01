@@ -285,10 +285,9 @@ function generateSelfContainedHtml() {
 <body class="min-h-screen py-10 px-4 sm:px-6 lg:px-8 bg-[#f0efed]">
     <div class="max-w-5xl mx-auto">
         <!-- Floating Header -->
-        <header class="flex justify-between items-center mb-10 pb-5 border-b border-slate-200">
+        <header class="flex justify-between items-center mb-8 pb-5 border-b border-slate-200">
             <div class="flex items-center space-x-3">
                 <span class="text-2xl font-extrabold tracking-wider text-blue-600">SDH Award</span>
-                <span class="text-xs bg-blue-100 text-blue-600 py-1 px-2 rounded-full font-semibold">AI評選系統 Demo</span>
             </div>
             <div class="text-xs text-slate-500">
                 更新時間: ${new Date().toISOString().split('T')[0]} | 設計者: Antigravity
@@ -318,15 +317,12 @@ function generateSelfContainedHtml() {
             <!-- Vertical divider line on desktop -->
             <div class="hidden lg:block w-px bg-slate-200/80 my-2"></div>
 
-            <!-- Group 2: 評選成果決選參考 -->
+            <!-- Group 2: 評估資料 (資格/聲軌/聲量) -->
             <div class="flex-[2] flex flex-col space-y-2">
                 <span class="text-[10px] font-black text-indigo-400 uppercase tracking-wider pl-1.5 flex items-center space-x-1">
-                    <span>🎯 評選成果區 (決選參考)</span>
+                    <span>📊 評估數據區</span>
                 </span>
                 <div class="flex flex-wrap gap-1.5 p-1 bg-slate-200/40 rounded-xl border border-slate-200/20">
-                    <a id="tab-btn-awards-top10" href="#awards-top10" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('awards-top10'); return false;">
-                        🏆 AI 決選 Top 10
-                    </a>
                     <a id="tab-btn-eligibility" href="#eligibility" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('eligibility'); return false;">
                         🔍 資格審查
                     </a>
@@ -340,21 +336,17 @@ function generateSelfContainedHtml() {
                     ` : ''}
                 </div>
             </div>
+        </div>
 
-            <!-- Vertical divider line on desktop -->
-            <div class="hidden lg:block w-px bg-slate-200/80 my-2"></div>
-
-            <!-- Group 3: POC 模擬區 (Demo) -->
-            <div class="flex-[1.5] flex flex-col space-y-2">
-                <span class="text-[10px] font-black text-rose-400 uppercase tracking-wider pl-1.5 flex items-center space-x-1">
-                    <span>🧪 POC 模擬區 (Demo)</span>
+        <!-- 獨立大區塊 Top 10 決選入口 -->
+        <div class="mb-8 relative group">
+            <div class="absolute -inset-1 bg-gradient-to-r from-rose-500 via-purple-500 to-indigo-500 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+            <a href="#awards-top10" class="relative block w-full py-5 px-6 text-center text-lg sm:text-xl font-black rounded-2xl transition-all duration-300 bg-white text-slate-800 shadow-md hover:shadow-xl border border-slate-100" onclick="switchTab('awards-top10'); return false;">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-rose-500 to-indigo-600">
+                    🏆 點擊進入 2026 鬧鐘獎 AI 決審 Top 10 大榜單 🏆
                 </span>
-                <div class="flex flex-wrap gap-1.5 p-1 bg-slate-200/40 rounded-xl border border-slate-200/20">
-                    <a id="tab-btn-demo" href="#demo" class="flex-1 py-2 text-center text-[11px] sm:text-xs font-semibold rounded-lg transition-all duration-200 text-slate-600 hover:text-slate-900 hover:bg-white/50" onclick="switchTab('demo'); return false;">
-                        🎯 Demo 成果
-                    </a>
-                </div>
-            </div>
+            </a>
+        </div>
         </div>
 
         <!-- Main Content Card -->
@@ -413,80 +405,7 @@ function generateSelfContainedHtml() {
                 </div>
             </div>
 
-            <div id="content-demo" class="prose max-w-none hidden">
-                <!-- POC Sample Episodes Section -->
-                <div id="poc-dashboard" class="not-prose mb-10 hidden pt-4">
-                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-blue-600 pl-2">
-                        🎯 決審隨機抽樣 POC 單集清單 (每檔各 3 集)
-                    </h3>
-                    <p class="text-xs text-slate-500 mb-4">
-                        為進行決審 POC 模擬評選，系統自合格單集池中隨機抽出以下 9 個單集。這些單集的轉寫內容將作為軌道 A 文本獎與軌道 B 聲音獎的評比依據。
-                    </p>
-                    <!-- Episodes list grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" id="poc-episodes-list">
-                        <!-- Episode lists dynamically injected -->
-                    </div>
-                </div>
-
-                <!-- Track A POC Results inside Demo Tab -->
-                <div class="not-prose mt-10 space-y-6 border-t border-slate-200/60 pt-8">
-                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-blue-600 pl-2">
-                        🏆 A軌文本決選參考 (POC 成果)
-                    </h3>
-                    
-                    <!-- Overall Summary Card -->
-                    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 rounded-2xl text-white shadow-md mb-6 space-y-2">
-                        <h4 class="text-sm font-extrabold flex items-center text-white">
-                            <span class="text-lg mr-2">🔮</span> 評審團文本評選綜合總評
-                        </h4>
-                        <p id="poc-overall-summary-a" class="text-xs text-blue-50 leading-relaxed font-medium" style="color: #eff6ff !important;">
-                            <!-- Injected summary -->
-                        </p>
-                    </div>
-                    
-
-                </div>
-
-                <!-- Track B POC Results inside Demo Tab -->
-                <div class="not-prose mt-10 space-y-6 border-t border-slate-200/60 pt-8">
-                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-indigo-600 pl-2">
-                        🎙️ B軌聲音決選參考 (POC 成果)
-                    </h3>
-                    
-                    <!-- Overall Summary Card -->
-                    <div class="bg-gradient-to-r from-indigo-600 to-purple-700 p-6 rounded-2xl text-white shadow-md mb-6 space-y-2">
-                        <h4 class="text-sm font-extrabold flex items-center text-white">
-                            <span class="text-lg mr-2">🔮</span> 評審團聲音評選綜合總評
-                        </h4>
-                        <p id="poc-overall-summary-b" class="text-xs text-blue-50 leading-relaxed font-medium" style="color: #eff6ff !important;">
-                            <!-- Injected summary -->
-                        </p>
-                    </div>
-
-                    <!-- Voice Diagnostics Comparison Chart -->
-                    <div id="voice-analysis-chart-card" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center mb-6 hidden">
-                        <h3 class="text-sm font-extrabold text-slate-700 mb-2 self-start border-l-4 border-indigo-500 pl-2">
-                            聲音物理評估對比 (平均語速 vs 贅字頻率)
-                        </h3>
-                        <p class="text-xs text-slate-500 mb-4 self-start">
-                            呈現 9 個抽樣單集的平均語速（WPM，柱狀圖，對應左軸）與贅字頻率等級（低/中/高，折線圖，對應右軸，點位越高代表口條越流暢、贅字越少）。
-                        </p>
-                        <div class="w-full h-[320px] flex items-center justify-center">
-                            <canvas id="voiceChart"></canvas>
-                        </div>
-                    </div>
-
-
-
-                    <!-- Voice Diagnostics Details Grid (9 episodes) -->
-                    <h3 class="text-base font-extrabold text-slate-800 mb-4 border-l-4 border-emerald-600 pl-2">
-                        🔍 聲音物理評估詳情 (9集 POC 深入分析)
-                    </h3>
-                    <div class="grid grid-cols-1 gap-4" id="voice-diagnostics-list">
-                        <!-- Dynamic list of voice diagnostics for all 9 episodes -->
-                    </div>
-                </div>
-            </div>
+            <!-- Removed content-demo -->
 
             <!-- Eligibility Tab Content -->
             <div id="content-eligibility" class="prose max-w-none hidden">
@@ -1738,35 +1657,64 @@ function generateSelfContainedHtml() {
                         
                         let segmentsText = '';
                         if (r.segments && r.segments.length > 0) {
-                            segmentsText = '<div class="mt-1.5 space-y-1">';
+                            segmentsText = '<div class="space-y-1.5">';
                             r.segments.forEach(seg => {
-                                segmentsText += '<div class="text-[10px] text-slate-500"><span class="font-bold text-blue-600">[試聽: ' + seg.timeRange + ']</span> ' + seg.title + '</div>';
+                                segmentsText += '<div class="text-[11px] text-slate-700 bg-slate-50 p-1.5 rounded"><span class="font-bold text-blue-600">[' + seg.timeRange + ']</span> <span class="font-semibold">' + seg.title + '</span><br><span class="text-[10px] text-slate-500">來源: ' + (seg.episodeTitle || '該節目') + '</span><div class="mt-1 text-slate-600 leading-tight">' + (seg.reason || '').replace(/\\n/g, '<br>') + '</div></div>';
                             });
                             segmentsText += '</div>';
+                        } else {
+                            segmentsText = '<span class="text-slate-400 text-[10px]">無特別推薦</span>';
                         }
                         
                         partnerRows += \`
                             <tr class="hover:bg-slate-50/50">
-                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold \${medalColor}">\${medal}</td>
-                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-semibold text-slate-800">\${r.displayName || getPodcastName(r.partnerName)}</td>
-                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold text-blue-600">\${scoreText}</td>
-                                <td class="px-3 py-2.5 whitespace-nowrap text-xs">
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold \${medalColor} align-top">\${medal}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-semibold text-slate-800 align-top">\${r.displayName || getPodcastName(r.partnerName)}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs font-bold text-blue-600 align-top">\${scoreText}</td>
+                                <td class="px-3 py-2.5 whitespace-nowrap text-xs align-top">
                                     <span class="px-2 py-0.5 rounded-full text-[10px] font-bold \${badgeClass}">\${badgeText}</span>
                                 </td>
-                                <td class="px-3 py-2.5 text-xs text-slate-600 leading-relaxed">
+                                <td class="px-3 py-2.5 text-xs text-slate-600 leading-relaxed align-top">
                                     <div>\${r.reason}</div>
+                                </td>
+                                <td class="px-3 py-2.5 align-top min-w-[250px]">
                                     \${segmentsText}
                                 </td>
                             </tr>
                         \`;
                     });
                     
+                    const ruleDescriptions = {
+                        "content_structure": "評量節目段落安排、邏輯連貫性以及節奏把控，是否能讓聽眾輕鬆跟隨不失焦。",
+                        "episode_planning": "評量單集主題的切入點是否新穎、具吸引力，以及內容企劃的完整度與創意。",
+                        "best_cta": "評斷節目內容是否能成功說服或勾起聽眾『購買特定商品與服務』的強烈慾望。",
+                        "niche_market": "評斷內容針對特定領域或小眾族群的精準度、專業度及共鳴感。",
+                        "self_exploration": "以節目核心主軸出發，評斷內容是否能有效引發聽眾『向內進行自我探索與覺察』。",
+                        "best_long_form": "針對40分鐘以上節目，評斷其內容深度、層次感及長時間聆聽的黏著度。",
+                        "best_short_form": "針對20分鐘以下節目，評斷其資訊密度、精煉度及短時間內的完整傳達能力。",
+                        "欸我跟你獎": "評斷內容是否具備極高的『社交分享價值』，讓聽眾聽完會想立刻推薦給朋友。",
+                        "best_duo_hosts": "針對雙人(或以上)主持，專注評估互動是否能「讓氣氛變好」的渲染力，並特別考量兩人說話的聲調、語氣起伏、互動火花與趣味性，是否活潑有趣、能帶動情緒。",
+                        "best_male_host": "評斷男主持人的聲音魅力、語調起伏、口條清晰度與整體控場能力。",
+                        "best_female_host": "評斷女主持人的聲音魅力、語調起伏、口條清晰度與整體控場能力。",
+                        "atmosphere_night": "評斷聲音表現是否具備放鬆、陪伴感，適合在睡前或深夜靜心聆聽。",
+                        "atmosphere_morning": "評斷聲音表現是否充滿活力與朝氣，能為聽眾帶來早晨正向啟動的能量。",
+                        "atmosphere_healing": "評斷聲音與內容是否能帶來溫暖、安定與撫慰人心的情緒價值。",
+                        "please_continue": "針對具備深刻社會價值或知識性，但相對冷門硬核，極需要被鼓勵持續創作的節目。",
+                        "站著不走獎": "完全依照 Apple Podcast 歷史榜單，計算該節目出現在每日 Top 100 總榜的總天數。",
+                        "聽眾都要跟你獎": "基於 Apple Podcast 歷史總聽眾評分，依序以『平均星等』與『總評論數』做客觀排序。",
+                        "聽眾都要跟你獎_近半年": "基於 Apple Podcast 近六個月內的聽眾評分，依序以『平均星等』與『總評論數』做客觀排序。"
+                    };
+                    const descriptionText = ruleDescriptions[key] || "基於 AI 綜合多維度深度分析與交叉評比之結果。";
+                    
                     const singleAwardHtml = \`
                         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                            <div class="flex justify-between items-center border-b pb-3">
-                                <h4 class="text-sm font-extrabold text-slate-800 flex items-center">
+                            <div class="flex flex-col md:flex-row md:justify-between md:items-center border-b pb-3 gap-2">
+                                <h4 class="text-sm font-extrabold text-slate-800 flex items-center shrink-0">
                                     <span class="text-lg mr-2">🏅</span> \${aw.award_name}
                                 </h4>
+                                <div class="text-xs font-medium text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 flex-1 ml-0 md:ml-4">
+                                    <span class="font-bold text-slate-700">📌 評選規則：</span>\${descriptionText}
+                                </div>
                             </div>
                             <div class="overflow-x-auto">
                                 <table class="min-w-full divide-y divide-slate-100 text-left">
@@ -1777,6 +1725,7 @@ function generateSelfContainedHtml() {
                                             <th class="px-3 py-2">打分</th>
                                             <th class="px-3 py-2">符合定義</th>
                                             <th class="px-3 py-2">評分說明</th>
+                                            <th class="px-3 py-2">最推薦聆聽片段 (決審用)</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-100 bg-white">

@@ -429,29 +429,37 @@ async function main() {
         const reviewsCount6Months = parseInt(kol.reviewsCount6Months) || 0;
         const avgRating = parseFloat(kol.averageRating) || 0;
         
-        // 合併指標：星等(最高5) + 評論量加權(每10則1分，最高5分) = 總分10分
-        const compositeScore = avgRating + Math.min(reviewsCount / 10, 5);
-        const compositeScore6Months = avgRating + Math.min(reviewsCount6Months / 5, 5); // 近半年標準放寬
+        const compositeScore = avgRating;
         
-        award17Rankings.push({
-            partnerName: kol.partnerName,
-            reviewsCount: reviewsCount,
-            avgRating: avgRating,
-            compositeScore: Math.round(compositeScore * 100) / 100,
-            reason: `平均評等 ${avgRating} 星，累計 ${reviewsCount} 則評論。綜合指標得分：${Math.round(compositeScore * 100) / 100} / 10 分。`
-        });
+        if (reviewsCount > 0 && avgRating > 0) {
+            award17Rankings.push({
+                partnerName: kol.partnerName,
+                reviewsCount: reviewsCount,
+                avgRating: avgRating,
+                score: avgRating,
+                reason: `平均評等 ${avgRating} 星，累計 ${reviewsCount} 則評論。`
+            });
+        }
         
-        award17RecentRankings.push({
-            partnerName: kol.partnerName,
-            reviewsCount6Months: reviewsCount6Months,
-            avgRating: avgRating,
-            compositeScore: Math.round(compositeScore6Months * 100) / 100,
-            reason: `近半年評等 ${avgRating} 星，新增 ${reviewsCount6Months} 則評論。綜合指標得分：${Math.round(compositeScore6Months * 100) / 100} / 10 分。`
-        });
+        if (reviewsCount6Months > 0 && avgRating > 0) {
+            award17RecentRankings.push({
+                partnerName: kol.partnerName,
+                reviewsCount6Months: reviewsCount6Months,
+                avgRating: avgRating,
+                score: avgRating,
+                reason: `近半年評等 ${avgRating} 星，新增 ${reviewsCount6Months} 則評論。`
+            });
+        }
     });
 
-    award17Rankings.sort((a, b) => b.compositeScore - a.compositeScore);
-    award17RecentRankings.sort((a, b) => b.compositeScore - a.compositeScore);
+    award17Rankings.sort((a, b) => {
+        if (b.avgRating !== a.avgRating) return b.avgRating - a.avgRating;
+        return b.reviewsCount - a.reviewsCount;
+    });
+    award17RecentRankings.sort((a, b) => {
+        if (b.avgRating !== a.avgRating) return b.avgRating - a.avgRating;
+        return b.reviewsCount6Months - a.reviewsCount6Months;
+    });
 
     finalAwardsResults["聽眾都要跟你獎"] = {
         award_name: "聽眾都要跟你獎 (加總累積評論數)",
@@ -463,13 +471,13 @@ async function main() {
                 partnerName: r.partnerName,
                 podcastName: pName,
                 displayName: duoDisp || (pName ? `${pName} (${r.partnerName})` : r.partnerName),
-                score: r.compositeScore,
+                score: r.score,
                 reason: r.reason,
                 compliance: "符合",
                 segments: partnerSegments[r.partnerName]?.slice(0, 3) || []
             };
         }),
-        comparative_analysis: `統計 Apple Podcasts 公開評論，將「平均星等」與「總評論量」進行加權整併（滿分 10 分），篩選出綜合互動影響力最高之 Top 10 作品。`
+        comparative_analysis: `嚴格剔除無星等與無評論之節目。依據 Apple Podcasts 公開評論，優先比較「平均星等」，若星等相同則比較「累計總評論數」，篩選出聽眾最愛 Top 10。`
     };
 
     finalAwardsResults["聽眾都要跟你獎_近半年"] = {
@@ -510,15 +518,18 @@ async function main() {
     Object.entries(finalAwardsResults).forEach(([key, aw]) => {
         reportMd += `## 🏆 【${aw.award_name}】\n`;
         reportMd += `> **大會初審分析**: ${aw.comparative_analysis}\n\n`;
-        reportMd += `| 排名 | 入圍合作夥伴 | AI 評分/數據 | 初審分析理由 / 推薦聆聽片段 |\n`;
-        reportMd += `| :--- | :--- | :--- | :--- |\n`;
+        reportMd += `| 排名 | 入圍合作夥伴 | AI 評分/數據 | 初審分析理由 | 最推薦聆聽片段 (供決審) |\n`;
+        reportMd += `| :--- | :--- | :--- | :--- | :--- |\n`;
         
         aw.ranking.forEach(r => {
             const scoreText = r.score !== null ? `${r.score.toFixed(4)}` : "N/A";
             const seg = r.segments?.[0] || {};
-            const segLink = seg.timeRange ? `[推薦聽點: ${seg.title} (${seg.timeRange})]` : "";
+            let segInfo = "無特別推薦";
+            if (seg.timeRange) {
+                segInfo = `**${seg.title}**<br>🕒 \`${seg.timeRange}\`<br>🎙️ 出處: ${seg.episodeTitle || '該節目'}<br>💡 ${(seg.reason || '').replace(/\n/g, '<br>')}`;
+            }
             const displayName = r.podcastName ? `${r.podcastName} (${r.partnerName})` : r.partnerName;
-            reportMd += `| **#${r.rank}** | **${displayName}** | ${scoreText} | ${r.compliance === '不適用' ? r.reason : `${r.reason} ${segLink}`} |\n`;
+            reportMd += `| **#${r.rank}** | **${displayName}** | ${scoreText} | ${r.compliance === '不適用' ? r.reason : r.reason} | ${r.compliance === '不適用' ? 'N/A' : segInfo} |\n`;
         });
         reportMd += `\n---\n\n`;
     });
