@@ -1573,8 +1573,8 @@ function generateSelfContainedHtml() {
             const selectedEpisodes = window.selectedEpisodes;
             const pocDashboard = document.getElementById('poc-dashboard');
             
-            if (pocResults && selectedEpisodes && pocDashboard) {
-                pocDashboard.classList.remove('hidden');
+            if (pocResults && selectedEpisodes) {
+                if (pocDashboard) pocDashboard.classList.remove('hidden');
                 
                 // 1. Render Episode List
                 let epListHtml = '';
@@ -1620,7 +1620,8 @@ function generateSelfContainedHtml() {
                         </div>
                     \`;
                 });
-                document.getElementById('poc-episodes-list').innerHTML = epListHtml;
+                const epListContainer = document.getElementById('poc-episodes-list');
+                if (epListContainer) epListContainer.innerHTML = epListHtml;
                 
                 // 2. Render Awards Table (Split by Track A / Track B)
                 let awardsHtmlTrackA = '';
