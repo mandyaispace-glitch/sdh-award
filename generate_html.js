@@ -1570,60 +1570,12 @@ function generateSelfContainedHtml() {
 
             // Render POC Results in dashboard if available
             const pocResults = window.pocResults;
-            const selectedEpisodes = window.selectedEpisodes;
             const pocDashboard = document.getElementById('poc-dashboard');
             
-            if (pocResults && selectedEpisodes) {
+            if (pocResults) {
                 if (pocDashboard) pocDashboard.classList.remove('hidden');
                 
-                // 1. Render Episode List
-                let epListHtml = '';
-                const targetPartners = ["郝旭烈/郝聲音", "五吉郎", "哇賽心理學_蔡宇哲"];
-                targetPartners.forEach(partner => {
-                    const eps = selectedEpisodes.filter(e => e.partnerName === partner);
-                    epListHtml += \`
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-                            <div>
-                                <div class="text-sm font-bold text-slate-800 border-b pb-2 mb-3 flex justify-between items-center">
-                                    <span>🎙️ \${getPodcastName(partner)}</span>
-                                    <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">3集隨機抽樣</span>
-                                </div>
-                                <ul class="space-y-3 text-xs text-slate-600">
-                    \`;
-                    eps.forEach((ep, idx) => {
-                        let segsHtml = '';
-                        if (ep.recommended_segments && ep.recommended_segments.length > 0) {
-                            segsHtml += '<div class="pl-4 mt-2 border-l-2 border-slate-100 space-y-1.5 text-[10px] text-slate-500">';
-                            ep.recommended_segments.forEach(seg => {
-                                segsHtml += \`
-                                    <div class="py-0.5">
-                                        <span class="font-mono font-bold text-emerald-700 bg-emerald-50 px-1 rounded mr-1">\${seg.time_range}</span>
-                                        <span class="font-semibold text-slate-700">\${seg.title}</span>
-                                        <span class="text-slate-500">— \${seg.reason}</span>
-                                    </div>
-                                \`;
-                            });
-                            segsHtml += '</div>';
-                        }
-                        epListHtml += \`
-                                    <li class="border-b border-slate-100 last:border-0 pb-2 mb-2 last:pb-0 last:mb-0">
-                                        <div class="font-semibold text-slate-800 leading-relaxed">
-                                            <span class="font-bold text-blue-600">\${idx+1}.</span> \${ep.title}
-                                        </div>
-                                        \${segsHtml}
-                                    </li>
-                        \`;
-                    });
-                    epListHtml += \`
-                                </ul>
-                            </div>
-                        </div>
-                    \`;
-                });
-                const epListContainer = document.getElementById('poc-episodes-list');
-                if (epListContainer) epListContainer.innerHTML = epListHtml;
-                
-                // 2. Render Awards Table (Split by Track A / Track B)
+                    // 2. Render Awards Table (Split by Track A / Track B)
                 let awardsHtmlTrackA = '';
                 let awardsHtmlTrackB = '';
                 

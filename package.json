@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "jsdom": "^30.0.1",
     "pdf-parse": "^2.4.5",
     "xlsx": "^0.18.5"
   }

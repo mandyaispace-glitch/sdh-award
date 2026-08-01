@@ -24,7 +24,7 @@ async function postRequest(url, headers, bodyObj, timeoutMs = 600000) {
 
 function downloadFile(url, destPath) {
     return new Promise((resolve, reject) => {
-        execFile('curl.exe', ['-L', '-s', '--fail', '-A', 'Mozilla/5.0', '-o', destPath, url], { timeout: 300000 }, (error) => {
+        execFile('curl.exe', ['-L', '-s', '--fail', '-A', 'Mozilla/5.0', '--connect-timeout', '15', '--speed-time', '30', '--speed-limit', '1024', '--max-time', '600', '-o', destPath, url], { timeout: 605000 }, (error) => {
             if (error) return reject(new Error('curl 下載失敗: ' + error.message));
             resolve();
         });
