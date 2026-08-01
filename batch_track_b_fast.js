@@ -5,20 +5,75 @@ const XLSX = require('xlsx');
 
 // 1. Helper to fetch/download binary file
 function downloadFile(url, destPath) {
+    const timeoutMs = 600000;
     return new Promise((resolve, reject) => {
-        const { exec } = require('child_process');
-        const cmd = `curl.exe -L -s --fail -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" -o "${destPath}" "${url}"`;
-        exec(cmd, { timeout: 300000 }, (error, stdout, stderr) => {
-            if (error) {
-                return reject(new Error(`curl 下載失敗: ${error.message}`));
+        let isDone = false;
+        const file = require('fs').createWriteStream(destPath);
+        
+        const timer = setTimeout(() => {
+            if (isDone) return;
+            isDone = true;
+            file.close(() => {
+                require('fs').unlink(destPath, () => {});
+                reject(new Error(`下載超時 (${timeoutMs}ms)`));
+            });
+        }, timeoutMs);
+
+        const protocol = url.startsWith('https') ? require('https') : require('http');
+        const req = protocol.get(url, (response) => {
+            if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+                file.close(() => {
+                    require('fs').unlink(destPath, () => {});
+                    clearTimeout(timer);
+                    downloadFile(response.headers.location, destPath).then(resolve).catch(reject);
+                });
+                return;
             }
-            resolve();
+            if (response.statusCode !== 200) {
+                file.close(() => {
+                    require('fs').unlink(destPath, () => {});
+                    clearTimeout(timer);
+                    reject(new Error(`下載失敗，狀態碼: ${response.statusCode}`));
+                });
+                return;
+            }
+            response.pipe(file);
+            file.on('finish', () => {
+                if (isDone) return;
+                isDone = true;
+                file.close(() => {
+                    clearTimeout(timer);
+                    resolve();
+                });
+            });
+        }).on('error', (err) => {
+            if (isDone) return;
+            isDone = true;
+            file.close(() => {
+                require('fs').unlink(destPath, () => {});
+                clearTimeout(timer);
+                reject(err);
+            });
         });
+        req.on('timeout', () => { req.destroy(); });
+        req.setTimeout(timeoutMs);
+    });
+}
+
+// 2. Download helper with retry logic
+function downloadFileWithRetry(url, destPath, retries = 3) {
+    return downloadFile(url, destPath).catch((err) => {
+        if (retries > 1) {
+            console.warn(` ⚠️ 下載失敗 (${err.message})，正在重試...剩餘重試次數: ${retries - 1}`);
+            return new Promise(resolve => setTimeout(resolve, 5000))
+                .then(() => downloadFileWithRetry(url, destPath, retries - 1));
+        }
+        throw err;
     });
 }
 
 // 3. Helper for HTTP POST requests with timeout
-function postRequest(url, headers, body, timeoutMs = 180000) { // 3 minutes timeout
+function postRequest(url, headers, body, timeoutMs = 600000) { // 3 minutes timeout
     return new Promise((resolve, reject) => {
         const urlObj = new URL(url);
         const options = {
@@ -341,7 +396,7 @@ async function queryVoiceAnalysis(fileUri, apiKey, retries = 3) {
                 throw err;
             }
             console.warn(` ⚠️ 聲音分析失敗 (${err.message})，正在進行第 ${attempt} 次重試...`);
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            await new Promise(resolve => setTimeout(resolve, 10000));
         }
     }
 }
@@ -429,220 +484,120 @@ async function main() {
     let keyIndex = 0;
     let stopAll = false;
     
-    for (let i = 0; i < pendingEpisodes.length; i++) {
-        if (stopAll) break;
-        const ep = pendingEpisodes[i];
-        console.log(`\n-------------------------------------------------------------`);
-        console.log(`⏳ 正在處理 [${i + 1}/${pendingEpisodes.length}]: ${ep.partnerName} - ${ep.title}`);
-        
-        const tempFilePath = path.join(tempDir, `temp_audio_${Date.now()}.mp3`);
-        let fileUri = null;
-        let success = false;
-        
-        while (!success && keyIndex < apiKeys.length) {
-            const currentApiKey = apiKeys[keyIndex];
+    
+    const concurrencyLimit = 5;
+    let currentIndex = 0;
+    
+    async function processNextWorker(workerId) {
+        while (currentIndex < pendingEpisodes.length) {
+            if (stopAll) break;
+            const i = currentIndex++;
+            const ep = pendingEpisodes[i];
             
-            try {
-                // Step A: Download MP3 (only if not already downloaded)
-                if (!fs.existsSync(tempFilePath)) {
-                    console.log(` -> 正在下載音訊檔案 (Mp3Url)...`);
-                    await downloadFileWithRetry(ep.mp3Url, tempFilePath);
-                    const fileSizeMb = Math.round(fs.statSync(tempFilePath).size / 1024 / 1024 * 100) / 100;
-                    console.log(` -> 下載成功！大小: ${fileSizeMb} MB`);
-                }
-                
-                // Step B: Upload to Gemini Files API
-                fileUri = await uploadAudioToGemini(tempFilePath, currentApiKey);
-                
-                // Step C: Wait for file ACTIVE status
-                await waitForFileActive(fileUri, currentApiKey);
-                
-                // Step D: Query Gemini 2.5 Flash for physical diagnostics
-                let result = null;
-                let querySuccess = false;
-                let queryRetries = 0;
-                
-                while (!querySuccess) {
-                    try {
-                        result = await queryVoiceAnalysis(fileUri, currentApiKey);
-                        querySuccess = true;
-                    } catch (queryErr) {
-                        const isQuotaError = queryErr.message.includes('429') || queryErr.message.includes('quota') || queryErr.message.includes('QUOTA') || queryErr.message.includes('limit');
-                        if (isQuotaError && queryRetries < 3) {
-                            queryRetries++;
-                            console.warn(`      ⚠️ 查詢限流 (429/TPM)，將暫停 65 秒後進行第 ${queryRetries} 次重試...`);
-                            await new Promise(resolve => setTimeout(resolve, 3000));
-                        } else {
-                            throw queryErr;
+            // Generate a unique temp file path per worker to avoid collisions
+            const tempFilePath = path.join(tempDir, `temp_audio_${Date.now()}_${workerId}.mp3`);
+            let fileUri = null;
+            let success = false;
+            let keyIndex = 0;
+            
+            console.log(`\n[Worker ${workerId}] ⏳ 正在處理 [${i + 1}/${pendingEpisodes.length}]: ${ep.partnerName} - ${ep.title}`);
+            
+            while (!success && keyIndex < apiKeys.length) {
+                const currentApiKey = apiKeys[keyIndex];
+                try {
+                    // Step A: Download
+                    if (!fs.existsSync(tempFilePath)) {
+                        console.log(`[Worker ${workerId}] -> 正在下載音訊檔案 (Mp3Url)...`);
+                        await downloadFileWithRetry(ep.mp3Url, tempFilePath);
+                        const fileSizeMb = Math.round(fs.statSync(tempFilePath).size / 1024 / 1024 * 100) / 100;
+                        console.log(`[Worker ${workerId}] -> 下載成功！大小: ${fileSizeMb} MB`);
+                    }
+                    
+                    // Step B: Upload
+                    fileUri = await uploadAudioToGemini(tempFilePath, currentApiKey);
+                    await waitForFileActive(fileUri, currentApiKey);
+                    
+                    // Step C: Query
+                    let result = null;
+                    let querySuccess = false;
+                    let queryRetries = 0;
+                    
+                    while (!querySuccess) {
+                        try {
+                            result = await queryVoiceAnalysis(fileUri, currentApiKey, 0);
+                            querySuccess = true;
+                        } catch (queryErr) {
+                            const isQuotaError = queryErr.message.includes('429') || queryErr.message.includes('quota') || queryErr.message.includes('limit');
+                            if (isQuotaError && queryRetries < 3) {
+                                queryRetries++;
+                                console.warn(`[Worker ${workerId}] ⚠️ 限流 (429/TPM)，暫停 10 秒後重試...`);
+                                await new Promise(resolve => setTimeout(resolve, 10000));
+                            } else {
+                                throw queryErr;
+                            }
                         }
                     }
-                }
-                console.log(` -> 分析成功！語速: ${result.speech_rate_wpm}字/分 | 贅字率: ${result.filler_words_level} | 錄音品質: ${result.acoustic_quality_level}`);
-                
-                // Save to Cache
-                trackBCache[ep.title] = {
-                    partnerName: ep.partnerName,
-                    podcastName: ep.podcastName,
-                    title: ep.title,
-                    speech_rate_wpm: result.speech_rate_wpm,
-                    filler_words_level: result.filler_words_level,
-                    filler_words_analysis: result.filler_words_analysis,
-                    vocal_resonance: result.vocal_resonance,
-                    acoustic_quality_level: result.acoustic_quality_level,
-                    acoustic_issues_popping: result.acoustic_issues?.popping || "無",
-                    acoustic_issues_clipping: result.acoustic_issues?.clipping || "無",
-                    acoustic_issues_noise: result.acoustic_issues?.noise || "無",
-                    acoustic_summary: result.acoustic_summary,
-                    // Fallback for older dashboard UI compatibility
-                    golden_segment_time: result.recommended_segments?.[0]?.time_range || "N/A",
-                    golden_segment_reason: result.recommended_segments?.[0]?.reason || "N/A",
-                    // Upgraded golden segments
-                    recommended_segments: result.recommended_segments || [],
-                    award_scores: result.award_scores || {},
-                    analyzed_at: new Date().toISOString()
-                };
-                
-                fs.writeFileSync(cachePath, JSON.stringify(trackBCache, null, 2), 'utf-8');
-                processedCount++;
-                success = true;
-                
-            } catch (err) {
-                const isQuotaError = err.message.includes('429') || err.message.includes('quota') || err.message.includes('QUOTA') || err.message.includes('limit');
-                if (isQuotaError) {
-                    console.warn(` ⚠️ 當前第 ${keyIndex + 1} 個 API Key 額度已用罄或被限制 (429)。`);
-                    keyIndex++;
-                    if (fileUri) {
-                        await deleteGeminiFile(fileUri, currentApiKey).catch(() => {});
-                        fileUri = null;
-                    }
-                    if (keyIndex < apiKeys.length) {
-                        console.log(` 🔄 正在自動切換至第 ${keyIndex + 1} 個 API Key 重試本單集...`);
-                        continue;
+                    console.log(`[Worker ${workerId}] -> 分析成功！語速: ${result.speech_rate_wpm}字/分`);
+                    
+                    // Save to Cache
+                    trackBCache[ep.title] = {
+                        partnerName: ep.partnerName,
+                        podcastName: ep.podcastName,
+                        title: ep.title,
+                        speech_rate_wpm: result.speech_rate_wpm,
+                        filler_words_level: result.filler_words_level,
+                        filler_words_analysis: result.filler_words_analysis,
+                        vocal_resonance: result.vocal_resonance,
+                        acoustic_quality_level: result.acoustic_quality_level,
+                        acoustic_issues_popping: result.acoustic_issues?.popping || "無",
+                        acoustic_issues_clipping: result.acoustic_issues?.clipping || "無",
+                        acoustic_issues_noise: result.acoustic_issues?.noise || "無",
+                        acoustic_summary: result.acoustic_summary,
+                        award_scores: result.award_scores,
+                        golden_segment: "參見 recommended_segments",
+                        golden_segment_reason: "參見 recommended_segments",
+                        recommended_segments: result.recommended_segments || [],
+                        overall_summary: result.overall_summary,
+                        analyzed_at: new Date().toISOString()
+                    };
+                    
+                    // Flush cache
+                    fs.writeFileSync(cachePath, JSON.stringify(trackBCache, null, 2), 'utf-8');
+                    success = true;
+                } catch (err) {
+                    const isQuotaError = err.message.includes('429') || err.message.includes('quota') || err.message.includes('limit');
+                    if (isQuotaError) {
+                        keyIndex++;
+                        if (fileUri) { await deleteGeminiFile(fileUri, currentApiKey).catch(() => {}); fileUri = null; }
+                        if (keyIndex < apiKeys.length) continue;
+                        else {
+                            await new Promise(resolve => setTimeout(resolve, 10000));
+                            keyIndex = 0; continue;
+                        }
                     } else {
-                        console.warn(` ⚠️ 提示：所有 API Keys 目前均被限流 (429)。將暫停 65 秒等待限流窗口重置，隨後重新輪替重試...`);
-                        await new Promise(resolve => setTimeout(resolve, 3000));
-                        keyIndex = 0;
-                        continue;
+                        console.error(`[Worker ${workerId}] ❌ 處理該單集出錯:`, err.message);
+                        if (keyIndex < apiKeys.length - 1) {
+                            keyIndex++;
+                            if (fileUri) { await deleteGeminiFile(fileUri, currentApiKey).catch(() => {}); fileUri = null; }
+                            continue;
+                        } else {
+                            success = true; // skip
+                        }
                     }
-                } else {
-                    console.error(` ❌ 處理該單集出錯 (非配額錯誤):`, err.message);
-                    if (keyIndex < apiKeys.length - 1) {
-                         console.log(` 🔄 發生未知錯誤，嘗試切換備用 API Key 重新處理本集...`);
-                         keyIndex++;
-                         if (fileUri) {
-                             await deleteGeminiFile(fileUri, currentApiKey).catch(() => {});
-                             fileUri = null;
-                         }
-                         continue;
-                    } else {
-                         console.error(` ❌ 該單集重試次數已達上限，強制略過。`);
-                         success = true; // Skip this episode and continue to the next one
-                    }
-                }
-            } finally {
-                // Clean up Gemini Files API for the successfully processed episode
-                if (fileUri && success) {
-                    console.log(` -> 正在刪除 Gemini 雲端暫存檔以釋放空間...`);
-                    await deleteGeminiFile(fileUri, currentApiKey).catch(() => {});
-                    fileUri = null;
+                } finally {
+                    if (fileUri) { await deleteGeminiFile(fileUri, currentApiKey).catch(() => {}); }
+                    if (fs.existsSync(tempFilePath)) { fs.unlinkSync(tempFilePath); }
                 }
             }
         }
-        
-        // Clean up local temp file after finishing or skipping the episode
-        if (fs.existsSync(tempFilePath)) {
-            try {
-                fs.unlinkSync(tempFilePath);
-            } catch (e) {
-                console.warn(` ⚠️ 無法刪除本地暫存檔 ${tempFilePath}: ${e.message}`);
-            }
-        }
-        
-        // Anti-rate-limit throttling
-        if (i < pendingEpisodes.length - 1 && success) {
-            console.log(`⏳ 隨機延時 10 秒以避免觸發每分鐘用量上限 (TPM/RPM Guard)...`);
-            await new Promise(resolve => setTimeout(resolve, 3000));
-        }
     }
     
-    // Clean up temp directory
-    if (fs.existsSync(tempDir)) {
-        try {
-            fs.rmdirSync(tempDir);
-        } catch (e) {}
+    console.log(`🚀 啟用付費加速模式：並發處理數量 ${concurrencyLimit}`);
+    const workers = [];
+    for (let w = 1; w <= concurrencyLimit; w++) {
+        workers.push(processNextWorker(w));
     }
+    await Promise.all(workers);
 
-    // Run clean up at the end too for all keys
-    for (const key of apiKeys) {
-        await cleanAllGeminiFiles(key);
-    }
-    
-    console.log(`\n=================== 聲音診斷階段完成 ===================`);
-    console.log(`本輪共分析了 ${processedCount} 個新單集。`);
-    
-    // 5. Write to Excel eligible_episodes_pool.xlsx
-    const excelPath = path.join(__dirname, 'eligible_episodes_pool.xlsx');
-    if (fs.existsSync(excelPath)) {
-        console.log("\n正在將聲音評估快取庫寫入 Excel 評分表分頁 (聲音物理評估)...");
-        const workbookWrite = XLSX.readFile(excelPath);
-        
-        // Remove existing "聲音物理評估" sheet if it exists
-        if (workbookWrite.Sheets["聲音物理評估"]) {
-            delete workbookWrite.Sheets["聲音物理評估"];
-            const idx = workbookWrite.SheetNames.indexOf("聲音物理評估");
-            if (idx > -1) {
-                workbookWrite.SheetNames.splice(idx, 1);
-            }
-        }
-        
-        // Prepare rows for Excel from all cached items sorted by partnerName then title
-        const excelRows = [];
-        const cacheItems = Object.values(trackBCache);
-        cacheItems.sort((a, b) => {
-            const compPartner = a.partnerName.localeCompare(b.partnerName, 'zh-Hant');
-            if (compPartner !== 0) return compPartner;
-            return a.title.localeCompare(b.title, 'zh-Hant');
-        });
-
-        cacheItems.forEach(cacheItem => {
-            const seg1 = cacheItem.recommended_segments?.[0] || {};
-            const seg2 = cacheItem.recommended_segments?.[1] || {};
-            const seg3 = cacheItem.recommended_segments?.[2] || {};
-            excelRows.push({
-                "合作夥伴": cacheItem.partnerName,
-                "節目名稱": cacheItem.podcastName,
-                "單集標題": cacheItem.title,
-                "語速 (字/分)": cacheItem.speech_rate_wpm,
-                "贅字等級": cacheItem.filler_words_level,
-                "贅字分析": cacheItem.filler_words_analysis,
-                "聲音共鳴特質": cacheItem.vocal_resonance,
-                "錄音品質等級": cacheItem.acoustic_quality_level,
-                "製播缺陷-噴麥": cacheItem.acoustic_issues_popping,
-                "製播缺陷-爆音": cacheItem.acoustic_issues_clipping,
-                "製播缺陷-環境底噪": cacheItem.acoustic_issues_noise,
-                "音質整體說明": cacheItem.acoustic_summary,
-                "推薦黃金聽點區間": cacheItem.golden_segment_time || seg1.time_range || "N/A",
-                "黃金聽點推薦理由": cacheItem.golden_segment_reason || seg1.reason || "N/A",
-                "推薦片段一標題": seg1.title || "N/A",
-                "推薦片段一區間": seg1.time_range || "N/A",
-                "推薦片段一理由": seg1.reason || "N/A",
-                "推薦片段二標題": seg2.title || "N/A",
-                "推薦片段二區間": seg2.time_range || "N/A",
-                "推薦片段二理由": seg2.reason || "N/A",
-                "推薦片段三標題": seg3.title || "N/A",
-                "推薦片段三區間": seg3.time_range || "N/A",
-                "推薦片段三理由": seg3.reason || "N/A",
-                "評估時間": cacheItem.analyzed_at
-            });
-        });
-        
-        const wsNew = XLSX.utils.json_to_sheet(excelRows);
-        XLSX.utils.book_append_sheet(workbookWrite, wsNew, "聲音物理評估");
-        XLSX.writeFile(workbookWrite, excelPath);
-        console.log(`🎉 Excel 評分表分頁已成功寫入至: ${excelPath}`);
-    } else {
-        console.warn("\n未找到 eligible_episodes_pool.xlsx，略過 Excel 聲音數據寫入。");
-    }
-}
 
 main();

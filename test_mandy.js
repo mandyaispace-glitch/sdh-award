@@ -6,14 +6,47 @@ const XLSX = require('xlsx');
 // 1. Helper to fetch/download binary file
 function downloadFile(url, destPath) {
     return new Promise((resolve, reject) => {
-        const { exec } = require('child_process');
-        const cmd = `curl.exe -L -s --fail -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" -o "${destPath}" "${url}"`;
-        exec(cmd, { timeout: 300000 }, (error, stdout, stderr) => {
-            if (error) {
-                return reject(new Error(`curl 下載失敗: ${error.message}`));
+        const file = fs.createWriteStream(destPath);
+        https.get(url, (response) => {
+            if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+                // Redirect
+                file.close(() => {
+                    fs.unlink(destPath, () => {});
+                    downloadFile(response.headers.location, destPath).then(resolve).catch(reject);
+                });
+                return;
             }
-            resolve();
+            if (response.statusCode !== 200) {
+                file.close(() => {
+                    fs.unlink(destPath, () => {});
+                    reject(new Error(`下載失敗，狀態碼: ${response.statusCode}`));
+                });
+                return;
+            }
+            response.pipe(file);
+            file.on('finish', () => {
+                file.close(() => {
+                    resolve();
+                });
+            });
+        }).on('error', (err) => {
+            file.close(() => {
+                fs.unlink(destPath, () => {});
+                reject(err);
+            });
         });
+    });
+}
+
+// 2. Download helper with retry logic
+function downloadFileWithRetry(url, destPath, retries = 3) {
+    return downloadFile(url, destPath).catch((err) => {
+        if (retries > 1) {
+            console.warn(` ⚠️ 下載失敗 (${err.message})，正在重試...剩餘重試次數: ${retries - 1}`);
+            return new Promise(resolve => setTimeout(resolve, 5000))
+                .then(() => downloadFileWithRetry(url, destPath, retries - 1));
+        }
+        throw err;
     });
 }
 
@@ -341,7 +374,7 @@ async function queryVoiceAnalysis(fileUri, apiKey, retries = 3) {
                 throw err;
             }
             console.warn(` ⚠️ 聲音分析失敗 (${err.message})，正在進行第 ${attempt} 次重試...`);
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            await new Promise(resolve => setTimeout(resolve, 10000));
         }
     }
 }
@@ -371,7 +404,7 @@ async function main() {
     const isFullRun = args.includes('--full');
     
     // 2. Load Selected Episodes
-    let selectionPath = path.join(__dirname, 'selected_episodes_full.json');
+    let selectionPath = path.join(__dirname, 'temp_test.json');
     if (!fs.existsSync(selectionPath)) {
         selectionPath = path.join(__dirname, 'selected_episodes_for_poc.json');
     }
@@ -471,7 +504,7 @@ async function main() {
                         if (isQuotaError && queryRetries < 3) {
                             queryRetries++;
                             console.warn(`      ⚠️ 查詢限流 (429/TPM)，將暫停 65 秒後進行第 ${queryRetries} 次重試...`);
-                            await new Promise(resolve => setTimeout(resolve, 3000));
+                            await new Promise(resolve => setTimeout(resolve, 65000));
                         } else {
                             throw queryErr;
                         }
@@ -520,24 +553,13 @@ async function main() {
                         continue;
                     } else {
                         console.warn(` ⚠️ 提示：所有 API Keys 目前均被限流 (429)。將暫停 65 秒等待限流窗口重置，隨後重新輪替重試...`);
-                        await new Promise(resolve => setTimeout(resolve, 3000));
+                        await new Promise(resolve => setTimeout(resolve, 65000));
                         keyIndex = 0;
                         continue;
                     }
                 } else {
                     console.error(` ❌ 處理該單集出錯 (非配額錯誤):`, err.message);
-                    if (keyIndex < apiKeys.length - 1) {
-                         console.log(` 🔄 發生未知錯誤，嘗試切換備用 API Key 重新處理本集...`);
-                         keyIndex++;
-                         if (fileUri) {
-                             await deleteGeminiFile(fileUri, currentApiKey).catch(() => {});
-                             fileUri = null;
-                         }
-                         continue;
-                    } else {
-                         console.error(` ❌ 該單集重試次數已達上限，強制略過。`);
-                         success = true; // Skip this episode and continue to the next one
-                    }
+                    success = true; // Skip this episode and continue to the next one
                 }
             } finally {
                 // Clean up Gemini Files API for the successfully processed episode
@@ -561,7 +583,7 @@ async function main() {
         // Anti-rate-limit throttling
         if (i < pendingEpisodes.length - 1 && success) {
             console.log(`⏳ 隨機延時 10 秒以避免觸發每分鐘用量上限 (TPM/RPM Guard)...`);
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            await new Promise(resolve => setTimeout(resolve, 10000));
         }
     }
     
