@@ -2,6 +2,7 @@
   "dependencies": {
     "jsdom": "^30.0.1",
     "pdf-parse": "^2.4.5",
+    "puppeteer": "^25.4.0",
     "xlsx": "^0.18.5"
   }
 }

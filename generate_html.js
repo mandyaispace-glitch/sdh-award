@@ -1549,6 +1549,7 @@ function generateSelfContainedHtml() {
 
             // Find and convert Mermaid blocks in all containers
             [planContainer, eligibilityContainer, document.getElementById('content-demo'), timelineContainer, deployContainer].forEach(container => {
+                if (!container) return;
                 const codeBlocks = container.querySelectorAll('pre code');
                 codeBlocks.forEach(codeBlock => {
                     if (codeBlock.classList.contains('language-mermaid')) {
