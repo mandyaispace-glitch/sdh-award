@@ -1580,7 +1580,7 @@ function generateSelfContainedHtml() {
                 let awardsHtmlTrackA = '';
                 let awardsHtmlTrackB = '';
                 
-                const trackAKeys = ["content_structure", "episode_planning", "best_cta", "niche_market", "self_exploration", "best_long_form", "best_short_form", "欸我跟你獎"];
+                const trackAKeys = ["content_structure", "episode_planning", "best_cta", "niche_market", "self_exploration", "best_long_form", "best_short_form"];
                 const trackBKeys = ["best_duo_hosts", "best_male_host", "best_female_host", "atmosphere", "atmosphere_night", "atmosphere_morning", "atmosphere_healing", "please_continue", "站著不走獎", "聽眾都要跟你獎", "聽眾都要跟你獎_近半年"];
 
                 const awardsKeys = Object.keys(pocResults.awards);
@@ -1595,12 +1595,13 @@ function generateSelfContainedHtml() {
                         
                         let scoreText = 'N/A';
                         if (r.score !== null) {
+                            let formattedScore = typeof r.score === 'number' ? Number(r.score.toFixed(2)) : r.score;
                             if (key === '站著不走獎') {
-                                scoreText = r.score + ' 天';
+                                scoreText = formattedScore + ' 天';
                             } else if (key === '聽眾都要跟你獎' || key === '聽眾都要跟你獎_近半年') {
-                                scoreText = r.score + ' 則';
+                                scoreText = formattedScore + ' 則';
                             } else {
-                                scoreText = r.score + ' 分';
+                                scoreText = formattedScore + ' 分';
                             }
                         }
                         

@@ -248,9 +248,14 @@ async function main() {
                     segments: matchingSegments.slice(0, 3)
                 });
             } else {
+                let finalScore = totalScore;
+                if (typeof totalScore === 'number' && awardName !== "站著不走獎" && awardName !== "聽眾都要跟你獎" && awardName !== "聽眾都要跟你獎_近半年") {
+                    finalScore = Number(totalScore.toFixed(2));
+                }
+                
                 rankings.push({
                     partnerName: partner,
-                    score: null,
+                    score: finalScore,
                     reason: reason,
                     compliance: "不適用",
                     segments: []

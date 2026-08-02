@@ -23,7 +23,7 @@ for (const [awardKey, awardObj] of Object.entries(data.awards)) {
             "名次 (Rank)": r.rank,
             "節目名稱 (Podcast)": r.podcastName || "",
             "主持人/夥伴 (Partner)": r.partnerName || "",
-            "AI評分/綜合指標 (Score)": r.score,
+            "AI評分/綜合指標 (Score)": typeof r.score === 'number' ? Number(r.score.toFixed(2)) : r.score,
             "評選理由 (Reason)": r.reason,
             "最推薦聆聽片段 (Recommended Segment)": segStr
         });
