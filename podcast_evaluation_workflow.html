@@ -2071,7 +2071,7 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
                     const descriptionText = ruleDescriptions[key] || "基於 AI 綜合多維度深度分析與交叉評比之結果。";
                     
                     const singleAwardHtml = `
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <div id="award-${key}" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4" style="scroll-margin-top: 20px;">
                             <div class="flex flex-col md:flex-row md:justify-between md:items-center border-b pb-3 gap-2">
                                 <h4 class="text-sm font-extrabold text-slate-800 flex items-center shrink-0">
                                     <span class="text-lg mr-2">🏅</span> ${aw.award_name}
@@ -2109,6 +2109,24 @@ pkg poc_run.js --targets node18-win-x64 --output sdh_evaluation.exe
                         awardsHtmlTrackB += singleAwardHtml;
                     }
                 });
+
+                
+                let anchorLinksHtml = '<div class="flex flex-wrap gap-2 mb-6 p-1">';
+                awardsKeys.forEach(key => {
+                    const aw = pocResults.awards[key];
+                    anchorLinksHtml += '<a onclick="event.preventDefault(); document.getElementById(&apos;award-' + key + '&apos;).scrollIntoView({behavior: &apos;smooth&apos;, block: &apos;start&apos;});" class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-[11px] font-bold rounded-full hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300 transition-all shadow-sm cursor-pointer hover:shadow">🏆 ' + aw.award_name + '</a>';
+                });
+                anchorLinksHtml += '</div>';
+                
+                const top10Container = document.getElementById('content-awards-top10');
+                if (top10Container) {
+                    const summaryCard = top10Container.querySelector('.bg-gradient-to-r');
+                    if (summaryCard) {
+                        const navDiv = document.createElement('div');
+                        navDiv.innerHTML = anchorLinksHtml;
+                        summaryCard.parentNode.insertBefore(navDiv, summaryCard);
+                    }
+                }
 
                 document.getElementById('poc-awards-container-track-a').innerHTML = awardsHtmlTrackA;
                 document.getElementById('poc-awards-container-track-b').innerHTML = awardsHtmlTrackB;
